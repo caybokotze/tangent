@@ -1,0 +1,13 @@
+bin/
+obj/
+artifacts/
+*.user
+*.suo
+.vs/
+.idea/
+node_modules/
+dist/
+out/
+*.vsix
+BenchmarkDotNet.Artifacts/
+TestResults/
