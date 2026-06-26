@@ -1,2 +1,5 @@
 <Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Tangent.Attributes/Tangent.Attributes.csproj" />
+  </Folder>
 </Solution>

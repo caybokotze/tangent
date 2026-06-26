@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Tangent</RootNamespace>
+    <IsPackable>true</IsPackable>
+    <PackageId>Tangent.Attributes</PackageId>
+    <Description>[Tangent] and [TangentExempt] attributes. Dependency-free; stripped from output assemblies unless TANGENT_ATTRIBUTES is defined.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="PolySharp" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>
