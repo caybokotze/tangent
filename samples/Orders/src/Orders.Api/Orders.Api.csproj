@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <ProjectReference Include="../Orders.Application/Orders.Application.csproj" />
+    <ProjectReference Include="../Orders.Domain/Orders.Domain.csproj" />
+
+    <!--
+      DELIBERATE VIOLATION: project.tan declares `Api -> Application, Domain`.
+      The composition root below reaches straight into Infrastructure, which is exactly the
+      Api -> Infrastructure layer violation the sample exists to demonstrate (TNG0202).
+    -->
+    <ProjectReference Include="../Orders.Infrastructure/Orders.Infrastructure.csproj" />
+
+    <ProjectReference Include="../../../../src/Tangent.Attributes/Tangent.Attributes.csproj" />
+  </ItemGroup>
+
+</Project>

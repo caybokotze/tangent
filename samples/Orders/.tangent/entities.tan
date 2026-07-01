@@ -1,0 +1,22 @@
+// Entities are constructed through factories and mutated through behaviour,
+// never through property setters, and they know nothing about persistence.
+
+contract Entity {
+    match: class in Orders.Domain.Entities.**
+
+    inherits Entity<*> | AggregateRoot<*>
+
+    properties {
+        forbid public set            // init / private set only
+    }
+    forbid public fields
+    ctor { forbid public }           // factories only
+
+    forbid using System.Data.**, Microsoft.**
+}
+
+contract AggregateRoot extends Entity {
+    match: class in Orders.Domain.Entities.** where inherits AggregateRoot<*>
+    // may only add rules; cannot loosen Entity
+    methods where public { forbid returns void }   // commands return results
+}

@@ -1,0 +1,15 @@
+// Repositories are the only types allowed to touch the DbContext, and their
+// interfaces belong to the Domain that consumes them.
+
+contract Repository {
+    match: class in Infrastructure where name ends with "Repository"
+
+    implements I{Name}
+    interface I{Name} lives in Domain
+    sealed
+
+    ctor { injects only OrdersDbContext }
+    methods where public { returns Task<*> }
+
+    forbid using Orders.Api.**
+}

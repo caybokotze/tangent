@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="../Orders.Domain/Orders.Domain.csproj" />
+    <ProjectReference Include="../../../../src/Tangent.Attributes/Tangent.Attributes.csproj" />
+  </ItemGroup>
+
+</Project>

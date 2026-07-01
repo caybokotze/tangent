@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../Orders.Application/Orders.Application.csproj" />
+    <ProjectReference Include="../Orders.Domain/Orders.Domain.csproj" />
+    <ProjectReference Include="../../../../src/Tangent.Attributes/Tangent.Attributes.csproj" />
+  </ItemGroup>
+
+</Project>

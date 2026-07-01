@@ -1,0 +1,40 @@
+// Domain services are sealed, stateless collaborators behind an interface.
+
+contract DomainService {
+    match: class in Orders.Domain.Services.**
+
+    implements I{Name}
+    sealed
+    stateless
+    fields { require private; require readonly; forbid static }
+    forbid using Orders.Application.**, Orders.Infrastructure.**
+}
+
+// View models are immutable transport records.
+contract ViewModel {
+    match: record in Orders.Application.ViewModels.**
+
+    properties {
+        require public
+        require get
+        forbid public set
+    }
+    fields { require private; require readonly }
+}
+
+// Request handlers are the only Application types that orchestrate the Domain.
+contract QueryHandler {
+    match: class in Application where name ends with "Handler"
+
+    implements IRequestHandler<*, *>
+    sealed
+
+    ctor {
+        injects only IOrderRepository, ICustomerRepository, IPricingService, IClock, IUserContext
+        require each parameter assigned to private readonly field
+    }
+
+    methods where public { returns Task<*> }
+
+    forbid using Orders.Infrastructure.**
+}

@@ -1,0 +1,26 @@
+<Project>
+
+  <!--
+    Deliberately does NOT import the repository-root Directory.Build.props.
+    The sample is a standalone, ordinary clean-architecture solution: what a Tangent user's
+    repository looks like, not what Tangent's own repository looks like.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+
+    <!-- The root Directory.Packages.props must not leak in. -->
+    <ImportDirectoryPackagesProps>false</ImportDirectoryPackagesProps>
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+
+    <IsPackable>false</IsPackable>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+
+    <!-- The sample ships deliberate architectural violations; it must still compile quietly. -->
+    <NoWarn>$(NoWarn);CS1591;CS0649;CS0414;IDE0005</NoWarn>
+  </PropertyGroup>
+
+</Project>

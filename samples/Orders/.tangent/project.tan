@@ -1,0 +1,16 @@
+// The shape of the Orders solution: four layers and the direction dependencies may flow.
+// Anything not listed on a `->` line is forbidden.
+
+project "Orders" {
+    root: "src/"
+
+    layer Api            = Orders.Api.**
+    layer Application    = Orders.Application.**
+    layer Domain         = Orders.Domain.**
+    layer Infrastructure = Orders.Infrastructure.**
+
+    Api            -> Application, Domain
+    Application    -> Domain
+    Infrastructure -> Application, Domain
+    Domain         -> nothing
+}
