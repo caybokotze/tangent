@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net10.0</TargetFrameworks>
+    <RootNamespace>Tangent.Core</RootNamespace>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <IsPackable>true</IsPackable>
+    <PackageId>Tangent.Core</PackageId>
+    <Description>Tangent DSL lexer, parser, binder and rule IR. No Roslyn dependency.</Description>
+  </PropertyGroup>
+
+  <!-- Core must have ZERO package references other than these on netstandard2.0. It is loaded into the compiler. -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="System.Memory" />
+    <PackageReference Include="System.Collections.Immutable" />
+    <PackageReference Include="PolySharp" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Tangent.Core.Tests" />
+    <InternalsVisibleTo Include="Tangent.Analyzers" />
+    <InternalsVisibleTo Include="Tangent.Analyzers.Tests" />
+    <InternalsVisibleTo Include="Tangent.Benchmarks" />
+    <InternalsVisibleTo Include="Tangent.Cli" />
+    <InternalsVisibleTo Include="Tangent.LanguageServer" />
+    <InternalsVisibleTo Include="Tangent.Graph" />
+  </ItemGroup>
+
+</Project>

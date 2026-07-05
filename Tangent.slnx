@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/src/">
     <Project Path="src/Tangent.Attributes/Tangent.Attributes.csproj" />
+    <Project Path="src/Tangent.Core/Tangent.Core.csproj" />
   </Folder>
 </Solution>
