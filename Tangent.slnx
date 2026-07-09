@@ -3,4 +3,7 @@
     <Project Path="src/Tangent.Attributes/Tangent.Attributes.csproj" />
     <Project Path="src/Tangent.Core/Tangent.Core.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Tangent.Core.Tests/Tangent.Core.Tests.csproj" />
+  </Folder>
 </Solution>
