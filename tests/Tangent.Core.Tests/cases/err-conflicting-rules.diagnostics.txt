@@ -1,0 +1,2 @@
+err-conflicting-rules.tan(5,5): error TNG1010: Conflicting rules at same specificity: Thing/type/modifier#0 (require sealed) vs Thing/type/modifier#1 (forbid sealed)
+err-conflicting-rules.tan(7,5): error TNG1010: Conflicting rules at same specificity: Thing/type/modifier#2 (require public) vs Thing/type/modifier#3 (require private)

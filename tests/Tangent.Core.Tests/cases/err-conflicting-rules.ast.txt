@@ -1,0 +1,13 @@
+-- err-conflicting-rules.tan --
+File @1:1
+  Contract 'Thing' @1:1
+    Match class @2:5
+      GlobRef 'Sample.**' @2:21
+    Rule require @4:5
+      PredModifier sealed @4:13
+    Rule forbid @5:5
+      PredModifier sealed @5:12
+    Rule require @6:5
+      PredModifier public @6:13
+    Rule require @7:5
+      PredModifier private @7:13

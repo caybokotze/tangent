@@ -1,0 +1,29 @@
+-- repositories.tan --
+File @1:1
+  Contract 'Repository' @1:1
+    Match class @2:5
+      LayerRef 'Infrastructure' @2:21
+      CondNameEndsWith 'Repository' @2:42
+    Rule require @4:5
+      PredImplements @4:5
+        TypeAlt @4:16
+          TypeTemplate 'I{Name}' @4:16
+    Rule require @5:5
+      PredInterfaceLivesIn 'I{Name}' lives in 'Domain' @5:5
+    Rule require @6:5
+      PredModifier sealed @6:5
+    MemberBlock ctor @8:5
+      Rule require @8:12
+        PredInjectsOnly @8:12
+          TypeAlt @8:25
+            TypePattern 'OrdersDbContext' @8:25
+    MemberBlock methods @9:5
+      CondModifier public @9:19
+      Rule require @9:28
+        PredReturns @9:28
+          TypeAlt @9:36
+            TypePattern 'Task' @9:36
+              TypeWildcard @9:41
+    Rule forbid @11:5
+      PredUsing @11:12
+        GlobRef 'Orders.Api.**' @11:18

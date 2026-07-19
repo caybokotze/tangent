@@ -1,0 +1,13 @@
+-- err-undeclared-layer.tan --
+File @1:1
+  Project 'Sample' @1:1
+    ProjectRoot 'src/' @2:5
+    LayerDecl 'Api' 'Sample.Api.**' @3:5
+    Dependency 'Api' @5:5
+      LayerRef 'Domain' @5:12
+  Contract 'Handler' @8:1
+    Match class @9:5
+      LayerRef 'Application' @9:21
+      CondNameEndsWith 'Handler' @9:39
+    Rule require @10:5
+      PredModifier sealed @10:5

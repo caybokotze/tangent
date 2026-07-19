@@ -1,0 +1,15 @@
+project "Orders" {
+    root: "src/"
+
+    layer Api            = Orders.Api.**
+    layer Application    = Orders.Application.**
+    layer Domain         = Orders.Domain.**
+    layer Infrastructure = Orders.Infrastructure.**
+
+    allow Microsoft.Extensions.**
+
+    Api            -> Application, Domain
+    Application    -> Domain
+    Infrastructure -> Application, Domain
+    Domain         -> nothing
+}

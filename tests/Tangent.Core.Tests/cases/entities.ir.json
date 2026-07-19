@@ -1,0 +1,39 @@
+{
+  "project": null,
+  "root": null,
+  "layers": [],
+  "allowedFrameworkNamespaces": ["System.**"],
+  "contracts": [
+    {
+      "name": "Entity",
+      "extends": null,
+      "file": "entities.tan", "line": 1,
+      "match": "class in Orders.Domain.Entities.**",
+      "rules": [
+        { "id": "Entity/type/inherits#0", "origin": "Entity", "polarity": "require", "selector": "type", "predicateKind": "inherits", "predicate": "inherits Entity<*> | AggregateRoot<*>", "tier": "symbol", "specificity": 0 },
+        { "id": "Entity/properties/accessor#0", "origin": "Entity", "polarity": "forbid", "selector": "properties", "predicateKind": "accessor", "predicate": "public set", "tier": "symbol", "specificity": 1 },
+        { "id": "Entity/type/member-kind#0", "origin": "Entity", "polarity": "forbid", "selector": "type", "predicateKind": "member-kind", "predicate": "public fields", "tier": "symbol", "specificity": 0 },
+        { "id": "Entity/ctor/modifier#0", "origin": "Entity", "polarity": "forbid", "selector": "ctor", "predicateKind": "modifier", "predicate": "public", "tier": "symbol", "specificity": 1 },
+        { "id": "Entity/type/using#0", "origin": "Entity", "polarity": "forbid", "selector": "type", "predicateKind": "using", "predicate": "using System.Data.**", "tier": "reference", "specificity": 0 },
+        { "id": "Entity/type/using#1", "origin": "Entity", "polarity": "forbid", "selector": "type", "predicateKind": "using", "predicate": "using Microsoft.**", "tier": "reference", "specificity": 0 }
+      ]
+    },
+    {
+      "name": "AggregateRoot",
+      "extends": "Entity",
+      "file": "entities.tan", "line": 15,
+      "match": "class in Orders.Domain.Entities.** where inherits AggregateRoot<*>",
+      "rules": [
+        { "id": "Entity/type/inherits#0", "origin": "Entity", "polarity": "require", "selector": "type", "predicateKind": "inherits", "predicate": "inherits Entity<*> | AggregateRoot<*>", "tier": "symbol", "specificity": 0 },
+        { "id": "Entity/properties/accessor#0", "origin": "Entity", "polarity": "forbid", "selector": "properties", "predicateKind": "accessor", "predicate": "public set", "tier": "symbol", "specificity": 1 },
+        { "id": "Entity/type/member-kind#0", "origin": "Entity", "polarity": "forbid", "selector": "type", "predicateKind": "member-kind", "predicate": "public fields", "tier": "symbol", "specificity": 0 },
+        { "id": "Entity/ctor/modifier#0", "origin": "Entity", "polarity": "forbid", "selector": "ctor", "predicateKind": "modifier", "predicate": "public", "tier": "symbol", "specificity": 1 },
+        { "id": "Entity/type/using#0", "origin": "Entity", "polarity": "forbid", "selector": "type", "predicateKind": "using", "predicate": "using System.Data.**", "tier": "reference", "specificity": 0 },
+        { "id": "Entity/type/using#1", "origin": "Entity", "polarity": "forbid", "selector": "type", "predicateKind": "using", "predicate": "using Microsoft.**", "tier": "reference", "specificity": 0 },
+        { "id": "AggregateRoot/methods/returns#0", "origin": "AggregateRoot", "polarity": "forbid", "selector": "methods where public", "predicateKind": "returns", "predicate": "returns void", "tier": "symbol", "specificity": 2 }
+      ]
+    }
+  ],
+  "bindings": [],
+  "exemptions": []
+}

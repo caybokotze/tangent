@@ -1,0 +1,5 @@
+contract Controller {
+    match: class in Orders.Api.**
+    frobnicate
+    sealed
+}

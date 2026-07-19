@@ -1,0 +1,21 @@
+{
+  "project": "Sample",
+  "root": "src/",
+  "layers": [
+    { "name": "Api", "namespace": "Sample.Api.**", "allowedDependencies": [] }
+  ],
+  "allowedFrameworkNamespaces": ["System.**"],
+  "contracts": [
+    {
+      "name": "Handler",
+      "extends": null,
+      "file": "err-undeclared-layer.tan", "line": 8,
+      "match": "class in <unknown> where name ends with \"Handler\"",
+      "rules": [
+        { "id": "Handler/type/modifier#0", "origin": "Handler", "polarity": "require", "selector": "type", "predicateKind": "modifier", "predicate": "sealed", "tier": "symbol", "specificity": 0 }
+      ]
+    }
+  ],
+  "bindings": [],
+  "exemptions": []
+}

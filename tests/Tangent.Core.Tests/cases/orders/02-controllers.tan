@@ -1,0 +1,23 @@
+contract Controller {
+    match: class in Api where name ends with "Controller"
+
+    inherits ApiControllerBase
+    sealed
+    attributes [ApiController], [Route(*)]
+
+    ctor {
+        require public
+        injects only IMediator, ILogger<*>
+        require each parameter assigned to private readonly field
+    }
+
+    methods where public {
+        returns Task<ActionResult<*>> | Task<IActionResult>
+        attributes [HttpGet | HttpPost | HttpPut | HttpDelete | HttpPatch]
+        attributes [ProducesResponseType(*)]
+        forbid new DbContext, new HttpClient
+    }
+
+    forbid using Orders.Infrastructure.**
+    forbid using Microsoft.EntityFrameworkCore.**
+}

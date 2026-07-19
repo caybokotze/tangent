@@ -1,0 +1,1 @@
+err-unknown-keyword.tan(3,5): error TNG1000: expected 'match', a rule, or a member block such as 'ctor { ... }', found 'frobnicate'

@@ -1,0 +1,2 @@
+bindings.tan(1,49): error TNG1001: Unknown contract 'Controller' in bind/exempt
+bindings.tan(3,47): error TNG1001: Unknown contract 'Entity' in bind/exempt

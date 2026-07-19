@@ -1,0 +1,10 @@
+-- never-bound.tan --
+    1:1    Contract         contract
+    1:10   Identifier       Orphan
+    1:17   LeftBrace        {
+    2:5    Sealed           sealed
+    3:5    Forbid           forbid
+    3:12   Public           public
+    3:19   Fields           fields
+    4:1    RightBrace       }
+    5:1    EndOfFile       

@@ -1,0 +1,11 @@
+project "Sample" {
+    root: "src/"
+    layer Api = Sample.Api.**
+
+    Api -> Domain
+}
+
+contract Handler {
+    match: class in Application where name ends with "Handler"
+    sealed
+}

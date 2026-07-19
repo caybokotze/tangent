@@ -1,0 +1,1 @@
+err-missing-brace.tan(8,1): error TNG1000: expected '}' to close the 'contract' block, found end of file

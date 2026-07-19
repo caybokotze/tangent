@@ -1,0 +1,4 @@
+contract Orphan {
+    sealed
+    forbid public fields
+}

@@ -1,0 +1,36 @@
+// A bare `where` block at the top level of a contract refines the bound type itself:
+// the selector stays `type`, the condition narrows it and the specificity goes up by one.
+contract Aggregate {
+    match: class in Orders.Domain.Entities.**
+
+    sealed
+
+    where name ends with "Aggregate" {
+        forbid public fields
+    }
+
+    where inherits AggregateRoot<*> and name starts with "Order" {
+        forbid using Orders.Infrastructure.**
+    }
+}
+
+// A member block may nest refinements too; each level adds one to the specificity.
+contract Service {
+    match: class in Orders.Application.** where name ends with "Service"
+
+    methods {
+        where public {
+            returns Task<*>
+            forbid new HttpClient
+        }
+    }
+
+    properties where public {
+        where readonly {
+            forbid set
+        }
+    }
+}
+
+bind Orders.Domain.Entities.Order to Aggregate
+bind Orders.Application.PricingService to Service

@@ -1,0 +1,7 @@
+contract Repository {
+    match: class in Orders.Infrastructure.**
+    sealed
+
+    ctor {
+        injects only OrdersDbContext
+}

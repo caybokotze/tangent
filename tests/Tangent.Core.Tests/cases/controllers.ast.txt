@@ -1,0 +1,63 @@
+-- controllers.tan --
+File @1:1
+  Contract 'Controller' @1:1
+    Match class @2:5
+      LayerRef 'Api' @2:21
+      CondNameEndsWith 'Controller' @2:31
+    Rule require @4:5
+      PredInherits @4:5
+        TypeAlt @4:14
+          TypePattern 'ApiControllerBase' @4:14
+    Rule require @5:5
+      PredModifier sealed @5:5
+    Rule require @6:5
+      PredAttributes @6:5
+        AttrGroup @6:16
+          AttrRef 'ApiController' @6:17
+        AttrGroup @6:33
+          AttrRef 'Route' (*) @6:34
+    MemberBlock ctor @8:5
+      Rule require @9:9
+        PredModifier public @9:17
+      Rule require @10:9
+        PredInjectsOnly @10:9
+          TypeAlt @10:22
+            TypePattern 'IMediator' @10:22
+            TypePattern 'ILogger' @10:33
+              TypeWildcard @10:41
+      Rule require @11:9
+        PredEachParamAssignedToField private readonly @11:17
+    MemberBlock methods @14:5
+      CondModifier public @14:19
+      Rule require @15:9
+        PredReturns @15:9
+          TypeAlt @15:17
+            TypePattern 'Task' @15:17
+              TypePattern 'ActionResult' @15:22
+                TypeWildcard @15:35
+            TypePattern 'Task' @15:41
+              TypePattern 'IActionResult' @15:46
+      Rule require @16:9
+        PredAttributes @16:9
+          AttrGroup @16:20
+            AttrRef 'HttpGet' @16:21
+            AttrRef 'HttpPost' @16:31
+            AttrRef 'HttpPut' @16:42
+            AttrRef 'HttpDelete' @16:52
+            AttrRef 'HttpPatch' @16:65
+      Rule require @17:9
+        PredAttributes @17:9
+          AttrGroup @17:20
+            AttrRef 'ProducesResponseType' (*) @17:21
+      Rule forbid @18:9
+        PredNew @18:16
+          TypeAlt @18:20
+            TypePattern 'DbContext' @18:20
+          TypeAlt @18:31
+            TypePattern 'HttpClient' @18:35
+    Rule forbid @21:5
+      PredUsing @21:12
+        GlobRef 'Orders.Infrastructure.**' @21:18
+    Rule forbid @22:5
+      PredUsing @22:12
+        GlobRef 'Microsoft.EntityFrameworkCore.**' @22:18

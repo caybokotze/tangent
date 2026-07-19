@@ -1,0 +1,22 @@
+{
+  "project": null,
+  "root": null,
+  "layers": [],
+  "allowedFrameworkNamespaces": ["System.**"],
+  "contracts": [
+    {
+      "name": "Thing",
+      "extends": null,
+      "file": "err-conflicting-rules.tan", "line": 1,
+      "match": "class in Sample.**",
+      "rules": [
+        { "id": "Thing/type/modifier#0", "origin": "Thing", "polarity": "require", "selector": "type", "predicateKind": "modifier", "predicate": "sealed", "tier": "symbol", "specificity": 0 },
+        { "id": "Thing/type/modifier#1", "origin": "Thing", "polarity": "forbid", "selector": "type", "predicateKind": "modifier", "predicate": "sealed", "tier": "symbol", "specificity": 0 },
+        { "id": "Thing/type/modifier#2", "origin": "Thing", "polarity": "require", "selector": "type", "predicateKind": "modifier", "predicate": "public", "tier": "symbol", "specificity": 0 },
+        { "id": "Thing/type/modifier#3", "origin": "Thing", "polarity": "require", "selector": "type", "predicateKind": "modifier", "predicate": "private", "tier": "symbol", "specificity": 0 }
+      ]
+    }
+  ],
+  "bindings": [],
+  "exemptions": []
+}

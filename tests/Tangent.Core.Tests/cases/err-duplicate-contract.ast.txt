@@ -1,0 +1,12 @@
+-- err-duplicate-contract.tan --
+File @1:1
+  Contract 'Thing' @1:1
+    Match class @2:5
+      GlobRef 'Sample.**' @2:21
+    Rule require @3:5
+      PredModifier sealed @3:5
+  Contract 'Thing' @6:1
+    Match class @7:5
+      GlobRef 'Sample.Other.**' @7:21
+    Rule require @8:5
+      PredModifier abstract @8:5

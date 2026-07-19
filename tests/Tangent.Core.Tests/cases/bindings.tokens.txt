@@ -1,0 +1,20 @@
+-- bindings.tan --
+    1:1    Bind             bind
+    1:6    Identifier       Orders.Api.Controllers.HealthController
+    1:46   To               to
+    1:49   Identifier       Controller
+    1:60   Except           except
+    1:67   LeftBracket      [
+    1:68   Identifier       ProducesResponseType
+    1:88   RightBracket     ]
+    2:1    Exempt           exempt
+    2:8    Identifier       Orders.Infrastructure.LegacyReportRepository
+    2:53   Reason           reason
+    2:60   StringLiteral    "migrating in Q4 2026"
+    3:1    Exempt           exempt
+    3:8    Identifier       Orders.Domain.Entities.AuditEntry
+    3:42   From             from
+    3:47   Identifier       Entity
+    3:54   Reason           reason
+    3:61   StringLiteral    "append-only log, public setters by design"
+    4:1    EndOfFile       

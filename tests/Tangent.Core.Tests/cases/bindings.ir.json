@@ -1,0 +1,14 @@
+{
+  "project": null,
+  "root": null,
+  "layers": [],
+  "allowedFrameworkNamespaces": ["System.**"],
+  "contracts": [],
+  "bindings": [
+    { "type": "Orders.Api.Controllers.HealthController", "contracts": [], "exceptAttributes": ["ProducesResponseType"], "exceptRules": [] }
+  ],
+  "exemptions": [
+    { "type": "Orders.Infrastructure.LegacyReportRepository", "contracts": [], "allContracts": true, "reason": "migrating in Q4 2026" },
+    { "type": "Orders.Domain.Entities.AuditEntry", "contracts": [], "allContracts": true, "reason": "append-only log, public setters by design" }
+  ]
+}

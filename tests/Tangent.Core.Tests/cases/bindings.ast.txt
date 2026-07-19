@@ -1,0 +1,8 @@
+-- bindings.tan --
+File @1:1
+  Bind 'Orders.Api.Controllers.HealthController' 'Orders.Api.Controllers.HealthController' @1:1
+    ContractRef 'Controller' @1:49
+    ExceptAttribute 'ProducesResponseType' @1:67
+  Exempt 'Orders.Infrastructure.LegacyReportRepository' 'migrating in Q4 2026' @2:1
+  Exempt 'Orders.Domain.Entities.AuditEntry' 'append-only log, public setters by design' @3:1
+    ContractRef 'Entity' @3:47

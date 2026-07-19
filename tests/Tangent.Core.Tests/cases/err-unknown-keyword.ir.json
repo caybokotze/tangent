@@ -1,0 +1,19 @@
+{
+  "project": null,
+  "root": null,
+  "layers": [],
+  "allowedFrameworkNamespaces": ["System.**"],
+  "contracts": [
+    {
+      "name": "Controller",
+      "extends": null,
+      "file": "err-unknown-keyword.tan", "line": 1,
+      "match": "class in Orders.Api.**",
+      "rules": [
+        { "id": "Controller/type/modifier#0", "origin": "Controller", "polarity": "require", "selector": "type", "predicateKind": "modifier", "predicate": "sealed", "tier": "symbol", "specificity": 0 }
+      ]
+    }
+  ],
+  "bindings": [],
+  "exemptions": []
+}

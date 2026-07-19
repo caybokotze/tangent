@@ -1,0 +1,14 @@
+{
+  "project": "Orders",
+  "root": "src/",
+  "layers": [
+    { "name": "Api", "namespace": "Orders.Api.**", "allowedDependencies": ["Application", "Domain"] },
+    { "name": "Application", "namespace": "Orders.Application.**", "allowedDependencies": ["Domain"] },
+    { "name": "Domain", "namespace": "Orders.Domain.**", "allowedDependencies": [] },
+    { "name": "Infrastructure", "namespace": "Orders.Infrastructure.**", "allowedDependencies": ["Application", "Domain"] }
+  ],
+  "allowedFrameworkNamespaces": ["System.**", "Microsoft.Extensions.**"],
+  "contracts": [],
+  "bindings": [],
+  "exemptions": []
+}

@@ -1,0 +1,1 @@
+err-missing-block-brace.tan(5,9): error TNG1000: expected '{' after 'properties', found 'forbid'

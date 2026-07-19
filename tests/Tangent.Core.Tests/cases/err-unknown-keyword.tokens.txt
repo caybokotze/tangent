@@ -1,0 +1,13 @@
+-- err-unknown-keyword.tan --
+    1:1    Contract         contract
+    1:10   Identifier       Controller
+    1:21   LeftBrace        {
+    2:5    Match            match
+    2:10   Colon            :
+    2:12   Class            class
+    2:18   In               in
+    2:21   Glob             Orders.Api.**
+    3:5    Identifier       frobnicate
+    4:5    Sealed           sealed
+    5:1    RightBrace       }
+    6:1    EndOfFile       

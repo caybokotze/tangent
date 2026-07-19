@@ -1,0 +1,2 @@
+err-loosening-child.tan(9,5): error TNG1011: Contract 'Child' loosens rule Base/type/modifier#0 inherited from 'Base'
+err-loosening-child.tan(10,18): error TNG1011: Contract 'Child' loosens rule Base/properties/accessor#0 inherited from 'Base'

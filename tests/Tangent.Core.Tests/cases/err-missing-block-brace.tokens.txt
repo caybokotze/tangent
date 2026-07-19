@@ -1,0 +1,16 @@
+-- err-missing-block-brace.tan --
+    1:1    Contract         contract
+    1:10   Identifier       Entity
+    1:17   LeftBrace        {
+    2:5    Match            match
+    2:10   Colon            :
+    2:12   Class            class
+    2:18   In               in
+    2:21   Glob             Orders.Domain.**
+    4:5    Properties       properties
+    4:16   Where            where
+    4:22   Public           public
+    5:9    Forbid           forbid
+    5:16   Set              set
+    6:1    RightBrace       }
+    7:1    EndOfFile       

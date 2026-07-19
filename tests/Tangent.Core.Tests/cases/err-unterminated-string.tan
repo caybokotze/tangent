@@ -1,0 +1,4 @@
+contract Controller {
+    match: class in Orders.Api.** where name ends with "Controller
+    sealed
+}

@@ -1,0 +1,7 @@
+-- never-bound.tan --
+File @1:1
+  Contract 'Orphan' @1:1
+    Rule require @2:5
+      PredModifier sealed @2:5
+    Rule forbid @3:5
+      PredMemberKind fields [public] @3:12

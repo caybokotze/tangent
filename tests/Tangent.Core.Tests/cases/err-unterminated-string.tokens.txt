@@ -1,0 +1,17 @@
+-- err-unterminated-string.tan --
+    1:1    Contract         contract
+    1:10   Identifier       Controller
+    1:21   LeftBrace        {
+    2:5    Match            match
+    2:10   Colon            :
+    2:12   Class            class
+    2:18   In               in
+    2:21   Glob             Orders.Api.**
+    2:35   Where            where
+    2:41   Name             name
+    2:46   Ends             ends
+    2:51   With             with
+    2:56   StringLiteral    "Controller
+    3:5    Sealed           sealed
+    4:1    RightBrace       }
+    5:1    EndOfFile       

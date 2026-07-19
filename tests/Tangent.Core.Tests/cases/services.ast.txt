@@ -1,0 +1,47 @@
+-- services.tan --
+File @1:1
+  Contract 'DomainService' @1:1
+    Match class @2:5
+      GlobRef 'Orders.Domain.Services.**' @2:21
+    Rule require @4:5
+      PredImplements @4:5
+        TypeAlt @4:16
+          TypeTemplate 'I{Name}' @4:16
+    Rule require @5:5
+      PredModifier sealed @5:5
+    Rule require @6:5
+      PredStateless @6:5
+    MemberBlock fields @7:5
+      Rule require @7:14
+        PredModifier private @7:22
+      Rule require @7:31
+        PredModifier readonly @7:39
+      Rule forbid @7:49
+        PredModifier static @7:56
+    Rule forbid @8:5
+      PredUsing @8:12
+        GlobRef 'Orders.Application.**' @8:18
+        GlobRef 'Orders.Infrastructure.**' @8:41
+  Contract 'ViewModel' @11:1
+    Match record @12:5
+      GlobRef 'Orders.Application.ViewModels.**' @12:22
+    MemberBlock properties @14:5
+      Rule require @15:9
+        PredModifier public @15:17
+      Rule require @16:9
+        PredAccessor get @16:17
+      Rule forbid @17:9
+        PredAccessor set [public] @17:16
+    MemberBlock fields @19:5
+      Rule require @19:14
+        PredModifier private @19:22
+      Rule require @19:31
+        PredModifier readonly @19:39
+    MemberBlock ctor @20:5
+      Rule require @21:9
+        PredInjectsOnly @21:9
+          TypeAlt @21:22
+            TypePattern 'IClock' @21:22
+            TypePattern 'IUserContext' @21:30
+      Rule require @22:9
+        PredEachParamAssignedToField private readonly @22:17

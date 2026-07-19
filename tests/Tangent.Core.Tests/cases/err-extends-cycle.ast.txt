@@ -1,0 +1,12 @@
+-- err-extends-cycle.tan --
+File @1:1
+  Contract 'A' extends B @1:1
+    Match class @2:5
+      GlobRef 'Sample.A.**' @2:21
+    Rule require @3:5
+      PredModifier sealed @3:5
+  Contract 'B' extends A @6:1
+    Match class @7:5
+      GlobRef 'Sample.B.**' @7:21
+    Rule require @8:5
+      PredModifier abstract @8:5

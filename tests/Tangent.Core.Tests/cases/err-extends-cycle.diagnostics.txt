@@ -1,0 +1,2 @@
+err-extends-cycle.tan(1,1): error TNG1004: Contract inheritance cycle: A -> B -> A
+err-extends-cycle.tan(3,5): error TNG1011: Contract 'A' loosens rule B/type/modifier#0 inherited from 'B'

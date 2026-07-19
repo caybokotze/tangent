@@ -1,0 +1,20 @@
+{
+  "project": null,
+  "root": null,
+  "layers": [],
+  "allowedFrameworkNamespaces": ["System.**"],
+  "contracts": [
+    {
+      "name": "Repository",
+      "extends": null,
+      "file": "err-missing-brace.tan", "line": 1,
+      "match": "class in Orders.Infrastructure.**",
+      "rules": [
+        { "id": "Repository/type/modifier#0", "origin": "Repository", "polarity": "require", "selector": "type", "predicateKind": "modifier", "predicate": "sealed", "tier": "symbol", "specificity": 0 },
+        { "id": "Repository/ctor/injects-only#0", "origin": "Repository", "polarity": "require", "selector": "ctor", "predicateKind": "injects-only", "predicate": "injects only OrdersDbContext", "tier": "symbol", "specificity": 1 }
+      ]
+    }
+  ],
+  "bindings": [],
+  "exemptions": []
+}

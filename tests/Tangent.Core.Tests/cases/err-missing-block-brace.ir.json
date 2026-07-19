@@ -1,0 +1,19 @@
+{
+  "project": null,
+  "root": null,
+  "layers": [],
+  "allowedFrameworkNamespaces": ["System.**"],
+  "contracts": [
+    {
+      "name": "Entity",
+      "extends": null,
+      "file": "err-missing-block-brace.tan", "line": 1,
+      "match": "class in Orders.Domain.**",
+      "rules": [
+        { "id": "Entity/type/accessor#0", "origin": "Entity", "polarity": "require", "selector": "type", "predicateKind": "accessor", "predicate": "set", "tier": "symbol", "specificity": 0 }
+      ]
+    }
+  ],
+  "bindings": [],
+  "exemptions": []
+}

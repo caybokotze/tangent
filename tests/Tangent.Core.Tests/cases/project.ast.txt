@@ -1,0 +1,20 @@
+-- project.tan --
+File @1:1
+  Project 'Orders' @1:1
+    ProjectRoot 'src/' @2:5
+    LayerDecl 'Api' 'Orders.Api.**' @4:5
+    LayerDecl 'Application' 'Orders.Application.**' @5:5
+    LayerDecl 'Domain' 'Orders.Domain.**' @6:5
+    LayerDecl 'Infrastructure' 'Orders.Infrastructure.**' @7:5
+    Allow @9:5
+      GlobRef 'Microsoft.Extensions.**' @9:11
+    Dependency 'Api' @11:5
+      LayerRef 'Application' @11:23
+      LayerRef 'Domain' @11:36
+    Dependency 'Application' @12:5
+      LayerRef 'Domain' @12:23
+    Dependency 'Infrastructure' @13:5
+      LayerRef 'Application' @13:23
+      LayerRef 'Domain' @13:36
+    Dependency 'Domain' @14:5
+      Nothing @14:23

@@ -1,0 +1,35 @@
+{
+  "project": null,
+  "root": null,
+  "layers": [],
+  "allowedFrameworkNamespaces": ["System.**"],
+  "contracts": [
+    {
+      "name": "Aggregate",
+      "extends": null,
+      "file": "refinements.tan", "line": 3,
+      "match": "class in Orders.Domain.Entities.**",
+      "rules": [
+        { "id": "Aggregate/type/modifier#0", "origin": "Aggregate", "polarity": "require", "selector": "type", "predicateKind": "modifier", "predicate": "sealed", "tier": "symbol", "specificity": 0 },
+        { "id": "Aggregate/type-where/member-kind#0", "origin": "Aggregate", "polarity": "forbid", "selector": "type where name ends with \"Aggregate\"", "predicateKind": "member-kind", "predicate": "public fields", "tier": "symbol", "specificity": 1 },
+        { "id": "Aggregate/type-where/using#0", "origin": "Aggregate", "polarity": "forbid", "selector": "type where (inherits AggregateRoot<*> and name starts with \"Order\")", "predicateKind": "using", "predicate": "using Orders.Infrastructure.**", "tier": "reference", "specificity": 1 }
+      ]
+    },
+    {
+      "name": "Service",
+      "extends": null,
+      "file": "refinements.tan", "line": 18,
+      "match": "class in Orders.Application.** where name ends with \"Service\"",
+      "rules": [
+        { "id": "Service/methods-where/returns#0", "origin": "Service", "polarity": "require", "selector": "methods where public", "predicateKind": "returns", "predicate": "returns Task<*>", "tier": "symbol", "specificity": 2 },
+        { "id": "Service/methods-where/new#0", "origin": "Service", "polarity": "forbid", "selector": "methods where public", "predicateKind": "new", "predicate": "new HttpClient", "tier": "reference", "specificity": 2 },
+        { "id": "Service/properties-where/accessor#0", "origin": "Service", "polarity": "forbid", "selector": "properties where (public and readonly)", "predicateKind": "accessor", "predicate": "set", "tier": "symbol", "specificity": 3 }
+      ]
+    }
+  ],
+  "bindings": [
+    { "type": "Orders.Domain.Entities.Order", "contracts": ["Aggregate"], "exceptAttributes": [], "exceptRules": [] },
+    { "type": "Orders.Application.PricingService", "contracts": ["Service"], "exceptAttributes": [], "exceptRules": [] }
+  ],
+  "exemptions": []
+}

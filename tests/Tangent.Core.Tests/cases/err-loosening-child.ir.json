@@ -1,0 +1,32 @@
+{
+  "project": null,
+  "root": null,
+  "layers": [],
+  "allowedFrameworkNamespaces": ["System.**"],
+  "contracts": [
+    {
+      "name": "Base",
+      "extends": null,
+      "file": "err-loosening-child.tan", "line": 1,
+      "match": "class in Sample.Base.**",
+      "rules": [
+        { "id": "Base/type/modifier#0", "origin": "Base", "polarity": "require", "selector": "type", "predicateKind": "modifier", "predicate": "sealed", "tier": "symbol", "specificity": 0 },
+        { "id": "Base/properties/accessor#0", "origin": "Base", "polarity": "forbid", "selector": "properties", "predicateKind": "accessor", "predicate": "public set", "tier": "symbol", "specificity": 1 }
+      ]
+    },
+    {
+      "name": "Child",
+      "extends": "Base",
+      "file": "err-loosening-child.tan", "line": 7,
+      "match": "class in Sample.Child.**",
+      "rules": [
+        { "id": "Base/type/modifier#0", "origin": "Base", "polarity": "require", "selector": "type", "predicateKind": "modifier", "predicate": "sealed", "tier": "symbol", "specificity": 0 },
+        { "id": "Base/properties/accessor#0", "origin": "Base", "polarity": "forbid", "selector": "properties", "predicateKind": "accessor", "predicate": "public set", "tier": "symbol", "specificity": 1 },
+        { "id": "Child/type/modifier#0", "origin": "Child", "polarity": "forbid", "selector": "type", "predicateKind": "modifier", "predicate": "sealed", "tier": "symbol", "specificity": 0 },
+        { "id": "Child/properties/accessor#0", "origin": "Child", "polarity": "require", "selector": "properties", "predicateKind": "accessor", "predicate": "public set", "tier": "symbol", "specificity": 1 }
+      ]
+    }
+  ],
+  "bindings": [],
+  "exemptions": []
+}

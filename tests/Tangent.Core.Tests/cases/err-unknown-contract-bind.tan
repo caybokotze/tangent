@@ -1,0 +1,2 @@
+bind Sample.Foo to Nonexistent
+exempt Sample.Bar from AlsoMissing reason "under review"

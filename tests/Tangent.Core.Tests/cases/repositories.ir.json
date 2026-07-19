@@ -1,0 +1,24 @@
+{
+  "project": null,
+  "root": null,
+  "layers": [],
+  "allowedFrameworkNamespaces": ["System.**"],
+  "contracts": [
+    {
+      "name": "Repository",
+      "extends": null,
+      "file": "repositories.tan", "line": 1,
+      "match": "class in <unknown> where name ends with \"Repository\"",
+      "rules": [
+        { "id": "Repository/type/implements#0", "origin": "Repository", "polarity": "require", "selector": "type", "predicateKind": "implements", "predicate": "implements I{Name}", "tier": "symbol", "specificity": 0 },
+        { "id": "Repository/type/interface-lives-in#0", "origin": "Repository", "polarity": "require", "selector": "type", "predicateKind": "interface-lives-in", "predicate": "interface I{Name} lives in <unknown layer>", "tier": "symbol", "specificity": 0 },
+        { "id": "Repository/type/modifier#0", "origin": "Repository", "polarity": "require", "selector": "type", "predicateKind": "modifier", "predicate": "sealed", "tier": "symbol", "specificity": 0 },
+        { "id": "Repository/ctor/injects-only#0", "origin": "Repository", "polarity": "require", "selector": "ctor", "predicateKind": "injects-only", "predicate": "injects only OrdersDbContext", "tier": "symbol", "specificity": 1 },
+        { "id": "Repository/methods/returns#0", "origin": "Repository", "polarity": "require", "selector": "methods where public", "predicateKind": "returns", "predicate": "returns Task<*>", "tier": "symbol", "specificity": 2 },
+        { "id": "Repository/type/using#0", "origin": "Repository", "polarity": "forbid", "selector": "type", "predicateKind": "using", "predicate": "using Orders.Api.**", "tier": "reference", "specificity": 0 }
+      ]
+    }
+  ],
+  "bindings": [],
+  "exemptions": []
+}

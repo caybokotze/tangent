@@ -1,0 +1,19 @@
+-- err-conflicting-rules.tan --
+    1:1    Contract         contract
+    1:10   Identifier       Thing
+    1:16   LeftBrace        {
+    2:5    Match            match
+    2:10   Colon            :
+    2:12   Class            class
+    2:18   In               in
+    2:21   Glob             Sample.**
+    4:5    Require          require
+    4:13   Sealed           sealed
+    5:5    Forbid           forbid
+    5:12   Sealed           sealed
+    6:5    Require          require
+    6:13   Public           public
+    7:5    Require          require
+    7:13   Private          private
+    8:1    RightBrace       }
+    9:1    EndOfFile       

@@ -1,0 +1,12 @@
+-- err-missing-brace.tan --
+File @1:1
+  Contract 'Repository' @1:1
+    Match class @2:5
+      GlobRef 'Orders.Infrastructure.**' @2:21
+    Rule require @3:5
+      PredModifier sealed @3:5
+    MemberBlock ctor @5:5
+      Rule require @6:9
+        PredInjectsOnly @6:9
+          TypeAlt @6:22
+            TypePattern 'OrdersDbContext' @6:22

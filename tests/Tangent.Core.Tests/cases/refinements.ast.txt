@@ -1,0 +1,47 @@
+-- refinements.tan --
+File @1:1
+  Contract 'Aggregate' @3:1
+    Match class @4:5
+      GlobRef 'Orders.Domain.Entities.**' @4:21
+    Rule require @6:5
+      PredModifier sealed @6:5
+    Refinement @8:5
+      CondNameEndsWith 'Aggregate' @8:11
+      Rule forbid @9:9
+        PredMemberKind fields [public] @9:16
+    Refinement @12:5
+      CondAnd @12:37
+        CondInherits @12:11
+          TypeAlt @12:20
+            TypePattern 'AggregateRoot' @12:20
+              TypeWildcard @12:34
+        CondNameStartsWith 'Order' @12:41
+      Rule forbid @13:9
+        PredUsing @13:16
+          GlobRef 'Orders.Infrastructure.**' @13:22
+  Contract 'Service' @18:1
+    Match class @19:5
+      GlobRef 'Orders.Application.**' @19:21
+      CondNameEndsWith 'Service' @19:49
+    MemberBlock methods @21:5
+      Refinement @22:9
+        CondModifier public @22:15
+        Rule require @23:13
+          PredReturns @23:13
+            TypeAlt @23:21
+              TypePattern 'Task' @23:21
+                TypeWildcard @23:26
+        Rule forbid @24:13
+          PredNew @24:20
+            TypeAlt @24:24
+              TypePattern 'HttpClient' @24:24
+    MemberBlock properties @28:5
+      CondModifier public @28:22
+      Refinement @29:9
+        CondModifier readonly @29:15
+        Rule forbid @30:13
+          PredAccessor set @30:20
+  Bind 'Orders.Domain.Entities.Order' 'Aggregate' @35:1
+    ContractRef 'Aggregate' @35:38
+  Bind 'Orders.Application.PricingService' 'Aggregate' @36:1
+    ContractRef 'Service' @36:43

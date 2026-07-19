@@ -1,0 +1,37 @@
+-- entities.tan --
+File @1:1
+  Contract 'Entity' @1:1
+    Match class @2:5
+      GlobRef 'Orders.Domain.Entities.**' @2:21
+    Rule require @4:5
+      PredInherits @4:5
+        TypeAlt @4:14
+          TypePattern 'Entity' @4:14
+            TypeWildcard @4:21
+          TypePattern 'AggregateRoot' @4:26
+            TypeWildcard @4:40
+    MemberBlock properties @6:5
+      Rule forbid @7:9
+        PredAccessor set [public] @7:16
+    Rule forbid @9:5
+      PredMemberKind fields [public] @9:12
+    MemberBlock ctor @10:5
+      Rule forbid @10:12
+        PredModifier public @10:19
+    Rule forbid @12:5
+      PredUsing @12:12
+        GlobRef 'System.Data.**' @12:18
+        GlobRef 'Microsoft.**' @12:34
+  Contract 'AggregateRoot' extends Entity @15:1
+    Match class @16:5
+      GlobRef 'Orders.Domain.Entities.**' @16:21
+      CondInherits @16:53
+        TypeAlt @16:62
+          TypePattern 'AggregateRoot' @16:62
+            TypeWildcard @16:76
+    MemberBlock methods @18:5
+      CondModifier public @18:19
+      Rule forbid @18:28
+        PredReturns @18:35
+          TypeAlt @18:43
+            TypePattern 'void' @18:43

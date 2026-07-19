@@ -1,0 +1,32 @@
+{
+  "project": null,
+  "root": null,
+  "layers": [],
+  "allowedFrameworkNamespaces": ["System.**"],
+  "contracts": [
+    {
+      "name": "Controller",
+      "extends": null,
+      "file": "controllers.tan", "line": 1,
+      "match": "class in <unknown> where name ends with \"Controller\"",
+      "rules": [
+        { "id": "Controller/type/inherits#0", "origin": "Controller", "polarity": "require", "selector": "type", "predicateKind": "inherits", "predicate": "inherits ApiControllerBase", "tier": "symbol", "specificity": 0 },
+        { "id": "Controller/type/modifier#0", "origin": "Controller", "polarity": "require", "selector": "type", "predicateKind": "modifier", "predicate": "sealed", "tier": "symbol", "specificity": 0 },
+        { "id": "Controller/type/attributes#0", "origin": "Controller", "polarity": "require", "selector": "type", "predicateKind": "attributes", "predicate": "attributes [ApiController]", "tier": "symbol", "specificity": 0 },
+        { "id": "Controller/type/attributes#1", "origin": "Controller", "polarity": "require", "selector": "type", "predicateKind": "attributes", "predicate": "attributes [Route(*)]", "tier": "symbol", "specificity": 0 },
+        { "id": "Controller/ctor/modifier#0", "origin": "Controller", "polarity": "require", "selector": "ctor", "predicateKind": "modifier", "predicate": "public", "tier": "symbol", "specificity": 1 },
+        { "id": "Controller/ctor/injects-only#0", "origin": "Controller", "polarity": "require", "selector": "ctor", "predicateKind": "injects-only", "predicate": "injects only IMediator, ILogger<*>", "tier": "symbol", "specificity": 1 },
+        { "id": "Controller/ctor/each-param-assigned-to-field#0", "origin": "Controller", "polarity": "require", "selector": "ctor", "predicateKind": "each-param-assigned-to-field", "predicate": "each parameter assigned to private readonly field", "tier": "flow", "specificity": 1 },
+        { "id": "Controller/methods/returns#0", "origin": "Controller", "polarity": "require", "selector": "methods where public", "predicateKind": "returns", "predicate": "returns Task<ActionResult<*>> | Task<IActionResult>", "tier": "symbol", "specificity": 2 },
+        { "id": "Controller/methods/attributes#0", "origin": "Controller", "polarity": "require", "selector": "methods where public", "predicateKind": "attributes", "predicate": "attributes [HttpGet | HttpPost | HttpPut | HttpDelete | HttpPatch]", "tier": "symbol", "specificity": 2 },
+        { "id": "Controller/methods/attributes#1", "origin": "Controller", "polarity": "require", "selector": "methods where public", "predicateKind": "attributes", "predicate": "attributes [ProducesResponseType(*)]", "tier": "symbol", "specificity": 2 },
+        { "id": "Controller/methods/new#0", "origin": "Controller", "polarity": "forbid", "selector": "methods where public", "predicateKind": "new", "predicate": "new DbContext", "tier": "reference", "specificity": 2 },
+        { "id": "Controller/methods/new#1", "origin": "Controller", "polarity": "forbid", "selector": "methods where public", "predicateKind": "new", "predicate": "new HttpClient", "tier": "reference", "specificity": 2 },
+        { "id": "Controller/type/using#0", "origin": "Controller", "polarity": "forbid", "selector": "type", "predicateKind": "using", "predicate": "using Orders.Infrastructure.**", "tier": "reference", "specificity": 0 },
+        { "id": "Controller/type/using#1", "origin": "Controller", "polarity": "forbid", "selector": "type", "predicateKind": "using", "predicate": "using Microsoft.EntityFrameworkCore.**", "tier": "reference", "specificity": 0 }
+      ]
+    }
+  ],
+  "bindings": [],
+  "exemptions": []
+}

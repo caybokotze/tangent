@@ -1,0 +1,17 @@
+-- err-missing-brace.tan --
+    1:1    Contract         contract
+    1:10   Identifier       Repository
+    1:21   LeftBrace        {
+    2:5    Match            match
+    2:10   Colon            :
+    2:12   Class            class
+    2:18   In               in
+    2:21   Glob             Orders.Infrastructure.**
+    3:5    Sealed           sealed
+    5:5    Ctor             ctor
+    5:10   LeftBrace        {
+    6:9    Injects          injects
+    6:17   Only             only
+    6:22   Identifier       OrdersDbContext
+    7:1    RightBrace       }
+    8:1    EndOfFile       

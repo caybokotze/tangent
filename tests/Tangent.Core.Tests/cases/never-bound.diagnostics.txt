@@ -1,0 +1,1 @@
+never-bound.tan(1,1): warning TNG1030: Contract 'Orphan' is never bound

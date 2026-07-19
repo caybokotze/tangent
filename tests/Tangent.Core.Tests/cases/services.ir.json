@@ -1,0 +1,41 @@
+{
+  "project": null,
+  "root": null,
+  "layers": [],
+  "allowedFrameworkNamespaces": ["System.**"],
+  "contracts": [
+    {
+      "name": "DomainService",
+      "extends": null,
+      "file": "services.tan", "line": 1,
+      "match": "class in Orders.Domain.Services.**",
+      "rules": [
+        { "id": "DomainService/type/implements#0", "origin": "DomainService", "polarity": "require", "selector": "type", "predicateKind": "implements", "predicate": "implements I{Name}", "tier": "symbol", "specificity": 0 },
+        { "id": "DomainService/type/modifier#0", "origin": "DomainService", "polarity": "require", "selector": "type", "predicateKind": "modifier", "predicate": "sealed", "tier": "symbol", "specificity": 0 },
+        { "id": "DomainService/type/stateless#0", "origin": "DomainService", "polarity": "require", "selector": "type", "predicateKind": "stateless", "predicate": "stateless", "tier": "flow", "specificity": 0 },
+        { "id": "DomainService/fields/modifier#0", "origin": "DomainService", "polarity": "require", "selector": "fields", "predicateKind": "modifier", "predicate": "private", "tier": "symbol", "specificity": 1 },
+        { "id": "DomainService/fields/modifier#1", "origin": "DomainService", "polarity": "require", "selector": "fields", "predicateKind": "modifier", "predicate": "readonly", "tier": "symbol", "specificity": 1 },
+        { "id": "DomainService/fields/modifier#2", "origin": "DomainService", "polarity": "forbid", "selector": "fields", "predicateKind": "modifier", "predicate": "static", "tier": "symbol", "specificity": 1 },
+        { "id": "DomainService/type/using#0", "origin": "DomainService", "polarity": "forbid", "selector": "type", "predicateKind": "using", "predicate": "using Orders.Application.**", "tier": "reference", "specificity": 0 },
+        { "id": "DomainService/type/using#1", "origin": "DomainService", "polarity": "forbid", "selector": "type", "predicateKind": "using", "predicate": "using Orders.Infrastructure.**", "tier": "reference", "specificity": 0 }
+      ]
+    },
+    {
+      "name": "ViewModel",
+      "extends": null,
+      "file": "services.tan", "line": 11,
+      "match": "record in Orders.Application.ViewModels.**",
+      "rules": [
+        { "id": "ViewModel/properties/modifier#0", "origin": "ViewModel", "polarity": "require", "selector": "properties", "predicateKind": "modifier", "predicate": "public", "tier": "symbol", "specificity": 1 },
+        { "id": "ViewModel/properties/accessor#0", "origin": "ViewModel", "polarity": "require", "selector": "properties", "predicateKind": "accessor", "predicate": "get", "tier": "symbol", "specificity": 1 },
+        { "id": "ViewModel/properties/accessor#1", "origin": "ViewModel", "polarity": "forbid", "selector": "properties", "predicateKind": "accessor", "predicate": "public set", "tier": "symbol", "specificity": 1 },
+        { "id": "ViewModel/fields/modifier#0", "origin": "ViewModel", "polarity": "require", "selector": "fields", "predicateKind": "modifier", "predicate": "private", "tier": "symbol", "specificity": 1 },
+        { "id": "ViewModel/fields/modifier#1", "origin": "ViewModel", "polarity": "require", "selector": "fields", "predicateKind": "modifier", "predicate": "readonly", "tier": "symbol", "specificity": 1 },
+        { "id": "ViewModel/ctor/injects-only#0", "origin": "ViewModel", "polarity": "require", "selector": "ctor", "predicateKind": "injects-only", "predicate": "injects only IClock, IUserContext", "tier": "symbol", "specificity": 1 },
+        { "id": "ViewModel/ctor/each-param-assigned-to-field#0", "origin": "ViewModel", "polarity": "require", "selector": "ctor", "predicateKind": "each-param-assigned-to-field", "predicate": "each parameter assigned to private readonly field", "tier": "flow", "specificity": 1 }
+      ]
+    }
+  ],
+  "bindings": [],
+  "exemptions": []
+}

@@ -1,0 +1,29 @@
+{
+  "project": null,
+  "root": null,
+  "layers": [],
+  "allowedFrameworkNamespaces": ["System.**"],
+  "contracts": [
+    {
+      "name": "A",
+      "extends": "B",
+      "file": "err-extends-cycle.tan", "line": 1,
+      "match": "class in Sample.A.**",
+      "rules": [
+        { "id": "B/type/modifier#0", "origin": "B", "polarity": "require", "selector": "type", "predicateKind": "modifier", "predicate": "abstract", "tier": "symbol", "specificity": 0 },
+        { "id": "A/type/modifier#0", "origin": "A", "polarity": "require", "selector": "type", "predicateKind": "modifier", "predicate": "sealed", "tier": "symbol", "specificity": 0 }
+      ]
+    },
+    {
+      "name": "B",
+      "extends": null,
+      "file": "err-extends-cycle.tan", "line": 6,
+      "match": "class in Sample.B.**",
+      "rules": [
+        { "id": "B/type/modifier#0", "origin": "B", "polarity": "require", "selector": "type", "predicateKind": "modifier", "predicate": "abstract", "tier": "symbol", "specificity": 0 }
+      ]
+    }
+  ],
+  "bindings": [],
+  "exemptions": []
+}

@@ -1,0 +1,9 @@
+contract Thing {
+    match: class in Sample.**
+    sealed
+}
+
+contract Thing {
+    match: class in Sample.Other.**
+    abstract
+}

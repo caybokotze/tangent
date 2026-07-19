@@ -1,0 +1,116 @@
+{
+  "project": "Orders",
+  "root": "src/",
+  "layers": [
+    { "name": "Api", "namespace": "Orders.Api.**", "allowedDependencies": ["Application", "Domain"] },
+    { "name": "Application", "namespace": "Orders.Application.**", "allowedDependencies": ["Domain"] },
+    { "name": "Domain", "namespace": "Orders.Domain.**", "allowedDependencies": [] },
+    { "name": "Infrastructure", "namespace": "Orders.Infrastructure.**", "allowedDependencies": ["Application", "Domain"] }
+  ],
+  "allowedFrameworkNamespaces": ["System.**", "Microsoft.Extensions.**"],
+  "contracts": [
+    {
+      "name": "Controller",
+      "extends": null,
+      "file": "02-controllers.tan", "line": 1,
+      "match": "class in Api where name ends with \"Controller\"",
+      "rules": [
+        { "id": "Controller/type/inherits#0", "origin": "Controller", "polarity": "require", "selector": "type", "predicateKind": "inherits", "predicate": "inherits ApiControllerBase", "tier": "symbol", "specificity": 0 },
+        { "id": "Controller/type/modifier#0", "origin": "Controller", "polarity": "require", "selector": "type", "predicateKind": "modifier", "predicate": "sealed", "tier": "symbol", "specificity": 0 },
+        { "id": "Controller/type/attributes#0", "origin": "Controller", "polarity": "require", "selector": "type", "predicateKind": "attributes", "predicate": "attributes [ApiController]", "tier": "symbol", "specificity": 0 },
+        { "id": "Controller/type/attributes#1", "origin": "Controller", "polarity": "require", "selector": "type", "predicateKind": "attributes", "predicate": "attributes [Route(*)]", "tier": "symbol", "specificity": 0 },
+        { "id": "Controller/ctor/modifier#0", "origin": "Controller", "polarity": "require", "selector": "ctor", "predicateKind": "modifier", "predicate": "public", "tier": "symbol", "specificity": 1 },
+        { "id": "Controller/ctor/injects-only#0", "origin": "Controller", "polarity": "require", "selector": "ctor", "predicateKind": "injects-only", "predicate": "injects only IMediator, ILogger<*>", "tier": "symbol", "specificity": 1 },
+        { "id": "Controller/ctor/each-param-assigned-to-field#0", "origin": "Controller", "polarity": "require", "selector": "ctor", "predicateKind": "each-param-assigned-to-field", "predicate": "each parameter assigned to private readonly field", "tier": "flow", "specificity": 1 },
+        { "id": "Controller/methods/returns#0", "origin": "Controller", "polarity": "require", "selector": "methods where public", "predicateKind": "returns", "predicate": "returns Task<ActionResult<*>> | Task<IActionResult>", "tier": "symbol", "specificity": 2 },
+        { "id": "Controller/methods/attributes#0", "origin": "Controller", "polarity": "require", "selector": "methods where public", "predicateKind": "attributes", "predicate": "attributes [HttpGet | HttpPost | HttpPut | HttpDelete | HttpPatch]", "tier": "symbol", "specificity": 2 },
+        { "id": "Controller/methods/attributes#1", "origin": "Controller", "polarity": "require", "selector": "methods where public", "predicateKind": "attributes", "predicate": "attributes [ProducesResponseType(*)]", "tier": "symbol", "specificity": 2 },
+        { "id": "Controller/methods/new#0", "origin": "Controller", "polarity": "forbid", "selector": "methods where public", "predicateKind": "new", "predicate": "new DbContext", "tier": "reference", "specificity": 2 },
+        { "id": "Controller/methods/new#1", "origin": "Controller", "polarity": "forbid", "selector": "methods where public", "predicateKind": "new", "predicate": "new HttpClient", "tier": "reference", "specificity": 2 },
+        { "id": "Controller/type/using#0", "origin": "Controller", "polarity": "forbid", "selector": "type", "predicateKind": "using", "predicate": "using Orders.Infrastructure.**", "tier": "reference", "specificity": 0 },
+        { "id": "Controller/type/using#1", "origin": "Controller", "polarity": "forbid", "selector": "type", "predicateKind": "using", "predicate": "using Microsoft.EntityFrameworkCore.**", "tier": "reference", "specificity": 0 }
+      ]
+    },
+    {
+      "name": "Repository",
+      "extends": null,
+      "file": "03-repositories.tan", "line": 1,
+      "match": "class in Infrastructure where name ends with \"Repository\"",
+      "rules": [
+        { "id": "Repository/type/implements#0", "origin": "Repository", "polarity": "require", "selector": "type", "predicateKind": "implements", "predicate": "implements I{Name}", "tier": "symbol", "specificity": 0 },
+        { "id": "Repository/type/interface-lives-in#0", "origin": "Repository", "polarity": "require", "selector": "type", "predicateKind": "interface-lives-in", "predicate": "interface I{Name} lives in Domain", "tier": "symbol", "specificity": 0 },
+        { "id": "Repository/type/modifier#0", "origin": "Repository", "polarity": "require", "selector": "type", "predicateKind": "modifier", "predicate": "sealed", "tier": "symbol", "specificity": 0 },
+        { "id": "Repository/ctor/injects-only#0", "origin": "Repository", "polarity": "require", "selector": "ctor", "predicateKind": "injects-only", "predicate": "injects only OrdersDbContext", "tier": "symbol", "specificity": 1 },
+        { "id": "Repository/methods/returns#0", "origin": "Repository", "polarity": "require", "selector": "methods where public", "predicateKind": "returns", "predicate": "returns Task<*>", "tier": "symbol", "specificity": 2 },
+        { "id": "Repository/type/using#0", "origin": "Repository", "polarity": "forbid", "selector": "type", "predicateKind": "using", "predicate": "using Orders.Api.**", "tier": "reference", "specificity": 0 }
+      ]
+    },
+    {
+      "name": "Entity",
+      "extends": null,
+      "file": "04-entities.tan", "line": 1,
+      "match": "class in Orders.Domain.Entities.**",
+      "rules": [
+        { "id": "Entity/type/inherits#0", "origin": "Entity", "polarity": "require", "selector": "type", "predicateKind": "inherits", "predicate": "inherits Entity<*> | AggregateRoot<*>", "tier": "symbol", "specificity": 0 },
+        { "id": "Entity/properties/accessor#0", "origin": "Entity", "polarity": "forbid", "selector": "properties", "predicateKind": "accessor", "predicate": "public set", "tier": "symbol", "specificity": 1 },
+        { "id": "Entity/type/member-kind#0", "origin": "Entity", "polarity": "forbid", "selector": "type", "predicateKind": "member-kind", "predicate": "public fields", "tier": "symbol", "specificity": 0 },
+        { "id": "Entity/ctor/modifier#0", "origin": "Entity", "polarity": "forbid", "selector": "ctor", "predicateKind": "modifier", "predicate": "public", "tier": "symbol", "specificity": 1 },
+        { "id": "Entity/type/using#0", "origin": "Entity", "polarity": "forbid", "selector": "type", "predicateKind": "using", "predicate": "using System.Data.**", "tier": "reference", "specificity": 0 },
+        { "id": "Entity/type/using#1", "origin": "Entity", "polarity": "forbid", "selector": "type", "predicateKind": "using", "predicate": "using Microsoft.**", "tier": "reference", "specificity": 0 }
+      ]
+    },
+    {
+      "name": "AggregateRoot",
+      "extends": "Entity",
+      "file": "04-entities.tan", "line": 15,
+      "match": "class in Orders.Domain.Entities.** where inherits AggregateRoot<*>",
+      "rules": [
+        { "id": "Entity/type/inherits#0", "origin": "Entity", "polarity": "require", "selector": "type", "predicateKind": "inherits", "predicate": "inherits Entity<*> | AggregateRoot<*>", "tier": "symbol", "specificity": 0 },
+        { "id": "Entity/properties/accessor#0", "origin": "Entity", "polarity": "forbid", "selector": "properties", "predicateKind": "accessor", "predicate": "public set", "tier": "symbol", "specificity": 1 },
+        { "id": "Entity/type/member-kind#0", "origin": "Entity", "polarity": "forbid", "selector": "type", "predicateKind": "member-kind", "predicate": "public fields", "tier": "symbol", "specificity": 0 },
+        { "id": "Entity/ctor/modifier#0", "origin": "Entity", "polarity": "forbid", "selector": "ctor", "predicateKind": "modifier", "predicate": "public", "tier": "symbol", "specificity": 1 },
+        { "id": "Entity/type/using#0", "origin": "Entity", "polarity": "forbid", "selector": "type", "predicateKind": "using", "predicate": "using System.Data.**", "tier": "reference", "specificity": 0 },
+        { "id": "Entity/type/using#1", "origin": "Entity", "polarity": "forbid", "selector": "type", "predicateKind": "using", "predicate": "using Microsoft.**", "tier": "reference", "specificity": 0 },
+        { "id": "AggregateRoot/methods/returns#0", "origin": "AggregateRoot", "polarity": "forbid", "selector": "methods where public", "predicateKind": "returns", "predicate": "returns void", "tier": "symbol", "specificity": 2 }
+      ]
+    },
+    {
+      "name": "DomainService",
+      "extends": null,
+      "file": "05-services.tan", "line": 1,
+      "match": "class in Orders.Domain.Services.**",
+      "rules": [
+        { "id": "DomainService/type/implements#0", "origin": "DomainService", "polarity": "require", "selector": "type", "predicateKind": "implements", "predicate": "implements I{Name}", "tier": "symbol", "specificity": 0 },
+        { "id": "DomainService/type/modifier#0", "origin": "DomainService", "polarity": "require", "selector": "type", "predicateKind": "modifier", "predicate": "sealed", "tier": "symbol", "specificity": 0 },
+        { "id": "DomainService/type/stateless#0", "origin": "DomainService", "polarity": "require", "selector": "type", "predicateKind": "stateless", "predicate": "stateless", "tier": "flow", "specificity": 0 },
+        { "id": "DomainService/fields/modifier#0", "origin": "DomainService", "polarity": "require", "selector": "fields", "predicateKind": "modifier", "predicate": "private", "tier": "symbol", "specificity": 1 },
+        { "id": "DomainService/fields/modifier#1", "origin": "DomainService", "polarity": "require", "selector": "fields", "predicateKind": "modifier", "predicate": "readonly", "tier": "symbol", "specificity": 1 },
+        { "id": "DomainService/fields/modifier#2", "origin": "DomainService", "polarity": "forbid", "selector": "fields", "predicateKind": "modifier", "predicate": "static", "tier": "symbol", "specificity": 1 },
+        { "id": "DomainService/type/using#0", "origin": "DomainService", "polarity": "forbid", "selector": "type", "predicateKind": "using", "predicate": "using Orders.Application.**", "tier": "reference", "specificity": 0 },
+        { "id": "DomainService/type/using#1", "origin": "DomainService", "polarity": "forbid", "selector": "type", "predicateKind": "using", "predicate": "using Orders.Infrastructure.**", "tier": "reference", "specificity": 0 }
+      ]
+    },
+    {
+      "name": "ViewModel",
+      "extends": null,
+      "file": "05-services.tan", "line": 11,
+      "match": "record in Orders.Application.ViewModels.**",
+      "rules": [
+        { "id": "ViewModel/properties/modifier#0", "origin": "ViewModel", "polarity": "require", "selector": "properties", "predicateKind": "modifier", "predicate": "public", "tier": "symbol", "specificity": 1 },
+        { "id": "ViewModel/properties/accessor#0", "origin": "ViewModel", "polarity": "require", "selector": "properties", "predicateKind": "accessor", "predicate": "get", "tier": "symbol", "specificity": 1 },
+        { "id": "ViewModel/properties/accessor#1", "origin": "ViewModel", "polarity": "forbid", "selector": "properties", "predicateKind": "accessor", "predicate": "public set", "tier": "symbol", "specificity": 1 },
+        { "id": "ViewModel/fields/modifier#0", "origin": "ViewModel", "polarity": "require", "selector": "fields", "predicateKind": "modifier", "predicate": "private", "tier": "symbol", "specificity": 1 },
+        { "id": "ViewModel/fields/modifier#1", "origin": "ViewModel", "polarity": "require", "selector": "fields", "predicateKind": "modifier", "predicate": "readonly", "tier": "symbol", "specificity": 1 },
+        { "id": "ViewModel/ctor/injects-only#0", "origin": "ViewModel", "polarity": "require", "selector": "ctor", "predicateKind": "injects-only", "predicate": "injects only IClock, IUserContext", "tier": "symbol", "specificity": 1 },
+        { "id": "ViewModel/ctor/each-param-assigned-to-field#0", "origin": "ViewModel", "polarity": "require", "selector": "ctor", "predicateKind": "each-param-assigned-to-field", "predicate": "each parameter assigned to private readonly field", "tier": "flow", "specificity": 1 }
+      ]
+    }
+  ],
+  "bindings": [
+    { "type": "Orders.Api.Controllers.HealthController", "contracts": ["Controller"], "exceptAttributes": ["ProducesResponseType"], "exceptRules": [] }
+  ],
+  "exemptions": [
+    { "type": "Orders.Infrastructure.LegacyReportRepository", "contracts": [], "allContracts": true, "reason": "migrating in Q4 2026" },
+    { "type": "Orders.Domain.Entities.AuditEntry", "contracts": ["Entity"], "allContracts": false, "reason": "append-only log, public setters by design" }
+  ]
+}

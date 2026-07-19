@@ -1,0 +1,11 @@
+contract Base {
+    match: class in Sample.Base.**
+    require sealed
+    properties { forbid public set }
+}
+
+contract Child extends Base {
+    match: class in Sample.Child.**
+    forbid sealed
+    properties { require public set }
+}

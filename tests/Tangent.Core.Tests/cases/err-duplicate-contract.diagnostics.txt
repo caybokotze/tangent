@@ -1,0 +1,1 @@
+err-duplicate-contract.tan(6,1): error TNG1003: Duplicate declaration 'Thing'

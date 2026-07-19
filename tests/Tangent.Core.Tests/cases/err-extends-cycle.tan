@@ -1,0 +1,9 @@
+contract A extends B {
+    match: class in Sample.A.**
+    sealed
+}
+
+contract B extends A {
+    match: class in Sample.B.**
+    abstract
+}

@@ -1,0 +1,19 @@
+{
+  "project": null,
+  "root": null,
+  "layers": [],
+  "allowedFrameworkNamespaces": ["System.**"],
+  "contracts": [
+    {
+      "name": "Thing",
+      "extends": null,
+      "file": "err-duplicate-contract.tan", "line": 1,
+      "match": "class in Sample.**",
+      "rules": [
+        { "id": "Thing/type/modifier#0", "origin": "Thing", "polarity": "require", "selector": "type", "predicateKind": "modifier", "predicate": "sealed", "tier": "symbol", "specificity": 0 }
+      ]
+    }
+  ],
+  "bindings": [],
+  "exemptions": []
+}

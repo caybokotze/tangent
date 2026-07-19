@@ -1,0 +1,2 @@
+err-undeclared-layer.tan(5,12): error TNG1005: Undeclared layer 'Domain'
+err-undeclared-layer.tan(9,21): error TNG1005: Undeclared layer 'Application'

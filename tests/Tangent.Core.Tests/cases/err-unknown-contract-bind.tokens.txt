@@ -1,0 +1,12 @@
+-- err-unknown-contract-bind.tan --
+    1:1    Bind             bind
+    1:6    Identifier       Sample.Foo
+    1:17   To               to
+    1:20   Identifier       Nonexistent
+    2:1    Exempt           exempt
+    2:8    Identifier       Sample.Bar
+    2:19   From             from
+    2:24   Identifier       AlsoMissing
+    2:36   Reason           reason
+    2:43   StringLiteral    "under review"
+    3:1    EndOfFile       

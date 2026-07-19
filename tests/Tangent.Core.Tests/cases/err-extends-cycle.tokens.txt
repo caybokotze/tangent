@@ -1,0 +1,26 @@
+-- err-extends-cycle.tan --
+    1:1    Contract         contract
+    1:10   Identifier       A
+    1:12   Extends          extends
+    1:20   Identifier       B
+    1:22   LeftBrace        {
+    2:5    Match            match
+    2:10   Colon            :
+    2:12   Class            class
+    2:18   In               in
+    2:21   Glob             Sample.A.**
+    3:5    Sealed           sealed
+    4:1    RightBrace       }
+    6:1    Contract         contract
+    6:10   Identifier       B
+    6:12   Extends          extends
+    6:20   Identifier       A
+    6:22   LeftBrace        {
+    7:5    Match            match
+    7:10   Colon            :
+    7:12   Class            class
+    7:18   In               in
+    7:21   Glob             Sample.B.**
+    8:5    Abstract         abstract
+    9:1    RightBrace       }
+   10:1    EndOfFile       

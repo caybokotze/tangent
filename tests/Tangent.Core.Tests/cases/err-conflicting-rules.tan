@@ -1,0 +1,8 @@
+contract Thing {
+    match: class in Sample.**
+
+    require sealed
+    forbid sealed
+    require public
+    require private
+}

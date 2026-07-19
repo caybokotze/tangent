@@ -1,0 +1,20 @@
+{
+  "project": null,
+  "root": null,
+  "layers": [],
+  "allowedFrameworkNamespaces": ["System.**"],
+  "contracts": [
+    {
+      "name": "Orphan",
+      "extends": null,
+      "file": "never-bound.tan", "line": 1,
+      "match": null,
+      "rules": [
+        { "id": "Orphan/type/modifier#0", "origin": "Orphan", "polarity": "require", "selector": "type", "predicateKind": "modifier", "predicate": "sealed", "tier": "symbol", "specificity": 0 },
+        { "id": "Orphan/type/member-kind#0", "origin": "Orphan", "polarity": "forbid", "selector": "type", "predicateKind": "member-kind", "predicate": "public fields", "tier": "symbol", "specificity": 0 }
+      ]
+    }
+  ],
+  "bindings": [],
+  "exemptions": []
+}

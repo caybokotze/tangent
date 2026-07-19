@@ -1,0 +1,6 @@
+contract Entity {
+    match: class in Orders.Domain.**
+
+    properties where public
+        forbid set
+}
