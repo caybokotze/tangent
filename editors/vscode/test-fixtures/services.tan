@@ -1,0 +1,25 @@
+// Reference example from TANGENT-PLAN.md section 5.4 — services.tan
+contract DomainService {
+    match: class in Orders.Domain.Services.**
+
+    implements I{Name}
+    sealed
+    stateless
+    fields { require private; require readonly; forbid static }
+    forbid using Orders.Application.**, Orders.Infrastructure.**
+}
+
+contract ViewModel {
+    match: record in Orders.Application.ViewModels.**
+
+    properties {
+        require public
+        require get
+        forbid public set
+    }
+    fields { require private; require readonly }
+    ctor {
+        injects only IClock, IUserContext
+        require each parameter assigned to private readonly field
+    }
+}

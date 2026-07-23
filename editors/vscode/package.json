@@ -1,0 +1,116 @@
+{
+  "name": "tangent-vscode",
+  "displayName": "Tangent",
+  "description": "Architectural conformance for .NET: syntax highlighting and language server support for Tangent .tan contract files.",
+  "version": "0.1.0",
+  "publisher": "tangent",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters"
+  ],
+  "keywords": [
+    "tangent",
+    "architecture",
+    "conformance",
+    "dotnet",
+    "tan"
+  ],
+  "main": "./out/extension.js",
+  "activationEvents": [
+    "onLanguage:tangent",
+    "workspaceContains:.tangent/**/*.tan"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "tangent",
+        "aliases": [
+          "Tangent",
+          "tangent"
+        ],
+        "extensions": [
+          ".tan"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "tangent",
+        "scopeName": "source.tangent",
+        "path": "./syntaxes/tangent.tmLanguage.json"
+      }
+    ],
+    "configuration": {
+      "title": "Tangent",
+      "properties": {
+        "tangent.server.command": {
+          "type": "string",
+          "default": "dotnet",
+          "description": "Executable used to launch the Tangent language server.",
+          "scope": "machine-overridable"
+        },
+        "tangent.server.args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "tangent",
+            "serve"
+          ],
+          "description": "Arguments passed to the Tangent language server executable.",
+          "scope": "machine-overridable"
+        },
+        "tangent.server.trace": {
+          "type": "string",
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
+          "default": "off",
+          "description": "Traces the communication between VS Code and the Tangent language server.",
+          "scope": "window"
+        },
+        "tangent.viewerUrl": {
+          "type": "string",
+          "default": "http://localhost:5173",
+          "description": "URL of the Tangent graph viewer opened by the 'Tangent: Show Dependency Graph' command.",
+          "scope": "window"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "tangent.restartServer",
+        "title": "Restart Language Server",
+        "category": "Tangent"
+      },
+      {
+        "command": "tangent.showGraph",
+        "title": "Show Dependency Graph",
+        "category": "Tangent"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package --no-dependencies"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/vscode": "^1.75.0",
+    "@vscode/vsce": "^3.2.0",
+    "typescript": "^5.5.0"
+  }
+}

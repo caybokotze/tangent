@@ -1,0 +1,14 @@
+// Reference example from TANGENT-PLAN.md section 5.4 — project.tan
+project "Orders" {
+    root: "src/"
+
+    layer Api            = Orders.Api.**
+    layer Application    = Orders.Application.**
+    layer Domain         = Orders.Domain.**
+    layer Infrastructure = Orders.Infrastructure.**
+
+    Api            -> Application, Domain
+    Application    -> Domain
+    Infrastructure -> Application, Domain
+    Domain         -> nothing
+}
