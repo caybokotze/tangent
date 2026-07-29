@@ -1,0 +1,42 @@
+<Project>
+  <!--
+    Finds the nearest ancestor directory (starting at the project directory) that contains a `.tangent/`
+    folder and hands every *.tan file in it to the compiler as an AdditionalFile with TangentContract=true.
+
+    The walk is unrolled because MSBuild has no loops and `GetDirectoryNameOfFileAbove` matches files only,
+    never directories. Twelve levels is enough for any realistic repository layout.
+    Override by setting <TangentRoot> in the consuming project or in a Directory.Build.props.
+  -->
+  <PropertyGroup Condition="'$(TangentRoot)' == ''">
+    <_TangentProbe>$(MSBuildProjectDirectory)</_TangentProbe>
+    <TangentRoot Condition="'$(TangentRoot)' == '' and '$(_TangentProbe)' != '' and Exists('$(_TangentProbe)/.tangent')">$(_TangentProbe)</TangentRoot>
+    <_TangentProbe Condition="'$(TangentRoot)' == ''">$([System.IO.Path]::GetDirectoryName('$(_TangentProbe)'))</_TangentProbe>
+    <TangentRoot Condition="'$(TangentRoot)' == '' and '$(_TangentProbe)' != '' and Exists('$(_TangentProbe)/.tangent')">$(_TangentProbe)</TangentRoot>
+    <_TangentProbe Condition="'$(TangentRoot)' == ''">$([System.IO.Path]::GetDirectoryName('$(_TangentProbe)'))</_TangentProbe>
+    <TangentRoot Condition="'$(TangentRoot)' == '' and '$(_TangentProbe)' != '' and Exists('$(_TangentProbe)/.tangent')">$(_TangentProbe)</TangentRoot>
+    <_TangentProbe Condition="'$(TangentRoot)' == ''">$([System.IO.Path]::GetDirectoryName('$(_TangentProbe)'))</_TangentProbe>
+    <TangentRoot Condition="'$(TangentRoot)' == '' and '$(_TangentProbe)' != '' and Exists('$(_TangentProbe)/.tangent')">$(_TangentProbe)</TangentRoot>
+    <_TangentProbe Condition="'$(TangentRoot)' == ''">$([System.IO.Path]::GetDirectoryName('$(_TangentProbe)'))</_TangentProbe>
+    <TangentRoot Condition="'$(TangentRoot)' == '' and '$(_TangentProbe)' != '' and Exists('$(_TangentProbe)/.tangent')">$(_TangentProbe)</TangentRoot>
+    <_TangentProbe Condition="'$(TangentRoot)' == ''">$([System.IO.Path]::GetDirectoryName('$(_TangentProbe)'))</_TangentProbe>
+    <TangentRoot Condition="'$(TangentRoot)' == '' and '$(_TangentProbe)' != '' and Exists('$(_TangentProbe)/.tangent')">$(_TangentProbe)</TangentRoot>
+    <_TangentProbe Condition="'$(TangentRoot)' == ''">$([System.IO.Path]::GetDirectoryName('$(_TangentProbe)'))</_TangentProbe>
+    <TangentRoot Condition="'$(TangentRoot)' == '' and '$(_TangentProbe)' != '' and Exists('$(_TangentProbe)/.tangent')">$(_TangentProbe)</TangentRoot>
+    <_TangentProbe Condition="'$(TangentRoot)' == ''">$([System.IO.Path]::GetDirectoryName('$(_TangentProbe)'))</_TangentProbe>
+    <TangentRoot Condition="'$(TangentRoot)' == '' and '$(_TangentProbe)' != '' and Exists('$(_TangentProbe)/.tangent')">$(_TangentProbe)</TangentRoot>
+    <_TangentProbe Condition="'$(TangentRoot)' == ''">$([System.IO.Path]::GetDirectoryName('$(_TangentProbe)'))</_TangentProbe>
+    <TangentRoot Condition="'$(TangentRoot)' == '' and '$(_TangentProbe)' != '' and Exists('$(_TangentProbe)/.tangent')">$(_TangentProbe)</TangentRoot>
+    <_TangentProbe Condition="'$(TangentRoot)' == ''">$([System.IO.Path]::GetDirectoryName('$(_TangentProbe)'))</_TangentProbe>
+    <TangentRoot Condition="'$(TangentRoot)' == '' and '$(_TangentProbe)' != '' and Exists('$(_TangentProbe)/.tangent')">$(_TangentProbe)</TangentRoot>
+    <_TangentProbe Condition="'$(TangentRoot)' == ''">$([System.IO.Path]::GetDirectoryName('$(_TangentProbe)'))</_TangentProbe>
+    <TangentRoot Condition="'$(TangentRoot)' == '' and '$(_TangentProbe)' != '' and Exists('$(_TangentProbe)/.tangent')">$(_TangentProbe)</TangentRoot>
+    <_TangentProbe Condition="'$(TangentRoot)' == ''">$([System.IO.Path]::GetDirectoryName('$(_TangentProbe)'))</_TangentProbe>
+    <TangentRoot Condition="'$(TangentRoot)' == '' and '$(_TangentProbe)' != '' and Exists('$(_TangentProbe)/.tangent')">$(_TangentProbe)</TangentRoot>
+    <_TangentProbe />
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TangentRoot)' != ''">
+    <AdditionalFiles Include="$(TangentRoot)/.tangent/**/*.tan" TangentContract="true" />
+    <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="TangentContract" />
+  </ItemGroup>
+</Project>

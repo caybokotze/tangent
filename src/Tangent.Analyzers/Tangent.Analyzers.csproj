@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Tangent.Analyzers</RootNamespace>
+    <IsRoslynComponent>true</IsRoslynComponent>
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    <IsPackable>true</IsPackable>
+    <PackageId>Tangent.Analyzers</PackageId>
+    <Description>Roslyn analyzer and code fixes that enforce Tangent architectural contracts (.tangent/*.tan).</Description>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" PrivateAssets="all" />
+    <PackageReference Include="PolySharp" PrivateAssets="all" />
+    <ProjectReference Include="../Tangent.Core/Tangent.Core.csproj" PrivateAssets="all" />
+    <ProjectReference Include="../Tangent.Generators/Tangent.Generators.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <!-- Bundle the analyzer, the generator, and Core into one analyzer package. -->
+  <ItemGroup>
+    <None Include="$(OutputPath)/Tangent.Analyzers.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(OutputPath)/Tangent.Core.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="../Tangent.Generators/bin/$(Configuration)/netstandard2.0/Tangent.Generators.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="build/**" Pack="true" PackagePath="build" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Tangent.Analyzers.Tests" />
+    <InternalsVisibleTo Include="Tangent.Cli" />
+    <InternalsVisibleTo Include="Tangent.Graph" />
+    <InternalsVisibleTo Include="Tangent.Benchmarks" />
+  </ItemGroup>
+
+</Project>
