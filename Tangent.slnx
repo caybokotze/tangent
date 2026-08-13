@@ -3,6 +3,7 @@
     <Project Path="src/Tangent.Analyzers/Tangent.Analyzers.csproj" />
     <Project Path="src/Tangent.Attributes/Tangent.Attributes.csproj" />
     <Project Path="src/Tangent.Core/Tangent.Core.csproj" />
+    <Project Path="src/Tangent.Generators/Tangent.Generators.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Tangent.Analyzers.Tests/Tangent.Analyzers.Tests.csproj" />
