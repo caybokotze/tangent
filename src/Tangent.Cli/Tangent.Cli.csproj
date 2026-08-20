@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>Tangent.Cli</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>true</IsPackable>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>tangent</ToolCommandName>
+    <PackageId>Tangent.Cli</PackageId>
+    <Description>dotnet tangent: check, lint, diff, graph, init, serve.</Description>
+    <RollForward>Major</RollForward>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.CommandLine" />
+    <PackageReference Include="Microsoft.Build.Locator" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" VersionOverride="5.0.0" />
+    <ProjectReference Include="../Tangent.Core/Tangent.Core.csproj" />
+    <ProjectReference Include="../Tangent.Analyzers/Tangent.Analyzers.csproj" />
+    <ProjectReference Include="../Tangent.Graph/Tangent.Graph.csproj" />
+    <ProjectReference Include="../Tangent.LanguageServer/Tangent.LanguageServer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Tangent.Cli.Tests" />
+  </ItemGroup>
+
+</Project>
