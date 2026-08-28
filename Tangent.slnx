@@ -5,6 +5,7 @@
     <Project Path="src/Tangent.Cli/Tangent.Cli.csproj" />
     <Project Path="src/Tangent.Core/Tangent.Core.csproj" />
     <Project Path="src/Tangent.Generators/Tangent.Generators.csproj" />
+    <Project Path="src/Tangent.Graph/Tangent.Graph.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Tangent.Analyzers.Tests/Tangent.Analyzers.Tests.csproj" />

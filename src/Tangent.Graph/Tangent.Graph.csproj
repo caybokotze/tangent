@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>Tangent.Graph</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" VersionOverride="5.0.0" />
+    <ProjectReference Include="../Tangent.Core/Tangent.Core.csproj" />
+    <ProjectReference Include="../Tangent.Analyzers/Tangent.Analyzers.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Tangent.Cli" />
+    <InternalsVisibleTo Include="Tangent.Cli.Tests" />
+  </ItemGroup>
+
+</Project>
