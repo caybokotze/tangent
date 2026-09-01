@@ -1,0 +1,3781 @@
+{
+  "version": 1,
+  "project": "Orders",
+  "generatedAt": "2026-09-22T12:03:43Z",
+  "layers": [
+    {
+      "id": "Api",
+      "namespaces": [
+        "Orders.Api.**"
+      ],
+      "allowedDependencies": [
+        "Application",
+        "Domain"
+      ]
+    },
+    {
+      "id": "Application",
+      "namespaces": [
+        "Orders.Application.**"
+      ],
+      "allowedDependencies": [
+        "Domain"
+      ]
+    },
+    {
+      "id": "Domain",
+      "namespaces": [
+        "Orders.Domain.**"
+      ],
+      "allowedDependencies": []
+    },
+    {
+      "id": "Infrastructure",
+      "namespaces": [
+        "Orders.Infrastructure.**"
+      ],
+      "allowedDependencies": [
+        "Application",
+        "Domain"
+      ]
+    }
+  ],
+  "contracts": [
+    {
+      "id": "Controller",
+      "file": ".tangent/controllers.tan",
+      "line": 3,
+      "extends": null,
+      "ruleCount": 14
+    },
+    {
+      "id": "Entity",
+      "file": ".tangent/entities.tan",
+      "line": 4,
+      "extends": null,
+      "ruleCount": 6
+    },
+    {
+      "id": "AggregateRoot",
+      "file": ".tangent/entities.tan",
+      "line": 18,
+      "extends": "Entity",
+      "ruleCount": 1
+    },
+    {
+      "id": "Repository",
+      "file": ".tangent/repositories.tan",
+      "line": 4,
+      "extends": null,
+      "ruleCount": 6
+    },
+    {
+      "id": "DomainService",
+      "file": ".tangent/services.tan",
+      "line": 3,
+      "extends": null,
+      "ruleCount": 8
+    },
+    {
+      "id": "ViewModel",
+      "file": ".tangent/services.tan",
+      "line": 14,
+      "extends": null,
+      "ruleCount": 5
+    },
+    {
+      "id": "QueryHandler",
+      "file": ".tangent/services.tan",
+      "line": 26,
+      "extends": null,
+      "ruleCount": 6
+    }
+  ],
+  "nodes": [
+    {
+      "id": "Orders.Api.ApiControllerBase",
+      "name": "ApiControllerBase",
+      "kind": "class",
+      "layer": "Api",
+      "contracts": [],
+      "file": "src/Orders.Api/ApiControllerBase.cs",
+      "line": 9,
+      "violations": 0,
+      "exemptions": 0,
+      "members": []
+    },
+    {
+      "id": "Orders.Api.Controllers.CustomersController",
+      "name": "CustomersController",
+      "kind": "class",
+      "layer": "Api",
+      "contracts": [
+        "Controller"
+      ],
+      "file": "src/Orders.Api/Controllers/CustomersController.cs",
+      "line": 15,
+      "violations": 2,
+      "exemptions": 1,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "CustomersController(IMediator, ILogger<CustomersController>)"
+        },
+        {
+          "name": "GetByIdAsync",
+          "kind": "method",
+          "signature": "Task<ActionResult<CustomerViewModel>> GetByIdAsync(Guid, CancellationToken)"
+        },
+        {
+          "name": "ExportAsync",
+          "kind": "method",
+          "signature": "Task<string> ExportAsync(CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Api.Controllers.HealthController",
+      "name": "HealthController",
+      "kind": "class",
+      "layer": "Api",
+      "contracts": [
+        "Controller"
+      ],
+      "file": "src/Orders.Api/Controllers/HealthController.cs",
+      "line": 12,
+      "violations": 0,
+      "exemptions": 1,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "HealthController(ILogger<HealthController>)"
+        },
+        {
+          "name": "GetAsync",
+          "kind": "method",
+          "signature": "Task<ActionResult<string>> GetAsync()"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Api.Controllers.LegacyOrdersController",
+      "name": "LegacyOrdersController",
+      "kind": "class",
+      "layer": "Api",
+      "contracts": [
+        "Controller"
+      ],
+      "file": "src/Orders.Api/Controllers/LegacyOrdersController.cs",
+      "line": 17,
+      "violations": 7,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "LegacyOrdersController(IMediator)"
+        },
+        {
+          "name": "FetchAsync",
+          "kind": "method",
+          "signature": "Task<ActionResult<string>> FetchAsync(CancellationToken)"
+        },
+        {
+          "name": "RebuildProjectionsAsync",
+          "kind": "method",
+          "signature": "Task<IActionResult> RebuildProjectionsAsync()"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Api.Controllers.OrdersController",
+      "name": "OrdersController",
+      "kind": "class",
+      "layer": "Api",
+      "contracts": [
+        "Controller"
+      ],
+      "file": "src/Orders.Api/Controllers/OrdersController.cs",
+      "line": 15,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "OrdersController(IMediator, ILogger<OrdersController>)"
+        },
+        {
+          "name": "CreateAsync",
+          "kind": "method",
+          "signature": "Task<ActionResult<Guid>> CreateAsync(CreateOrderCommand, CancellationToken)"
+        },
+        {
+          "name": "ListAsync",
+          "kind": "method",
+          "signature": "Task<ActionResult<IReadOnlyList<OrderViewModel>>> ListAsync(int, int, CancellationToken)"
+        },
+        {
+          "name": "GetByIdAsync",
+          "kind": "method",
+          "signature": "Task<ActionResult<OrderViewModel>> GetByIdAsync(Guid, CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Api.Controllers.ReportsController",
+      "name": "ReportsController",
+      "kind": "class",
+      "layer": "Api",
+      "contracts": [
+        "Controller"
+      ],
+      "file": "src/Orders.Api/Controllers/ReportsController.cs",
+      "line": 16,
+      "violations": 13,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "ReportsController(OrdersDbContext, IClock)"
+        },
+        {
+          "name": "GetSummaries",
+          "kind": "method",
+          "signature": "IEnumerable<ReportViewModel> GetSummaries()"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "name": "ServiceRegistration",
+      "kind": "class",
+      "layer": "Api",
+      "contracts": [],
+      "file": "src/Orders.Api/DependencyInjection/ServiceRegistration.cs",
+      "line": 25,
+      "violations": 8,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "AddOrdersServices",
+          "kind": "method",
+          "signature": "IServiceCollection AddOrdersServices(IServiceCollection)"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Application.Abstractions.IMediator",
+      "name": "IMediator",
+      "kind": "interface",
+      "layer": "Application",
+      "contracts": [],
+      "file": "src/Orders.Application/Abstractions/IMediator.cs",
+      "line": 15,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "SendAsync",
+          "kind": "method",
+          "signature": "Task<TResponse> SendAsync<TResponse>(IRequest<TResponse>, CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Application.Abstractions.IRequestHandler`2",
+      "name": "IRequestHandler",
+      "kind": "interface",
+      "layer": "Application",
+      "contracts": [],
+      "file": "src/Orders.Application/Abstractions/IMediator.cs",
+      "line": 9,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "HandleAsync",
+          "kind": "method",
+          "signature": "Task<TResponse> HandleAsync(TRequest, CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Application.Abstractions.IRequest`1",
+      "name": "IRequest",
+      "kind": "interface",
+      "layer": "Application",
+      "contracts": [],
+      "file": "src/Orders.Application/Abstractions/IMediator.cs",
+      "line": 7,
+      "violations": 0,
+      "exemptions": 0,
+      "members": []
+    },
+    {
+      "id": "Orders.Application.Abstractions.IUserContext",
+      "name": "IUserContext",
+      "kind": "interface",
+      "layer": "Application",
+      "contracts": [],
+      "file": "src/Orders.Application/Abstractions/IUserContext.cs",
+      "line": 3,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "IsInRole",
+          "kind": "method",
+          "signature": "bool IsInRole(string)"
+        },
+        {
+          "name": "UserId",
+          "kind": "property",
+          "signature": "string UserId"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Application.Customers.GetCustomerQuery",
+      "name": "GetCustomerQuery",
+      "kind": "record",
+      "layer": "Application",
+      "contracts": [],
+      "file": "src/Orders.Application/Customers/GetCustomerQuery.cs",
+      "line": 7,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "GetCustomerQuery(Guid)"
+        },
+        {
+          "name": "CustomerId",
+          "kind": "property",
+          "signature": "Guid CustomerId"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Application.Customers.GetCustomerQueryHandler",
+      "name": "GetCustomerQueryHandler",
+      "kind": "class",
+      "layer": "Application",
+      "contracts": [
+        "QueryHandler"
+      ],
+      "file": "src/Orders.Application/Customers/GetCustomerQuery.cs",
+      "line": 10,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "GetCustomerQueryHandler(ICustomerRepository, IUserContext)"
+        },
+        {
+          "name": "HandleAsync",
+          "kind": "method",
+          "signature": "Task<CustomerViewModel> HandleAsync(GetCustomerQuery, CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Application.Notifications.INotificationDispatcher",
+      "name": "INotificationDispatcher",
+      "kind": "interface",
+      "layer": "Application",
+      "contracts": [],
+      "file": "src/Orders.Domain/Misplaced/NotificationDispatcher.cs",
+      "line": 10,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "Dispatch",
+          "kind": "method",
+          "signature": "void Dispatch(string)"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Application.Orders.CreateOrderCommand",
+      "name": "CreateOrderCommand",
+      "kind": "record",
+      "layer": "Application",
+      "contracts": [],
+      "file": "src/Orders.Application/Orders/CreateOrderCommand.cs",
+      "line": 11,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "CreateOrderCommand(Guid, string, IReadOnlyList<NewOrderLine>)"
+        },
+        {
+          "name": "CustomerId",
+          "kind": "property",
+          "signature": "Guid CustomerId"
+        },
+        {
+          "name": "Lines",
+          "kind": "property",
+          "signature": "IReadOnlyList<NewOrderLine> Lines"
+        },
+        {
+          "name": "Currency",
+          "kind": "property",
+          "signature": "string Currency"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Application.Orders.CreateOrderCommandHandler",
+      "name": "CreateOrderCommandHandler",
+      "kind": "class",
+      "layer": "Application",
+      "contracts": [
+        "QueryHandler"
+      ],
+      "file": "src/Orders.Application/Orders/CreateOrderCommand.cs",
+      "line": 15,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "CreateOrderCommandHandler(IOrderRepository, ICustomerRepository, IClock)"
+        },
+        {
+          "name": "HandleAsync",
+          "kind": "method",
+          "signature": "Task<Guid> HandleAsync(CreateOrderCommand, CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Application.Orders.GetOrderQuery",
+      "name": "GetOrderQuery",
+      "kind": "record",
+      "layer": "Application",
+      "contracts": [],
+      "file": "src/Orders.Application/Orders/GetOrderQuery.cs",
+      "line": 8,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "GetOrderQuery(Guid)"
+        },
+        {
+          "name": "OrderId",
+          "kind": "property",
+          "signature": "Guid OrderId"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Application.Orders.GetOrderQueryHandler",
+      "name": "GetOrderQueryHandler",
+      "kind": "class",
+      "layer": "Application",
+      "contracts": [
+        "QueryHandler"
+      ],
+      "file": "src/Orders.Application/Orders/GetOrderQuery.cs",
+      "line": 12,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "GetOrderQueryHandler(IOrderRepository, IPricingService)"
+        },
+        {
+          "name": "HandleAsync",
+          "kind": "method",
+          "signature": "Task<OrderViewModel> HandleAsync(GetOrderQuery, CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Application.Orders.ListOrdersQuery",
+      "name": "ListOrdersQuery",
+      "kind": "record",
+      "layer": "Application",
+      "contracts": [],
+      "file": "src/Orders.Application/Orders/ListOrdersQuery.cs",
+      "line": 8,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "ListOrdersQuery(int, int)"
+        },
+        {
+          "name": "Page",
+          "kind": "property",
+          "signature": "int Page"
+        },
+        {
+          "name": "Size",
+          "kind": "property",
+          "signature": "int Size"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Application.Orders.ListOrdersQueryHandler",
+      "name": "ListOrdersQueryHandler",
+      "kind": "class",
+      "layer": "Application",
+      "contracts": [
+        "QueryHandler"
+      ],
+      "file": "src/Orders.Application/Orders/ListOrdersQuery.cs",
+      "line": 14,
+      "violations": 3,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "ListOrdersQueryHandler(IOrderRepository)"
+        },
+        {
+          "name": "HandleAsync",
+          "kind": "method",
+          "signature": "Task<IReadOnlyList<OrderViewModel>> HandleAsync(ListOrdersQuery, CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Application.Orders.NewOrderLine",
+      "name": "NewOrderLine",
+      "kind": "record",
+      "layer": "Application",
+      "contracts": [],
+      "file": "src/Orders.Application/Orders/CreateOrderCommand.cs",
+      "line": 9,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "NewOrderLine(string, int, decimal)"
+        },
+        {
+          "name": "UnitPrice",
+          "kind": "property",
+          "signature": "decimal UnitPrice"
+        },
+        {
+          "name": "Quantity",
+          "kind": "property",
+          "signature": "int Quantity"
+        },
+        {
+          "name": "Sku",
+          "kind": "property",
+          "signature": "string Sku"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Application.ViewModels.CustomerViewModel",
+      "name": "CustomerViewModel",
+      "kind": "record",
+      "layer": "Application",
+      "contracts": [
+        "ViewModel"
+      ],
+      "file": "src/Orders.Application/ViewModels/CustomerViewModel.cs",
+      "line": 4,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "CustomerViewModel(Guid, string, string, bool)"
+        },
+        {
+          "name": "Id",
+          "kind": "property",
+          "signature": "Guid Id"
+        },
+        {
+          "name": "IsActive",
+          "kind": "property",
+          "signature": "bool IsActive"
+        },
+        {
+          "name": "Email",
+          "kind": "property",
+          "signature": "string Email"
+        },
+        {
+          "name": "Name",
+          "kind": "property",
+          "signature": "string Name"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Application.ViewModels.DraftOrderViewModel",
+      "name": "DraftOrderViewModel",
+      "kind": "record",
+      "layer": "Application",
+      "contracts": [
+        "ViewModel"
+      ],
+      "file": "src/Orders.Application/ViewModels/DraftOrderViewModel.cs",
+      "line": 4,
+      "violations": 1,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "Id",
+          "kind": "property",
+          "signature": "Guid Id"
+        },
+        {
+          "name": "Notes",
+          "kind": "property",
+          "signature": "string Notes"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Application.ViewModels.OrderLineViewModel",
+      "name": "OrderLineViewModel",
+      "kind": "record",
+      "layer": "Application",
+      "contracts": [
+        "ViewModel"
+      ],
+      "file": "src/Orders.Application/ViewModels/OrderViewModel.cs",
+      "line": 13,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "OrderLineViewModel(Guid, string, int, decimal)"
+        },
+        {
+          "name": "Id",
+          "kind": "property",
+          "signature": "Guid Id"
+        },
+        {
+          "name": "UnitPrice",
+          "kind": "property",
+          "signature": "decimal UnitPrice"
+        },
+        {
+          "name": "Quantity",
+          "kind": "property",
+          "signature": "int Quantity"
+        },
+        {
+          "name": "Sku",
+          "kind": "property",
+          "signature": "string Sku"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Application.ViewModels.OrderViewModel",
+      "name": "OrderViewModel",
+      "kind": "record",
+      "layer": "Application",
+      "contracts": [
+        "ViewModel"
+      ],
+      "file": "src/Orders.Application/ViewModels/OrderViewModel.cs",
+      "line": 4,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "OrderViewModel(Guid, Guid, string, decimal, string, IReadOnlyList<OrderLineViewModel>)"
+        },
+        {
+          "name": "CustomerId",
+          "kind": "property",
+          "signature": "Guid CustomerId"
+        },
+        {
+          "name": "Id",
+          "kind": "property",
+          "signature": "Guid Id"
+        },
+        {
+          "name": "Lines",
+          "kind": "property",
+          "signature": "IReadOnlyList<OrderLineViewModel> Lines"
+        },
+        {
+          "name": "Subtotal",
+          "kind": "property",
+          "signature": "decimal Subtotal"
+        },
+        {
+          "name": "Currency",
+          "kind": "property",
+          "signature": "string Currency"
+        },
+        {
+          "name": "Status",
+          "kind": "property",
+          "signature": "string Status"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Application.ViewModels.ReportViewModel",
+      "name": "ReportViewModel",
+      "kind": "record",
+      "layer": "Application",
+      "contracts": [
+        "ViewModel"
+      ],
+      "file": "src/Orders.Application/ViewModels/ReportViewModel.cs",
+      "line": 4,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "ReportViewModel(string, int, decimal)"
+        },
+        {
+          "name": "Value",
+          "kind": "property",
+          "signature": "decimal Value"
+        },
+        {
+          "name": "Count",
+          "kind": "property",
+          "signature": "int Count"
+        },
+        {
+          "name": "Name",
+          "kind": "property",
+          "signature": "string Name"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Domain.AggregateRoot`1",
+      "name": "AggregateRoot",
+      "kind": "class",
+      "layer": "Domain",
+      "contracts": [],
+      "file": "src/Orders.Domain/AggregateRoot.cs",
+      "line": 9,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "DomainEvents",
+          "kind": "property",
+          "signature": "IReadOnlyList<IDomainEvent> DomainEvents"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Domain.Entities.AuditEntry",
+      "name": "AuditEntry",
+      "kind": "class",
+      "layer": "Domain",
+      "contracts": [],
+      "file": "src/Orders.Domain/Entities/AuditEntry.cs",
+      "line": 8,
+      "violations": 0,
+      "exemptions": 1,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "AuditEntry(long)"
+        },
+        {
+          "name": "At",
+          "kind": "property",
+          "signature": "DateTimeOffset At"
+        },
+        {
+          "name": "Action",
+          "kind": "property",
+          "signature": "string Action"
+        },
+        {
+          "name": "Actor",
+          "kind": "property",
+          "signature": "string Actor"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Domain.Entities.Customer",
+      "name": "Customer",
+      "kind": "class",
+      "layer": "Domain",
+      "contracts": [
+        "Entity",
+        "AggregateRoot"
+      ],
+      "file": "src/Orders.Domain/Entities/Customer.cs",
+      "line": 10,
+      "violations": 3,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "Customer(Guid, string, Address)"
+        },
+        {
+          "name": "Rename",
+          "kind": "method",
+          "signature": "Customer Rename(string)"
+        },
+        {
+          "name": "Deactivate",
+          "kind": "method",
+          "signature": "void Deactivate()"
+        },
+        {
+          "name": "BillingAddress",
+          "kind": "property",
+          "signature": "Address BillingAddress"
+        },
+        {
+          "name": "IsActive",
+          "kind": "property",
+          "signature": "bool IsActive"
+        },
+        {
+          "name": "Email",
+          "kind": "property",
+          "signature": "string Email"
+        },
+        {
+          "name": "Name",
+          "kind": "property",
+          "signature": "string Name"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Domain.Entities.Order",
+      "name": "Order",
+      "kind": "class",
+      "layer": "Domain",
+      "contracts": [
+        "Entity",
+        "AggregateRoot"
+      ],
+      "file": "src/Orders.Domain/Entities/Order.cs",
+      "line": 9,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "Place",
+          "kind": "method",
+          "signature": "Order Place(Guid, string, DateTimeOffset)"
+        },
+        {
+          "name": "AddLine",
+          "kind": "method",
+          "signature": "OrderLine AddLine(string, int, Money)"
+        },
+        {
+          "name": "Cancel",
+          "kind": "method",
+          "signature": "OrderStatus Cancel()"
+        },
+        {
+          "name": "Confirm",
+          "kind": "method",
+          "signature": "OrderStatus Confirm(DateTimeOffset)"
+        },
+        {
+          "name": "PlacedAt",
+          "kind": "property",
+          "signature": "DateTimeOffset PlacedAt"
+        },
+        {
+          "name": "CustomerId",
+          "kind": "property",
+          "signature": "Guid CustomerId"
+        },
+        {
+          "name": "Lines",
+          "kind": "property",
+          "signature": "IReadOnlyList<OrderLine> Lines"
+        },
+        {
+          "name": "Subtotal",
+          "kind": "property",
+          "signature": "Money Subtotal"
+        },
+        {
+          "name": "Status",
+          "kind": "property",
+          "signature": "OrderStatus Status"
+        },
+        {
+          "name": "Currency",
+          "kind": "property",
+          "signature": "string Currency"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Domain.Entities.OrderLine",
+      "name": "OrderLine",
+      "kind": "class",
+      "layer": "Domain",
+      "contracts": [
+        "Entity"
+      ],
+      "file": "src/Orders.Domain/Entities/OrderLine.cs",
+      "line": 6,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "LineTotal",
+          "kind": "property",
+          "signature": "Money LineTotal"
+        },
+        {
+          "name": "UnitPrice",
+          "kind": "property",
+          "signature": "Money UnitPrice"
+        },
+        {
+          "name": "Quantity",
+          "kind": "property",
+          "signature": "int Quantity"
+        },
+        {
+          "name": "Sku",
+          "kind": "property",
+          "signature": "string Sku"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Domain.Entities.OrderStatus",
+      "name": "OrderStatus",
+      "kind": "enum",
+      "layer": "Domain",
+      "contracts": [],
+      "file": "src/Orders.Domain/Entities/OrderStatus.cs",
+      "line": 3,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "Cancelled",
+          "kind": "field",
+          "signature": "Cancelled"
+        },
+        {
+          "name": "Confirmed",
+          "kind": "field",
+          "signature": "Confirmed"
+        },
+        {
+          "name": "Draft",
+          "kind": "field",
+          "signature": "Draft"
+        },
+        {
+          "name": "Shipped",
+          "kind": "field",
+          "signature": "Shipped"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Domain.Entities.ShipmentNote",
+      "name": "ShipmentNote",
+      "kind": "class",
+      "layer": "Domain",
+      "contracts": [
+        "Entity"
+      ],
+      "file": "src/Orders.Domain/Entities/ShipmentNote.cs",
+      "line": 10,
+      "violations": 6,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "Carrier",
+          "kind": "field",
+          "signature": "string Carrier"
+        },
+        {
+          "name": "ToLegacyTable",
+          "kind": "method",
+          "signature": "DataTable ToLegacyTable()"
+        },
+        {
+          "name": "OrderId",
+          "kind": "property",
+          "signature": "Guid OrderId"
+        },
+        {
+          "name": "TrackingNumber",
+          "kind": "property",
+          "signature": "string TrackingNumber"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Domain.Entity`1",
+      "name": "Entity",
+      "kind": "class",
+      "layer": "Domain",
+      "contracts": [],
+      "file": "src/Orders.Domain/Entity.cs",
+      "line": 4,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "Equals",
+          "kind": "method",
+          "signature": "bool Equals(object)"
+        },
+        {
+          "name": "GetHashCode",
+          "kind": "method",
+          "signature": "int GetHashCode()"
+        },
+        {
+          "name": "Id",
+          "kind": "property",
+          "signature": "TId Id"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Domain.IClock",
+      "name": "IClock",
+      "kind": "interface",
+      "layer": "Domain",
+      "contracts": [],
+      "file": "src/Orders.Domain/IClock.cs",
+      "line": 4,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "UtcNow",
+          "kind": "property",
+          "signature": "DateTimeOffset UtcNow"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Domain.IDomainEvent",
+      "name": "IDomainEvent",
+      "kind": "interface",
+      "layer": "Domain",
+      "contracts": [],
+      "file": "src/Orders.Domain/AggregateRoot.cs",
+      "line": 3,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "OccurredAt",
+          "kind": "property",
+          "signature": "DateTimeOffset OccurredAt"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Domain.OrderConfirmed",
+      "name": "OrderConfirmed",
+      "kind": "record",
+      "layer": "Domain",
+      "contracts": [],
+      "file": "src/Orders.Domain/OrderConfirmed.cs",
+      "line": 8,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "OrderConfirmed(Guid, DateTimeOffset)"
+        },
+        {
+          "name": "OccurredAt",
+          "kind": "property",
+          "signature": "DateTimeOffset OccurredAt"
+        },
+        {
+          "name": "OrderId",
+          "kind": "property",
+          "signature": "Guid OrderId"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Domain.Repositories.ICustomerRepository",
+      "name": "ICustomerRepository",
+      "kind": "interface",
+      "layer": "Domain",
+      "contracts": [],
+      "file": "src/Orders.Domain/Repositories/ICustomerRepository.cs",
+      "line": 5,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "GetAsync",
+          "kind": "method",
+          "signature": "Task<Customer> GetAsync(Guid, CancellationToken)"
+        },
+        {
+          "name": "ExistsAsync",
+          "kind": "method",
+          "signature": "Task<bool> ExistsAsync(Guid, CancellationToken)"
+        },
+        {
+          "name": "SaveChangesAsync",
+          "kind": "method",
+          "signature": "Task<int> SaveChangesAsync(CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Domain.Repositories.IOrderRepository",
+      "name": "IOrderRepository",
+      "kind": "interface",
+      "layer": "Domain",
+      "contracts": [],
+      "file": "src/Orders.Domain/Repositories/IOrderRepository.cs",
+      "line": 5,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "ListAsync",
+          "kind": "method",
+          "signature": "Task<IReadOnlyList<Order>> ListAsync(int, int, CancellationToken)"
+        },
+        {
+          "name": "AddAsync",
+          "kind": "method",
+          "signature": "Task<Order> AddAsync(Order, CancellationToken)"
+        },
+        {
+          "name": "GetAsync",
+          "kind": "method",
+          "signature": "Task<Order> GetAsync(Guid, CancellationToken)"
+        },
+        {
+          "name": "SaveChangesAsync",
+          "kind": "method",
+          "signature": "Task<int> SaveChangesAsync(CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Domain.Services.DiscountPolicyService",
+      "name": "DiscountPolicyService",
+      "kind": "class",
+      "layer": "Domain",
+      "contracts": [
+        "DomainService"
+      ],
+      "file": "src/Orders.Domain/Services/DiscountPolicyService.cs",
+      "line": 9,
+      "violations": 5,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "TotalEvaluations",
+          "kind": "field",
+          "signature": "int TotalEvaluations"
+        },
+        {
+          "name": "DiscountFor",
+          "kind": "method",
+          "signature": "decimal DiscountFor(Customer)"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Domain.Services.IDiscountPolicyService",
+      "name": "IDiscountPolicyService",
+      "kind": "interface",
+      "layer": "Domain",
+      "contracts": [],
+      "file": "src/Orders.Domain/Services/IDiscountPolicyService.cs",
+      "line": 5,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "DiscountFor",
+          "kind": "method",
+          "signature": "decimal DiscountFor(Customer)"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Domain.Services.IOrderNotificationService",
+      "name": "IOrderNotificationService",
+      "kind": "interface",
+      "layer": "Domain",
+      "contracts": [],
+      "file": "src/Orders.Domain/Services/OrderNotificationService.cs",
+      "line": 6,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "NotifyConfirmed",
+          "kind": "method",
+          "signature": "void NotifyConfirmed(Order)"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Domain.Services.IPricingService",
+      "name": "IPricingService",
+      "kind": "interface",
+      "layer": "Domain",
+      "contracts": [],
+      "file": "src/Orders.Domain/Services/IPricingService.cs",
+      "line": 6,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "PriceFor",
+          "kind": "method",
+          "signature": "Money PriceFor(Order)"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Domain.Services.ITaxCalculator",
+      "name": "ITaxCalculator",
+      "kind": "interface",
+      "layer": "Domain",
+      "contracts": [],
+      "file": "src/Orders.Domain/Services/ITaxCalculator.cs",
+      "line": 5,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "AddTax",
+          "kind": "method",
+          "signature": "Money AddTax(Money)"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Domain.Services.OrderNotificationService",
+      "name": "OrderNotificationService",
+      "kind": "class",
+      "layer": "Domain",
+      "contracts": [
+        "DomainService"
+      ],
+      "file": "src/Orders.Domain/Services/OrderNotificationService.cs",
+      "line": 16,
+      "violations": 7,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "OrderNotificationService(INotificationDispatcher)"
+        },
+        {
+          "name": "NotifyConfirmed",
+          "kind": "method",
+          "signature": "void NotifyConfirmed(Order)"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Domain.Services.PricingService",
+      "name": "PricingService",
+      "kind": "class",
+      "layer": "Domain",
+      "contracts": [
+        "DomainService"
+      ],
+      "file": "src/Orders.Domain/Services/PricingService.cs",
+      "line": 7,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "PricingService(ITaxCalculator)"
+        },
+        {
+          "name": "PriceFor",
+          "kind": "method",
+          "signature": "Money PriceFor(Order)"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Domain.Services.TaxCalculator",
+      "name": "TaxCalculator",
+      "kind": "class",
+      "layer": "Domain",
+      "contracts": [
+        "DomainService"
+      ],
+      "file": "src/Orders.Domain/Services/TaxCalculator.cs",
+      "line": 6,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "TaxCalculator()"
+        },
+        {
+          "name": "AddTax",
+          "kind": "method",
+          "signature": "Money AddTax(Money)"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Domain.ValueObjects.Address",
+      "name": "Address",
+      "kind": "record",
+      "layer": "Domain",
+      "contracts": [],
+      "file": "src/Orders.Domain/ValueObjects/Address.cs",
+      "line": 3,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "Address(string, string, string, string)"
+        },
+        {
+          "name": "City",
+          "kind": "property",
+          "signature": "string City"
+        },
+        {
+          "name": "Country",
+          "kind": "property",
+          "signature": "string Country"
+        },
+        {
+          "name": "Line1",
+          "kind": "property",
+          "signature": "string Line1"
+        },
+        {
+          "name": "PostCode",
+          "kind": "property",
+          "signature": "string PostCode"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Domain.ValueObjects.Money",
+      "name": "Money",
+      "kind": "record",
+      "layer": "Domain",
+      "contracts": [],
+      "file": "src/Orders.Domain/ValueObjects/Money.cs",
+      "line": 3,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "Money(decimal, string)"
+        },
+        {
+          "name": "Zero",
+          "kind": "method",
+          "signature": "Money Zero(string)"
+        },
+        {
+          "name": "ToString",
+          "kind": "method",
+          "signature": "string ToString()"
+        },
+        {
+          "name": "Amount",
+          "kind": "property",
+          "signature": "decimal Amount"
+        },
+        {
+          "name": "Currency",
+          "kind": "property",
+          "signature": "string Currency"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Infrastructure.Caching.CacheKeys",
+      "name": "CacheKeys",
+      "kind": "class",
+      "layer": "Infrastructure",
+      "contracts": [],
+      "file": "src/Orders.Application/Misplaced/CacheKeys.cs",
+      "line": 9,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "Orders",
+          "kind": "method",
+          "signature": "string Orders(int, int)"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Infrastructure.Messaging.Mediator",
+      "name": "Mediator",
+      "kind": "class",
+      "layer": "Infrastructure",
+      "contracts": [],
+      "file": "src/Orders.Infrastructure/Messaging/Mediator.cs",
+      "line": 6,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "Mediator(IServiceProvider)"
+        },
+        {
+          "name": "SendAsync",
+          "kind": "method",
+          "signature": "Task<TResponse> SendAsync<TResponse>(IRequest<TResponse>, CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Infrastructure.Persistence.OrdersDbContext",
+      "name": "OrdersDbContext",
+      "kind": "class",
+      "layer": "Infrastructure",
+      "contracts": [],
+      "file": "src/Orders.Infrastructure/Persistence/OrdersDbContext.cs",
+      "line": 11,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "OrdersDbContext(DbContextOptions<OrdersDbContext>)"
+        },
+        {
+          "name": "AuditEntries",
+          "kind": "property",
+          "signature": "DbSet<AuditEntry> AuditEntries"
+        },
+        {
+          "name": "Customers",
+          "kind": "property",
+          "signature": "DbSet<Customer> Customers"
+        },
+        {
+          "name": "Orders",
+          "kind": "property",
+          "signature": "DbSet<Order> Orders"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Infrastructure.Repositories.CustomerRepository",
+      "name": "CustomerRepository",
+      "kind": "class",
+      "layer": "Infrastructure",
+      "contracts": [
+        "Repository"
+      ],
+      "file": "src/Orders.Infrastructure/Repositories/CustomerRepository.cs",
+      "line": 9,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "CustomerRepository(OrdersDbContext)"
+        },
+        {
+          "name": "GetAsync",
+          "kind": "method",
+          "signature": "Task<Customer> GetAsync(Guid, CancellationToken)"
+        },
+        {
+          "name": "ExistsAsync",
+          "kind": "method",
+          "signature": "Task<bool> ExistsAsync(Guid, CancellationToken)"
+        },
+        {
+          "name": "SaveChangesAsync",
+          "kind": "method",
+          "signature": "Task<int> SaveChangesAsync(CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Infrastructure.Repositories.IStockLevelRepository",
+      "name": "IStockLevelRepository",
+      "kind": "interface",
+      "layer": "Infrastructure",
+      "contracts": [],
+      "file": "src/Orders.Infrastructure/Repositories/StockLevelRepository.cs",
+      "line": 10,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "GetLevels",
+          "kind": "method",
+          "signature": "IReadOnlyList<int> GetLevels(string)"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Infrastructure.Repositories.LegacyReportRepository",
+      "name": "LegacyReportRepository",
+      "kind": "class",
+      "layer": "Infrastructure",
+      "contracts": [],
+      "file": "src/Orders.Infrastructure/Repositories/LegacyReportRepository.cs",
+      "line": 10,
+      "violations": 0,
+      "exemptions": 1,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "LegacyReportRepository(string)"
+        },
+        {
+          "name": "Run",
+          "kind": "method",
+          "signature": "DataTable Run(string)"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Infrastructure.Repositories.OrderRepository",
+      "name": "OrderRepository",
+      "kind": "class",
+      "layer": "Infrastructure",
+      "contracts": [
+        "Repository"
+      ],
+      "file": "src/Orders.Infrastructure/Repositories/OrderRepository.cs",
+      "line": 12,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "OrderRepository(OrdersDbContext)"
+        },
+        {
+          "name": "ListAsync",
+          "kind": "method",
+          "signature": "Task<IReadOnlyList<Order>> ListAsync(int, int, CancellationToken)"
+        },
+        {
+          "name": "AddAsync",
+          "kind": "method",
+          "signature": "Task<Order> AddAsync(Order, CancellationToken)"
+        },
+        {
+          "name": "GetAsync",
+          "kind": "method",
+          "signature": "Task<Order> GetAsync(Guid, CancellationToken)"
+        },
+        {
+          "name": "SaveChangesAsync",
+          "kind": "method",
+          "signature": "Task<int> SaveChangesAsync(CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Infrastructure.Repositories.StockLevelRepository",
+      "name": "StockLevelRepository",
+      "kind": "class",
+      "layer": "Infrastructure",
+      "contracts": [
+        "Repository"
+      ],
+      "file": "src/Orders.Infrastructure/Repositories/StockLevelRepository.cs",
+      "line": 20,
+      "violations": 4,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "StockLevelRepository(OrdersDbContext, IClock)"
+        },
+        {
+          "name": "GetLevels",
+          "kind": "method",
+          "signature": "IReadOnlyList<int> GetLevels(string)"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Infrastructure.StaticUserContext",
+      "name": "StaticUserContext",
+      "kind": "class",
+      "layer": "Infrastructure",
+      "contracts": [],
+      "file": "src/Orders.Infrastructure/StaticUserContext.cs",
+      "line": 5,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "IsInRole",
+          "kind": "method",
+          "signature": "bool IsInRole(string)"
+        },
+        {
+          "name": "UserId",
+          "kind": "property",
+          "signature": "string UserId"
+        }
+      ]
+    },
+    {
+      "id": "Orders.Infrastructure.SystemClock",
+      "name": "SystemClock",
+      "kind": "class",
+      "layer": "Infrastructure",
+      "contracts": [],
+      "file": "src/Orders.Infrastructure/SystemClock.cs",
+      "line": 5,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "UtcNow",
+          "kind": "property",
+          "signature": "DateTimeOffset UtcNow"
+        }
+      ]
+    },
+    {
+      "id": "Program",
+      "name": "Program",
+      "kind": "class",
+      "layer": null,
+      "contracts": [],
+      "file": "src/Orders.Api/Program.cs",
+      "line": 3,
+      "violations": 0,
+      "exemptions": 0,
+      "members": []
+    },
+    {
+      "id": "Tangent.TangentAttribute",
+      "name": "TangentAttribute",
+      "kind": "class",
+      "layer": null,
+      "contracts": [],
+      "file": "C:/Code/Personal/tangent/src/Tangent.Attributes/TangentAttribute.cs",
+      "line": 20,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "TangentAttribute(string)"
+        },
+        {
+          "name": "Contract",
+          "kind": "property",
+          "signature": "string Contract"
+        }
+      ]
+    },
+    {
+      "id": "Tangent.TangentExemptAttribute",
+      "name": "TangentExemptAttribute",
+      "kind": "class",
+      "layer": null,
+      "contracts": [],
+      "file": "C:/Code/Personal/tangent/src/Tangent.Attributes/TangentExemptAttribute.cs",
+      "line": 22,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "TangentExemptAttribute(string)"
+        },
+        {
+          "name": "Contract",
+          "kind": "property",
+          "signature": "string Contract"
+        },
+        {
+          "name": "Reason",
+          "kind": "property",
+          "signature": "string Reason"
+        },
+        {
+          "name": "Rule",
+          "kind": "property",
+          "signature": "string Rule"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "Orders.Api.Controllers.CustomersController",
+      "to": "Orders.Api.ApiControllerBase",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.Controllers.CustomersController",
+      "to": "Orders.Application.Abstractions.IMediator",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.Controllers.CustomersController",
+      "to": "Orders.Application.Customers.GetCustomerQuery",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.Controllers.CustomersController",
+      "to": "Orders.Application.ViewModels.CustomerViewModel",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.Controllers.CustomersController",
+      "to": "Tangent.TangentExemptAttribute",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.Controllers.HealthController",
+      "to": "Orders.Api.ApiControllerBase",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.Controllers.LegacyOrdersController",
+      "to": "Orders.Api.ApiControllerBase",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.Controllers.LegacyOrdersController",
+      "to": "Orders.Application.Abstractions.IMediator",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.Controllers.LegacyOrdersController",
+      "to": "Orders.Infrastructure.Persistence.OrdersDbContext",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": true
+    },
+    {
+      "from": "Orders.Api.Controllers.LegacyOrdersController",
+      "to": "Tangent.TangentAttribute",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.Controllers.OrdersController",
+      "to": "Orders.Api.ApiControllerBase",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.Controllers.OrdersController",
+      "to": "Orders.Application.Abstractions.IMediator",
+      "kind": "reference",
+      "count": 5,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.Controllers.OrdersController",
+      "to": "Orders.Application.Orders.CreateOrderCommand",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.Controllers.OrdersController",
+      "to": "Orders.Application.Orders.GetOrderQuery",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.Controllers.OrdersController",
+      "to": "Orders.Application.Orders.ListOrdersQuery",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.Controllers.OrdersController",
+      "to": "Orders.Application.ViewModels.OrderViewModel",
+      "kind": "reference",
+      "count": 7,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.Controllers.ReportsController",
+      "to": "Orders.Application.ViewModels.ReportViewModel",
+      "kind": "reference",
+      "count": 4,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.Controllers.ReportsController",
+      "to": "Orders.Domain.Entities.Order",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.Controllers.ReportsController",
+      "to": "Orders.Domain.IClock",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.Controllers.ReportsController",
+      "to": "Orders.Infrastructure.Persistence.OrdersDbContext",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": true
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Application.Abstractions.IMediator",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Application.Abstractions.IRequestHandler`2",
+      "kind": "reference",
+      "count": 4,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Application.Abstractions.IUserContext",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Application.Customers.GetCustomerQuery",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Application.Customers.GetCustomerQueryHandler",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Application.Orders.CreateOrderCommand",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Application.Orders.CreateOrderCommandHandler",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Application.Orders.GetOrderQuery",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Application.Orders.GetOrderQueryHandler",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Application.Orders.ListOrdersQuery",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Application.Orders.ListOrdersQueryHandler",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Application.ViewModels.CustomerViewModel",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Application.ViewModels.OrderViewModel",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Domain.IClock",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Domain.Repositories.ICustomerRepository",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Domain.Repositories.IOrderRepository",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Domain.Services.DiscountPolicyService",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Domain.Services.IDiscountPolicyService",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Domain.Services.IPricingService",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Domain.Services.ITaxCalculator",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Domain.Services.PricingService",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Domain.Services.TaxCalculator",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Infrastructure.Messaging.Mediator",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": true
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Infrastructure.Persistence.OrdersDbContext",
+      "kind": "reference",
+      "count": 4,
+      "violatesLayering": true
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Infrastructure.Repositories.CustomerRepository",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": true
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Infrastructure.Repositories.IStockLevelRepository",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": true
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Infrastructure.Repositories.OrderRepository",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": true
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Infrastructure.Repositories.StockLevelRepository",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": true
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Infrastructure.StaticUserContext",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": true
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Infrastructure.SystemClock",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": true
+    },
+    {
+      "from": "Orders.Application.Abstractions.IMediator",
+      "to": "Orders.Application.Abstractions.IRequest`1",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Customers.GetCustomerQuery",
+      "to": "Orders.Application.Abstractions.IRequest`1",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Customers.GetCustomerQuery",
+      "to": "Orders.Application.ViewModels.CustomerViewModel",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Customers.GetCustomerQueryHandler",
+      "to": "Orders.Application.Abstractions.IRequestHandler`2",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Customers.GetCustomerQueryHandler",
+      "to": "Orders.Application.Abstractions.IUserContext",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Customers.GetCustomerQueryHandler",
+      "to": "Orders.Application.Customers.GetCustomerQuery",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Customers.GetCustomerQueryHandler",
+      "to": "Orders.Application.ViewModels.CustomerViewModel",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Customers.GetCustomerQueryHandler",
+      "to": "Orders.Domain.Entities.Customer",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Customers.GetCustomerQueryHandler",
+      "to": "Orders.Domain.Entity`1",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Customers.GetCustomerQueryHandler",
+      "to": "Orders.Domain.Repositories.ICustomerRepository",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.CreateOrderCommand",
+      "to": "Orders.Application.Abstractions.IRequest`1",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.CreateOrderCommand",
+      "to": "Orders.Application.Orders.NewOrderLine",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.CreateOrderCommandHandler",
+      "to": "Orders.Application.Abstractions.IRequestHandler`2",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.CreateOrderCommandHandler",
+      "to": "Orders.Application.Orders.CreateOrderCommand",
+      "kind": "reference",
+      "count": 8,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.CreateOrderCommandHandler",
+      "to": "Orders.Application.Orders.NewOrderLine",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.CreateOrderCommandHandler",
+      "to": "Orders.Domain.Entities.Order",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.CreateOrderCommandHandler",
+      "to": "Orders.Domain.Entity`1",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.CreateOrderCommandHandler",
+      "to": "Orders.Domain.IClock",
+      "kind": "reference",
+      "count": 4,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.CreateOrderCommandHandler",
+      "to": "Orders.Domain.Repositories.ICustomerRepository",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.CreateOrderCommandHandler",
+      "to": "Orders.Domain.Repositories.IOrderRepository",
+      "kind": "reference",
+      "count": 4,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.CreateOrderCommandHandler",
+      "to": "Orders.Domain.ValueObjects.Money",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.GetOrderQuery",
+      "to": "Orders.Application.Abstractions.IRequest`1",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.GetOrderQuery",
+      "to": "Orders.Application.ViewModels.OrderViewModel",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.GetOrderQueryHandler",
+      "to": "Orders.Application.Abstractions.IRequestHandler`2",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.GetOrderQueryHandler",
+      "to": "Orders.Application.Orders.GetOrderQuery",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.GetOrderQueryHandler",
+      "to": "Orders.Application.ViewModels.OrderLineViewModel",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.GetOrderQueryHandler",
+      "to": "Orders.Application.ViewModels.OrderViewModel",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.GetOrderQueryHandler",
+      "to": "Orders.Domain.Entities.Order",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.GetOrderQueryHandler",
+      "to": "Orders.Domain.Entities.OrderLine",
+      "kind": "reference",
+      "count": 4,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.GetOrderQueryHandler",
+      "to": "Orders.Domain.Entity`1",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.GetOrderQueryHandler",
+      "to": "Orders.Domain.Repositories.IOrderRepository",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.GetOrderQueryHandler",
+      "to": "Orders.Domain.Services.IPricingService",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.GetOrderQueryHandler",
+      "to": "Orders.Domain.ValueObjects.Money",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.ListOrdersQuery",
+      "to": "Orders.Application.Abstractions.IRequest`1",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.ListOrdersQuery",
+      "to": "Orders.Application.ViewModels.OrderViewModel",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.ListOrdersQueryHandler",
+      "to": "Orders.Application.Abstractions.IRequestHandler`2",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.ListOrdersQueryHandler",
+      "to": "Orders.Application.Orders.ListOrdersQuery",
+      "kind": "reference",
+      "count": 6,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.ListOrdersQueryHandler",
+      "to": "Orders.Application.ViewModels.OrderLineViewModel",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.ListOrdersQueryHandler",
+      "to": "Orders.Application.ViewModels.OrderViewModel",
+      "kind": "reference",
+      "count": 4,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.ListOrdersQueryHandler",
+      "to": "Orders.Domain.Entities.Order",
+      "kind": "reference",
+      "count": 6,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.ListOrdersQueryHandler",
+      "to": "Orders.Domain.Entities.OrderLine",
+      "kind": "reference",
+      "count": 4,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.ListOrdersQueryHandler",
+      "to": "Orders.Domain.Entity`1",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.ListOrdersQueryHandler",
+      "to": "Orders.Domain.Repositories.IOrderRepository",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.ListOrdersQueryHandler",
+      "to": "Orders.Domain.ValueObjects.Money",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Application.Orders.ListOrdersQueryHandler",
+      "to": "Orders.Infrastructure.Caching.CacheKeys",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": true
+    },
+    {
+      "from": "Orders.Application.ViewModels.OrderViewModel",
+      "to": "Orders.Application.ViewModels.OrderLineViewModel",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.AggregateRoot`1",
+      "to": "Orders.Domain.Entity`1",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.AggregateRoot`1",
+      "to": "Orders.Domain.IDomainEvent",
+      "kind": "reference",
+      "count": 4,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.Entities.AuditEntry",
+      "to": "Orders.Domain.Entity`1",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.Entities.Customer",
+      "to": "Orders.Domain.AggregateRoot`1",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.Entities.Customer",
+      "to": "Orders.Domain.ValueObjects.Address",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.Entities.Order",
+      "to": "Orders.Domain.AggregateRoot`1",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.Entities.Order",
+      "to": "Orders.Domain.Entities.OrderLine",
+      "kind": "reference",
+      "count": 8,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.Entities.Order",
+      "to": "Orders.Domain.Entities.OrderStatus",
+      "kind": "reference",
+      "count": 7,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.Entities.Order",
+      "to": "Orders.Domain.Entity`1",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.Entities.Order",
+      "to": "Orders.Domain.OrderConfirmed",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.Entities.Order",
+      "to": "Orders.Domain.ValueObjects.Money",
+      "kind": "reference",
+      "count": 4,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.Entities.OrderLine",
+      "to": "Orders.Domain.Entity`1",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.Entities.OrderLine",
+      "to": "Orders.Domain.ValueObjects.Money",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.OrderConfirmed",
+      "to": "Orders.Domain.IDomainEvent",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.Repositories.ICustomerRepository",
+      "to": "Orders.Domain.Entities.Customer",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.Repositories.IOrderRepository",
+      "to": "Orders.Domain.Entities.Order",
+      "kind": "reference",
+      "count": 4,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.Services.DiscountPolicyService",
+      "to": "Orders.Domain.Entities.Customer",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.Services.DiscountPolicyService",
+      "to": "Orders.Domain.Services.IDiscountPolicyService",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.Services.IDiscountPolicyService",
+      "to": "Orders.Domain.Entities.Customer",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.Services.IOrderNotificationService",
+      "to": "Orders.Domain.Entities.Order",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.Services.IPricingService",
+      "to": "Orders.Domain.Entities.Order",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.Services.IPricingService",
+      "to": "Orders.Domain.ValueObjects.Money",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.Services.ITaxCalculator",
+      "to": "Orders.Domain.ValueObjects.Money",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.Services.OrderNotificationService",
+      "to": "Orders.Application.Notifications.INotificationDispatcher",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": true
+    },
+    {
+      "from": "Orders.Domain.Services.OrderNotificationService",
+      "to": "Orders.Domain.Entities.Order",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.Services.OrderNotificationService",
+      "to": "Orders.Domain.Entity`1",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.Services.PricingService",
+      "to": "Orders.Domain.Entities.Order",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.Services.PricingService",
+      "to": "Orders.Domain.Services.IPricingService",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.Services.PricingService",
+      "to": "Orders.Domain.Services.ITaxCalculator",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.Services.PricingService",
+      "to": "Orders.Domain.ValueObjects.Money",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.Services.TaxCalculator",
+      "to": "Orders.Domain.Services.ITaxCalculator",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Domain.Services.TaxCalculator",
+      "to": "Orders.Domain.ValueObjects.Money",
+      "kind": "reference",
+      "count": 5,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Infrastructure.Messaging.Mediator",
+      "to": "Orders.Application.Abstractions.IMediator",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Infrastructure.Messaging.Mediator",
+      "to": "Orders.Application.Abstractions.IRequestHandler`2",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Infrastructure.Messaging.Mediator",
+      "to": "Orders.Application.Abstractions.IRequest`1",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Infrastructure.Persistence.OrdersDbContext",
+      "to": "Orders.Domain.AggregateRoot`1",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Infrastructure.Persistence.OrdersDbContext",
+      "to": "Orders.Domain.Entities.AuditEntry",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Infrastructure.Persistence.OrdersDbContext",
+      "to": "Orders.Domain.Entities.Customer",
+      "kind": "reference",
+      "count": 4,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Infrastructure.Persistence.OrdersDbContext",
+      "to": "Orders.Domain.Entities.Order",
+      "kind": "reference",
+      "count": 7,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Infrastructure.Persistence.OrdersDbContext",
+      "to": "Orders.Domain.Entities.OrderLine",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Infrastructure.Repositories.CustomerRepository",
+      "to": "Orders.Domain.Entities.Customer",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Infrastructure.Repositories.CustomerRepository",
+      "to": "Orders.Domain.Entity`1",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Infrastructure.Repositories.CustomerRepository",
+      "to": "Orders.Domain.Repositories.ICustomerRepository",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Infrastructure.Repositories.CustomerRepository",
+      "to": "Orders.Infrastructure.Persistence.OrdersDbContext",
+      "kind": "reference",
+      "count": 4,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Infrastructure.Repositories.OrderRepository",
+      "to": "Orders.Domain.Entities.Order",
+      "kind": "reference",
+      "count": 13,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Infrastructure.Repositories.OrderRepository",
+      "to": "Orders.Domain.Entities.OrderLine",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Infrastructure.Repositories.OrderRepository",
+      "to": "Orders.Domain.Entity`1",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Infrastructure.Repositories.OrderRepository",
+      "to": "Orders.Domain.Repositories.IOrderRepository",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Infrastructure.Repositories.OrderRepository",
+      "to": "Orders.Infrastructure.Persistence.OrdersDbContext",
+      "kind": "reference",
+      "count": 5,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Infrastructure.Repositories.StockLevelRepository",
+      "to": "Orders.Domain.Entities.Order",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Infrastructure.Repositories.StockLevelRepository",
+      "to": "Orders.Domain.IClock",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Infrastructure.Repositories.StockLevelRepository",
+      "to": "Orders.Infrastructure.Persistence.OrdersDbContext",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Infrastructure.Repositories.StockLevelRepository",
+      "to": "Orders.Infrastructure.Repositories.IStockLevelRepository",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Infrastructure.StaticUserContext",
+      "to": "Orders.Application.Abstractions.IUserContext",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Infrastructure.SystemClock",
+      "to": "Orders.Domain.IClock",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    }
+  ],
+  "violations": [
+    {
+      "node": "Orders.Api.Controllers.CustomersController",
+      "member": null,
+      "ruleId": "Controller/type/modifier#0",
+      "code": "TNG0101",
+      "message": "Controller: type must be sealed. (rule Controller/type/modifier#0, controllers.tan:7)",
+      "file": "src/Orders.Api/Controllers/CustomersController.cs",
+      "line": 15,
+      "col": 14,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Api.Controllers.CustomersController",
+      "member": "GetByIdAsync",
+      "ruleId": "Controller/methods/attributes#1",
+      "code": "TNG0104",
+      "message": "Controller: method 'GetByIdAsync' must have attribute [ProducesResponseType(*)]. (rule Controller/methods/attributes#1, controllers.tan:19)",
+      "file": "src/Orders.Api/Controllers/CustomersController.cs",
+      "line": 28,
+      "col": 56,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Api.Controllers.LegacyOrdersController",
+      "member": null,
+      "ruleId": "",
+      "code": "TNG0001",
+      "message": "Contract 'Controler' is not defined. Did you mean 'Controller'?",
+      "file": "src/Orders.Api/Controllers/LegacyOrdersController.cs",
+      "line": 16,
+      "col": 2,
+      "severity": "error"
+    },
+    {
+      "node": "Orders.Api.Controllers.LegacyOrdersController",
+      "member": "FetchAsync",
+      "ruleId": "Controller/methods/new#1",
+      "code": "TNG0203",
+      "message": "Controller: forbidden object creation: new HttpClient. (rule Controller/methods/new#1, controllers.tan:20)",
+      "file": "src/Orders.Api/Controllers/LegacyOrdersController.cs",
+      "line": 28,
+      "col": 26,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Api.Controllers.LegacyOrdersController",
+      "member": "FetchAsync",
+      "ruleId": "Controller/type/using#0",
+      "code": "TNG0201",
+      "message": "Controller: reference to OrdersDbContext in forbidden namespace Orders.Infrastructure.**. (rule Controller/type/using#0, controllers.tan:23)",
+      "file": "src/Orders.Api/Controllers/LegacyOrdersController.cs",
+      "line": 32,
+      "col": 24,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Api.Controllers.LegacyOrdersController",
+      "member": "FetchAsync",
+      "ruleId": "layer:Api->Infrastructure",
+      "code": "TNG0202",
+      "message": "Layer Api may not depend on layer Infrastructure (OrdersDbContext). (rule layer:Api->Infrastructure, project.tan:7)",
+      "file": "src/Orders.Api/Controllers/LegacyOrdersController.cs",
+      "line": 32,
+      "col": 24,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Api.Controllers.LegacyOrdersController",
+      "member": "FetchAsync",
+      "ruleId": "Controller/methods/new#0",
+      "code": "TNG0203",
+      "message": "Controller: forbidden object creation: new OrdersDbContext. (rule Controller/methods/new#0, controllers.tan:20)",
+      "file": "src/Orders.Api/Controllers/LegacyOrdersController.cs",
+      "line": 32,
+      "col": 24,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Api.Controllers.LegacyOrdersController",
+      "member": "FetchAsync",
+      "ruleId": "Controller/type/using#1",
+      "code": "TNG0201",
+      "message": "Controller: reference to Options in forbidden namespace Microsoft.EntityFrameworkCore.**. (rule Controller/type/using#1, controllers.tan:24)",
+      "file": "src/Orders.Api/Controllers/LegacyOrdersController.cs",
+      "line": 32,
+      "col": 44,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Api.Controllers.LegacyOrdersController",
+      "member": "RebuildProjectionsAsync",
+      "ruleId": "Controller/methods/attributes#0",
+      "code": "TNG0104",
+      "message": "Controller: method 'RebuildProjectionsAsync' must have attribute [HttpGet | HttpPost | HttpPut | HttpDelete | HttpPatch]. (rule Controller/methods/attributes#0, controllers.tan:18)",
+      "file": "src/Orders.Api/Controllers/LegacyOrdersController.cs",
+      "line": 40,
+      "col": 32,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Api.Controllers.ReportsController",
+      "member": null,
+      "ruleId": "Controller/type/inherits#0",
+      "code": "TNG0102",
+      "message": "Controller: type must inherit ApiControllerBase. (rule Controller/type/inherits#0, controllers.tan:6)",
+      "file": "src/Orders.Api/Controllers/ReportsController.cs",
+      "line": 16,
+      "col": 21,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Api.Controllers.ReportsController",
+      "member": null,
+      "ruleId": "Controller/type/attributes#1",
+      "code": "TNG0104",
+      "message": "Controller: type must have attribute [Route(*)]. (rule Controller/type/attributes#1, controllers.tan:8)",
+      "file": "src/Orders.Api/Controllers/ReportsController.cs",
+      "line": 16,
+      "col": 21,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Api.Controllers.ReportsController",
+      "member": "_db",
+      "ruleId": "Controller/type/using#0",
+      "code": "TNG0201",
+      "message": "Controller: reference to OrdersDbContext in forbidden namespace Orders.Infrastructure.**. (rule Controller/type/using#0, controllers.tan:23)",
+      "file": "src/Orders.Api/Controllers/ReportsController.cs",
+      "line": 20,
+      "col": 38,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Api.Controllers.ReportsController",
+      "member": "_db",
+      "ruleId": "layer:Api->Infrastructure",
+      "code": "TNG0202",
+      "message": "Layer Api may not depend on layer Infrastructure (OrdersDbContext). (rule layer:Api->Infrastructure, project.tan:7)",
+      "file": "src/Orders.Api/Controllers/ReportsController.cs",
+      "line": 20,
+      "col": 38,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Api.Controllers.ReportsController",
+      "member": "db",
+      "ruleId": "Controller/ctor/injects-only#0",
+      "code": "TNG0106",
+      "message": "Controller: constructor may only inject IMediator | ILogger<*>; found Orders.Infrastructure.Persistence.OrdersDbContext db. (rule Controller/ctor/injects-only#0, controllers.tan:12)",
+      "file": "src/Orders.Api/Controllers/ReportsController.cs",
+      "line": 25,
+      "col": 46,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Api.Controllers.ReportsController",
+      "member": ".ctor",
+      "ruleId": "Controller/type/using#0",
+      "code": "TNG0201",
+      "message": "Controller: reference to OrdersDbContext in forbidden namespace Orders.Infrastructure.**. (rule Controller/type/using#0, controllers.tan:23)",
+      "file": "src/Orders.Api/Controllers/ReportsController.cs",
+      "line": 25,
+      "col": 46,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Api.Controllers.ReportsController",
+      "member": ".ctor",
+      "ruleId": "layer:Api->Infrastructure",
+      "code": "TNG0202",
+      "message": "Layer Api may not depend on layer Infrastructure (OrdersDbContext). (rule layer:Api->Infrastructure, project.tan:7)",
+      "file": "src/Orders.Api/Controllers/ReportsController.cs",
+      "line": 25,
+      "col": 46,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Api.Controllers.ReportsController",
+      "member": "clock",
+      "ruleId": "Controller/ctor/injects-only#0",
+      "code": "TNG0106",
+      "message": "Controller: constructor may only inject IMediator | ILogger<*>; found Orders.Domain.IClock clock. (rule Controller/ctor/injects-only#0, controllers.tan:12)",
+      "file": "src/Orders.Api/Controllers/ReportsController.cs",
+      "line": 25,
+      "col": 57,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Api.Controllers.ReportsController",
+      "member": "clock",
+      "ruleId": "Controller/ctor/each-param-assigned-to-field#0",
+      "code": "TNG0301",
+      "message": "Controller: constructor parameter 'clock' is not assigned to a private readonly field. (rule Controller/ctor/each-param-assigned-to-field#0, controllers.tan:13)",
+      "file": "src/Orders.Api/Controllers/ReportsController.cs",
+      "line": 25,
+      "col": 57,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Api.Controllers.ReportsController",
+      "member": "GetSummaries",
+      "ruleId": "Controller/methods/returns#0",
+      "code": "TNG0105",
+      "message": "Controller: method 'GetSummaries' must return Task<ActionResult<*>> | Task<IActionResult>, found System.Collections.Generic.IEnumerable<Orders.Application.ViewModels.ReportViewModel>. (rule Controller/methods/returns#0, controllers.tan:17)",
+      "file": "src/Orders.Api/Controllers/ReportsController.cs",
+      "line": 35,
+      "col": 41,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Api.Controllers.ReportsController",
+      "member": "GetSummaries",
+      "ruleId": "Controller/type/using#1",
+      "code": "TNG0201",
+      "message": "Controller: reference to AsNoTracking in forbidden namespace Microsoft.EntityFrameworkCore.**. (rule Controller/type/using#1, controllers.tan:24)",
+      "file": "src/Orders.Api/Controllers/ReportsController.cs",
+      "line": 39,
+      "col": 26,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Api.Controllers.ReportsController",
+      "member": "GetSummaries",
+      "ruleId": "Controller/type/using#0",
+      "code": "TNG0201",
+      "message": "Controller: reference to Orders in forbidden namespace Orders.Infrastructure.**. (rule Controller/type/using#0, controllers.tan:23)",
+      "file": "src/Orders.Api/Controllers/ReportsController.cs",
+      "line": 39,
+      "col": 26,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Api.Controllers.ReportsController",
+      "member": "GetSummaries",
+      "ruleId": "layer:Api->Infrastructure",
+      "code": "TNG0202",
+      "message": "Layer Api may not depend on layer Infrastructure (Orders). (rule layer:Api->Infrastructure, project.tan:7)",
+      "file": "src/Orders.Api/Controllers/ReportsController.cs",
+      "line": 39,
+      "col": 26,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "member": "AddOrdersServices",
+      "ruleId": "layer:Api->Infrastructure",
+      "code": "TNG0202",
+      "message": "Layer Api may not depend on layer Infrastructure (OrdersDbContext). (rule layer:Api->Infrastructure, project.tan:7)",
+      "file": "src/Orders.Api/DependencyInjection/ServiceRegistration.cs",
+      "line": 30,
+      "col": 9,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "member": "AddOrdersServices",
+      "ruleId": "layer:Api->Infrastructure",
+      "code": "TNG0202",
+      "message": "Layer Api may not depend on layer Infrastructure (SystemClock). (rule layer:Api->Infrastructure, project.tan:7)",
+      "file": "src/Orders.Api/DependencyInjection/ServiceRegistration.cs",
+      "line": 32,
+      "col": 9,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "member": "AddOrdersServices",
+      "ruleId": "layer:Api->Infrastructure",
+      "code": "TNG0202",
+      "message": "Layer Api may not depend on layer Infrastructure (StaticUserContext). (rule layer:Api->Infrastructure, project.tan:7)",
+      "file": "src/Orders.Api/DependencyInjection/ServiceRegistration.cs",
+      "line": 33,
+      "col": 9,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "member": "AddOrdersServices",
+      "ruleId": "layer:Api->Infrastructure",
+      "code": "TNG0202",
+      "message": "Layer Api may not depend on layer Infrastructure (Mediator). (rule layer:Api->Infrastructure, project.tan:7)",
+      "file": "src/Orders.Api/DependencyInjection/ServiceRegistration.cs",
+      "line": 34,
+      "col": 9,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "member": "AddOrdersServices",
+      "ruleId": "layer:Api->Infrastructure",
+      "code": "TNG0202",
+      "message": "Layer Api may not depend on layer Infrastructure (OrderRepository). (rule layer:Api->Infrastructure, project.tan:7)",
+      "file": "src/Orders.Api/DependencyInjection/ServiceRegistration.cs",
+      "line": 36,
+      "col": 9,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "member": "AddOrdersServices",
+      "ruleId": "layer:Api->Infrastructure",
+      "code": "TNG0202",
+      "message": "Layer Api may not depend on layer Infrastructure (CustomerRepository). (rule layer:Api->Infrastructure, project.tan:7)",
+      "file": "src/Orders.Api/DependencyInjection/ServiceRegistration.cs",
+      "line": 37,
+      "col": 9,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "member": "AddOrdersServices",
+      "ruleId": "layer:Api->Infrastructure",
+      "code": "TNG0202",
+      "message": "Layer Api may not depend on layer Infrastructure (IStockLevelRepository). (rule layer:Api->Infrastructure, project.tan:7)",
+      "file": "src/Orders.Api/DependencyInjection/ServiceRegistration.cs",
+      "line": 38,
+      "col": 9,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "member": "AddOrdersServices",
+      "ruleId": "layer:Api->Infrastructure",
+      "code": "TNG0202",
+      "message": "Layer Api may not depend on layer Infrastructure (StockLevelRepository). (rule layer:Api->Infrastructure, project.tan:7)",
+      "file": "src/Orders.Api/DependencyInjection/ServiceRegistration.cs",
+      "line": 38,
+      "col": 9,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Application.Orders.ListOrdersQueryHandler",
+      "member": "orders",
+      "ruleId": "QueryHandler/ctor/each-param-assigned-to-field#0",
+      "code": "TNG0301",
+      "message": "QueryHandler: constructor parameter 'orders' is not assigned to a private readonly field. (rule QueryHandler/ctor/each-param-assigned-to-field#0, services.tan:34)",
+      "file": "src/Orders.Application/Orders/ListOrdersQuery.cs",
+      "line": 21,
+      "col": 52,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Application.Orders.ListOrdersQueryHandler",
+      "member": "HandleAsync",
+      "ruleId": "QueryHandler/type/using#0",
+      "code": "TNG0201",
+      "message": "QueryHandler: reference to Orders in forbidden namespace Orders.Infrastructure.**. (rule QueryHandler/type/using#0, services.tan:39)",
+      "file": "src/Orders.Application/Orders/ListOrdersQuery.cs",
+      "line": 28,
+      "col": 25,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Application.Orders.ListOrdersQueryHandler",
+      "member": "HandleAsync",
+      "ruleId": "layer:Application->Infrastructure",
+      "code": "TNG0202",
+      "message": "Layer Application may not depend on layer Infrastructure (Orders). (rule layer:Application->Infrastructure, project.tan:8)",
+      "file": "src/Orders.Application/Orders/ListOrdersQuery.cs",
+      "line": 28,
+      "col": 25,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Application.ViewModels.DraftOrderViewModel",
+      "member": "Id",
+      "ruleId": "ViewModel/properties/accessor#1",
+      "code": "TNG0107",
+      "message": "ViewModel: property Id must not have a public setter. (rule ViewModel/properties/accessor#1, services.tan:20)",
+      "file": "src/Orders.Application/ViewModels/DraftOrderViewModel.cs",
+      "line": 7,
+      "col": 27,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Domain.Entities.Customer",
+      "member": ".ctor",
+      "ruleId": "Entity/ctor/modifier#0",
+      "code": "TNG0101",
+      "message": "Entity: constructor must be not public. (rule Entity/ctor/modifier#0, entities.tan:13)",
+      "file": "src/Orders.Domain/Entities/Customer.cs",
+      "line": 13,
+      "col": 12,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Domain.Entities.Customer",
+      "member": "Email",
+      "ruleId": "Entity/properties/accessor#0",
+      "code": "TNG0107",
+      "message": "Entity: property Email must not have a public setter. (rule Entity/properties/accessor#0, entities.tan:10)",
+      "file": "src/Orders.Domain/Entities/Customer.cs",
+      "line": 22,
+      "col": 32,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Domain.Entities.Customer",
+      "member": "Deactivate",
+      "ruleId": "AggregateRoot/methods/returns#0",
+      "code": "TNG0105",
+      "message": "AggregateRoot: method 'Deactivate' must return anything but void, found void. (rule AggregateRoot/methods/returns#0, entities.tan:21)",
+      "file": "src/Orders.Domain/Entities/Customer.cs",
+      "line": 29,
+      "col": 17,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Domain.Entities.ShipmentNote",
+      "member": null,
+      "ruleId": "Entity/type/inherits#0",
+      "code": "TNG0102",
+      "message": "Entity: type must inherit Entity<*> | AggregateRoot<*>. (rule Entity/type/inherits#0, entities.tan:7)",
+      "file": "src/Orders.Domain/Entities/ShipmentNote.cs",
+      "line": 10,
+      "col": 21,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Domain.Entities.ShipmentNote",
+      "member": "Carrier",
+      "ruleId": "Entity/type/member-kind#0",
+      "code": "TNG0108",
+      "message": "Entity: type must not declare public fields. (rule Entity/type/member-kind#0, entities.tan:12)",
+      "file": "src/Orders.Domain/Entities/ShipmentNote.cs",
+      "line": 13,
+      "col": 19,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Domain.Entities.ShipmentNote",
+      "member": "ToLegacyTable",
+      "ruleId": "Entity/type/using#0",
+      "code": "TNG0201",
+      "message": "Entity: reference to DataTable in forbidden namespace System.Data.**. (rule Entity/type/using#0, entities.tan:15)",
+      "file": "src/Orders.Domain/Entities/ShipmentNote.cs",
+      "line": 20,
+      "col": 22,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Domain.Entities.ShipmentNote",
+      "member": "ToLegacyTable",
+      "ruleId": "Entity/type/using#0",
+      "code": "TNG0201",
+      "message": "Entity: reference to DataTable in forbidden namespace System.Data.**. (rule Entity/type/using#0, entities.tan:15)",
+      "file": "src/Orders.Domain/Entities/ShipmentNote.cs",
+      "line": 22,
+      "col": 21,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Domain.Entities.ShipmentNote",
+      "member": "ToLegacyTable",
+      "ruleId": "Entity/type/using#0",
+      "code": "TNG0201",
+      "message": "Entity: reference to Add in forbidden namespace System.Data.**. (rule Entity/type/using#0, entities.tan:15)",
+      "file": "src/Orders.Domain/Entities/ShipmentNote.cs",
+      "line": 23,
+      "col": 9,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Domain.Entities.ShipmentNote",
+      "member": "ToLegacyTable",
+      "ruleId": "Entity/type/using#0",
+      "code": "TNG0201",
+      "message": "Entity: reference to Add in forbidden namespace System.Data.**. (rule Entity/type/using#0, entities.tan:15)",
+      "file": "src/Orders.Domain/Entities/ShipmentNote.cs",
+      "line": 25,
+      "col": 9,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Domain.Services.DiscountPolicyService",
+      "member": "TotalEvaluations",
+      "ruleId": "DomainService/fields/modifier#2",
+      "code": "TNG0101",
+      "message": "DomainService: field 'TotalEvaluations' must be not static. (rule DomainService/fields/modifier#2, services.tan:9)",
+      "file": "src/Orders.Domain/Services/DiscountPolicyService.cs",
+      "line": 12,
+      "col": 23,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Domain.Services.DiscountPolicyService",
+      "member": "TotalEvaluations",
+      "ruleId": "DomainService/fields/modifier#0",
+      "code": "TNG0101",
+      "message": "DomainService: field 'TotalEvaluations' must be private. (rule DomainService/fields/modifier#0, services.tan:9)",
+      "file": "src/Orders.Domain/Services/DiscountPolicyService.cs",
+      "line": 12,
+      "col": 23,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Domain.Services.DiscountPolicyService",
+      "member": "TotalEvaluations",
+      "ruleId": "DomainService/fields/modifier#1",
+      "code": "TNG0101",
+      "message": "DomainService: field 'TotalEvaluations' must be readonly. (rule DomainService/fields/modifier#1, services.tan:9)",
+      "file": "src/Orders.Domain/Services/DiscountPolicyService.cs",
+      "line": 12,
+      "col": 23,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Domain.Services.DiscountPolicyService",
+      "member": "_evaluations",
+      "ruleId": "DomainService/fields/modifier#1",
+      "code": "TNG0101",
+      "message": "DomainService: field '_evaluations' must be readonly. (rule DomainService/fields/modifier#1, services.tan:9)",
+      "file": "src/Orders.Domain/Services/DiscountPolicyService.cs",
+      "line": 15,
+      "col": 17,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Domain.Services.DiscountPolicyService",
+      "member": "_evaluations",
+      "ruleId": "DomainService/type/stateless#0",
+      "code": "TNG0303",
+      "message": "DomainService: type must be stateless; mutable instance field '_evaluations'. (rule DomainService/type/stateless#0, services.tan:8)",
+      "file": "src/Orders.Domain/Services/DiscountPolicyService.cs",
+      "line": 15,
+      "col": 17,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Domain.Services.OrderNotificationService",
+      "member": null,
+      "ruleId": "DomainService/type/implements#0",
+      "code": "TNG0103",
+      "message": "DomainService: type must implement IOrderNotificationService. (rule DomainService/type/implements#0, services.tan:6)",
+      "file": "src/Orders.Domain/Services/OrderNotificationService.cs",
+      "line": 16,
+      "col": 21,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Domain.Services.OrderNotificationService",
+      "member": "_dispatcher",
+      "ruleId": "DomainService/type/using#0",
+      "code": "TNG0201",
+      "message": "DomainService: reference to INotificationDispatcher in forbidden namespace Orders.Application.**. (rule DomainService/type/using#0, services.tan:10)",
+      "file": "src/Orders.Domain/Services/OrderNotificationService.cs",
+      "line": 19,
+      "col": 46,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Domain.Services.OrderNotificationService",
+      "member": "_dispatcher",
+      "ruleId": "layer:Domain->Application",
+      "code": "TNG0202",
+      "message": "Layer Domain may not depend on layer Application (INotificationDispatcher). (rule layer:Domain->Application, project.tan:9)",
+      "file": "src/Orders.Domain/Services/OrderNotificationService.cs",
+      "line": 19,
+      "col": 46,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Domain.Services.OrderNotificationService",
+      "member": ".ctor",
+      "ruleId": "DomainService/type/using#0",
+      "code": "TNG0201",
+      "message": "DomainService: reference to INotificationDispatcher in forbidden namespace Orders.Application.**. (rule DomainService/type/using#0, services.tan:10)",
+      "file": "src/Orders.Domain/Services/OrderNotificationService.cs",
+      "line": 21,
+      "col": 61,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Domain.Services.OrderNotificationService",
+      "member": ".ctor",
+      "ruleId": "layer:Domain->Application",
+      "code": "TNG0202",
+      "message": "Layer Domain may not depend on layer Application (INotificationDispatcher). (rule layer:Domain->Application, project.tan:9)",
+      "file": "src/Orders.Domain/Services/OrderNotificationService.cs",
+      "line": 21,
+      "col": 61,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Domain.Services.OrderNotificationService",
+      "member": "NotifyConfirmed",
+      "ruleId": "DomainService/type/using#0",
+      "code": "TNG0201",
+      "message": "DomainService: reference to Dispatch in forbidden namespace Orders.Application.**. (rule DomainService/type/using#0, services.tan:10)",
+      "file": "src/Orders.Domain/Services/OrderNotificationService.cs",
+      "line": 23,
+      "col": 49,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Domain.Services.OrderNotificationService",
+      "member": "NotifyConfirmed",
+      "ruleId": "layer:Domain->Application",
+      "code": "TNG0202",
+      "message": "Layer Domain may not depend on layer Application (Dispatch). (rule layer:Domain->Application, project.tan:9)",
+      "file": "src/Orders.Domain/Services/OrderNotificationService.cs",
+      "line": 23,
+      "col": 49,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Infrastructure.Repositories.StockLevelRepository",
+      "member": null,
+      "ruleId": "Repository/type/modifier#0",
+      "code": "TNG0101",
+      "message": "Repository: type must be sealed. (rule Repository/type/modifier#0, repositories.tan:9)",
+      "file": "src/Orders.Infrastructure/Repositories/StockLevelRepository.cs",
+      "line": 20,
+      "col": 14,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Infrastructure.Repositories.StockLevelRepository",
+      "member": null,
+      "ruleId": "Repository/type/interface-lives-in#0",
+      "code": "TNG0109",
+      "message": "Repository: interface IStockLevelRepository must live in Domain. (rule Repository/type/interface-lives-in#0, repositories.tan:8)",
+      "file": "src/Orders.Infrastructure/Repositories/StockLevelRepository.cs",
+      "line": 20,
+      "col": 14,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Infrastructure.Repositories.StockLevelRepository",
+      "member": "clock",
+      "ruleId": "Repository/ctor/injects-only#0",
+      "code": "TNG0106",
+      "message": "Repository: constructor may only inject OrdersDbContext; found Orders.Domain.IClock clock. (rule Repository/ctor/injects-only#0, repositories.tan:11)",
+      "file": "src/Orders.Infrastructure/Repositories/StockLevelRepository.cs",
+      "line": 27,
+      "col": 60,
+      "severity": "warning"
+    },
+    {
+      "node": "Orders.Infrastructure.Repositories.StockLevelRepository",
+      "member": "GetLevels",
+      "ruleId": "Repository/methods/returns#0",
+      "code": "TNG0105",
+      "message": "Repository: method 'GetLevels' must return Task<*>, found System.Collections.Generic.IReadOnlyList<int>. (rule Repository/methods/returns#0, repositories.tan:12)",
+      "file": "src/Orders.Infrastructure/Repositories/StockLevelRepository.cs",
+      "line": 34,
+      "col": 31,
+      "severity": "warning"
+    }
+  ],
+  "rules": [
+    {
+      "id": "Controller/type/inherits#0",
+      "contract": "Controller",
+      "text": "require inherits ApiControllerBase",
+      "tier": 0
+    },
+    {
+      "id": "Controller/type/modifier#0",
+      "contract": "Controller",
+      "text": "require sealed",
+      "tier": 0
+    },
+    {
+      "id": "Controller/type/attributes#0",
+      "contract": "Controller",
+      "text": "require attributes [ApiController]",
+      "tier": 0
+    },
+    {
+      "id": "Controller/type/attributes#1",
+      "contract": "Controller",
+      "text": "require attributes [Route(*)]",
+      "tier": 0
+    },
+    {
+      "id": "Controller/ctor/modifier#0",
+      "contract": "Controller",
+      "text": "require public",
+      "tier": 0
+    },
+    {
+      "id": "Controller/ctor/injects-only#0",
+      "contract": "Controller",
+      "text": "require injects only IMediator, ILogger<*>",
+      "tier": 0
+    },
+    {
+      "id": "Controller/ctor/each-param-assigned-to-field#0",
+      "contract": "Controller",
+      "text": "require each parameter assigned to private readonly field",
+      "tier": 2
+    },
+    {
+      "id": "Controller/methods/returns#0",
+      "contract": "Controller",
+      "text": "require returns Task<ActionResult<*>> | Task<IActionResult>",
+      "tier": 0
+    },
+    {
+      "id": "Controller/methods/attributes#0",
+      "contract": "Controller",
+      "text": "require attributes [HttpGet | HttpPost | HttpPut | HttpDelete | HttpPatch]",
+      "tier": 0
+    },
+    {
+      "id": "Controller/methods/attributes#1",
+      "contract": "Controller",
+      "text": "require attributes [ProducesResponseType(*)]",
+      "tier": 0
+    },
+    {
+      "id": "Controller/methods/new#0",
+      "contract": "Controller",
+      "text": "forbid new DbContext",
+      "tier": 1
+    },
+    {
+      "id": "Controller/methods/new#1",
+      "contract": "Controller",
+      "text": "forbid new HttpClient",
+      "tier": 1
+    },
+    {
+      "id": "Controller/type/using#0",
+      "contract": "Controller",
+      "text": "forbid using Orders.Infrastructure.**",
+      "tier": 1
+    },
+    {
+      "id": "Controller/type/using#1",
+      "contract": "Controller",
+      "text": "forbid using Microsoft.EntityFrameworkCore.**",
+      "tier": 1
+    },
+    {
+      "id": "Entity/type/inherits#0",
+      "contract": "Entity",
+      "text": "require inherits Entity<*> | AggregateRoot<*>",
+      "tier": 0
+    },
+    {
+      "id": "Entity/properties/accessor#0",
+      "contract": "Entity",
+      "text": "forbid public set",
+      "tier": 0
+    },
+    {
+      "id": "Entity/type/member-kind#0",
+      "contract": "Entity",
+      "text": "forbid public fields",
+      "tier": 0
+    },
+    {
+      "id": "Entity/ctor/modifier#0",
+      "contract": "Entity",
+      "text": "forbid public",
+      "tier": 0
+    },
+    {
+      "id": "Entity/type/using#0",
+      "contract": "Entity",
+      "text": "forbid using System.Data.**",
+      "tier": 1
+    },
+    {
+      "id": "Entity/type/using#1",
+      "contract": "Entity",
+      "text": "forbid using Microsoft.**",
+      "tier": 1
+    },
+    {
+      "id": "AggregateRoot/methods/returns#0",
+      "contract": "AggregateRoot",
+      "text": "forbid returns void",
+      "tier": 0
+    },
+    {
+      "id": "Repository/type/implements#0",
+      "contract": "Repository",
+      "text": "require implements I{Name}",
+      "tier": 0
+    },
+    {
+      "id": "Repository/type/interface-lives-in#0",
+      "contract": "Repository",
+      "text": "require interface I{Name} lives in Domain",
+      "tier": 0
+    },
+    {
+      "id": "Repository/type/modifier#0",
+      "contract": "Repository",
+      "text": "require sealed",
+      "tier": 0
+    },
+    {
+      "id": "Repository/ctor/injects-only#0",
+      "contract": "Repository",
+      "text": "require injects only OrdersDbContext",
+      "tier": 0
+    },
+    {
+      "id": "Repository/methods/returns#0",
+      "contract": "Repository",
+      "text": "require returns Task<*>",
+      "tier": 0
+    },
+    {
+      "id": "Repository/type/using#0",
+      "contract": "Repository",
+      "text": "forbid using Orders.Api.**",
+      "tier": 1
+    },
+    {
+      "id": "DomainService/type/implements#0",
+      "contract": "DomainService",
+      "text": "require implements I{Name}",
+      "tier": 0
+    },
+    {
+      "id": "DomainService/type/modifier#0",
+      "contract": "DomainService",
+      "text": "require sealed",
+      "tier": 0
+    },
+    {
+      "id": "DomainService/type/stateless#0",
+      "contract": "DomainService",
+      "text": "require stateless",
+      "tier": 2
+    },
+    {
+      "id": "DomainService/fields/modifier#0",
+      "contract": "DomainService",
+      "text": "require private",
+      "tier": 0
+    },
+    {
+      "id": "DomainService/fields/modifier#1",
+      "contract": "DomainService",
+      "text": "require readonly",
+      "tier": 0
+    },
+    {
+      "id": "DomainService/fields/modifier#2",
+      "contract": "DomainService",
+      "text": "forbid static",
+      "tier": 0
+    },
+    {
+      "id": "DomainService/type/using#0",
+      "contract": "DomainService",
+      "text": "forbid using Orders.Application.**",
+      "tier": 1
+    },
+    {
+      "id": "DomainService/type/using#1",
+      "contract": "DomainService",
+      "text": "forbid using Orders.Infrastructure.**",
+      "tier": 1
+    },
+    {
+      "id": "ViewModel/properties/modifier#0",
+      "contract": "ViewModel",
+      "text": "require public",
+      "tier": 0
+    },
+    {
+      "id": "ViewModel/properties/accessor#0",
+      "contract": "ViewModel",
+      "text": "require get",
+      "tier": 0
+    },
+    {
+      "id": "ViewModel/properties/accessor#1",
+      "contract": "ViewModel",
+      "text": "forbid public set",
+      "tier": 0
+    },
+    {
+      "id": "ViewModel/fields/modifier#0",
+      "contract": "ViewModel",
+      "text": "require private",
+      "tier": 0
+    },
+    {
+      "id": "ViewModel/fields/modifier#1",
+      "contract": "ViewModel",
+      "text": "require readonly",
+      "tier": 0
+    },
+    {
+      "id": "QueryHandler/type/implements#0",
+      "contract": "QueryHandler",
+      "text": "require implements IRequestHandler<*, *>",
+      "tier": 0
+    },
+    {
+      "id": "QueryHandler/type/modifier#0",
+      "contract": "QueryHandler",
+      "text": "require sealed",
+      "tier": 0
+    },
+    {
+      "id": "QueryHandler/ctor/injects-only#0",
+      "contract": "QueryHandler",
+      "text": "require injects only IOrderRepository, ICustomerRepository, IPricingService, IClock, IUserContext",
+      "tier": 0
+    },
+    {
+      "id": "QueryHandler/ctor/each-param-assigned-to-field#0",
+      "contract": "QueryHandler",
+      "text": "require each parameter assigned to private readonly field",
+      "tier": 2
+    },
+    {
+      "id": "QueryHandler/methods/returns#0",
+      "contract": "QueryHandler",
+      "text": "require returns Task<*>",
+      "tier": 0
+    },
+    {
+      "id": "QueryHandler/type/using#0",
+      "contract": "QueryHandler",
+      "text": "forbid using Orders.Infrastructure.**",
+      "tier": 1
+    }
+  ]
+}
