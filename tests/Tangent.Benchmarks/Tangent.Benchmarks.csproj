@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ServerGarbageCollection>false</ServerGarbageCollection>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" VersionOverride="5.0.0" />
+    <ProjectReference Include="../../src/Tangent.Core/Tangent.Core.csproj" />
+    <ProjectReference Include="../../src/Tangent.Analyzers/Tangent.Analyzers.csproj" />
+  </ItemGroup>
+
+  <!-- The sample contracts are the benchmark corpus; keep them as the single source of truth. -->
+  <ItemGroup>
+    <None Include="../../samples/Orders/.tangent/*.tan"
+          Link="contracts/%(Filename)%(Extension)"
+          CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>
