@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>Tangent.LanguageServer</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OmniSharp.Extensions.LanguageServer" />
+    <PackageReference Include="Microsoft.Build.Locator" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" VersionOverride="5.0.0" />
+    <ProjectReference Include="../Tangent.Core/Tangent.Core.csproj" />
+  </ItemGroup>
+
+</Project>

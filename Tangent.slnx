@@ -6,11 +6,13 @@
     <Project Path="src/Tangent.Core/Tangent.Core.csproj" />
     <Project Path="src/Tangent.Generators/Tangent.Generators.csproj" />
     <Project Path="src/Tangent.Graph/Tangent.Graph.csproj" />
+    <Project Path="src/Tangent.LanguageServer/Tangent.LanguageServer.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Tangent.Analyzers.Tests/Tangent.Analyzers.Tests.csproj" />
     <Project Path="tests/Tangent.Benchmarks/Tangent.Benchmarks.csproj" />
     <Project Path="tests/Tangent.Cli.Tests/Tangent.Cli.Tests.csproj" />
     <Project Path="tests/Tangent.Core.Tests/Tangent.Core.Tests.csproj" />
+    <Project Path="tests/Tangent.LanguageServer.Tests/Tangent.LanguageServer.Tests.csproj" />
   </Folder>
 </Solution>
