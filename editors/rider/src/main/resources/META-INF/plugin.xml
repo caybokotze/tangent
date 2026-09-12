@@ -1,0 +1,54 @@
+<idea-plugin>
+    <id>com.tangent.rider</id>
+    <name>Tangent</name>
+    <vendor url="https://github.com/tangent">Tangent</vendor>
+
+    <description><![CDATA[
+    Editor support for <b>Tangent</b>, an architectural conformance checker for .NET whose
+    contracts are written in <code>.tan</code> files.
+    <ul>
+      <li>Syntax highlighting for <code>.tan</code> via the bundled <code>source.tangent</code> TextMate grammar.</li>
+      <li>Diagnostics, completion, hover and navigation from the Tangent language server
+          (<code>dotnet tangent serve</code>, started over stdio).</li>
+    </ul>
+    The language server ships with the Tangent CLI:
+    <code>dotnet tool install -g Tangent.Cli</code>.
+    ]]></description>
+
+    <!-- Rider frontend. -->
+    <depends>com.intellij.modules.rider</depends>
+
+    <!-- TextMate Bundles plugin: provides com.intellij.textmate.bundleProvider. Bundled with Rider. -->
+    <depends>org.jetbrains.plugins.textmate</depends>
+
+    <!--
+      LSP API gate. For IDE builds before 2025.2.1 the LSP API is behind the Ultimate module;
+      from 2025.2.1 onwards the module is named com.intellij.modules.lsp. Targeting 2024.2 here,
+      so the Ultimate module is the correct one.
+    -->
+    <depends>com.intellij.modules.ultimate</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!--
+          File type for *.tan. TangentFileType implements TextMateBackedFileType, so the
+          TextMate grammar below still wins for highlighting while this supplies name + icon.
+        -->
+        <fileType name="Tangent"
+                  implementationClass="com.tangent.rider.TangentFileType"
+                  fieldName="INSTANCE"
+                  extensions="tan"/>
+
+        <!-- Ships syntaxes/tangent.tmLanguage.json with the plugin, no manual bundle import. -->
+        <textmate.bundleProvider implementation="com.tangent.rider.TangentTextMateBundleProvider"/>
+
+        <!-- Starts `dotnet tangent serve` when a .tan file is opened. -->
+        <platform.lsp.serverSupportProvider
+                implementation="com.tangent.rider.TangentLspServerSupportProvider"/>
+
+        <!-- Settings | Tools | Tangent -->
+        <applicationConfigurable id="com.tangent.rider.settings"
+                                 parentId="tools"
+                                 displayName="Tangent"
+                                 instance="com.tangent.rider.TangentConfigurable"/>
+    </extensions>
+</idea-plugin>

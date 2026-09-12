@@ -1,0 +1,33 @@
+{
+  "name": "tangent-textmate",
+  "displayName": "Tangent",
+  "description": "TextMate bundle for Tangent .tan contract files, in VS Code layout so JetBrains IDEs can read it.",
+  "version": "0.1.0",
+  "publisher": "tangent",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "tangent",
+        "aliases": [
+          "Tangent",
+          "tangent"
+        ],
+        "extensions": [
+          ".tan"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "tangent",
+        "scopeName": "source.tangent",
+        "path": "./syntaxes/tangent.tmLanguage.json"
+      }
+    ]
+  }
+}

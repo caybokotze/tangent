@@ -1,0 +1,223 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Tangent",
+  "scopeName": "source.tangent",
+  "fileTypes": ["tan"],
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#attribute-literal" },
+    { "include": "#template" },
+    { "include": "#layer-declaration" },
+    { "include": "#layer-dependency" },
+    { "include": "#layer-reference" },
+    { "include": "#contract-declaration" },
+    { "include": "#contract-reference" },
+    { "include": "#keywords" },
+    { "include": "#glob" },
+    { "include": "#generic-arguments" },
+    { "include": "#operators" },
+    { "include": "#wildcard" },
+    { "include": "#type-name" },
+    { "include": "#punctuation" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.tangent",
+          "begin": "//",
+          "beginCaptures": {
+            "0": { "name": "punctuation.definition.comment.tangent" }
+          },
+          "end": "$"
+        },
+        {
+          "name": "comment.block.tangent",
+          "begin": "/\\*",
+          "beginCaptures": {
+            "0": { "name": "punctuation.definition.comment.begin.tangent" }
+          },
+          "end": "\\*/",
+          "endCaptures": {
+            "0": { "name": "punctuation.definition.comment.end.tangent" }
+          }
+        }
+      ]
+    },
+    "strings": {
+      "name": "string.quoted.double.tangent",
+      "begin": "\"",
+      "beginCaptures": {
+        "0": { "name": "punctuation.definition.string.begin.tangent" }
+      },
+      "end": "\"",
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.string.end.tangent" }
+      },
+      "patterns": [
+        { "name": "constant.character.escape.tangent", "match": "\\\\[\"\\\\]" },
+        { "name": "invalid.illegal.unknown-escape.tangent", "match": "\\\\." }
+      ]
+    },
+    "attribute-literal": {
+      "name": "meta.attribute.tangent",
+      "begin": "\\[",
+      "beginCaptures": {
+        "0": { "name": "punctuation.definition.attribute.begin.tangent" }
+      },
+      "end": "\\]",
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.attribute.end.tangent" }
+      },
+      "patterns": [
+        { "include": "#comments" },
+        { "include": "#strings" },
+        { "include": "#template" },
+        { "name": "constant.language.wildcard.tangent", "match": "\\*{1,2}" },
+        { "name": "keyword.operator.alternation.tangent", "match": "\\|" },
+        { "name": "punctuation.separator.comma.tangent", "match": "," },
+        { "name": "punctuation.section.arguments.tangent", "match": "[()]" },
+        {
+          "name": "entity.name.tag.attribute.tangent",
+          "match": "\\b[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*\\b"
+        }
+      ]
+    },
+    "template": {
+      "name": "variable.other.template.tangent",
+      "match": "(\\{)([A-Za-z_][A-Za-z0-9_]*)(?:(:)[ \\t]*([A-Za-z_][A-Za-z0-9_-]*)[ \\t]+([A-Za-z_][A-Za-z0-9_]*))?(\\})",
+      "captures": {
+        "1": { "name": "punctuation.definition.template.begin.tangent" },
+        "2": { "name": "variable.other.template.name.tangent" },
+        "3": { "name": "punctuation.separator.clause.tangent" },
+        "4": { "name": "keyword.other.template-function.tangent" },
+        "5": { "name": "variable.parameter.template.tangent" },
+        "6": { "name": "punctuation.definition.template.end.tangent" }
+      }
+    },
+    "layer-declaration": {
+      "match": "\\b(layer)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+      "captures": {
+        "1": { "name": "keyword.control.tangent" },
+        "2": { "name": "entity.name.type.layer.tangent" }
+      }
+    },
+    "layer-dependency": {
+      "name": "meta.layer-dependency.tangent",
+      "begin": "^\\s*([A-Za-z_][A-Za-z0-9_]*)\\s*(->)",
+      "beginCaptures": {
+        "1": { "name": "entity.name.type.layer.tangent" },
+        "2": { "name": "keyword.operator.depends.tangent" }
+      },
+      "end": "$",
+      "patterns": [
+        { "include": "#comments" },
+        { "name": "keyword.other.predicate.tangent", "match": "\\bnothing\\b" },
+        { "name": "punctuation.separator.comma.tangent", "match": "," },
+        {
+          "name": "entity.name.type.layer.tangent",
+          "match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+        }
+      ]
+    },
+    "layer-reference": {
+      "match": "\\b(in)\\s+([A-Za-z_][A-Za-z0-9_]*)\\b(?![.<*])",
+      "captures": {
+        "1": { "name": "keyword.control.tangent" },
+        "2": { "name": "entity.name.type.layer.tangent" }
+      }
+    },
+    "contract-declaration": {
+      "match": "\\b(contract|extends)\\s+([A-Za-z_][A-Za-z0-9_]*)\\b",
+      "captures": {
+        "1": { "name": "keyword.control.tangent" },
+        "2": { "name": "entity.name.type.contract.tangent" }
+      }
+    },
+    "contract-reference": {
+      "match": "\\b(to|from)\\s+([A-Z][A-Za-z0-9_]*)\\b(?![.<*])",
+      "captures": {
+        "1": { "name": "keyword.control.tangent" },
+        "2": { "name": "entity.name.type.contract.tangent" }
+      }
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.tangent",
+          "match": "\\b(project|root|layer|contract|extends|match|bind|exempt|to|except|reason|from|require-each|require|forbid|where|in|only|allow)\\b"
+        },
+        {
+          "name": "storage.modifier.tangent",
+          "match": "\\b(public|private|protected|internal|static|sealed|abstract|readonly|partial)\\b"
+        },
+        {
+          "name": "storage.type.tangent",
+          "match": "\\b(class|interface|record|struct|enum|any)\\b"
+        },
+        {
+          "name": "keyword.other.member.tangent",
+          "match": "\\b(ctor|methods|properties|fields|events|nested|get|set|init)\\b"
+        },
+        {
+          "name": "keyword.other.predicate.tangent",
+          "match": "\\b(inherits|implements|attributes|returns|injects|using|new|lives|namespace|name|starts|ends|with|contains|matches|each|parameter|assigned|field|null-checked|nothing|not|stored|stateless|and|or)\\b"
+        }
+      ]
+    },
+    "glob": {
+      "name": "string.unquoted.glob.tangent",
+      "begin": "\\b[A-Za-z_][A-Za-z0-9_]*(?=(?:\\.(?:[A-Za-z_][A-Za-z0-9_]*|\\*{1,2}))*\\.\\*{1,2})",
+      "end": "(?![A-Za-z0-9_.*])",
+      "patterns": [
+        { "name": "constant.language.wildcard.tangent", "match": "\\*{1,2}" },
+        { "name": "punctuation.accessor.tangent", "match": "\\." },
+        { "match": "[A-Za-z0-9_]+" }
+      ]
+    },
+    "generic-arguments": {
+      "name": "meta.generic.tangent",
+      "begin": "(?<=[A-Za-z0-9_>}])\\s*(<)",
+      "beginCaptures": {
+        "1": { "name": "punctuation.definition.generic.begin.tangent" }
+      },
+      "end": "(>)",
+      "endCaptures": {
+        "1": { "name": "punctuation.definition.generic.end.tangent" }
+      },
+      "patterns": [
+        { "include": "#comments" },
+        { "include": "#template" },
+        { "include": "#wildcard" },
+        { "include": "#generic-arguments" },
+        { "name": "punctuation.separator.comma.tangent", "match": "," },
+        { "include": "#type-name" }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        { "name": "keyword.operator.depends.tangent", "match": "->" },
+        { "name": "keyword.operator.alternation.tangent", "match": "\\|" },
+        { "name": "keyword.operator.assignment.tangent", "match": "=" }
+      ]
+    },
+    "wildcard": {
+      "name": "constant.language.wildcard.tangent",
+      "match": "\\*{1,2}"
+    },
+    "type-name": {
+      "name": "entity.name.type.tangent",
+      "match": "\\b[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*\\b"
+    },
+    "punctuation": {
+      "patterns": [
+        { "name": "punctuation.section.block.begin.tangent", "match": "\\{" },
+        { "name": "punctuation.section.block.end.tangent", "match": "\\}" },
+        { "name": "punctuation.separator.clause.tangent", "match": ":" },
+        { "name": "punctuation.separator.comma.tangent", "match": "," },
+        { "name": "punctuation.terminator.tangent", "match": ";" }
+      ]
+    }
+  }
+}
