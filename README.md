@@ -89,4 +89,22 @@ viewer/      React graph viewer
 docs/        Design notes and API docs
 ```
 
-The full design is in [TANGENT-PLAN.md](TANGENT-PLAN.md).
+## Documentation
+
+- [Getting started](docs/getting-started.md): install, describe, bind, enforce.
+- [CLI reference](docs/cli.md): every command, option, exit code and output format.
+- [Diagnostics](docs/diagnostics.md): every `TNG` code with its meaning and default severity.
+- [Core API](docs/core-api.md), [Analyzer API](docs/analyzer-api.md), [Language server](docs/language-server.md), [Benchmarks](docs/benchmarks.md).
+- [TANGENT-PLAN.md](TANGENT-PLAN.md): the full design and roadmap.
+
+## Status
+
+| Phase | Scope | State |
+|---|---|---|
+| 0 | Skeleton, packaging, attributes, `samples/Orders` | Done |
+| 1 | Lexer, parser, binder, IR, `tangent lint`, TextMate grammar | Done |
+| 2 | Analyzer Tier 0, `tangent check`, SARIF, benchmarks | Done |
+| 3 | Tier 1 (`forbid using`, `forbid new`, layers), code fixes, `tangent diff`, `extends`, refinements | Done |
+| 4 | Tier 2 (parameter flow, `stateless`), templates, source generator | Done |
+| 5 | `tangent graph` and the React viewer | Done |
+| 6 | Language server and VS Code extension | Done (Rider plugin not started) |

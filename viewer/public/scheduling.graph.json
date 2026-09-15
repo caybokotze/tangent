@@ -1,0 +1,3300 @@
+{
+  "version": 1,
+  "project": "Scheduling",
+  "generatedAt": "2026-09-22T12:03:36Z",
+  "layers": [
+    {
+      "id": "Api",
+      "namespaces": [
+        "Scheduling.Api.**"
+      ],
+      "allowedDependencies": [
+        "Application",
+        "Domain"
+      ]
+    },
+    {
+      "id": "Application",
+      "namespaces": [
+        "Scheduling.Application.**"
+      ],
+      "allowedDependencies": [
+        "Domain"
+      ]
+    },
+    {
+      "id": "Domain",
+      "namespaces": [
+        "Scheduling.Domain.**"
+      ],
+      "allowedDependencies": []
+    },
+    {
+      "id": "Infrastructure",
+      "namespaces": [
+        "Scheduling.Infrastructure.**"
+      ],
+      "allowedDependencies": [
+        "Application",
+        "Domain"
+      ]
+    }
+  ],
+  "contracts": [
+    {
+      "id": "Controller",
+      "file": ".tangent/controllers.tan",
+      "line": 4,
+      "extends": null,
+      "ruleCount": 11
+    },
+    {
+      "id": "Entity",
+      "file": ".tangent/entities.tan",
+      "line": 4,
+      "extends": null,
+      "ruleCount": 6
+    },
+    {
+      "id": "AggregateRoot",
+      "file": ".tangent/entities.tan",
+      "line": 16,
+      "extends": "Entity",
+      "ruleCount": 1
+    },
+    {
+      "id": "Handler",
+      "file": ".tangent/handlers.tan",
+      "line": 5,
+      "extends": null,
+      "ruleCount": 6
+    },
+    {
+      "id": "Repository",
+      "file": ".tangent/repositories.tan",
+      "line": 4,
+      "extends": null,
+      "ruleCount": 5
+    },
+    {
+      "id": "DomainService",
+      "file": ".tangent/services.tan",
+      "line": 3,
+      "extends": null,
+      "ruleCount": 8
+    },
+    {
+      "id": "ViewModel",
+      "file": ".tangent/services.tan",
+      "line": 16,
+      "extends": null,
+      "ruleCount": 6
+    }
+  ],
+  "nodes": [
+    {
+      "id": "Program",
+      "name": "Program",
+      "kind": "class",
+      "layer": null,
+      "contracts": [],
+      "file": "src/Scheduling.Api/Program.cs",
+      "line": 80,
+      "violations": 0,
+      "exemptions": 0,
+      "members": []
+    },
+    {
+      "id": "Scheduling.Api.ApiControllerBase",
+      "name": "ApiControllerBase",
+      "kind": "class",
+      "layer": "Api",
+      "contracts": [],
+      "file": "src/Scheduling.Api/ApiControllerBase.cs",
+      "line": 9,
+      "violations": 0,
+      "exemptions": 0,
+      "members": []
+    },
+    {
+      "id": "Scheduling.Api.Controllers.AppointmentsController",
+      "name": "AppointmentsController",
+      "kind": "class",
+      "layer": "Api",
+      "contracts": [
+        "Controller"
+      ],
+      "file": "src/Scheduling.Api/Controllers/AppointmentsController.cs",
+      "line": 14,
+      "violations": 1,
+      "exemptions": 1,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "AppointmentsController(IMediator, ILogger<AppointmentsController>, IUserContext)"
+        },
+        {
+          "name": "BookAsync",
+          "kind": "method",
+          "signature": "Task<ActionResult<AppointmentViewModel>> BookAsync(BookAppointmentCommand, CancellationToken)"
+        },
+        {
+          "name": "CancelAsync",
+          "kind": "method",
+          "signature": "Task<ActionResult<AppointmentViewModel>> CancelAsync(Guid, string, CancellationToken)"
+        },
+        {
+          "name": "GetByIdAsync",
+          "kind": "method",
+          "signature": "Task<ActionResult<AppointmentViewModel>> GetByIdAsync(Guid, CancellationToken)"
+        },
+        {
+          "name": "RescheduleAsync",
+          "kind": "method",
+          "signature": "Task<ActionResult<AppointmentViewModel>> RescheduleAsync(Guid, RescheduleRequest, CancellationToken)"
+        },
+        {
+          "name": "ListForDayAsync",
+          "kind": "method",
+          "signature": "Task<ActionResult<IReadOnlyList<AppointmentViewModel>>> ListForDayAsync(DateOnly, CancellationToken)"
+        },
+        {
+          "name": "ExportIcsAsync",
+          "kind": "method",
+          "signature": "Task<FileContentResult> ExportIcsAsync(DateOnly, CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Api.Controllers.AvailabilityController",
+      "name": "AvailabilityController",
+      "kind": "class",
+      "layer": "Api",
+      "contracts": [
+        "Controller"
+      ],
+      "file": "src/Scheduling.Api/Controllers/AvailabilityController.cs",
+      "line": 17,
+      "violations": 1,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "AvailabilityController(IMediator, ILogger<AvailabilityController>)"
+        },
+        {
+          "name": "GetAsync",
+          "kind": "method",
+          "signature": "Task<ActionResult<IReadOnlyList<AvailabilityViewModel>>> GetAsync(Guid, CancellationToken)"
+        },
+        {
+          "name": "GetSlotsAsync",
+          "kind": "method",
+          "signature": "Task<ActionResult<IReadOnlyList<TimeSlotViewModel>>> GetSlotsAsync(Guid, DateOnly, int, CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Api.Controllers.HealthController",
+      "name": "HealthController",
+      "kind": "class",
+      "layer": "Api",
+      "contracts": [
+        "Controller"
+      ],
+      "file": "src/Scheduling.Api/Controllers/HealthController.cs",
+      "line": 14,
+      "violations": 0,
+      "exemptions": 1,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "HealthController(ILogger<HealthController>)"
+        },
+        {
+          "name": "GetAsync",
+          "kind": "method",
+          "signature": "Task<ActionResult<object>> GetAsync()"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Api.Controllers.ProvidersController",
+      "name": "ProvidersController",
+      "kind": "class",
+      "layer": "Api",
+      "contracts": [
+        "Controller"
+      ],
+      "file": "src/Scheduling.Api/Controllers/ProvidersController.cs",
+      "line": 17,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "ProvidersController(IMediator, ILogger<ProvidersController>)"
+        },
+        {
+          "name": "ListAsync",
+          "kind": "method",
+          "signature": "Task<ActionResult<IReadOnlyList<ProviderViewModel>>> ListAsync(CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Api.Controllers.RescheduleRequest",
+      "name": "RescheduleRequest",
+      "kind": "record",
+      "layer": "Api",
+      "contracts": [],
+      "file": "src/Scheduling.Api/Controllers/AppointmentsController.cs",
+      "line": 123,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "RescheduleRequest(DateTimeOffset)"
+        },
+        {
+          "name": "StartsAt",
+          "kind": "property",
+          "signature": "DateTimeOffset StartsAt"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Api.Diagnostics.SeedInspector",
+      "name": "SeedInspector",
+      "kind": "class",
+      "layer": "Api",
+      "contracts": [],
+      "file": "src/Scheduling.Api/Diagnostics/SeedInspector.cs",
+      "line": 9,
+      "violations": 1,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "SeededProviderIds",
+          "kind": "property",
+          "signature": "IReadOnlyList<Guid> SeededProviderIds"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Application.Abstractions.IMediator",
+      "name": "IMediator",
+      "kind": "interface",
+      "layer": "Application",
+      "contracts": [],
+      "file": "src/Scheduling.Application/Abstractions/IMediator.cs",
+      "line": 18,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "SendAsync",
+          "kind": "method",
+          "signature": "Task<TResponse> SendAsync<TResponse>(IRequest<TResponse>, CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Application.Abstractions.IRequestHandler`2",
+      "name": "IRequestHandler",
+      "kind": "interface",
+      "layer": "Application",
+      "contracts": [],
+      "file": "src/Scheduling.Application/Abstractions/IMediator.cs",
+      "line": 10,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "HandleAsync",
+          "kind": "method",
+          "signature": "Task<TResponse> HandleAsync(TRequest, CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Application.Abstractions.IRequest`1",
+      "name": "IRequest",
+      "kind": "interface",
+      "layer": "Application",
+      "contracts": [],
+      "file": "src/Scheduling.Application/Abstractions/IMediator.cs",
+      "line": 7,
+      "violations": 0,
+      "exemptions": 0,
+      "members": []
+    },
+    {
+      "id": "Scheduling.Application.Abstractions.IUserContext",
+      "name": "IUserContext",
+      "kind": "interface",
+      "layer": "Application",
+      "contracts": [],
+      "file": "src/Scheduling.Application/Abstractions/IUserContext.cs",
+      "line": 4,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "UserName",
+          "kind": "property",
+          "signature": "string UserName"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Application.Abstractions.Mediator",
+      "name": "Mediator",
+      "kind": "class",
+      "layer": "Application",
+      "contracts": [],
+      "file": "src/Scheduling.Application/Abstractions/Mediator.cs",
+      "line": 10,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "Mediator(IServiceProvider)"
+        },
+        {
+          "name": "SendAsync",
+          "kind": "method",
+          "signature": "Task<TResponse> SendAsync<TResponse>(IRequest<TResponse>, CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Application.Appointments.AppointmentMapping",
+      "name": "AppointmentMapping",
+      "kind": "class",
+      "layer": "Application",
+      "contracts": [],
+      "file": "src/Scheduling.Application/Appointments/AppointmentMapping.cs",
+      "line": 7,
+      "violations": 0,
+      "exemptions": 0,
+      "members": []
+    },
+    {
+      "id": "Scheduling.Application.Appointments.BookAppointmentCommand",
+      "name": "BookAppointmentCommand",
+      "kind": "record",
+      "layer": "Application",
+      "contracts": [],
+      "file": "src/Scheduling.Application/Appointments/BookAppointmentCommand.cs",
+      "line": 10,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "BookAppointmentCommand(Guid, string, DateTimeOffset, int)"
+        },
+        {
+          "name": "StartsAt",
+          "kind": "property",
+          "signature": "DateTimeOffset StartsAt"
+        },
+        {
+          "name": "ProviderId",
+          "kind": "property",
+          "signature": "Guid ProviderId"
+        },
+        {
+          "name": "DurationMinutes",
+          "kind": "property",
+          "signature": "int DurationMinutes"
+        },
+        {
+          "name": "PatientName",
+          "kind": "property",
+          "signature": "string PatientName"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Application.Appointments.BookAppointmentCommandHandler",
+      "name": "BookAppointmentCommandHandler",
+      "kind": "class",
+      "layer": "Application",
+      "contracts": [
+        "Handler"
+      ],
+      "file": "src/Scheduling.Application/Appointments/BookAppointmentCommand.cs",
+      "line": 17,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "BookAppointmentCommandHandler(IAppointmentRepository, IProviderRepository, IClock, IUserContext)"
+        },
+        {
+          "name": "HandleAsync",
+          "kind": "method",
+          "signature": "Task<AppointmentViewModel> HandleAsync(BookAppointmentCommand, CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Application.Appointments.CancelAppointmentCommand",
+      "name": "CancelAppointmentCommand",
+      "kind": "record",
+      "layer": "Application",
+      "contracts": [],
+      "file": "src/Scheduling.Application/Appointments/CancelAppointmentCommand.cs",
+      "line": 9,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "CancelAppointmentCommand(Guid, string)"
+        },
+        {
+          "name": "AppointmentId",
+          "kind": "property",
+          "signature": "Guid AppointmentId"
+        },
+        {
+          "name": "Reason",
+          "kind": "property",
+          "signature": "string Reason"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Application.Appointments.CancelAppointmentCommandHandler",
+      "name": "CancelAppointmentCommandHandler",
+      "kind": "class",
+      "layer": "Application",
+      "contracts": [
+        "Handler"
+      ],
+      "file": "src/Scheduling.Application/Appointments/CancelAppointmentCommand.cs",
+      "line": 15,
+      "violations": 1,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "CancelAppointmentCommandHandler(IAppointmentRepository, IClock)"
+        },
+        {
+          "name": "HandleAsync",
+          "kind": "method",
+          "signature": "Task<AppointmentViewModel> HandleAsync(CancelAppointmentCommand, CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Application.Appointments.FindAvailableSlotsQuery",
+      "name": "FindAvailableSlotsQuery",
+      "kind": "record",
+      "layer": "Application",
+      "contracts": [],
+      "file": "src/Scheduling.Application/Appointments/FindAvailableSlotsQuery.cs",
+      "line": 10,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "FindAvailableSlotsQuery(Guid, DateOnly, int)"
+        },
+        {
+          "name": "Day",
+          "kind": "property",
+          "signature": "DateOnly Day"
+        },
+        {
+          "name": "ProviderId",
+          "kind": "property",
+          "signature": "Guid ProviderId"
+        },
+        {
+          "name": "DurationMinutes",
+          "kind": "property",
+          "signature": "int DurationMinutes"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Application.Appointments.FindAvailableSlotsQueryHandler",
+      "name": "FindAvailableSlotsQueryHandler",
+      "kind": "class",
+      "layer": "Application",
+      "contracts": [
+        "Handler"
+      ],
+      "file": "src/Scheduling.Application/Appointments/FindAvailableSlotsQuery.cs",
+      "line": 14,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "FindAvailableSlotsQueryHandler(IProviderRepository, IAppointmentRepository, ISlotFinderService)"
+        },
+        {
+          "name": "HandleAsync",
+          "kind": "method",
+          "signature": "Task<IReadOnlyList<TimeSlotViewModel>> HandleAsync(FindAvailableSlotsQuery, CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Application.Appointments.GetAppointmentQuery",
+      "name": "GetAppointmentQuery",
+      "kind": "record",
+      "layer": "Application",
+      "contracts": [],
+      "file": "src/Scheduling.Application/Appointments/GetAppointmentQuery.cs",
+      "line": 8,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "GetAppointmentQuery(Guid)"
+        },
+        {
+          "name": "AppointmentId",
+          "kind": "property",
+          "signature": "Guid AppointmentId"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Application.Appointments.GetAppointmentQueryHandler",
+      "name": "GetAppointmentQueryHandler",
+      "kind": "class",
+      "layer": "Application",
+      "contracts": [
+        "Handler"
+      ],
+      "file": "src/Scheduling.Application/Appointments/GetAppointmentQuery.cs",
+      "line": 11,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "GetAppointmentQueryHandler(IAppointmentRepository)"
+        },
+        {
+          "name": "HandleAsync",
+          "kind": "method",
+          "signature": "Task<AppointmentViewModel> HandleAsync(GetAppointmentQuery, CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Application.Appointments.GetProviderAvailabilityQuery",
+      "name": "GetProviderAvailabilityQuery",
+      "kind": "record",
+      "layer": "Application",
+      "contracts": [],
+      "file": "src/Scheduling.Application/Appointments/GetProviderAvailabilityQuery.cs",
+      "line": 9,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "GetProviderAvailabilityQuery(Guid)"
+        },
+        {
+          "name": "ProviderId",
+          "kind": "property",
+          "signature": "Guid ProviderId"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Application.Appointments.GetProviderAvailabilityQueryHandler",
+      "name": "GetProviderAvailabilityQueryHandler",
+      "kind": "class",
+      "layer": "Application",
+      "contracts": [
+        "Handler"
+      ],
+      "file": "src/Scheduling.Application/Appointments/GetProviderAvailabilityQuery.cs",
+      "line": 12,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "GetProviderAvailabilityQueryHandler(IProviderRepository)"
+        },
+        {
+          "name": "HandleAsync",
+          "kind": "method",
+          "signature": "Task<IReadOnlyList<AvailabilityViewModel>> HandleAsync(GetProviderAvailabilityQuery, CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Application.Appointments.ListAppointmentsForDayQuery",
+      "name": "ListAppointmentsForDayQuery",
+      "kind": "record",
+      "layer": "Application",
+      "contracts": [],
+      "file": "src/Scheduling.Application/Appointments/ListAppointmentsForDayQuery.cs",
+      "line": 8,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "ListAppointmentsForDayQuery(DateOnly)"
+        },
+        {
+          "name": "Day",
+          "kind": "property",
+          "signature": "DateOnly Day"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Application.Appointments.ListAppointmentsForDayQueryHandler",
+      "name": "ListAppointmentsForDayQueryHandler",
+      "kind": "class",
+      "layer": "Application",
+      "contracts": [
+        "Handler"
+      ],
+      "file": "src/Scheduling.Application/Appointments/ListAppointmentsForDayQuery.cs",
+      "line": 11,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "ListAppointmentsForDayQueryHandler(IAppointmentRepository)"
+        },
+        {
+          "name": "HandleAsync",
+          "kind": "method",
+          "signature": "Task<IReadOnlyList<AppointmentViewModel>> HandleAsync(ListAppointmentsForDayQuery, CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Application.Appointments.ListProvidersQuery",
+      "name": "ListProvidersQuery",
+      "kind": "record",
+      "layer": "Application",
+      "contracts": [],
+      "file": "src/Scheduling.Application/Appointments/ListProvidersQuery.cs",
+      "line": 8,
+      "violations": 0,
+      "exemptions": 0,
+      "members": []
+    },
+    {
+      "id": "Scheduling.Application.Appointments.ListProvidersQueryHandler",
+      "name": "ListProvidersQueryHandler",
+      "kind": "class",
+      "layer": "Application",
+      "contracts": [
+        "Handler"
+      ],
+      "file": "src/Scheduling.Application/Appointments/ListProvidersQuery.cs",
+      "line": 11,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "ListProvidersQueryHandler(IProviderRepository)"
+        },
+        {
+          "name": "HandleAsync",
+          "kind": "method",
+          "signature": "Task<IReadOnlyList<ProviderViewModel>> HandleAsync(ListProvidersQuery, CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Application.Appointments.RescheduleAppointmentCommand",
+      "name": "RescheduleAppointmentCommand",
+      "kind": "record",
+      "layer": "Application",
+      "contracts": [],
+      "file": "src/Scheduling.Application/Appointments/RescheduleAppointmentCommand.cs",
+      "line": 10,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "RescheduleAppointmentCommand(Guid, DateTimeOffset)"
+        },
+        {
+          "name": "StartsAt",
+          "kind": "property",
+          "signature": "DateTimeOffset StartsAt"
+        },
+        {
+          "name": "AppointmentId",
+          "kind": "property",
+          "signature": "Guid AppointmentId"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Application.Appointments.RescheduleAppointmentCommandHandler",
+      "name": "RescheduleAppointmentCommandHandler",
+      "kind": "class",
+      "layer": "Application",
+      "contracts": [
+        "Handler"
+      ],
+      "file": "src/Scheduling.Application/Appointments/RescheduleAppointmentCommand.cs",
+      "line": 14,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "RescheduleAppointmentCommandHandler(IAppointmentRepository, IClock, IUserContext)"
+        },
+        {
+          "name": "HandleAsync",
+          "kind": "method",
+          "signature": "Task<AppointmentViewModel> HandleAsync(RescheduleAppointmentCommand, CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Application.ViewModels.AppointmentViewModel",
+      "name": "AppointmentViewModel",
+      "kind": "record",
+      "layer": "Application",
+      "contracts": [
+        "ViewModel"
+      ],
+      "file": "src/Scheduling.Application/ViewModels/AppointmentViewModel.cs",
+      "line": 6,
+      "violations": 1,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "Status",
+          "kind": "property",
+          "signature": "AppointmentStatus Status"
+        },
+        {
+          "name": "EndsAt",
+          "kind": "property",
+          "signature": "DateTimeOffset EndsAt"
+        },
+        {
+          "name": "StartsAt",
+          "kind": "property",
+          "signature": "DateTimeOffset StartsAt"
+        },
+        {
+          "name": "Id",
+          "kind": "property",
+          "signature": "Guid Id"
+        },
+        {
+          "name": "ProviderId",
+          "kind": "property",
+          "signature": "Guid ProviderId"
+        },
+        {
+          "name": "PatientName",
+          "kind": "property",
+          "signature": "string PatientName"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Application.ViewModels.AvailabilityViewModel",
+      "name": "AvailabilityViewModel",
+      "kind": "record",
+      "layer": "Application",
+      "contracts": [
+        "ViewModel"
+      ],
+      "file": "src/Scheduling.Application/ViewModels/AvailabilityViewModel.cs",
+      "line": 4,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "AvailabilityViewModel(Guid, string, TimeOnly, TimeOnly)"
+        },
+        {
+          "name": "ProviderId",
+          "kind": "property",
+          "signature": "Guid ProviderId"
+        },
+        {
+          "name": "EndsAt",
+          "kind": "property",
+          "signature": "TimeOnly EndsAt"
+        },
+        {
+          "name": "StartsAt",
+          "kind": "property",
+          "signature": "TimeOnly StartsAt"
+        },
+        {
+          "name": "Day",
+          "kind": "property",
+          "signature": "string Day"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Application.ViewModels.ProviderViewModel",
+      "name": "ProviderViewModel",
+      "kind": "record",
+      "layer": "Application",
+      "contracts": [
+        "ViewModel"
+      ],
+      "file": "src/Scheduling.Application/ViewModels/ProviderViewModel.cs",
+      "line": 4,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "ProviderViewModel(Guid, string, string)"
+        },
+        {
+          "name": "Id",
+          "kind": "property",
+          "signature": "Guid Id"
+        },
+        {
+          "name": "DisplayName",
+          "kind": "property",
+          "signature": "string DisplayName"
+        },
+        {
+          "name": "Speciality",
+          "kind": "property",
+          "signature": "string Speciality"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Application.ViewModels.TimeSlotViewModel",
+      "name": "TimeSlotViewModel",
+      "kind": "record",
+      "layer": "Application",
+      "contracts": [
+        "ViewModel"
+      ],
+      "file": "src/Scheduling.Application/ViewModels/TimeSlotViewModel.cs",
+      "line": 4,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "TimeSlotViewModel(DateTimeOffset, DateTimeOffset)"
+        },
+        {
+          "name": "EndsAt",
+          "kind": "property",
+          "signature": "DateTimeOffset EndsAt"
+        },
+        {
+          "name": "StartsAt",
+          "kind": "property",
+          "signature": "DateTimeOffset StartsAt"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Domain.AggregateRoot`1",
+      "name": "AggregateRoot",
+      "kind": "class",
+      "layer": "Domain",
+      "contracts": [
+        "Entity"
+      ],
+      "file": "src/Scheduling.Domain/AggregateRoot.cs",
+      "line": 7,
+      "violations": 0,
+      "exemptions": 0,
+      "members": []
+    },
+    {
+      "id": "Scheduling.Domain.Appointments.Appointment",
+      "name": "Appointment",
+      "kind": "class",
+      "layer": "Domain",
+      "contracts": [
+        "Entity"
+      ],
+      "file": "src/Scheduling.Domain/Appointments/Appointment.cs",
+      "line": 11,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "Cancel",
+          "kind": "method",
+          "signature": "Appointment Cancel(string)"
+        },
+        {
+          "name": "Reschedule",
+          "kind": "method",
+          "signature": "Appointment Reschedule(TimeSlot, IReadOnlyList<Appointment>, IClock)"
+        },
+        {
+          "name": "Schedule",
+          "kind": "method",
+          "signature": "Appointment Schedule(Guid, string, TimeSlot, IReadOnlyList<Appointment>, IClock)"
+        },
+        {
+          "name": "Status",
+          "kind": "property",
+          "signature": "AppointmentStatus Status"
+        },
+        {
+          "name": "ProviderId",
+          "kind": "property",
+          "signature": "Guid ProviderId"
+        },
+        {
+          "name": "Slot",
+          "kind": "property",
+          "signature": "TimeSlot Slot"
+        },
+        {
+          "name": "IsActive",
+          "kind": "property",
+          "signature": "bool IsActive"
+        },
+        {
+          "name": "CancellationReason",
+          "kind": "property",
+          "signature": "string CancellationReason"
+        },
+        {
+          "name": "PatientName",
+          "kind": "property",
+          "signature": "string PatientName"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Domain.Appointments.AppointmentAuditEntry",
+      "name": "AppointmentAuditEntry",
+      "kind": "class",
+      "layer": "Domain",
+      "contracts": [],
+      "file": "src/Scheduling.Domain/Appointments/AppointmentAuditEntry.cs",
+      "line": 8,
+      "violations": 0,
+      "exemptions": 1,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "AppointmentAuditEntry()"
+        },
+        {
+          "name": "At",
+          "kind": "property",
+          "signature": "DateTimeOffset At"
+        },
+        {
+          "name": "AppointmentId",
+          "kind": "property",
+          "signature": "Guid AppointmentId"
+        },
+        {
+          "name": "Action",
+          "kind": "property",
+          "signature": "string Action"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Domain.Appointments.AppointmentStatus",
+      "name": "AppointmentStatus",
+      "kind": "enum",
+      "layer": "Domain",
+      "contracts": [],
+      "file": "src/Scheduling.Domain/Appointments/AppointmentStatus.cs",
+      "line": 4,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "Cancelled",
+          "kind": "field",
+          "signature": "Cancelled"
+        },
+        {
+          "name": "Rescheduled",
+          "kind": "field",
+          "signature": "Rescheduled"
+        },
+        {
+          "name": "Scheduled",
+          "kind": "field",
+          "signature": "Scheduled"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Domain.Appointments.TimeSlot",
+      "name": "TimeSlot",
+      "kind": "record",
+      "layer": "Domain",
+      "contracts": [],
+      "file": "src/Scheduling.Domain/Appointments/TimeSlot.cs",
+      "line": 7,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "TimeSlot(DateTimeOffset, DateTimeOffset)"
+        },
+        {
+          "name": "MoveTo",
+          "kind": "method",
+          "signature": "TimeSlot MoveTo(DateTimeOffset)"
+        },
+        {
+          "name": "Overlaps",
+          "kind": "method",
+          "signature": "bool Overlaps(TimeSlot)"
+        },
+        {
+          "name": "ToString",
+          "kind": "method",
+          "signature": "string ToString()"
+        },
+        {
+          "name": "End",
+          "kind": "property",
+          "signature": "DateTimeOffset End"
+        },
+        {
+          "name": "Start",
+          "kind": "property",
+          "signature": "DateTimeOffset Start"
+        },
+        {
+          "name": "Duration",
+          "kind": "property",
+          "signature": "TimeSpan Duration"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Domain.Entity`1",
+      "name": "Entity",
+      "kind": "class",
+      "layer": "Domain",
+      "contracts": [],
+      "file": "src/Scheduling.Domain/Entity.cs",
+      "line": 4,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "Equals",
+          "kind": "method",
+          "signature": "bool Equals(object)"
+        },
+        {
+          "name": "GetHashCode",
+          "kind": "method",
+          "signature": "int GetHashCode()"
+        },
+        {
+          "name": "Id",
+          "kind": "property",
+          "signature": "TId Id"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Domain.IClock",
+      "name": "IClock",
+      "kind": "interface",
+      "layer": "Domain",
+      "contracts": [],
+      "file": "src/Scheduling.Domain/IClock.cs",
+      "line": 4,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "UtcNow",
+          "kind": "property",
+          "signature": "DateTimeOffset UtcNow"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Domain.Providers.Availability",
+      "name": "Availability",
+      "kind": "class",
+      "layer": "Domain",
+      "contracts": [
+        "Entity"
+      ],
+      "file": "src/Scheduling.Domain/Providers/Availability.cs",
+      "line": 9,
+      "violations": 1,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "On",
+          "kind": "method",
+          "signature": "Availability On(DayOfWeek, TimeOnly, TimeOnly)"
+        },
+        {
+          "name": "Covers",
+          "kind": "method",
+          "signature": "bool Covers(TimeSlot)"
+        },
+        {
+          "name": "Day",
+          "kind": "property",
+          "signature": "DayOfWeek Day"
+        },
+        {
+          "name": "EndsAt",
+          "kind": "property",
+          "signature": "TimeOnly EndsAt"
+        },
+        {
+          "name": "StartsAt",
+          "kind": "property",
+          "signature": "TimeOnly StartsAt"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Domain.Providers.Provider",
+      "name": "Provider",
+      "kind": "class",
+      "layer": "Domain",
+      "contracts": [
+        "Entity"
+      ],
+      "file": "src/Scheduling.Domain/Providers/Provider.cs",
+      "line": 10,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "WorkingHoursOn",
+          "kind": "method",
+          "signature": "IReadOnlyList<Availability> WorkingHoursOn(DayOfWeek)"
+        },
+        {
+          "name": "Open",
+          "kind": "method",
+          "signature": "Provider Open(Availability)"
+        },
+        {
+          "name": "Register",
+          "kind": "method",
+          "signature": "Provider Register(Guid, string, string, IEnumerable<Availability>)"
+        },
+        {
+          "name": "WorkingHours",
+          "kind": "property",
+          "signature": "IReadOnlyList<Availability> WorkingHours"
+        },
+        {
+          "name": "DisplayName",
+          "kind": "property",
+          "signature": "string DisplayName"
+        },
+        {
+          "name": "Speciality",
+          "kind": "property",
+          "signature": "string Speciality"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Domain.Repositories.IAppointmentRepository",
+      "name": "IAppointmentRepository",
+      "kind": "interface",
+      "layer": "Domain",
+      "contracts": [],
+      "file": "src/Scheduling.Domain/Repositories/IAppointmentRepository.cs",
+      "line": 6,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "FindAsync",
+          "kind": "method",
+          "signature": "Task<Appointment> FindAsync(Guid, CancellationToken)"
+        },
+        {
+          "name": "SaveAsync",
+          "kind": "method",
+          "signature": "Task<Appointment> SaveAsync(Appointment, string, CancellationToken)"
+        },
+        {
+          "name": "ForDayAsync",
+          "kind": "method",
+          "signature": "Task<IReadOnlyList<Appointment>> ForDayAsync(DateOnly, CancellationToken)"
+        },
+        {
+          "name": "ForProviderAsync",
+          "kind": "method",
+          "signature": "Task<IReadOnlyList<Appointment>> ForProviderAsync(Guid, DateOnly, CancellationToken)"
+        },
+        {
+          "name": "AuditAsync",
+          "kind": "method",
+          "signature": "Task<IReadOnlyList<AppointmentAuditEntry>> AuditAsync(Guid, CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Domain.Repositories.IProviderRepository",
+      "name": "IProviderRepository",
+      "kind": "interface",
+      "layer": "Domain",
+      "contracts": [],
+      "file": "src/Scheduling.Domain/Repositories/IProviderRepository.cs",
+      "line": 6,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "ListAsync",
+          "kind": "method",
+          "signature": "Task<IReadOnlyList<Provider>> ListAsync(CancellationToken)"
+        },
+        {
+          "name": "FindAsync",
+          "kind": "method",
+          "signature": "Task<Provider> FindAsync(Guid, CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Domain.SchedulingRuleViolationException",
+      "name": "SchedulingRuleViolationException",
+      "kind": "class",
+      "layer": "Domain",
+      "contracts": [],
+      "file": "src/Scheduling.Domain/SchedulingRuleViolationException.cs",
+      "line": 7,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "SchedulingRuleViolationException(string)"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Domain.Services.IOverlapPolicy",
+      "name": "IOverlapPolicy",
+      "kind": "interface",
+      "layer": "Domain",
+      "contracts": [],
+      "file": "src/Scheduling.Domain/Services/IOverlapPolicy.cs",
+      "line": 6,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "Allows",
+          "kind": "method",
+          "signature": "bool Allows(TimeSlot, IReadOnlyList<Appointment>)"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Domain.Services.ISlotFinderService",
+      "name": "ISlotFinderService",
+      "kind": "interface",
+      "layer": "Domain",
+      "contracts": [],
+      "file": "src/Scheduling.Domain/Services/ISlotFinderService.cs",
+      "line": 7,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "FindFreeSlots",
+          "kind": "method",
+          "signature": "IReadOnlyList<TimeSlot> FindFreeSlots(IReadOnlyList<Availability>, IReadOnlyList<Appointment>, DateOnly, TimeSpan)"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Domain.Services.OverlapPolicy",
+      "name": "OverlapPolicy",
+      "kind": "class",
+      "layer": "Domain",
+      "contracts": [
+        "DomainService"
+      ],
+      "file": "src/Scheduling.Domain/Services/OverlapPolicy.cs",
+      "line": 11,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "Allows",
+          "kind": "method",
+          "signature": "bool Allows(TimeSlot, IReadOnlyList<Appointment>)"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Domain.Services.SlotFinderService",
+      "name": "SlotFinderService",
+      "kind": "class",
+      "layer": "Domain",
+      "contracts": [
+        "DomainService"
+      ],
+      "file": "src/Scheduling.Domain/Services/SlotFinderService.cs",
+      "line": 10,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "SlotFinderService(IOverlapPolicy)"
+        },
+        {
+          "name": "FindFreeSlots",
+          "kind": "method",
+          "signature": "IReadOnlyList<TimeSlot> FindFreeSlots(IReadOnlyList<Availability>, IReadOnlyList<Appointment>, DateOnly, TimeSpan)"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Infrastructure.Repositories.AppointmentRepository",
+      "name": "AppointmentRepository",
+      "kind": "class",
+      "layer": "Infrastructure",
+      "contracts": [
+        "Repository"
+      ],
+      "file": "src/Scheduling.Infrastructure/Repositories/AppointmentRepository.cs",
+      "line": 13,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "FindAsync",
+          "kind": "method",
+          "signature": "Task<Appointment> FindAsync(Guid, CancellationToken)"
+        },
+        {
+          "name": "SaveAsync",
+          "kind": "method",
+          "signature": "Task<Appointment> SaveAsync(Appointment, string, CancellationToken)"
+        },
+        {
+          "name": "ForDayAsync",
+          "kind": "method",
+          "signature": "Task<IReadOnlyList<Appointment>> ForDayAsync(DateOnly, CancellationToken)"
+        },
+        {
+          "name": "ForProviderAsync",
+          "kind": "method",
+          "signature": "Task<IReadOnlyList<Appointment>> ForProviderAsync(Guid, DateOnly, CancellationToken)"
+        },
+        {
+          "name": "AuditAsync",
+          "kind": "method",
+          "signature": "Task<IReadOnlyList<AppointmentAuditEntry>> AuditAsync(Guid, CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Infrastructure.Repositories.ProviderRepository",
+      "name": "ProviderRepository",
+      "kind": "class",
+      "layer": "Infrastructure",
+      "contracts": [
+        "Repository"
+      ],
+      "file": "src/Scheduling.Infrastructure/Repositories/ProviderRepository.cs",
+      "line": 12,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "ProviderRepository()"
+        },
+        {
+          "name": "AdaId",
+          "kind": "field",
+          "signature": "Guid AdaId"
+        },
+        {
+          "name": "BenId",
+          "kind": "field",
+          "signature": "Guid BenId"
+        },
+        {
+          "name": "ListAsync",
+          "kind": "method",
+          "signature": "Task<IReadOnlyList<Provider>> ListAsync(CancellationToken)"
+        },
+        {
+          "name": "FindAsync",
+          "kind": "method",
+          "signature": "Task<Provider> FindAsync(Guid, CancellationToken)"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Infrastructure.StaticUserContext",
+      "name": "StaticUserContext",
+      "kind": "class",
+      "layer": "Infrastructure",
+      "contracts": [],
+      "file": "src/Scheduling.Infrastructure/StaticUserContext.cs",
+      "line": 9,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "StaticUserContext(string)"
+        },
+        {
+          "name": "UserName",
+          "kind": "property",
+          "signature": "string UserName"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Infrastructure.SystemClock",
+      "name": "SystemClock",
+      "kind": "class",
+      "layer": "Infrastructure",
+      "contracts": [],
+      "file": "src/Scheduling.Infrastructure/SystemClock.cs",
+      "line": 6,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "UtcNow",
+          "kind": "property",
+          "signature": "DateTimeOffset UtcNow"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Tests.AppointmentsEndpointTests",
+      "name": "AppointmentsEndpointTests",
+      "kind": "class",
+      "layer": null,
+      "contracts": [],
+      "file": "tests/Scheduling.Api.Tests/AppointmentsEndpointTests.cs",
+      "line": 9,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": ".ctor",
+          "kind": "constructor",
+          "signature": "AppointmentsEndpointTests()"
+        },
+        {
+          "name": "Books_an_appointment",
+          "kind": "method",
+          "signature": "Task Books_an_appointment()"
+        },
+        {
+          "name": "Cancels_an_appointment",
+          "kind": "method",
+          "signature": "Task Cancels_an_appointment()"
+        },
+        {
+          "name": "Finds_free_slots_and_drops_the_booked_one",
+          "kind": "method",
+          "signature": "Task Finds_free_slots_and_drops_the_booked_one()"
+        },
+        {
+          "name": "Lists_the_appointments_of_one_day",
+          "kind": "method",
+          "signature": "Task Lists_the_appointments_of_one_day()"
+        },
+        {
+          "name": "Lists_the_seeded_providers",
+          "kind": "method",
+          "signature": "Task Lists_the_seeded_providers()"
+        },
+        {
+          "name": "Rejects_an_overlapping_appointment",
+          "kind": "method",
+          "signature": "Task Rejects_an_overlapping_appointment()"
+        },
+        {
+          "name": "Reschedules_an_appointment",
+          "kind": "method",
+          "signature": "Task Reschedules_an_appointment()"
+        },
+        {
+          "name": "Dispose",
+          "kind": "method",
+          "signature": "void Dispose()"
+        }
+      ]
+    },
+    {
+      "id": "Scheduling.Tests.SchedulingApiFactory",
+      "name": "SchedulingApiFactory",
+      "kind": "class",
+      "layer": null,
+      "contracts": [],
+      "file": "tests/Scheduling.Api.Tests/SchedulingApiFactory.cs",
+      "line": 9,
+      "violations": 0,
+      "exemptions": 0,
+      "members": [
+        {
+          "name": "AdaId",
+          "kind": "field",
+          "signature": "Guid AdaId"
+        },
+        {
+          "name": "NextMondayAt",
+          "kind": "method",
+          "signature": "DateTimeOffset NextMondayAt(int)"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "Program",
+      "to": "Scheduling.Application.Abstractions.IMediator",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Application.Abstractions.IRequestHandler`2",
+      "kind": "reference",
+      "count": 8,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Application.Abstractions.IUserContext",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Application.Abstractions.Mediator",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Application.Appointments.BookAppointmentCommand",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Application.Appointments.BookAppointmentCommandHandler",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Application.Appointments.CancelAppointmentCommand",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Application.Appointments.CancelAppointmentCommandHandler",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Application.Appointments.FindAvailableSlotsQuery",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Application.Appointments.FindAvailableSlotsQueryHandler",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Application.Appointments.GetAppointmentQuery",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Application.Appointments.GetAppointmentQueryHandler",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Application.Appointments.GetProviderAvailabilityQuery",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Application.Appointments.GetProviderAvailabilityQueryHandler",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Application.Appointments.ListAppointmentsForDayQuery",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Application.Appointments.ListAppointmentsForDayQueryHandler",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Application.Appointments.ListProvidersQuery",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Application.Appointments.ListProvidersQueryHandler",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Application.Appointments.RescheduleAppointmentCommand",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Application.Appointments.RescheduleAppointmentCommandHandler",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Application.ViewModels.AppointmentViewModel",
+      "kind": "reference",
+      "count": 5,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Application.ViewModels.AvailabilityViewModel",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Application.ViewModels.ProviderViewModel",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Application.ViewModels.TimeSlotViewModel",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Domain.IClock",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Domain.Repositories.IAppointmentRepository",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Domain.Repositories.IProviderRepository",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Domain.SchedulingRuleViolationException",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Domain.Services.IOverlapPolicy",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Domain.Services.ISlotFinderService",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Domain.Services.OverlapPolicy",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Domain.Services.SlotFinderService",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Infrastructure.Repositories.AppointmentRepository",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Infrastructure.Repositories.ProviderRepository",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Infrastructure.StaticUserContext",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Program",
+      "to": "Scheduling.Infrastructure.SystemClock",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Api.Controllers.AppointmentsController",
+      "to": "Scheduling.Api.ApiControllerBase",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Api.Controllers.AppointmentsController",
+      "to": "Scheduling.Api.Controllers.RescheduleRequest",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Api.Controllers.AppointmentsController",
+      "to": "Scheduling.Application.Abstractions.IMediator",
+      "kind": "reference",
+      "count": 8,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Api.Controllers.AppointmentsController",
+      "to": "Scheduling.Application.Abstractions.IUserContext",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Api.Controllers.AppointmentsController",
+      "to": "Scheduling.Application.Appointments.BookAppointmentCommand",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Api.Controllers.AppointmentsController",
+      "to": "Scheduling.Application.Appointments.CancelAppointmentCommand",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Api.Controllers.AppointmentsController",
+      "to": "Scheduling.Application.Appointments.GetAppointmentQuery",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Api.Controllers.AppointmentsController",
+      "to": "Scheduling.Application.Appointments.ListAppointmentsForDayQuery",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Api.Controllers.AppointmentsController",
+      "to": "Scheduling.Application.Appointments.RescheduleAppointmentCommand",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Api.Controllers.AppointmentsController",
+      "to": "Scheduling.Application.ViewModels.AppointmentViewModel",
+      "kind": "reference",
+      "count": 22,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Api.Controllers.AvailabilityController",
+      "to": "Scheduling.Api.ApiControllerBase",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Api.Controllers.AvailabilityController",
+      "to": "Scheduling.Application.Abstractions.IMediator",
+      "kind": "reference",
+      "count": 4,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Api.Controllers.AvailabilityController",
+      "to": "Scheduling.Application.Appointments.FindAvailableSlotsQuery",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Api.Controllers.AvailabilityController",
+      "to": "Scheduling.Application.Appointments.GetProviderAvailabilityQuery",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Api.Controllers.AvailabilityController",
+      "to": "Scheduling.Application.ViewModels.AvailabilityViewModel",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Api.Controllers.AvailabilityController",
+      "to": "Scheduling.Application.ViewModels.TimeSlotViewModel",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Api.Controllers.HealthController",
+      "to": "Scheduling.Api.ApiControllerBase",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Api.Controllers.HealthController",
+      "to": "Scheduling.Api.Diagnostics.SeedInspector",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Api.Controllers.ProvidersController",
+      "to": "Scheduling.Api.ApiControllerBase",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Api.Controllers.ProvidersController",
+      "to": "Scheduling.Application.Abstractions.IMediator",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Api.Controllers.ProvidersController",
+      "to": "Scheduling.Application.Appointments.ListProvidersQuery",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Api.Controllers.ProvidersController",
+      "to": "Scheduling.Application.ViewModels.ProviderViewModel",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Api.Diagnostics.SeedInspector",
+      "to": "Scheduling.Infrastructure.Repositories.ProviderRepository",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": true
+    },
+    {
+      "from": "Scheduling.Application.Abstractions.IMediator",
+      "to": "Scheduling.Application.Abstractions.IRequest`1",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Abstractions.Mediator",
+      "to": "Scheduling.Application.Abstractions.IMediator",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Abstractions.Mediator",
+      "to": "Scheduling.Application.Abstractions.IRequestHandler`2",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Abstractions.Mediator",
+      "to": "Scheduling.Application.Abstractions.IRequest`1",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.AppointmentMapping",
+      "to": "Scheduling.Application.ViewModels.AppointmentViewModel",
+      "kind": "reference",
+      "count": 8,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.AppointmentMapping",
+      "to": "Scheduling.Domain.Appointments.Appointment",
+      "kind": "reference",
+      "count": 6,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.AppointmentMapping",
+      "to": "Scheduling.Domain.Appointments.TimeSlot",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.AppointmentMapping",
+      "to": "Scheduling.Domain.Entity`1",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.BookAppointmentCommand",
+      "to": "Scheduling.Application.Abstractions.IRequest`1",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.BookAppointmentCommand",
+      "to": "Scheduling.Application.ViewModels.AppointmentViewModel",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.BookAppointmentCommandHandler",
+      "to": "Scheduling.Application.Abstractions.IRequestHandler`2",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.BookAppointmentCommandHandler",
+      "to": "Scheduling.Application.Abstractions.IUserContext",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.BookAppointmentCommandHandler",
+      "to": "Scheduling.Application.Appointments.AppointmentMapping",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.BookAppointmentCommandHandler",
+      "to": "Scheduling.Application.Appointments.BookAppointmentCommand",
+      "kind": "reference",
+      "count": 11,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.BookAppointmentCommandHandler",
+      "to": "Scheduling.Application.ViewModels.AppointmentViewModel",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.BookAppointmentCommandHandler",
+      "to": "Scheduling.Domain.Appointments.Appointment",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.BookAppointmentCommandHandler",
+      "to": "Scheduling.Domain.Appointments.TimeSlot",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.BookAppointmentCommandHandler",
+      "to": "Scheduling.Domain.IClock",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.BookAppointmentCommandHandler",
+      "to": "Scheduling.Domain.Providers.Availability",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.BookAppointmentCommandHandler",
+      "to": "Scheduling.Domain.Providers.Provider",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.BookAppointmentCommandHandler",
+      "to": "Scheduling.Domain.Repositories.IAppointmentRepository",
+      "kind": "reference",
+      "count": 4,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.BookAppointmentCommandHandler",
+      "to": "Scheduling.Domain.Repositories.IProviderRepository",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.BookAppointmentCommandHandler",
+      "to": "Scheduling.Domain.SchedulingRuleViolationException",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.CancelAppointmentCommand",
+      "to": "Scheduling.Application.Abstractions.IRequest`1",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.CancelAppointmentCommand",
+      "to": "Scheduling.Application.ViewModels.AppointmentViewModel",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.CancelAppointmentCommandHandler",
+      "to": "Scheduling.Application.Abstractions.IRequestHandler`2",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.CancelAppointmentCommandHandler",
+      "to": "Scheduling.Application.Appointments.AppointmentMapping",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.CancelAppointmentCommandHandler",
+      "to": "Scheduling.Application.Appointments.CancelAppointmentCommand",
+      "kind": "reference",
+      "count": 5,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.CancelAppointmentCommandHandler",
+      "to": "Scheduling.Application.ViewModels.AppointmentViewModel",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.CancelAppointmentCommandHandler",
+      "to": "Scheduling.Domain.Appointments.Appointment",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.CancelAppointmentCommandHandler",
+      "to": "Scheduling.Domain.IClock",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.CancelAppointmentCommandHandler",
+      "to": "Scheduling.Domain.Repositories.IAppointmentRepository",
+      "kind": "reference",
+      "count": 4,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.CancelAppointmentCommandHandler",
+      "to": "Scheduling.Domain.SchedulingRuleViolationException",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.FindAvailableSlotsQuery",
+      "to": "Scheduling.Application.Abstractions.IRequest`1",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.FindAvailableSlotsQuery",
+      "to": "Scheduling.Application.ViewModels.TimeSlotViewModel",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.FindAvailableSlotsQueryHandler",
+      "to": "Scheduling.Application.Abstractions.IRequestHandler`2",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.FindAvailableSlotsQueryHandler",
+      "to": "Scheduling.Application.Appointments.FindAvailableSlotsQuery",
+      "kind": "reference",
+      "count": 9,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.FindAvailableSlotsQueryHandler",
+      "to": "Scheduling.Application.ViewModels.TimeSlotViewModel",
+      "kind": "reference",
+      "count": 4,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.FindAvailableSlotsQueryHandler",
+      "to": "Scheduling.Domain.Appointments.TimeSlot",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.FindAvailableSlotsQueryHandler",
+      "to": "Scheduling.Domain.Providers.Provider",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.FindAvailableSlotsQueryHandler",
+      "to": "Scheduling.Domain.Repositories.IAppointmentRepository",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.FindAvailableSlotsQueryHandler",
+      "to": "Scheduling.Domain.Repositories.IProviderRepository",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.FindAvailableSlotsQueryHandler",
+      "to": "Scheduling.Domain.SchedulingRuleViolationException",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.FindAvailableSlotsQueryHandler",
+      "to": "Scheduling.Domain.Services.ISlotFinderService",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.GetAppointmentQuery",
+      "to": "Scheduling.Application.Abstractions.IRequest`1",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.GetAppointmentQuery",
+      "to": "Scheduling.Application.ViewModels.AppointmentViewModel",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.GetAppointmentQueryHandler",
+      "to": "Scheduling.Application.Abstractions.IRequestHandler`2",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.GetAppointmentQueryHandler",
+      "to": "Scheduling.Application.Appointments.AppointmentMapping",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.GetAppointmentQueryHandler",
+      "to": "Scheduling.Application.Appointments.GetAppointmentQuery",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.GetAppointmentQueryHandler",
+      "to": "Scheduling.Application.ViewModels.AppointmentViewModel",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.GetAppointmentQueryHandler",
+      "to": "Scheduling.Domain.Repositories.IAppointmentRepository",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.GetProviderAvailabilityQuery",
+      "to": "Scheduling.Application.Abstractions.IRequest`1",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.GetProviderAvailabilityQuery",
+      "to": "Scheduling.Application.ViewModels.AvailabilityViewModel",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.GetProviderAvailabilityQueryHandler",
+      "to": "Scheduling.Application.Abstractions.IRequestHandler`2",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.GetProviderAvailabilityQueryHandler",
+      "to": "Scheduling.Application.Appointments.GetProviderAvailabilityQuery",
+      "kind": "reference",
+      "count": 4,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.GetProviderAvailabilityQueryHandler",
+      "to": "Scheduling.Application.ViewModels.AvailabilityViewModel",
+      "kind": "reference",
+      "count": 4,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.GetProviderAvailabilityQueryHandler",
+      "to": "Scheduling.Domain.Entity`1",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.GetProviderAvailabilityQueryHandler",
+      "to": "Scheduling.Domain.Providers.Availability",
+      "kind": "reference",
+      "count": 8,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.GetProviderAvailabilityQueryHandler",
+      "to": "Scheduling.Domain.Providers.Provider",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.GetProviderAvailabilityQueryHandler",
+      "to": "Scheduling.Domain.Repositories.IProviderRepository",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.GetProviderAvailabilityQueryHandler",
+      "to": "Scheduling.Domain.SchedulingRuleViolationException",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.ListAppointmentsForDayQuery",
+      "to": "Scheduling.Application.Abstractions.IRequest`1",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.ListAppointmentsForDayQuery",
+      "to": "Scheduling.Application.ViewModels.AppointmentViewModel",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.ListAppointmentsForDayQueryHandler",
+      "to": "Scheduling.Application.Abstractions.IRequestHandler`2",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.ListAppointmentsForDayQueryHandler",
+      "to": "Scheduling.Application.Appointments.AppointmentMapping",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.ListAppointmentsForDayQueryHandler",
+      "to": "Scheduling.Application.Appointments.ListAppointmentsForDayQuery",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.ListAppointmentsForDayQueryHandler",
+      "to": "Scheduling.Application.ViewModels.AppointmentViewModel",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.ListAppointmentsForDayQueryHandler",
+      "to": "Scheduling.Domain.Appointments.Appointment",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.ListAppointmentsForDayQueryHandler",
+      "to": "Scheduling.Domain.Repositories.IAppointmentRepository",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.ListProvidersQuery",
+      "to": "Scheduling.Application.Abstractions.IRequest`1",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.ListProvidersQuery",
+      "to": "Scheduling.Application.ViewModels.ProviderViewModel",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.ListProvidersQueryHandler",
+      "to": "Scheduling.Application.Abstractions.IRequestHandler`2",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.ListProvidersQueryHandler",
+      "to": "Scheduling.Application.Appointments.ListProvidersQuery",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.ListProvidersQueryHandler",
+      "to": "Scheduling.Application.ViewModels.ProviderViewModel",
+      "kind": "reference",
+      "count": 4,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.ListProvidersQueryHandler",
+      "to": "Scheduling.Domain.Entity`1",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.ListProvidersQueryHandler",
+      "to": "Scheduling.Domain.Providers.Provider",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.ListProvidersQueryHandler",
+      "to": "Scheduling.Domain.Repositories.IProviderRepository",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.RescheduleAppointmentCommand",
+      "to": "Scheduling.Application.Abstractions.IRequest`1",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.RescheduleAppointmentCommand",
+      "to": "Scheduling.Application.ViewModels.AppointmentViewModel",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.RescheduleAppointmentCommandHandler",
+      "to": "Scheduling.Application.Abstractions.IRequestHandler`2",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.RescheduleAppointmentCommandHandler",
+      "to": "Scheduling.Application.Abstractions.IUserContext",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.RescheduleAppointmentCommandHandler",
+      "to": "Scheduling.Application.Appointments.AppointmentMapping",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.RescheduleAppointmentCommandHandler",
+      "to": "Scheduling.Application.Appointments.RescheduleAppointmentCommand",
+      "kind": "reference",
+      "count": 6,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.RescheduleAppointmentCommandHandler",
+      "to": "Scheduling.Application.ViewModels.AppointmentViewModel",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.RescheduleAppointmentCommandHandler",
+      "to": "Scheduling.Domain.Appointments.Appointment",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.RescheduleAppointmentCommandHandler",
+      "to": "Scheduling.Domain.Appointments.TimeSlot",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.RescheduleAppointmentCommandHandler",
+      "to": "Scheduling.Domain.IClock",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.RescheduleAppointmentCommandHandler",
+      "to": "Scheduling.Domain.Repositories.IAppointmentRepository",
+      "kind": "reference",
+      "count": 5,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.Appointments.RescheduleAppointmentCommandHandler",
+      "to": "Scheduling.Domain.SchedulingRuleViolationException",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Application.ViewModels.AppointmentViewModel",
+      "to": "Scheduling.Domain.Appointments.AppointmentStatus",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.AggregateRoot`1",
+      "to": "Scheduling.Domain.Entity`1",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Appointments.Appointment",
+      "to": "Scheduling.Domain.AggregateRoot`1",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Appointments.Appointment",
+      "to": "Scheduling.Domain.Appointments.AppointmentStatus",
+      "kind": "reference",
+      "count": 6,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Appointments.Appointment",
+      "to": "Scheduling.Domain.Appointments.TimeSlot",
+      "kind": "reference",
+      "count": 14,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Appointments.Appointment",
+      "to": "Scheduling.Domain.Entity`1",
+      "kind": "reference",
+      "count": 4,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Appointments.Appointment",
+      "to": "Scheduling.Domain.IClock",
+      "kind": "reference",
+      "count": 4,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Appointments.Appointment",
+      "to": "Scheduling.Domain.SchedulingRuleViolationException",
+      "kind": "reference",
+      "count": 6,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Appointments.AppointmentAuditEntry",
+      "to": "Scheduling.Domain.Entity`1",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Appointments.TimeSlot",
+      "to": "Scheduling.Domain.SchedulingRuleViolationException",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Providers.Availability",
+      "to": "Scheduling.Domain.Appointments.TimeSlot",
+      "kind": "reference",
+      "count": 6,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Providers.Availability",
+      "to": "Scheduling.Domain.Entity`1",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Providers.Availability",
+      "to": "Scheduling.Domain.SchedulingRuleViolationException",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Providers.Provider",
+      "to": "Scheduling.Domain.AggregateRoot`1",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Providers.Provider",
+      "to": "Scheduling.Domain.Providers.Availability",
+      "kind": "reference",
+      "count": 9,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Repositories.IAppointmentRepository",
+      "to": "Scheduling.Domain.Appointments.Appointment",
+      "kind": "reference",
+      "count": 5,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Repositories.IAppointmentRepository",
+      "to": "Scheduling.Domain.Appointments.AppointmentAuditEntry",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Repositories.IProviderRepository",
+      "to": "Scheduling.Domain.Providers.Provider",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Services.IOverlapPolicy",
+      "to": "Scheduling.Domain.Appointments.Appointment",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Services.IOverlapPolicy",
+      "to": "Scheduling.Domain.Appointments.TimeSlot",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Services.ISlotFinderService",
+      "to": "Scheduling.Domain.Appointments.Appointment",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Services.ISlotFinderService",
+      "to": "Scheduling.Domain.Appointments.TimeSlot",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Services.ISlotFinderService",
+      "to": "Scheduling.Domain.Providers.Availability",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Services.OverlapPolicy",
+      "to": "Scheduling.Domain.Appointments.Appointment",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Services.OverlapPolicy",
+      "to": "Scheduling.Domain.Appointments.TimeSlot",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Services.OverlapPolicy",
+      "to": "Scheduling.Domain.Services.IOverlapPolicy",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Services.SlotFinderService",
+      "to": "Scheduling.Domain.Appointments.Appointment",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Services.SlotFinderService",
+      "to": "Scheduling.Domain.Appointments.TimeSlot",
+      "kind": "reference",
+      "count": 7,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Services.SlotFinderService",
+      "to": "Scheduling.Domain.Providers.Availability",
+      "kind": "reference",
+      "count": 4,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Services.SlotFinderService",
+      "to": "Scheduling.Domain.SchedulingRuleViolationException",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Services.SlotFinderService",
+      "to": "Scheduling.Domain.Services.IOverlapPolicy",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Domain.Services.SlotFinderService",
+      "to": "Scheduling.Domain.Services.ISlotFinderService",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Infrastructure.Repositories.AppointmentRepository",
+      "to": "Scheduling.Domain.Appointments.Appointment",
+      "kind": "reference",
+      "count": 24,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Infrastructure.Repositories.AppointmentRepository",
+      "to": "Scheduling.Domain.Appointments.AppointmentAuditEntry",
+      "kind": "reference",
+      "count": 13,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Infrastructure.Repositories.AppointmentRepository",
+      "to": "Scheduling.Domain.Appointments.TimeSlot",
+      "kind": "reference",
+      "count": 3,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Infrastructure.Repositories.AppointmentRepository",
+      "to": "Scheduling.Domain.Entity`1",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Infrastructure.Repositories.AppointmentRepository",
+      "to": "Scheduling.Domain.Repositories.IAppointmentRepository",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Infrastructure.Repositories.ProviderRepository",
+      "to": "Scheduling.Domain.Entity`1",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Infrastructure.Repositories.ProviderRepository",
+      "to": "Scheduling.Domain.Providers.Availability",
+      "kind": "reference",
+      "count": 8,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Infrastructure.Repositories.ProviderRepository",
+      "to": "Scheduling.Domain.Providers.Provider",
+      "kind": "reference",
+      "count": 14,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Infrastructure.Repositories.ProviderRepository",
+      "to": "Scheduling.Domain.Repositories.IProviderRepository",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Infrastructure.StaticUserContext",
+      "to": "Scheduling.Application.Abstractions.IUserContext",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Infrastructure.SystemClock",
+      "to": "Scheduling.Domain.IClock",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Scheduling.Tests.AppointmentsEndpointTests",
+      "to": "Scheduling.Tests.SchedulingApiFactory",
+      "kind": "reference",
+      "count": 11,
+      "violatesLayering": false
+    }
+  ],
+  "violations": [
+    {
+      "node": "Scheduling.Api.Controllers.AppointmentsController",
+      "member": "user",
+      "ruleId": "Controller/ctor/injects-only#0",
+      "code": "TNG0106",
+      "message": "Controller: constructor may only inject IMediator | ILogger<*>; found Scheduling.Application.Abstractions.IUserContext user. (rule Controller/ctor/injects-only#0, controllers.tan:13)",
+      "file": "src/Scheduling.Api/Controllers/AppointmentsController.cs",
+      "line": 26,
+      "col": 108,
+      "severity": "warning"
+    },
+    {
+      "node": "Scheduling.Api.Controllers.AvailabilityController",
+      "member": null,
+      "ruleId": "Controller/type/modifier#0",
+      "code": "TNG0101",
+      "message": "Controller: type must be sealed. (rule Controller/type/modifier#0, controllers.tan:8)",
+      "file": "src/Scheduling.Api/Controllers/AvailabilityController.cs",
+      "line": 17,
+      "col": 14,
+      "severity": "warning"
+    },
+    {
+      "node": "Scheduling.Api.Diagnostics.SeedInspector",
+      "member": "SeededProviderIds",
+      "ruleId": "layer:Api->Infrastructure",
+      "code": "TNG0202",
+      "message": "Layer Api may not depend on layer Infrastructure (AdaId). (rule layer:Api->Infrastructure, project.tan:7)",
+      "file": "src/Scheduling.Api/Diagnostics/SeedInspector.cs",
+      "line": 18,
+      "col": 61,
+      "severity": "warning"
+    },
+    {
+      "node": "Scheduling.Application.Appointments.CancelAppointmentCommandHandler",
+      "member": "clock",
+      "ruleId": "Handler/ctor/each-param-assigned-to-field#0",
+      "code": "TNG0301",
+      "message": "Handler: constructor parameter 'clock' is not assigned to a private readonly field. (rule Handler/ctor/each-param-assigned-to-field#0, handlers.tan:13)",
+      "file": "src/Scheduling.Application/Appointments/CancelAppointmentCommand.cs",
+      "line": 25,
+      "col": 88,
+      "severity": "warning"
+    },
+    {
+      "node": "Scheduling.Application.ViewModels.AppointmentViewModel",
+      "member": "Status",
+      "ruleId": "ViewModel/type/using#0",
+      "code": "TNG0201",
+      "message": "ViewModel: reference to AppointmentStatus in forbidden namespace Scheduling.Domain.**. (rule ViewModel/type/using#0, services.tan:26)",
+      "file": "src/Scheduling.Application/ViewModels/AppointmentViewModel.cs",
+      "line": 28,
+      "col": 39,
+      "severity": "warning"
+    },
+    {
+      "node": "Scheduling.Domain.Providers.Availability",
+      "member": "EndsAt",
+      "ruleId": "Entity/properties/accessor#0",
+      "code": "TNG0107",
+      "message": "Entity: property EndsAt must not have a public setter. (rule Entity/properties/accessor#0, entities.tan:8)",
+      "file": "src/Scheduling.Domain/Providers/Availability.cs",
+      "line": 34,
+      "col": 35,
+      "severity": "warning"
+    }
+  ],
+  "rules": [
+    {
+      "id": "Controller/type/inherits#0",
+      "contract": "Controller",
+      "text": "require inherits ApiControllerBase",
+      "tier": 0
+    },
+    {
+      "id": "Controller/type/modifier#0",
+      "contract": "Controller",
+      "text": "require sealed",
+      "tier": 0
+    },
+    {
+      "id": "Controller/type/attributes#0",
+      "contract": "Controller",
+      "text": "require attributes [ApiController]",
+      "tier": 0
+    },
+    {
+      "id": "Controller/type/attributes#1",
+      "contract": "Controller",
+      "text": "require attributes [Route(*)]",
+      "tier": 0
+    },
+    {
+      "id": "Controller/ctor/modifier#0",
+      "contract": "Controller",
+      "text": "require public",
+      "tier": 0
+    },
+    {
+      "id": "Controller/ctor/injects-only#0",
+      "contract": "Controller",
+      "text": "require injects only IMediator, ILogger<*>",
+      "tier": 0
+    },
+    {
+      "id": "Controller/ctor/each-param-assigned-to-field#0",
+      "contract": "Controller",
+      "text": "require each parameter assigned to private readonly field",
+      "tier": 2
+    },
+    {
+      "id": "Controller/methods/returns#0",
+      "contract": "Controller",
+      "text": "require returns Task<ActionResult<*>> | Task<IActionResult>",
+      "tier": 0
+    },
+    {
+      "id": "Controller/methods/attributes#0",
+      "contract": "Controller",
+      "text": "require attributes [HttpGet | HttpPost | HttpPut | HttpDelete | HttpPatch]",
+      "tier": 0
+    },
+    {
+      "id": "Controller/methods/attributes#1",
+      "contract": "Controller",
+      "text": "require attributes [ProducesResponseType(*)]",
+      "tier": 0
+    },
+    {
+      "id": "Controller/type/using#0",
+      "contract": "Controller",
+      "text": "forbid using Scheduling.Infrastructure.**",
+      "tier": 1
+    },
+    {
+      "id": "Entity/properties/accessor#0",
+      "contract": "Entity",
+      "text": "forbid public set",
+      "tier": 0
+    },
+    {
+      "id": "Entity/type/member-kind#0",
+      "contract": "Entity",
+      "text": "forbid public fields",
+      "tier": 0
+    },
+    {
+      "id": "Entity/ctor/modifier#0",
+      "contract": "Entity",
+      "text": "forbid public",
+      "tier": 0
+    },
+    {
+      "id": "Entity/type/using#0",
+      "contract": "Entity",
+      "text": "forbid using System.Data.**",
+      "tier": 1
+    },
+    {
+      "id": "Entity/type/using#1",
+      "contract": "Entity",
+      "text": "forbid using System.Text.Json.**",
+      "tier": 1
+    },
+    {
+      "id": "Entity/type/using#2",
+      "contract": "Entity",
+      "text": "forbid using Microsoft.**",
+      "tier": 1
+    },
+    {
+      "id": "AggregateRoot/methods/returns#0",
+      "contract": "AggregateRoot",
+      "text": "forbid returns void",
+      "tier": 0
+    },
+    {
+      "id": "Handler/type/implements#0",
+      "contract": "Handler",
+      "text": "require implements IRequestHandler<*, *>",
+      "tier": 0
+    },
+    {
+      "id": "Handler/type/modifier#0",
+      "contract": "Handler",
+      "text": "require sealed",
+      "tier": 0
+    },
+    {
+      "id": "Handler/ctor/injects-only#0",
+      "contract": "Handler",
+      "text": "require injects only IAppointmentRepository, IProviderRepository, ISlotFinderService, IClock, IUserContext",
+      "tier": 0
+    },
+    {
+      "id": "Handler/ctor/each-param-assigned-to-field#0",
+      "contract": "Handler",
+      "text": "require each parameter assigned to private readonly field",
+      "tier": 2
+    },
+    {
+      "id": "Handler/methods/returns#0",
+      "contract": "Handler",
+      "text": "require returns Task<*>",
+      "tier": 0
+    },
+    {
+      "id": "Handler/type/using#0",
+      "contract": "Handler",
+      "text": "forbid using Scheduling.Infrastructure.**",
+      "tier": 1
+    },
+    {
+      "id": "Repository/type/implements#0",
+      "contract": "Repository",
+      "text": "require implements I{Name}",
+      "tier": 0
+    },
+    {
+      "id": "Repository/type/interface-lives-in#0",
+      "contract": "Repository",
+      "text": "require interface I{Name} lives in Domain",
+      "tier": 0
+    },
+    {
+      "id": "Repository/type/modifier#0",
+      "contract": "Repository",
+      "text": "require sealed",
+      "tier": 0
+    },
+    {
+      "id": "Repository/methods/returns#0",
+      "contract": "Repository",
+      "text": "require returns Task<*>",
+      "tier": 0
+    },
+    {
+      "id": "Repository/type/using#0",
+      "contract": "Repository",
+      "text": "forbid using Scheduling.Api.**",
+      "tier": 1
+    },
+    {
+      "id": "DomainService/type/implements#0",
+      "contract": "DomainService",
+      "text": "require implements I{Name}",
+      "tier": 0
+    },
+    {
+      "id": "DomainService/type/modifier#0",
+      "contract": "DomainService",
+      "text": "require sealed",
+      "tier": 0
+    },
+    {
+      "id": "DomainService/type/stateless#0",
+      "contract": "DomainService",
+      "text": "require stateless",
+      "tier": 2
+    },
+    {
+      "id": "DomainService/fields/modifier#0",
+      "contract": "DomainService",
+      "text": "require private",
+      "tier": 0
+    },
+    {
+      "id": "DomainService/fields/modifier#1",
+      "contract": "DomainService",
+      "text": "require readonly",
+      "tier": 0
+    },
+    {
+      "id": "DomainService/fields/modifier#2",
+      "contract": "DomainService",
+      "text": "forbid static",
+      "tier": 0
+    },
+    {
+      "id": "DomainService/type/using#0",
+      "contract": "DomainService",
+      "text": "forbid using Scheduling.Application.**",
+      "tier": 1
+    },
+    {
+      "id": "DomainService/type/using#1",
+      "contract": "DomainService",
+      "text": "forbid using Scheduling.Infrastructure.**",
+      "tier": 1
+    },
+    {
+      "id": "ViewModel/properties/modifier#0",
+      "contract": "ViewModel",
+      "text": "require public",
+      "tier": 0
+    },
+    {
+      "id": "ViewModel/properties/accessor#0",
+      "contract": "ViewModel",
+      "text": "require get",
+      "tier": 0
+    },
+    {
+      "id": "ViewModel/properties/accessor#1",
+      "contract": "ViewModel",
+      "text": "forbid public set",
+      "tier": 0
+    },
+    {
+      "id": "ViewModel/fields/modifier#0",
+      "contract": "ViewModel",
+      "text": "require private",
+      "tier": 0
+    },
+    {
+      "id": "ViewModel/fields/modifier#1",
+      "contract": "ViewModel",
+      "text": "require readonly",
+      "tier": 0
+    },
+    {
+      "id": "ViewModel/type/using#0",
+      "contract": "ViewModel",
+      "text": "forbid using Scheduling.Domain.**",
+      "tier": 1
+    }
+  ]
+}
