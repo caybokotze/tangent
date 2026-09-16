@@ -1,0 +1,63 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  dotnet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+      - run: dotnet restore Tangent.slnx
+      - run: dotnet build Tangent.slnx -c Release --no-restore
+      - run: dotnet test Tangent.slnx -c Release --no-build --logger "trx"
+      - run: dotnet pack Tangent.slnx -c Release --no-build
+      - run: dotnet build samples/Orders/Orders.slnx -c Release
+      - name: tangent check (sample; exit 1 is expected because the sample contains deliberate violations)
+        run: |
+          set +e
+          dotnet run --project src/Tangent.Cli -c Release --no-build -- check samples/Orders/Orders.slnx --sarif artifacts/orders.sarif
+          code=$?
+          if [ "$code" -gt 1 ]; then echo "tangent check failed with exit code $code"; exit "$code"; fi
+      - name: demo (consumes the packed analyzer and CLI from artifacts/packages)
+        run: |
+          dotnet build demo/Scheduling/Scheduling.slnx -c Release
+          dotnet test demo/Scheduling/Scheduling.slnx -c Release --no-build
+          cd demo/Scheduling && dotnet tool restore && dotnet tangent check --sarif ../../artifacts/scheduling.sarif
+      - uses: actions/upload-artifact@v4
+        with:
+          name: packages
+          path: artifacts/packages/*.nupkg
+
+  viewer:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: viewer
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+
+  vscode:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: editors/vscode
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npm run compile
