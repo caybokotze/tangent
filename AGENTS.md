@@ -71,7 +71,8 @@ Diagnostics: TNG01xx structural, TNG02xx reference and layers, TNG03xx flow, TNG
 
 - Central package management in `Directory.Packages.props`. The analyzer targets Roslyn 4.8.0; other projects use `VersionOverride` for 5.0.0.
 - `samples/Orders` and `demo/Scheduling` have their own `Directory.Build.props` and do not import the root one.
-- Re-packing keeps version 0.1.0. Before you rebuild the demo, clear `~/.nuget/packages/tangent.*` and run `dotnet build-server shutdown`.
+- Local packs are version `0.1.0-dev`, and re-packing keeps that version. Before you rebuild the demo, clear `~/.nuget/packages/tangent.*` and run `dotnet build-server shutdown`.
+- A release sets the version from its git tag: tag `v0.1.0-preview.1` packs with `dotnet pack Tangent.slnx -c Release -p:Version=0.1.0-preview.1`. The published packages are `Tangent.Analyzers`, `Tangent.Attributes` and `Tangent.Cli`.
 - Do not edit `.tangent/` contracts to make a violation go away. Fix the code, or ask.
 
 ## Commit messages

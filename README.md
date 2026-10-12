@@ -389,8 +389,11 @@ dotnet build Tangent.slnx
 # Run the tests
 dotnet test Tangent.slnx
 
-# Pack the analyzer, attributes and CLI into artifacts/packages
+# Pack the analyzer, attributes and CLI into artifacts/packages (version 0.1.0-dev)
 dotnet pack Tangent.slnx -c Release
+
+# Pack a release: the version comes from the git tag
+dotnet pack Tangent.slnx -c Release -p:Version=0.1.0-preview.1
 
 # Check the sample solution
 dotnet run --project src/Tangent.Cli -- check samples/Orders/Orders.slnx
