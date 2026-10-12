@@ -6,6 +6,7 @@
     <RootNamespace>Tangent.Cli</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <IsPackable>true</IsPackable>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>tangent</ToolCommandName>
     <PackageId>Tangent.Cli</PackageId>
@@ -27,6 +28,10 @@
 
   <ItemGroup>
     <InternalsVisibleTo Include="Tangent.Cli.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 
 </Project>

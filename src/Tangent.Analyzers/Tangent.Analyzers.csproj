@@ -6,6 +6,7 @@
     <IsRoslynComponent>true</IsRoslynComponent>
     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
     <IsPackable>true</IsPackable>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageId>Tangent.Analyzers</PackageId>
     <Description>Roslyn analyzer and code fixes that enforce Tangent architectural contracts (.tangent/*.tan).</Description>
     <IncludeBuildOutput>false</IncludeBuildOutput>
@@ -35,6 +36,10 @@
     <InternalsVisibleTo Include="Tangent.Cli" />
     <InternalsVisibleTo Include="Tangent.Graph" />
     <InternalsVisibleTo Include="Tangent.Benchmarks" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 
 </Project>

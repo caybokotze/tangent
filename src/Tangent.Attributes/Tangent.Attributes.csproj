@@ -4,12 +4,17 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Tangent</RootNamespace>
     <IsPackable>true</IsPackable>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageId>Tangent.Attributes</PackageId>
     <Description>[Tangent] and [TangentIgnore] attributes. Dependency-free; stripped from output assemblies unless TANGENT_ATTRIBUTES is defined.</Description>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="PolySharp" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 
 </Project>

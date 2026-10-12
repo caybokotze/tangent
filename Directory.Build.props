@@ -9,11 +9,18 @@
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <Version>0.1.0</Version>
-    <Authors>Caybo Kotze</Authors>
+    <Authors>Caybo Kotzé</Authors>
     <Company>Tangent</Company>
     <Product>Tangent</Product>
     <Description>Architectural conformance for .NET.</Description>
+    <Copyright>Copyright (c) 2026 Caybo Kotzé</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <TangentRepositoryUrl>https://github.com/caybokotze/tangent</TangentRepositoryUrl>
+    <PackageProjectUrl>$(TangentRepositoryUrl)</PackageProjectUrl>
+    <RepositoryUrl>$(TangentRepositoryUrl)</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>architecture;conformance;clean-architecture;layering;roslyn;analyzer;dsl;ai-agents</PackageTags>
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
     <PackageOutputPath>$(MSBuildThisFileDirectory)artifacts/packages</PackageOutputPath>
     <IsPackable>false</IsPackable>
     <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
