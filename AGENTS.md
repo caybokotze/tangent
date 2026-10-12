@@ -14,10 +14,11 @@ Tangent is an architectural conformance checker for .NET. Contracts are written 
 - `src/Tangent.Cli` — `tangent` tool: `init`, `lint`, `check`, `diff`, `graph`, `serve`.
 - `src/Tangent.Graph` — `tangent.graph.json` for the viewer: layers, contracts, rules, the file table, nodes, edges, violations and ignores (schema version 2).
 - `src/Tangent.LanguageServer` — LSP server for `.tan` files.
-- `viewer/` — the explorer (Vite, React, Tailwind v4): Issues, Rules, Coverage and a rooted Graph, with one shared detail panel. Pure logic lives in `src/graph/` (`parse`, `derive`, `explore`, `layout`) and is unit-tested against the real demo export. `.github/workflows/pages.yml` deploys it to https://caybokotze.github.io/tangent/, which `tangent graph` prints. Keep it free of network requests: users open private graphs there.
+- `viewer/` — the explorer (Vite, React, Tailwind v4): Issues, Rules, Coverage and a rooted Graph, with one shared detail panel. Pure logic lives in `src/graph/` (`parse`, `derive`, `explore`, `layout`) and is unit-tested against the real exports in `public/`. `.github/workflows/pages.yml` deploys it to https://caybokotze.github.io/tangent/, which `tangent graph` prints. Keep it free of network requests: users open private graphs there.
 - `editors/vscode`, `editors/rider` — editor integrations.
 - `samples/Orders` — sample with deliberate violations. Drives the tests.
-- `demo/Scheduling` — demo API that consumes the packed analyzer and CLI from `artifacts/packages`.
+
+Demos that consume the packages live in a separate repository, [tangent-demos](https://github.com/caybokotze/tangent-demos), cloned next to this one. Each demo's `nuget.config` reads the local packs from `../../tangent/artifacts/packages`.
 
 ## Build and test
 
@@ -31,14 +32,14 @@ The CLI tests load `samples/Orders` with MSBuildWorkspace. The sample is not in 
 
 Viewer: `cd viewer && npm ci && npm test` (also `npm run typecheck`, `npm run dev`).
 
-To see the demo in the viewer with code snippets and editor links:
+To see the Scheduling demo in the viewer with code snippets and editor links:
 
 ```sh
-cd demo/Scheduling
-dotnet tangent graph Scheduling.slnx --include-unbound --include-source -o ../../viewer/public/scheduling.local.graph.json
+cd ../tangent-demos/Scheduling
+dotnet tangent graph Scheduling.slnx --include-unbound --include-source -o ../../tangent/viewer/public/scheduling.local.graph.json
 ```
 
-then `cd ../../viewer && npm run dev` and open `?graph=/scheduling.local.graph.json`. Graphs exported with `--include-source` record an absolute path, so `public/*.local.graph.json` is git-ignored.
+then `cd ../../tangent/viewer && npm run dev` and open `?graph=/scheduling.local.graph.json`. Graphs exported with `--include-source` record an absolute path, so `public/*.local.graph.json` is git-ignored.
 
 ## The DSL, in one page
 
@@ -73,8 +74,8 @@ Diagnostics: TNG01xx structural, TNG02xx reference and layers, TNG03xx flow, TNG
 ## Conventions
 
 - Central package management in `Directory.Packages.props`. The analyzer targets Roslyn 4.8.0; other projects use `VersionOverride` for 5.0.0.
-- `samples/Orders` and `demo/Scheduling` have their own `Directory.Build.props` and do not import the root one.
-- Local packs are version `0.1.0-dev`, and re-packing keeps that version. Before you rebuild the demo, clear `~/.nuget/packages/tangent.*` and run `dotnet build-server shutdown`.
+- `samples/Orders` has its own `Directory.Build.props` and does not import the root one.
+- Local packs are version `0.1.0-dev`, and re-packing keeps that version. Before you build a demo against a new pack, clear `~/.nuget/packages/tangent.*` and run `dotnet build-server shutdown`.
 - A release sets the version from its git tag: tag `v0.1.0-preview.1` packs with `dotnet pack Tangent.slnx -c Release -p:Version=0.1.0-preview.1`. The published packages are `Tangent.Analyzers`, `Tangent.Attributes` and `Tangent.Cli`.
 - Do not edit `.tangent/` contracts to make a violation go away. Fix the code, or ask.
 

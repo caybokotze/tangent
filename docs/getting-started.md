@@ -146,4 +146,4 @@ The VS Code extension in `editors/vscode` provides highlighting, diagnostics, co
 ## Worked examples
 
 - `samples/Orders`: a clean-architecture solution with 36 documented deliberate violations. Used by the end-to-end tests.
-- `demo/Scheduling`: a runnable Scheduling API that consumes the packaged analyzer and CLI, with 6 documented violations and a full walkthrough in its README.
+- [tangent-demos](https://github.com/caybokotze/tangent-demos): runnable solutions that consume the packages. The Scheduling API there has 6 documented violations.

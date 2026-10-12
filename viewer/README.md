@@ -29,11 +29,11 @@ npm install
 npm run dev        # http://localhost:5173
 ```
 
-To look at the demo with code snippets and editor links, export it with source first:
+To look at the Scheduling demo with code snippets and editor links, export it with source first. This assumes a clone of [tangent-demos](https://github.com/caybokotze/tangent-demos) next to this repository:
 
 ```bash
-cd ../demo/Scheduling
-dotnet tangent graph Scheduling.slnx --include-unbound --include-source -o ../../viewer/public/scheduling.local.graph.json
+cd ../../tangent-demos/Scheduling
+dotnet tangent graph Scheduling.slnx --include-unbound --include-source -o ../../tangent/viewer/public/scheduling.local.graph.json
 ```
 
 and open <http://localhost:5173/?graph=/scheduling.local.graph.json>. `*.local.graph.json` is

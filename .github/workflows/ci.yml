@@ -26,11 +26,6 @@ jobs:
           dotnet run --project src/Tangent.Cli -c Release --no-build -- check samples/Orders/Orders.slnx --sarif artifacts/orders.sarif
           code=$?
           if [ "$code" -gt 1 ]; then echo "tangent check failed with exit code $code"; exit "$code"; fi
-      - name: demo (consumes the packed analyzer and CLI from artifacts/packages)
-        run: |
-          dotnet build demo/Scheduling/Scheduling.slnx -c Release
-          dotnet test demo/Scheduling/Scheduling.slnx -c Release --no-build
-          cd demo/Scheduling && dotnet tool restore && dotnet tangent check --sarif ../../artifacts/scheduling.sarif
       - uses: actions/upload-artifact@v4
         with:
           name: packages

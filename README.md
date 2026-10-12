@@ -418,7 +418,6 @@ src/         Tangent.Core, Tangent.Attributes, Tangent.Analyzers, Tangent.Genera
              Tangent.Graph, Tangent.Cli, Tangent.LanguageServer
 tests/       Core golden tests, analyzer verifier tests, CLI end-to-end tests, benchmarks
 samples/     Orders: a clean-architecture sample with deliberate violations
-demo/        Scheduling API: an end-to-end consumer of the packaged analyzer and CLI
 editors/     VS Code extension (TextMate grammar + LSP client)
 viewer/      React graph viewer
 docs/        Design notes and API docs
@@ -430,6 +429,7 @@ docs/        Design notes and API docs
 - [CLI reference](docs/cli.md): every command, option, exit code and output format.
 - [Diagnostics](docs/diagnostics.md): every `TNG` code with its meaning and default severity.
 - [Core API](docs/core-api.md), [Analyzer API](docs/analyzer-api.md), [Language server](docs/language-server.md), [Benchmarks](docs/benchmarks.md).
+- [tangent-demos](https://github.com/caybokotze/tangent-demos): runnable solutions that use the packages, starting with a Scheduling API.
 
 ## Status
 

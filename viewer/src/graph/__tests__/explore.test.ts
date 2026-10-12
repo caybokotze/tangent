@@ -20,7 +20,7 @@ import {
 import { parseGraphText } from '../parse';
 import { edge, makeGraph, node } from './fixtures';
 
-/** The real export of demo/Scheduling (`tangent graph --include-unbound`). */
+/** The real export of the Scheduling demo in tangent-demos (`tangent graph --include-unbound`). */
 const schedulingPath = fileURLToPath(new URL('../../../public/scheduling.graph.json', import.meta.url));
 const scheduling = buildIndex(parseGraphText(readFileSync(schedulingPath, 'utf8')));
 

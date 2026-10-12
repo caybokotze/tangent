@@ -1,6 +1,6 @@
 # Contract patterns
 
-Working contracts for the common kinds of type in a layered .NET solution. They are taken from Tangent's own demo and sample solutions, which run in CI, so the syntax is known to bind. Adapt the names, namespaces and type lists to the solution in front of you; do not copy a rule the team has not actually decided on.
+Working contracts for the common kinds of type in a layered .NET solution. They are taken from the Orders sample in the Tangent repository and the Scheduling demo in tangent-demos, so the syntax is known to bind. Adapt the names, namespaces and type lists to the solution in front of you; do not copy a rule the team has not actually decided on.
 
 ## Contents
 
