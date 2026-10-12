@@ -18,5 +18,5 @@
     }
   ],
   "bindings": [],
-  "exemptions": []
+  "ignores": []
 }

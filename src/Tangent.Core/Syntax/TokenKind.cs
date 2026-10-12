@@ -95,8 +95,8 @@ public enum TokenKind : byte
     /// <summary><c>bind</c>.</summary>
     Bind = 39,
 
-    /// <summary><c>exempt</c>.</summary>
-    Exempt = 40,
+    /// <summary><c>ignore</c>.</summary>
+    Ignore = 40,
 
     /// <summary><c>to</c>.</summary>
     To = 41,

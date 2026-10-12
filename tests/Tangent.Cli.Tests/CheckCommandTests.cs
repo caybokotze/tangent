@@ -85,12 +85,12 @@ public sealed class CheckCommandTests(OrdersFixture fixture)
     }
 
     [Fact]
-    public void HidesExemptionsUntilAsked()
+    public void HidesIgnoredUntilAsked()
     {
         Assert.DoesNotContain("TNG9000", fixture.Json, StringComparison.Ordinal);
-        Assert.Contains("4 exemptions applied", fixture.Check.Out, StringComparison.Ordinal);
+        Assert.Contains("4 ignored", fixture.Check.Out, StringComparison.Ordinal);
 
-        CliRun shown = Cli.Run("check", Cli.OrdersSample, "--show-exemptions", "--no-color");
+        CliRun shown = Cli.Run("check", Cli.OrdersSample, "--show-ignored", "--no-color");
         Assert.Contains("TNG9000", shown.Out, StringComparison.Ordinal);
         Assert.Contains("migrating in Q4 2026", shown.Out, StringComparison.Ordinal);
     }

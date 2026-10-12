@@ -172,7 +172,7 @@ public enum NodeKind : byte
     /// <summary><c>not cond</c>. The single child is the negated condition.</summary>
     CondNot = 65,
 
-    // ---- bind / exempt ----
+    // ---- bind / ignore ----
 
     /// <summary><c>bind Type to A, B [except ...]</c>. Payload is the type name <c>StringId</c>.</summary>
     Bind = 60,
@@ -186,6 +186,6 @@ public enum NodeKind : byte
     /// <summary>A rule id excluded by <c>except</c>. Payload is the rule id <c>StringId</c>.</summary>
     ExceptRule = 63,
 
-    /// <summary><c>exempt Type [from A, B] reason "..."</c>. Payload is the type name, Payload2 the reason.</summary>
-    Exempt = 64,
+    /// <summary><c>ignore Type [from A, B] reason "..."</c>. Payload is the type name, Payload2 the reason.</summary>
+    Ignore = 64,
 }

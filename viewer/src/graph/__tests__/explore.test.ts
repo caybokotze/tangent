@@ -70,17 +70,17 @@ describe('contractSummaries', () => {
     expect(names).toContain('AvailabilityController');
   });
 
-  it('marks each type pass, fail or exempt per rule', () => {
+  it('marks each type pass, fail or ignored per rule', () => {
     const sealed = controller?.rules.find((r) => r.rule.id === 'Controller/type/modifier#0');
     expect(sealed?.failing).toBe(1);
     expect(sealed?.applications[0]?.status).toBe('fail');
     expect(sealed?.applications[0]?.node.name).toBe('AvailabilityController');
-    expect((sealed?.passing ?? 0) + (sealed?.failing ?? 0) + (sealed?.exempt ?? 0)).toBe(controller?.types.length);
+    expect((sealed?.passing ?? 0) + (sealed?.failing ?? 0) + (sealed?.ignored ?? 0)).toBe(controller?.types.length);
 
     const returns = controller?.rules.find((r) => r.rule.id === 'Controller/methods/returns#0');
-    const exempt = returns?.applications.find((a) => a.status === 'exempt');
-    expect(exempt?.node.name).toBe('AppointmentsController');
-    expect(exempt?.exemptions[0]?.reason).toMatch(/calendar feed/);
+    const ignored = returns?.applications.find((a) => a.status === 'ignored');
+    expect(ignored?.node.name).toBe('AppointmentsController');
+    expect(ignored?.ignores[0]?.reason).toMatch(/calendar feed/);
   });
 
   it('counts the violations and failing types of a contract', () => {

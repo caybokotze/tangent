@@ -6,7 +6,7 @@ namespace Tangent.LanguageServer.Features;
 /// <summary>What the cursor is in the middle of writing.</summary>
 internal enum CompletionContextKind
 {
-    /// <summary>Outside any block: <c>project</c>, <c>contract</c>, <c>bind</c>, <c>exempt</c>.</summary>
+    /// <summary>Outside any block: <c>project</c>, <c>contract</c>, <c>bind</c>, <c>ignore</c>.</summary>
     TopLevel,
 
     /// <summary>Inside a <c>project</c> block.</summary>

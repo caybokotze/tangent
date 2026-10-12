@@ -67,7 +67,7 @@ the code of every event. Search covers rules, messages, types, files and codes; 
 contract. Sorting and expansion use TanStack Table.
 
 **Rules.** Contracts on the left (plus **Layers**), rules on the right. Each rule shows its text, tier
-and a pass/exempt/fail bar; expand it for every type it applies to and the result for each. A rule
+and a pass/ignored/fail bar; expand it for every type it applies to and the result for each. A rule
 declared on a parent contract applies to the types of every contract that extends it. The Layers page
 lists what each layer may depend on and every dependency that breaks it.
 
@@ -93,7 +93,7 @@ text. Both are highlighted by [Shiki](https://shiki.style) with the TextMate gra
 ## Schema
 
 The viewer reads versions 1 and 2 of the export (TANGENT-PLAN.md §11.1, `src/graph/types.ts`). Version 2
-adds `files[]` (the file table), `fileId` on nodes and violations, `exemptions[]`, and with
+adds `files[]` (the file table), `fileId` on nodes and violations, `ignored[]`, and with
 `--include-source` `root`, `violation.snippet` and `file.text`. Version 1 documents still load; the
 Coverage view then says the export has no file table.
 

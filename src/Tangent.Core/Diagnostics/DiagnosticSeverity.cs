@@ -34,6 +34,6 @@ public enum DiagnosticCategory : byte
     /// <summary>Problems with the <c>.tan</c> model itself (TNG10xx).</summary>
     Model = 4,
 
-    /// <summary>Exemption reporting (TNG9000).</summary>
-    Exemption = 5,
+    /// <summary>Ignore reporting (TNG9000).</summary>
+    Ignore = 5,
 }

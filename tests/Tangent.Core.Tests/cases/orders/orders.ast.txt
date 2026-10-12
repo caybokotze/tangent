@@ -199,6 +199,6 @@ File @1:1
   Bind 'Orders.Api.Controllers.HealthController' 'Orders' @1:1
     ContractRef 'Controller' @1:49
     ExceptAttribute 'ProducesResponseType' @1:67
-  Exempt 'Orders.Infrastructure.LegacyReportRepository' 'migrating in Q4 2026' @2:1
-  Exempt 'Orders.Domain.Entities.AuditEntry' 'append-only log, public setters by design' @3:1
+  Ignore 'Orders.Infrastructure.LegacyReportRepository' 'migrating in Q4 2026' @2:1
+  Ignore 'Orders.Domain.Entities.AuditEntry' 'append-only log, public setters by design' @3:1
     ContractRef 'Entity' @3:47

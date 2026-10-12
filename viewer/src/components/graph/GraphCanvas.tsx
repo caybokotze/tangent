@@ -58,8 +58,8 @@ function TypeNodeView({ data }: NodeProps<FlowNode<TypeData, 'type'>>): JSX.Elem
         {node.violations > 0 && (
           <span className="rounded-full bg-danger px-1.5 text-[10px] leading-4 font-bold text-white">{node.violations}</span>
         )}
-        {node.exemptions > 0 && (
-          <span className="rounded-full bg-surface-3 px-1.5 text-[10px] leading-4 font-semibold text-muted">ex {node.exemptions}</span>
+        {node.ignored > 0 && (
+          <span className="rounded-full bg-surface-3 px-1.5 text-[10px] leading-4 font-semibold text-muted" title={`${node.ignored} ignored`}>ign {node.ignored}</span>
         )}
       </div>
       <Handle type="source" position={Position.Bottom} isConnectable={false} />

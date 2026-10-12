@@ -68,7 +68,7 @@ public static class GraphCommand
         var findings = new List<GraphFinding>(analysis.Findings.Count);
         foreach (Finding finding in analysis.Findings)
         {
-            if (finding.Severity == "hidden" && !finding.IsExemption) continue;
+            if (finding.Severity == "hidden" && !finding.IsIgnored) continue;
 
             findings.Add(new GraphFinding(
                 finding.NodeId,

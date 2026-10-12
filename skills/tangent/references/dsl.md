@@ -10,7 +10,7 @@ Contracts are written in `.tan` files in the `.tangent/` folder. Every `.tan` fi
 4. Selectors: `match`, member blocks and `where`
 5. Rule reference
 6. Binding a type to a contract
-7. Exemptions
+7. Ignores
 8. Rule ids
 9. A complete example
 
@@ -148,31 +148,31 @@ A contract with no `match` and no `bind` is reported as TNG1030. A `match` that 
 
 Type names in rules (`inherits`, `implements`, `injects`, `returns`, `new`) must resolve in the projects the contract covers, or `tangent lint`/`check` reports TNG1020. `forbid new DbContext` over a layer whose projects do not reference EF Core cannot resolve `DbContext`; write `forbid using Microsoft.EntityFrameworkCore.**` or `forbid using contract DbContexts` (a contract matching `class in Orders.** where inherits DbContext`) instead.
 
-## 7. Exemptions
+## 7. Ignores
 
-An exemption removes a type, a member, or one contract or rule, from checking. Every exemption needs a reason, and every one is reported as TNG9000 (`tangent check --show-exemptions`).
+An ignore removes a type, a member, or one contract or rule, from checking. Every ignore needs a reason, and every one is reported as TNG9000 (`tangent check --show-ignored`).
 
 ```tangent
-exempt Orders.Infrastructure.LegacyReportRepository reason "migrating in Q4 2026"
-exempt Orders.Domain.Entities.AuditEntry from Entity reason "append-only log, public setters by design"
+ignore Orders.Infrastructure.LegacyReportRepository reason "migrating in Q4 2026"
+ignore Orders.Domain.Entities.AuditEntry from Entity reason "append-only log, public setters by design"
 ```
 
 ```csharp
-[TangentExempt("calendar feed returns a file, not a view model", Contract = "Controller")]
+[TangentIgnore("calendar feed returns a file, not a view model", Contract = "Controller")]
 public IActionResult GetCalendarFeed() { ... }
 
-[TangentExempt("legacy", Rule = "Controller/methods/attributes#1")]
+[TangentIgnore("legacy", Rule = "Controller/methods/attributes#1")]
 ```
 
 On a type, the attribute covers the whole type; on a member, only that member. `Contract = ...` or `Rule = ...` narrows it.
 
-Exemptions are decisions for the people who own the architecture. Do not add one to make a check pass (see SKILL.md).
+Ignores are decisions for the people who own the architecture. Do not add one to make a check pass (see SKILL.md).
 
 ## 8. Rule ids
 
 Every rule gets an id: `Contract/selector/predicate#n`, for example `Controller/methods/attributes#1`. The selector is the member block (`type`, `ctor`, `methods`, ...), with `-where` added for rules inside a `where { }` refinement. The predicate is the rule kind (`modifier`, `inherits`, `injects-only`, `using`, ...). `n` counts rules of the same kind in the same selector, in file order, starting at 0.
 
-Ids come from structure, not line numbers, so reformatting, comments and moving a contract to another file do not change them. Two edits do: renaming the contract, and inserting a rule above another of the same kind (the later one is renumbered). `[TangentExempt(Rule = "...")]` and `bind ... except <rule id>` refer to rules by id, so add new rules after existing ones of the same kind. `tangent lint --dump-ir` prints every id.
+Ids come from structure, not line numbers, so reformatting, comments and moving a contract to another file do not change them. Two edits do: renaming the contract, and inserting a rule above another of the same kind (the later one is renumbered). `[TangentIgnore(Rule = "...")]` and `bind ... except <rule id>` refer to rules by id, so add new rules after existing ones of the same kind. `tangent lint --dump-ir` prints every id.
 
 ## 9. A complete example
 

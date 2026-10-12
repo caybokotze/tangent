@@ -78,7 +78,7 @@ internal static class MessageFactory
 
     /// <summary>TNG0002.</summary>
     internal static string UnknownRule(string ruleId) =>
-        Tangent.Core.Diagnostics.DiagnosticCatalog.UnknownRuleInExemption.Format(ruleId);
+        Tangent.Core.Diagnostics.DiagnosticCatalog.UnknownRuleInIgnore.Format(ruleId);
 
     /// <summary>The declared contract name closest to <paramref name="name"/>, or null when none is close.</summary>
     internal static string? ClosestContract(ArchitectureModel model, string name)

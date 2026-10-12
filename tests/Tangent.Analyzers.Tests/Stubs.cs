@@ -25,9 +25,9 @@ namespace Tangent
         AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Constructor | AttributeTargets.Field |
         AttributeTargets.Event,
         AllowMultiple = true)]
-    public sealed class TangentExemptAttribute : Attribute
+    public sealed class TangentIgnoreAttribute : Attribute
     {
-        public TangentExemptAttribute(string reason) { Reason = reason; }
+        public TangentIgnoreAttribute(string reason) { Reason = reason; }
 
         public string Reason { get; }
 

@@ -18,7 +18,7 @@ samples/Orders/
 │   ├── repositories.tan         contract Repository
 │   ├── entities.tan             contract Entity, contract AggregateRoot extends Entity
 │   ├── services.tan             contract DomainService, ViewModel, QueryHandler
-│   └── bindings.tan             bind / exempt statements
+│   └── bindings.tan             bind / ignore statements
 └── src/
     ├── Orders.Domain/           entities, value objects, domain services, repository interfaces
     ├── Orders.Application/      local IMediator abstraction, queries, commands, handlers, view models
@@ -59,7 +59,7 @@ type to bite on. Everything else — MVC, `ILogger<T>`, DI — comes from the AS
 framework, and the mediator is ~20 lines of local code rather than a MediatR dependency.
 
 Every project has a `ProjectReference` to `src/Tangent.Attributes`, so `[Tangent]` and
-`[TangentExempt]` compile. `TANGENT_ATTRIBUTES` is defined nowhere, so both attributes are stripped
+`[TangentIgnore]` compile. `TANGENT_ATTRIBUTES` is defined nowhere, so both attributes are stripped
 from the emitted assemblies — that is the intended behaviour, and the analyzer still sees them
 because it runs on source.
 
@@ -73,10 +73,10 @@ Three kinds of type live here, and the comments say which is which:
   `GetOrderQueryHandler`, `PricingService`, and the view models. These must produce no diagnostics.
 - **VIOLATION** — flagged inline with the expected diagnostic code, e.g.
   `// VIOLATION (TNG0107): Entity forbids public setters on properties.`
-- **EXEMPTED** — a genuine break that an exemption suppresses, so the expected result is TNG9000
+- **IGNORED** — a genuine break that an ignore suppresses, so the expected result is TNG9000
   (hidden) rather than a warning. There are three mechanisms on show:
-  `exempt <type> reason "..."`, `exempt <type> from <contract> reason "..."`, and
-  `[TangentExempt("...", Contract = "Controller")]` on a single method. `HealthController`
+  `ignore <type> reason "..."`, `ignore <type> from <contract> reason "..."`, and
+  `[TangentIgnore("...", Contract = "Controller")]` on a single method. `HealthController`
   additionally demonstrates `bind ... except [ProducesResponseType]`.
 
 ## Notes for the analyzer implementation

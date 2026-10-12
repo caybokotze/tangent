@@ -93,7 +93,7 @@ public static class TokenKinds
             case TokenKind.Extends: return "extends";
             case TokenKind.Match: return "match";
             case TokenKind.Bind: return "bind";
-            case TokenKind.Exempt: return "exempt";
+            case TokenKind.Ignore: return "ignore";
             case TokenKind.To: return "to";
             case TokenKind.From: return "from";
             case TokenKind.Except: return "except";

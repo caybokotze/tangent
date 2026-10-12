@@ -155,7 +155,7 @@ describe('graphStats', () => {
       nodes: 6,
       edges: 5,
       violations: 2,
-      exemptions: 0,
+      ignored: 0,
       layeringViolations: 1,
       unbound: 2,
     });

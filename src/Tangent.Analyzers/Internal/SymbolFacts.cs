@@ -17,15 +17,15 @@ internal static class SymbolFacts
 {
     internal const string TangentNamespace = "Tangent";
     internal const string TangentAttributeName = "TangentAttribute";
-    internal const string TangentExemptAttributeName = "TangentExemptAttribute";
+    internal const string TangentIgnoreAttributeName = "TangentIgnoreAttribute";
 
     /// <summary>True when the attribute is <c>Tangent.TangentAttribute</c>, matched by metadata name only.</summary>
     internal static bool IsTangentAttribute(INamedTypeSymbol? attributeClass) =>
         IsTangentAttribute(attributeClass, TangentAttributeName);
 
-    /// <summary>True when the attribute is <c>Tangent.TangentExemptAttribute</c>.</summary>
-    internal static bool IsTangentExemptAttribute(INamedTypeSymbol? attributeClass) =>
-        IsTangentAttribute(attributeClass, TangentExemptAttributeName);
+    /// <summary>True when the attribute is <c>Tangent.TangentIgnoreAttribute</c>.</summary>
+    internal static bool IsTangentIgnoreAttribute(INamedTypeSymbol? attributeClass) =>
+        IsTangentAttribute(attributeClass, TangentIgnoreAttributeName);
 
     private static bool IsTangentAttribute(INamedTypeSymbol? attributeClass, string name)
     {

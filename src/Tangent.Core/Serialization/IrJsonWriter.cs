@@ -31,7 +31,7 @@ public static class IrJsonWriter
         WriteFrameworkGlobs(sb, model);
         WriteContracts(sb, model);
         WriteBindings(sb, model);
-        WriteExemptions(sb, model);
+        WriteIgnores(sb, model);
         TrimTrailingComma(sb);
         sb.Append("}\n");
         return sb.ToString();
@@ -227,35 +227,35 @@ public static class IrJsonWriter
         sb.Append("],\n");
     }
 
-    private static void WriteExemptions(StringBuilder sb, ArchitectureModel model)
+    private static void WriteIgnores(StringBuilder sb, ArchitectureModel model)
     {
         Indent(sb, 1);
-        sb.Append("\"exemptions\": [");
-        if (model.Exemptions.Length == 0)
+        sb.Append("\"ignores\": [");
+        if (model.Ignores.Length == 0)
         {
             sb.Append("],\n");
             return;
         }
 
         sb.Append('\n');
-        for (int i = 0; i < model.Exemptions.Length; i++)
+        for (int i = 0; i < model.Ignores.Length; i++)
         {
-            Exemption exemption = model.Exemptions[i];
+            Ignore ignore = model.Ignores[i];
             Indent(sb, 2);
             sb.Append("{ \"type\": ");
-            WriteString(sb, model.Text(exemption.TypeName));
+            WriteString(sb, model.Text(ignore.TypeName));
             sb.Append(", \"contracts\": [");
-            for (int c = 0; c < exemption.ContractIndices.Length; c++)
+            for (int c = 0; c < ignore.ContractIndices.Length; c++)
             {
                 if (c > 0) sb.Append(", ");
-                WriteString(sb, model.Text(model.Contracts[exemption.ContractIndices[c]].Name));
+                WriteString(sb, model.Text(model.Contracts[ignore.ContractIndices[c]].Name));
             }
 
-            sb.Append("], \"allContracts\": ").Append(exemption.AllContracts ? "true" : "false");
+            sb.Append("], \"allContracts\": ").Append(ignore.AllContracts ? "true" : "false");
             sb.Append(", \"reason\": ");
-            WriteString(sb, model.Text(exemption.Reason));
+            WriteString(sb, model.Text(ignore.Reason));
             sb.Append(" }");
-            if (i + 1 < model.Exemptions.Length) sb.Append(',');
+            if (i + 1 < model.Ignores.Length) sb.Append(',');
             sb.Append('\n');
         }
 

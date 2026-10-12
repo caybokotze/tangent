@@ -10,7 +10,7 @@ import {
   type LayerRuleSummary,
   type ProjectCoverage,
 } from '../graph/explore';
-import type { Exemption, SourceFile } from '../graph/types';
+import type { Ignore, SourceFile } from '../graph/types';
 import type { Route, Selection } from '../lib/route';
 
 /** Everything a view needs: the index, the derived models, and navigation. */
@@ -22,7 +22,7 @@ export type Explorer = {
   projects: ProjectCoverage[];
   filesById: Map<number, SourceFile>;
   filesByPath: Map<string, SourceFile>;
-  exemptionsByNode: Map<string, Exemption[]>;
+  ignoredByNode: Map<string, Ignore[]>;
   route: Route;
   navigate: (next: Partial<Route>) => void;
   select: (selection: Selection | null) => void;
@@ -40,11 +40,11 @@ export function ExplorerProvider(props: {
 
   const derived = useMemo(() => {
     const files = index.graph.files ?? [];
-    const exemptionsByNode = new Map<string, Exemption[]>();
-    for (const exemption of index.graph.exemptions ?? []) {
-      const list = exemptionsByNode.get(exemption.node);
-      if (list) list.push(exemption);
-      else exemptionsByNode.set(exemption.node, [exemption]);
+    const ignoredByNode = new Map<string, Ignore[]>();
+    for (const ignore of index.graph.ignored ?? []) {
+      const list = ignoredByNode.get(ignore.node);
+      if (list) list.push(ignore);
+      else ignoredByNode.set(ignore.node, [ignore]);
     }
     return {
       issues: issueGroups(index),
@@ -53,7 +53,7 @@ export function ExplorerProvider(props: {
       projects: projectCoverage(index),
       filesById: new Map(files.map((f) => [f.id, f] as const)),
       filesByPath: new Map(files.map((f) => [f.path, f] as const)),
-      exemptionsByNode,
+      ignoredByNode,
     };
   }, [index]);
 

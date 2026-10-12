@@ -18,7 +18,7 @@ internal enum TanRegionKind
     /// <summary>The name in <c>contract X</c>.</summary>
     ContractDeclaration,
 
-    /// <summary>A contract name used in <c>extends</c>, <c>bind ... to</c> or <c>exempt ... from</c>.</summary>
+    /// <summary>A contract name used in <c>extends</c>, <c>bind ... to</c> or <c>ignore ... from</c>.</summary>
     ContractReference,
 
     /// <summary>The name in <c>layer X = ...</c>.</summary>
@@ -39,7 +39,7 @@ internal enum TanRegionKind
     /// <summary>An attribute name inside <c>[ ]</c> or after <c>except</c>.</summary>
     AttributeName,
 
-    /// <summary>The fully qualified type name in a <c>bind</c> or <c>exempt</c> statement.</summary>
+    /// <summary>The fully qualified type name in a <c>bind</c> or <c>ignore</c> statement.</summary>
     BoundTypeName,
 }
 

@@ -83,7 +83,7 @@ message:
 | `contract` | all | The contract name, or `""` for layer, model and binding diagnostics. |
 | `ruleId` | all | The stable `Rule.Id` (`Controller/ctor/injects-only#0`), `layer:From->To` for TNG0202, `""` for model diagnostics. |
 | `member` | all | The member's name, or `""` for type-level and model diagnostics. |
-| `tier` | all | `symbol`, `reference`, `flow`, or `binding` / `exemption` / `model` for the non-rule diagnostics. |
+| `tier` | all | `symbol`, `reference`, `flow`, or `binding` / `ignore` / `model` for the non-rule diagnostics. |
 | `fix` | when a mechanical fix exists | One of the fix kinds below. Absent means "no fix". |
 | `fixArg` | with most fix kinds | The fix's argument: a modifier list, a type name, or an attribute specification. |
 | `fromLayer`, `toLayer`, `symbol` | TNG0202 only | The layer names and the referenced symbol's name. |
@@ -147,8 +147,8 @@ Notes:
   project (`project.AddAdditionalDocument(name, text, filePath: path)`) and use the
   `AnalyzerOptions` Roslyn builds for that project; `ContractFiles.IsContractFile` accepts them by
   extension, exactly as the `build/Tangent.Analyzers.props` path does in a normal build.
-- `GetAnalyzerDiagnosticsAsync` returns **hidden** diagnostics too, so TNG9000 exemption notes are
-  available for `tangent check --show-exemptions` without re-running anything.
+- `GetAnalyzerDiagnosticsAsync` returns **hidden** diagnostics too, so TNG9000 notes for ignored violations are
+  available for `tangent check --show-ignored` without re-running anything.
 - Use `ContractFiles.ComputeCacheKey` if the CLI wants to know whether two projects share a model; the
   analyzer already caches by that key through `Tangent.Core.ModelCache`, process-wide.
 - One `TangentAnalyzer` instance may be reused across every project in the solution. Per-compilation
@@ -193,7 +193,7 @@ When the analyzer is constructed with a sink:
    which parses at most once per unique content. Register the compilation-end action always, and the
    symbol/operation actions only when the model bound without errors.
 3. **Symbol action (`SymbolKind.NamedType`)** — bind the type (attribute → `bind` → `match`, in that
-   precedence), apply exemptions, then run Tier 0 and the symbol half of the Tier 1 walk.
+   precedence), apply ignores, then run Tier 0 and the symbol half of the Tier 1 walk.
 4. **Operation block start** — build the per-body worker once, then register operation actions for the
    Tier 1 walk and an operation-block-end action for Tier 2 constructors.
 5. **Compilation end** — report the model diagnostics (TNG1xxx) at their `.tan` locations, plus TNG1002

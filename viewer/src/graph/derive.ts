@@ -228,7 +228,7 @@ export type GraphStats = {
   nodes: number;
   edges: number;
   violations: number;
-  exemptions: number;
+  ignored: number;
   layeringViolations: number;
   unbound: number;
 };
@@ -238,7 +238,7 @@ export function graphStats(graph: TangentGraph): GraphStats {
     nodes: graph.nodes.length,
     edges: graph.edges.length,
     violations: graph.violations.length,
-    exemptions: graph.nodes.reduce((sum, node) => sum + node.exemptions, 0),
+    ignored: graph.nodes.reduce((sum, node) => sum + node.ignored, 0),
     layeringViolations: graph.edges.filter((edge) => edge.violatesLayering).length,
     unbound: graph.nodes.filter((node) => node.contracts.length === 0).length,
   };

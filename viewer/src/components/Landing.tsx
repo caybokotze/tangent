@@ -12,7 +12,7 @@ export type LandingProps = {
 };
 
 const EXAMPLES = [
-  { file: 'scheduling.graph.json', title: 'Scheduling API', text: 'The demo in demo/Scheduling: 5 projects, 6 violations, 3 exemptions.' },
+  { file: 'scheduling.graph.json', title: 'Scheduling API', text: 'The demo in demo/Scheduling: 5 projects, 6 violations, 3 ignored.' },
   { file: 'orders.graph.json', title: 'Orders sample', text: 'samples/Orders: many deliberate violations across four layers.' },
   { file: 'sample.graph.json', title: 'Hand-written sample', text: 'A small fictional graph, schema version 1.' },
 ];

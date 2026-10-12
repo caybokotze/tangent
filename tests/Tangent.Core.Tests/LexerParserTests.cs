@@ -282,17 +282,17 @@ public sealed class ParserTests
     }
 
     [Fact]
-    public void Bind_and_exempt()
+    public void Bind_and_ignore()
     {
         SyntaxTree tree = Parse("""
             bind N.T to A, B except [Attr], "A/type/modifier#0"
-            exempt N.U from A reason "because"
-            exempt N.V reason "all of it"
+            ignore N.U from A reason "because"
+            ignore N.V reason "all of it"
             """);
 
         Assert.Empty(tree.Diagnostics);
         Assert.Equal(1, CountNodes(tree, NodeKind.Bind));
-        Assert.Equal(2, CountNodes(tree, NodeKind.Exempt));
+        Assert.Equal(2, CountNodes(tree, NodeKind.Ignore));
         Assert.Equal(1, CountNodes(tree, NodeKind.ExceptAttribute));
         Assert.Equal(1, CountNodes(tree, NodeKind.ExceptRule));
     }
@@ -336,7 +336,7 @@ public sealed class ParserTests
     [Fact]
     public void Parser_never_throws_on_random_punctuation()
     {
-        foreach (string source in new[] { "{", "}", "<<<", "contract", "contract {", "project", "bind", "exempt", "]]", "|" })
+        foreach (string source in new[] { "{", "}", "<<<", "contract", "contract {", "project", "bind", "ignore", "]]", "|" })
         {
             SyntaxTree tree = Parse(source);
             Assert.NotNull(tree);
@@ -391,7 +391,7 @@ public sealed class DiagnosticCatalogTests
         Assert.Equal(DiagnosticSeverity.Warning, DiagnosticCatalog.ModifierViolation.DefaultSeverity);
         Assert.Equal(DiagnosticSeverity.Warning, DiagnosticCatalog.LayerCycle.DefaultSeverity);
         Assert.Equal(DiagnosticSeverity.Error, DiagnosticCatalog.ConflictingRules.DefaultSeverity);
-        Assert.Equal(DiagnosticSeverity.Hidden, DiagnosticCatalog.ExemptionApplied.DefaultSeverity);
+        Assert.Equal(DiagnosticSeverity.Hidden, DiagnosticCatalog.ViolationIgnored.DefaultSeverity);
         Assert.Equal(RuleTier.Flow, DiagnosticCatalog.NotStateless.Tier);
     }
 

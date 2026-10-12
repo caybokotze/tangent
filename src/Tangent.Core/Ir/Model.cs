@@ -140,11 +140,11 @@ public sealed class Binding
     public SourceSpan Span { get; }
 }
 
-/// <summary>An <c>exempt</c> statement: a type is removed from checking, with a reason.</summary>
-public sealed class Exemption
+/// <summary>An <c>ignore</c> statement: the violations of a type are ignored, with a reason.</summary>
+public sealed class Ignore
 {
-    /// <summary>Creates an exemption.</summary>
-    public Exemption(StringId typeName, ImmutableArray<int> contractIndices, StringId reason, SourceSpan span)
+    /// <summary>Creates an ignore.</summary>
+    public Ignore(StringId typeName, ImmutableArray<int> contractIndices, StringId reason, SourceSpan span)
     {
         TypeName = typeName;
         ContractIndices = contractIndices;
@@ -155,10 +155,10 @@ public sealed class Exemption
     /// <summary>The fully qualified type name as written.</summary>
     public StringId TypeName { get; }
 
-    /// <summary>The contracts exempted from; empty means every contract.</summary>
+    /// <summary>The contracts to ignore; empty means every contract.</summary>
     public ImmutableArray<int> ContractIndices { get; }
 
-    /// <summary>True when the type is exempt from every contract.</summary>
+    /// <summary>True when the type is ignored for every contract.</summary>
     public bool AllContracts => ContractIndices.IsDefaultOrEmpty;
 
     /// <summary>The required reason.</summary>
@@ -228,7 +228,7 @@ public sealed class ArchitectureModel
         ImmutableArray<Layer> layers,
         ImmutableArray<Contract> contracts,
         ImmutableArray<Binding> bindings,
-        ImmutableArray<Exemption> exemptions,
+        ImmutableArray<Ignore> ignores,
         LayerDependencyMatrix dependencies,
         StringTable strings,
         TypePatternTable typePatterns,
@@ -245,7 +245,7 @@ public sealed class ArchitectureModel
         Layers = layers;
         Contracts = contracts;
         Bindings = bindings;
-        Exemptions = exemptions;
+        Ignores = ignores;
         Dependencies = dependencies;
         Strings = strings;
         TypePatterns = typePatterns;
@@ -273,8 +273,8 @@ public sealed class ArchitectureModel
     /// <summary>Explicit <c>bind</c> statements.</summary>
     public ImmutableArray<Binding> Bindings { get; }
 
-    /// <summary><c>exempt</c> statements.</summary>
-    public ImmutableArray<Exemption> Exemptions { get; }
+    /// <summary><c>ignore</c> statements.</summary>
+    public ImmutableArray<Ignore> Ignores { get; }
 
     /// <summary>The layer dependency matrix.</summary>
     public LayerDependencyMatrix Dependencies { get; }

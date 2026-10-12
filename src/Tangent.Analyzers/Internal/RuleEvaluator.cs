@@ -152,7 +152,7 @@ internal ref struct RuleEvaluator
             if (!SymbolFacts.HasModifiers(member, mask)) continue;
             found = true;
             if (rule.Polarity != Polarity.Forbid) break;
-            if (IsMemberExempt(member, applied, in rule)) continue;
+            if (IsMemberIgnored(member, applied, in rule)) continue;
 
             Report(
                 applied, in rule, DiagnosticCatalog.MemberKindViolation, SymbolFacts.LocationOf(member),
@@ -207,7 +207,7 @@ internal ref struct RuleEvaluator
             if (field.AssociatedSymbol is IPropertySymbol owner)
             {
                 if (owner.SetMethod is null || owner.SetMethod.IsInitOnly) continue;
-                if (IsMemberExempt(owner, applied, in rule)) continue;
+                if (IsMemberIgnored(owner, applied, in rule)) continue;
                 Report(
                     applied, in rule, DiagnosticCatalog.NotStateless, SymbolFacts.LocationOf(owner),
                     string.Empty, owner.Name, null, null,
@@ -216,7 +216,7 @@ internal ref struct RuleEvaluator
             }
 
             if (field.IsImplicitlyDeclared) continue;
-            if (IsMemberExempt(field, applied, in rule)) continue;
+            if (IsMemberIgnored(field, applied, in rule)) continue;
             Report(
                 applied, in rule, DiagnosticCatalog.NotStateless, SymbolFacts.LocationOf(field),
                 string.Empty, field.Name, FixKinds.AddModifier, "readonly",
@@ -255,7 +255,7 @@ internal ref struct RuleEvaluator
                 Rule rule = RuleOf(rules[i]);
                 if (rule.Selector.Kind != kind.Value) continue;
                 if (!_state.EvaluateCondition(rule.Selector.ConditionIndex, member, Type)) continue;
-                if (IsMemberExempt(member, rules[i], in rule)) continue;
+                if (IsMemberIgnored(member, rules[i], in rule)) continue;
                 EvaluateMemberRule(rules[i], in rule, member, kind.Value);
             }
         }
@@ -535,7 +535,7 @@ internal ref struct RuleEvaluator
         return dot < 0 ? name : name.Substring(dot + 1);
     }
 
-    private bool IsMemberExempt(ISymbol member, AppliedRule applied, in Rule rule)
+    private bool IsMemberIgnored(ISymbol member, AppliedRule applied, in Rule rule)
     {
         ImmutableArray<AttributeData> attributes = member.GetAttributes();
         if (attributes.Length == 0) return false;
@@ -544,7 +544,7 @@ internal ref struct RuleEvaluator
         for (int i = 0; i < attributes.Length; i++)
         {
             AttributeData attribute = attributes[i];
-            if (!SymbolFacts.IsTangentExemptAttribute(attribute.AttributeClass)) continue;
+            if (!SymbolFacts.IsTangentIgnoreAttribute(attribute.AttributeClass)) continue;
 
             string? scopedContract = null;
             string? scopedRule = null;
@@ -562,13 +562,13 @@ internal ref struct RuleEvaluator
                 ? text
                 : string.Empty;
 
-            if (_state.ShouldNoteExemption(member))
+            if (_state.ShouldNoteIgnore(member))
             {
                 _symbolContext.ReportDiagnostic(Diagnostic.Create(
-                    TangentDiagnostics.Get(DiagnosticCatalog.ExemptionApplied.Id),
+                    TangentDiagnostics.Get(DiagnosticCatalog.ViolationIgnored.Id),
                     SymbolFacts.LocationOf(member, attribute),
                     MessageFactory.Properties(contract, rule.Id.Value, member.Name, rule.Tier),
-                    DiagnosticCatalog.ExemptionApplied.Format(reason)));
+                    DiagnosticCatalog.ViolationIgnored.Format(reason)));
             }
 
             return true;

@@ -16,10 +16,10 @@ public static class DiagnosticCatalog
         "Contract '{0}' is not defined",
         DiagnosticSeverity.Error, DiagnosticCategory.Binding);
 
-    /// <summary>TNG0002: an exemption names a rule id that does not exist.</summary>
-    public static readonly DiagnosticDescriptor UnknownRuleInExemption = new DiagnosticDescriptor(
-        "TNG0002", "Rule referenced in exemption does not exist",
-        "Rule '{0}' referenced in exemption does not exist",
+    /// <summary>TNG0002: an ignore names a rule id that does not exist.</summary>
+    public static readonly DiagnosticDescriptor UnknownRuleInIgnore = new DiagnosticDescriptor(
+        "TNG0002", "Rule referenced in an ignore does not exist",
+        "Rule '{0}' referenced in an ignore does not exist",
         DiagnosticSeverity.Error, DiagnosticCategory.Binding);
 
     // ---- TNG01xx: structural (tier 0) ------------------------------------
@@ -162,16 +162,16 @@ public static class DiagnosticCatalog
         "{0}",
         DiagnosticSeverity.Error, DiagnosticCategory.Model);
 
-    /// <summary>TNG1001: a <c>bind</c>, <c>exempt</c> or <c>extends</c> names a contract that does not exist.</summary>
+    /// <summary>TNG1001: a <c>bind</c>, <c>ignore</c> or <c>extends</c> names a contract that does not exist.</summary>
     public static readonly DiagnosticDescriptor UnknownContract = new DiagnosticDescriptor(
         "TNG1001", "Unknown contract",
-        "Unknown contract '{0}' in bind/exempt",
+        "Unknown contract '{0}' in bind/ignore",
         DiagnosticSeverity.Error, DiagnosticCategory.Model);
 
-    /// <summary>TNG1002: a <c>bind</c> or <c>exempt</c> names a type that does not exist in the compilation.</summary>
+    /// <summary>TNG1002: a <c>bind</c> or <c>ignore</c> names a type that does not exist in the compilation.</summary>
     public static readonly DiagnosticDescriptor UnknownType = new DiagnosticDescriptor(
         "TNG1002", "Unknown type",
-        "Unknown type '{0}' in bind/exempt",
+        "Unknown type '{0}' in bind/ignore",
         DiagnosticSeverity.Error, DiagnosticCategory.Model);
 
     /// <summary>TNG1003: two declarations share a name.</summary>
@@ -222,18 +222,18 @@ public static class DiagnosticCatalog
         "Contract '{0}' is never bound",
         DiagnosticSeverity.Warning, DiagnosticCategory.Model);
 
-    // ---- TNG9000: exemptions ---------------------------------------------
+    // ---- TNG9000: ignores ------------------------------------------------
 
-    /// <summary>TNG9000: an exemption suppressed a violation.</summary>
-    public static readonly DiagnosticDescriptor ExemptionApplied = new DiagnosticDescriptor(
-        "TNG9000", "Exemption applied",
-        "Exemption applied: {0}",
-        DiagnosticSeverity.Hidden, DiagnosticCategory.Exemption);
+    /// <summary>TNG9000: an ignore suppressed a violation.</summary>
+    public static readonly DiagnosticDescriptor ViolationIgnored = new DiagnosticDescriptor(
+        "TNG9000", "Violation ignored",
+        "Violation ignored: {0}",
+        DiagnosticSeverity.Hidden, DiagnosticCategory.Ignore);
 
     /// <summary>Every descriptor, in id order.</summary>
     public static readonly ImmutableArray<DiagnosticDescriptor> All = ImmutableArray.Create(
         UnknownContractAttribute,
-        UnknownRuleInExemption,
+        UnknownRuleInIgnore,
         ModifierViolation,
         InheritsViolation,
         ImplementsViolation,
@@ -266,7 +266,7 @@ public static class DiagnosticCatalog
         LoosensInheritedRule,
         UnresolvedTypeName,
         ContractNeverBound,
-        ExemptionApplied);
+        ViolationIgnored);
 
     private static readonly Dictionary<string, DiagnosticDescriptor> ById = BuildIndex();
 

@@ -39,7 +39,7 @@ public sealed record GraphMember(string Name, string Kind, string Signature);
 /// <param name="File">The declaring file, relative to the solution root.</param>
 /// <param name="Line">The 1-based line the type is declared on.</param>
 /// <param name="Violations">How many violations were reported against this type.</param>
-/// <param name="Exemptions">How many exemptions were applied to this type.</param>
+/// <param name="Ignored">How many violations of this type were ignored.</param>
 /// <param name="Members">The type's public members.</param>
 /// <param name="FileId">The id of <paramref name="File"/> in the file table, or -1.</param>
 public sealed record GraphNode(
@@ -51,7 +51,7 @@ public sealed record GraphNode(
     string File,
     int Line,
     int Violations,
-    int Exemptions,
+    int Ignored,
     IReadOnlyList<GraphMember> Members,
     int FileId);
 
@@ -118,13 +118,13 @@ public sealed record GraphViolation(
     [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     GraphSnippet? Snippet);
 
-/// <summary>An exemption that suppressed a rule for one type or member (a TNG9000 note).</summary>
-/// <param name="Node">The id of the exempted type, or "" when unknown.</param>
-/// <param name="Member">The exempted member, or null for the whole type.</param>
-/// <param name="RuleId">The rule the exemption suppressed.</param>
-/// <param name="Reason">The exemption's reason, or where it was declared.</param>
+/// <summary>An ignore that suppressed a rule for one type or member (a TNG9000 note).</summary>
+/// <param name="Node">The id of the ignored type, or "" when unknown.</param>
+/// <param name="Member">The ignored member, or null for the whole type.</param>
+/// <param name="RuleId">The rule the ignore suppressed.</param>
+/// <param name="Reason">The ignore's reason, or where it was declared.</param>
 /// <param name="FileId">The id of <paramref name="File"/> in the file table, or -1.</param>
-public sealed record GraphExemption(
+public sealed record GraphIgnore(
     string Node,
     string? Member,
     string RuleId,
@@ -160,7 +160,7 @@ public sealed record GraphDocument(
     IReadOnlyList<GraphNode> Nodes,
     IReadOnlyList<GraphEdge> Edges,
     IReadOnlyList<GraphViolation> Violations,
-    IReadOnlyList<GraphExemption> Exemptions,
+    IReadOnlyList<GraphIgnore> Ignored,
     [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyList<GraphRule>? Rules);
 

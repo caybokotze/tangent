@@ -93,7 +93,7 @@ export function SeverityBar(props: { severity: string }): JSX.Element {
 export function RuleStatusIcon(props: { status: RuleStatus; className?: string }): JSX.Element {
   const className = cn('size-4 shrink-0', props.className);
   if (props.status === 'fail') return <XCircle className={cn(className, 'text-danger')} aria-label="fails" />;
-  if (props.status === 'exempt') return <ShieldOff className={cn(className, 'text-faint')} aria-label="exempt" />;
+  if (props.status === 'ignored') return <ShieldOff className={cn(className, 'text-faint')} aria-label="ignored" />;
   return <CheckCircle2 className={cn(className, 'text-success')} aria-label="passes" />;
 }
 
@@ -147,12 +147,12 @@ export function CoverageBar(props: { tracked: number; partial: number; untracked
   );
 }
 
-export function PassBar(props: { passing: number; failing: number; exempt: number }): JSX.Element {
-  const total = Math.max(1, props.passing + props.failing + props.exempt);
+export function PassBar(props: { passing: number; failing: number; ignored: number }): JSX.Element {
+  const total = Math.max(1, props.passing + props.failing + props.ignored);
   return (
     <div className="flex h-1.5 w-24 overflow-hidden rounded-full bg-surface-3">
       <div className="bg-success" style={{ width: `${(props.passing / total) * 100}%` }} />
-      <div className="bg-faint" style={{ width: `${(props.exempt / total) * 100}%` }} />
+      <div className="bg-faint" style={{ width: `${(props.ignored / total) * 100}%` }} />
       <div className="bg-danger" style={{ width: `${(props.failing / total) * 100}%` }} />
     </div>
   );

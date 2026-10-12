@@ -157,7 +157,7 @@ public sealed class Parser
             case TokenKind.Project:
             case TokenKind.Contract:
             case TokenKind.Bind:
-            case TokenKind.Exempt:
+            case TokenKind.Ignore:
                 return true;
         }
 
@@ -235,11 +235,11 @@ public sealed class Parser
                 case TokenKind.Bind:
                     ParseBind(file);
                     break;
-                case TokenKind.Exempt:
-                    ParseExempt(file);
+                case TokenKind.Ignore:
+                    ParseIgnore(file);
                     break;
                 default:
-                    Error("expected 'project', 'contract', 'bind' or 'exempt'");
+                    Error("expected 'project', 'contract', 'bind' or 'ignore'");
                     Synchronize(Recovery.TopLevel);
                     break;
             }
@@ -1178,7 +1178,7 @@ public sealed class Parser
     }
 
     // ------------------------------------------------------------------
-    // bind / exempt
+    // bind / ignore
     // ------------------------------------------------------------------
 
     private void ParseBind(int parent)
@@ -1249,14 +1249,14 @@ public sealed class Parser
         _nodes.SetSpan(node, SpanFrom(keyword));
     }
 
-    private void ParseExempt(int parent)
+    private void ParseIgnore(int parent)
     {
         Token keyword = Advance();
         StringId typeName = StringId.Invalid;
         if (Kind == TokenKind.Identifier) typeName = Intern(Advance());
-        else Error("expected a fully qualified type name after 'exempt'");
+        else Error("expected a fully qualified type name after 'ignore'");
 
-        int node = _nodes.Add(NodeKind.Exempt, SpanOf(keyword), typeName.Value, StringId.Invalid.Value);
+        int node = _nodes.Add(NodeKind.Ignore, SpanOf(keyword), typeName.Value, StringId.Invalid.Value);
         _nodes.AddChild(parent, node);
 
         if (Match(TokenKind.From))
@@ -1278,7 +1278,7 @@ public sealed class Parser
         }
 
         StringId reason = StringId.Invalid;
-        if (Expect(TokenKind.Reason, "expected 'reason' in an 'exempt' statement"))
+        if (Expect(TokenKind.Reason, "expected 'reason' in an 'ignore' statement"))
         {
             if (Kind == TokenKind.StringLiteral) reason = InternString(Advance());
             else Error("expected a reason string after 'reason'");

@@ -73,7 +73,7 @@ export function node(
   layer: string | null,
   contracts: string[],
   violations: number,
-  exemptions = 0,
+  ignored = 0,
 ): TangentGraph['nodes'][number] {
   const dot = id.lastIndexOf('.');
   return {
@@ -85,7 +85,7 @@ export function node(
     file: `src/${id}.cs`,
     line: 1,
     violations,
-    exemptions,
+    ignored,
     members: [{ name: 'Get', kind: 'method', signature: 'void Get()' }],
   };
 }

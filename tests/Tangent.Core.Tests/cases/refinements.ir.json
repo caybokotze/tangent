@@ -31,5 +31,5 @@
     { "type": "Orders.Domain.Entities.Order", "contracts": ["Aggregate"], "exceptAttributes": [], "exceptRules": [] },
     { "type": "Orders.Application.PricingService", "contracts": ["Service"], "exceptAttributes": [], "exceptRules": [] }
   ],
-  "exemptions": []
+  "ignores": []
 }

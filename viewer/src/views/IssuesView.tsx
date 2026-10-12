@@ -147,7 +147,7 @@ export function IssuesView(): JSX.Element {
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
         <Stat label="Violations" value={graph.violations.length} tone={graph.violations.length > 0 ? 'danger' : 'success'} hint={`${plural(issues.length, 'rule')} broken`} />
         <Stat label="Types affected" value={affected} hint={`in ${plural(new Set(graph.violations.map((v) => v.file)).size, 'file')}`} />
-        <Stat label="Exemptions" value={(graph.exemptions ?? []).length} hint="rules suppressed with a reason" />
+        <Stat label="Ignored" value={(graph.ignored ?? []).length} hint="violations ignored with a reason" />
         <Stat
           label="Contract coverage"
           value={types > 0 ? `${Math.round((bound / types) * 100)}%` : '–'}

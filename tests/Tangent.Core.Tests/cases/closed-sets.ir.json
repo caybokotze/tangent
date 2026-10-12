@@ -47,5 +47,5 @@
     }
   ],
   "bindings": [],
-  "exemptions": []
+  "ignores": []
 }

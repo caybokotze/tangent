@@ -3,7 +3,7 @@
     1:6    Identifier       Sample.Foo
     1:17   To               to
     1:20   Identifier       Nonexistent
-    2:1    Exempt           exempt
+    2:1    Ignore           ignore
     2:8    Identifier       Sample.Bar
     2:19   From             from
     2:24   Identifier       AlsoMissing

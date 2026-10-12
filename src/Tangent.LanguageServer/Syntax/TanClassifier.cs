@@ -211,7 +211,7 @@ internal static class TanClassifier
                 break;
 
             case NodeKind.Bind:
-            case NodeKind.Exempt:
+            case NodeKind.Ignore:
                 ClassifyAfterKeyword(map, tokens, tokenIndexByStart, text, node.Span, TanRegionKind.BoundTypeName);
                 break;
 

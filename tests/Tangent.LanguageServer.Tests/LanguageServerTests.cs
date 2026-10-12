@@ -150,7 +150,7 @@ project "Broken" {
         List<string?> labels = Items(result).Select(i => i.GetProperty("label").GetString()).ToList();
         Assert.Contains("contract", labels);
         Assert.Contains("bind", labels);
-        Assert.Contains("exempt", labels);
+        Assert.Contains("ignore", labels);
         Assert.Contains("project", labels);
     }
 
@@ -274,7 +274,7 @@ project "Broken" {
     }
 
     [Fact]
-    public async Task References_ForAContract_FindExtendsAndExempt()
+    public async Task References_ForAContract_FindExtendsAndIgnore()
     {
         using TangentFolder folder = TangentFolder.Create();
         await using var client = new LspTestClient(folder.Root);

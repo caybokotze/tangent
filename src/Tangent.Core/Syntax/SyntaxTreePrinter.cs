@@ -96,7 +96,7 @@ public static class SyntaxTreePrinter
 
             case NodeKind.LayerDecl:
             case NodeKind.Bind:
-            case NodeKind.Exempt:
+            case NodeKind.Ignore:
                 AppendName(sb, strings, node.Payload);
                 AppendName(sb, strings, node.Payload2);
                 return;

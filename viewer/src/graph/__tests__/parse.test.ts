@@ -18,7 +18,7 @@ const minimal = {
       file: 'src/Order.cs',
       line: 4,
       violations: 0,
-      exemptions: 0,
+      ignored: 0,
       members: [{ name: 'Id', kind: 'property', signature: 'Guid Id { get; }' }],
     },
   ],

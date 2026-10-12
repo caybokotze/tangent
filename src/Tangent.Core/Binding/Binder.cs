@@ -88,7 +88,7 @@ public static partial class Binder
         private readonly List<ContractRecord> _contractRecords = new List<ContractRecord>();
         private readonly List<DependencyRecord> _dependencyRecords = new List<DependencyRecord>();
         private readonly List<StatementRecord> _bindRecords = new List<StatementRecord>();
-        private readonly List<StatementRecord> _exemptRecords = new List<StatementRecord>();
+        private readonly List<StatementRecord> _ignoreRecords = new List<StatementRecord>();
 
         private readonly Dictionary<int, int> _layerByName = new Dictionary<int, int>();
         private readonly Dictionary<int, int> _contractByName = new Dictionary<int, int>();
@@ -127,7 +127,7 @@ public static partial class Binder
             ResolveExtends();
             BuildContracts();
             ImmutableArray<IrBinding> bindings = BuildBindings();
-            ImmutableArray<Exemption> exemptions = BuildExemptions();
+            ImmutableArray<Ignore> ignores = BuildIgnores();
 
             var files = ImmutableArray.CreateBuilder<SourceFile>(_trees.Length);
             for (int i = 0; i < _trees.Length; i++) files.Add(_trees[i].Source);
@@ -138,7 +138,7 @@ public static partial class Binder
                 _layers,
                 ImmutableArray.Create(_contracts),
                 bindings,
-                exemptions,
+                ignores,
                 matrix,
                 _strings,
                 _patterns.ToTable(_templates.ToImmutableArray()),
@@ -181,8 +181,8 @@ public static partial class Binder
                         case NodeKind.Bind:
                             _bindRecords.Add(new StatementRecord { Tree = t, Node = child });
                             break;
-                        case NodeKind.Exempt:
-                            _exemptRecords.Add(new StatementRecord { Tree = t, Node = child });
+                        case NodeKind.Ignore:
+                            _ignoreRecords.Add(new StatementRecord { Tree = t, Node = child });
                             break;
                     }
                 }
@@ -528,7 +528,7 @@ public static partial class Binder
         }
 
         // --------------------------------------------------------------
-        // step 5: bind / exempt
+        // step 5: bind / ignore
         // --------------------------------------------------------------
 
         private ImmutableArray<IrBinding> BuildBindings()
@@ -586,12 +586,12 @@ public static partial class Binder
             return result.ToImmutable();
         }
 
-        private ImmutableArray<Exemption> BuildExemptions()
+        private ImmutableArray<Ignore> BuildIgnores()
         {
-            var result = ImmutableArray.CreateBuilder<Exemption>(_exemptRecords.Count);
-            for (int i = 0; i < _exemptRecords.Count; i++)
+            var result = ImmutableArray.CreateBuilder<Ignore>(_ignoreRecords.Count);
+            for (int i = 0; i < _ignoreRecords.Count; i++)
             {
-                StatementRecord record = _exemptRecords[i];
+                StatementRecord record = _ignoreRecords[i];
                 SyntaxTree tree = _trees[record.Tree];
                 NodeList nodes = tree.Nodes;
                 var typeName = new StringId(nodes[record.Node].Payload);
@@ -613,7 +613,7 @@ public static partial class Binder
                     }
                 }
 
-                result.Add(new Exemption(typeName, contracts.ToImmutable(), reason, nodes[record.Node].Span));
+                result.Add(new Ignore(typeName, contracts.ToImmutable(), reason, nodes[record.Node].Span));
             }
 
             return result.ToImmutable();

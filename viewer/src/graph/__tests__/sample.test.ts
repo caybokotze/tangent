@@ -31,7 +31,7 @@ describe('public/sample.graph.json', () => {
     expect(stats.edges).toBeGreaterThanOrEqual(30);
     expect(stats.layeringViolations).toBe(3);
     expect(stats.violations).toBeGreaterThanOrEqual(10);
-    expect(stats.exemptions).toBe(2);
+    expect(stats.ignored).toBe(2);
     expect(new Set(graph.violations.map((v) => v.ruleId)).size).toBeGreaterThanOrEqual(5);
     expect(graph.nodes.some((n) => n.layer === null)).toBe(true);
     expect(graph.nodes.some((n) => n.contracts.length > 1)).toBe(true);

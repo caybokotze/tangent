@@ -12,7 +12,7 @@ Working contracts for the common kinds of type in a layered .NET solution. They 
 6. Entity and aggregate root
 7. Domain service
 8. View model
-9. Explicit bindings and exemptions
+9. Explicit bindings and ignores
 10. Choosing the `match`
 
 ## 1. Layers (clean architecture)
@@ -202,7 +202,7 @@ contract ViewModel {
 }
 ```
 
-## 9. Explicit bindings and exemptions
+## 9. Explicit bindings and ignores
 
 ```tangent
 // A liveness probe has no response body worth documenting, so it keeps the Controller
@@ -210,10 +210,10 @@ contract ViewModel {
 bind Scheduling.Api.Controllers.HealthController to Controller except [ProducesResponseType]
 
 // An append-only audit row is materialised field by field by the persistence layer.
-exempt Scheduling.Domain.Appointments.AppointmentAuditEntry from Entity reason "append-only audit row, written field by field by the repository"
+ignore Scheduling.Domain.Appointments.AppointmentAuditEntry from Entity reason "append-only audit row, written field by field by the repository"
 ```
 
-Prefer, in order: a `match` that fits, then `bind ... except` for one rule on one type, then `exempt` for a type that is deliberately different. Keep all of these in one `bindings.tan` with a comment each, so the exceptions are reviewed together.
+Prefer, in order: a `match` that fits, then `bind ... except` for one rule on one type, then `ignore` for a type that is deliberately different. Keep all of these in one `bindings.tan` with a comment each, so the exceptions are reviewed together.
 
 ## 10. Choosing the `match`
 

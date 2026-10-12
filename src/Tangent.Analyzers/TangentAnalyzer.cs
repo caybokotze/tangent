@@ -144,14 +144,14 @@ public sealed class TangentAnalyzer : DiagnosticAnalyzer
                     MessageFactory.Properties(string.Empty, string.Empty, string.Empty, "binding")));
             }
 
-            ImmutableArray<ExemptionNote> exemptions = typeContext.Exemptions;
-            for (int i = 0; i < exemptions.Length; i++)
+            ImmutableArray<IgnoreNote> ignores = typeContext.Ignores;
+            for (int i = 0; i < ignores.Length; i++)
             {
                 context.ReportDiagnostic(MessageFactory.Create(
-                    DiagnosticCatalog.ExemptionApplied.Id,
-                    exemptions[i].Location,
-                    DiagnosticCatalog.ExemptionApplied.Format(exemptions[i].Reason),
-                    MessageFactory.Properties(exemptions[i].Contract, exemptions[i].RuleId, type.Name, "exemption")));
+                    DiagnosticCatalog.ViolationIgnored.Id,
+                    ignores[i].Location,
+                    DiagnosticCatalog.ViolationIgnored.Format(ignores[i].Reason),
+                    MessageFactory.Properties(ignores[i].Contract, ignores[i].RuleId, type.Name, "ignore")));
             }
 
             if (_sink is not null && (typeContext.IsBound || _includeUnbound))
@@ -318,10 +318,10 @@ public sealed class TangentAnalyzer : DiagnosticAnalyzer
                 CheckBindTarget(context, model, model.Text(bindings[i].TypeName), bindings[i].Span);
             }
 
-            ImmutableArray<Exemption> exemptions = model.Exemptions;
-            for (int i = 0; i < exemptions.Length; i++)
+            ImmutableArray<Ignore> ignores = model.Ignores;
+            for (int i = 0; i < ignores.Length; i++)
             {
-                CheckBindTarget(context, model, model.Text(exemptions[i].TypeName), exemptions[i].Span);
+                CheckBindTarget(context, model, model.Text(ignores[i].TypeName), ignores[i].Span);
             }
         }
 

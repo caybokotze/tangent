@@ -9,14 +9,14 @@ Every violation message ends with `(rule <rule id>, <file>.tan:<line>)`. Run `ta
 - Reference and layers: TNG0201–TNG0205
 - Flow: TNG0301–TNG0303
 - Model: TNG1xxx
-- Exemptions: TNG9000
+- Ignored violations: TNG9000
 
 ## Binding
 
 | Code | Means | Usual fix |
 |---|---|---|
 | TNG0001 | `[Tangent("X")]` names a contract that does not exist. Error. | Fix the name; the message suggests the closest. Prefer `Contracts.X` constants when the analyzer package is referenced. |
-| TNG0002 | `[TangentExempt(Rule = "...")]` names a rule id that does not exist. Error. | Tell the user; the exemption is stale or misspelt. |
+| TNG0002 | `[TangentIgnore(Rule = "...")]` names a rule id that does not exist. Error. | Tell the user; the ignore is stale or misspelt. |
 
 ## Structural (symbol)
 
@@ -58,6 +58,6 @@ Every violation message ends with `(rule <rule id>, <file>.tan:<line>)`. Run `ta
 
 TNG1000–TNG1099 are problems in the contracts themselves: parse errors, unknown names, cycles, conflicting rules, a child contract that loosens its parent, a type name that does not resolve in the projects the contract covers (TNG1020, a warning), a contract with no `match` and no `bind` (TNG1030, a warning). A TNG10xx **error** makes `tangent check` exit with code 2, and then **no code was checked**. When you are writing contracts, fix them. When you are writing code, report them to the user.
 
-## Exemptions
+## Ignored violations
 
-TNG9000 (hidden) records that an exemption was applied: from `[TangentExempt]`, an `exempt` line, or `bind ... except`. `tangent check --show-exemptions` lists them. It is information, not a problem to fix.
+TNG9000 (hidden) records that an ignore was applied: from `[TangentIgnore]`, an `ignore` line, or `bind ... except`. `tangent check --show-ignored` lists them. It is information, not a problem to fix.

@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Tangent.Analyzers.Tests;
 
-public sealed class ExemptionTests
+public sealed class IgnoreTests
 {
     private const string Contracts = """
 contract Controller {
@@ -16,14 +16,14 @@ contract Controller {
 """;
 
     [Fact]
-    public async Task WholeTypeExemptionAttributeSuppressesEverything()
+    public async Task WholeTypeIgnoreAttributeSuppressesEverything()
     {
         const string source = """
 using Tangent;
 
 namespace Sample.Api;
 
-[{|TNG9000:TangentExempt("legacy, migrating in Q4")|}]
+[{|TNG9000:TangentIgnore("legacy, migrating in Q4")|}]
 public class LegacyController
 {
     public int Get() => 1;
@@ -34,7 +34,7 @@ public class LegacyController
     }
 
     [Fact]
-    public async Task ContractScopedExemptionOnAMemberSuppressesThatMember()
+    public async Task ContractScopedIgnoreOnAMemberSuppressesThatMember()
     {
         const string source = """
 using Microsoft.AspNetCore.Mvc;
@@ -47,7 +47,7 @@ public sealed class OrdersController
     [HttpGet]
     public int Get() => 1;
 
-    [{|TNG9000:TangentExempt("exported by a scheduled job", Contract = "Controller")|}]
+    [{|TNG9000:TangentIgnore("exported by a scheduled job", Contract = "Controller")|}]
     public int Export() => 2;
 }
 """;
@@ -56,7 +56,7 @@ public sealed class OrdersController
     }
 
     [Fact]
-    public async Task RuleScopedExemptionOnAMemberSuppressesOnlyThatRule()
+    public async Task RuleScopedIgnoreOnAMemberSuppressesOnlyThatRule()
     {
         const string source = """
 using Microsoft.AspNetCore.Mvc;
@@ -66,7 +66,7 @@ namespace Sample.Api;
 
 public sealed class OrdersController
 {
-    [{|TNG9000:TangentExempt("no verb by design", Rule = "Controller/methods/attributes#0")|}]
+    [{|TNG9000:TangentIgnore("no verb by design", Rule = "Controller/methods/attributes#0")|}]
     public int Export() => 2;
 }
 """;
@@ -75,7 +75,7 @@ public sealed class OrdersController
     }
 
     [Fact]
-    public async Task ExemptStatementSuppressesTheWholeType()
+    public async Task IgnoreStatementSuppressesTheWholeType()
     {
         const string contracts = """
 contract Controller {
@@ -83,7 +83,7 @@ contract Controller {
     sealed
 }
 
-exempt Sample.Api.LegacyController reason "migrating in Q4 2026"
+ignore Sample.Api.LegacyController reason "migrating in Q4 2026"
 """;
 
         const string source = """
@@ -98,7 +98,7 @@ public class {|TNG9000:LegacyController|}
     }
 
     [Fact]
-    public async Task ExemptStatementScopedToOneContractLeavesOthers()
+    public async Task IgnoreStatementScopedToOneContractLeavesOthers()
     {
         const string contracts = """
 contract Controller {
@@ -106,7 +106,7 @@ contract Controller {
     sealed
 }
 
-exempt Sample.Api.LegacyController from Controller reason "legacy"
+ignore Sample.Api.LegacyController from Controller reason "legacy"
 """;
 
         const string source = """
@@ -174,7 +174,7 @@ public class {|TNG9000:HealthController|}
     }
 
     [Fact]
-    public async Task BindExceptAttributeNotesTheRemovedRuleAsAnExemption()
+    public async Task BindExceptAttributeNotesTheRemovedRuleAsAnIgnore()
     {
         const string contracts = """
 contract Controller {
@@ -195,16 +195,16 @@ public sealed class HealthController
 }
 """;
 
-        // Hidden, so only --show-exemptions surfaces it, but it is reported: every exemption is visible.
+        // Hidden, so only --show-ignored surfaces it, but it is reported: every ignore is visible.
         DiagnosticResult expected = new DiagnosticResult("TNG9000", DiagnosticSeverity.Hidden)
             .WithSpan("/0/Test0.cs", 3, 21, 3, 37)
-            .WithArguments("Exemption applied: bind except [ProducesResponseType] (contracts.tan:7)");
+            .WithArguments("Violation ignored: bind except [ProducesResponseType] (contracts.tan:7)");
 
         await Harness.AnalyzerAsync(contracts, source, expected);
     }
 
     [Fact]
-    public async Task BindExceptRuleIdNotesTheRemovedRuleAsAnExemption()
+    public async Task BindExceptRuleIdNotesTheRemovedRuleAsAnIgnore()
     {
         const string contracts = """
 contract Controller {
@@ -230,7 +230,7 @@ public class HealthController
 
         DiagnosticResult expected = new DiagnosticResult("TNG9000", DiagnosticSeverity.Hidden)
             .WithSpan("/0/Test0.cs", 5, 14, 5, 30)
-            .WithArguments("Exemption applied: bind except Controller/type/modifier#0 (contracts.tan:7)");
+            .WithArguments("Violation ignored: bind except Controller/type/modifier#0 (contracts.tan:7)");
 
         await Harness.AnalyzerAsync(contracts, source, expected);
     }
@@ -261,7 +261,7 @@ public class {|TNG9000:HealthController|}
         // type's identifier.
         DiagnosticResult second = new DiagnosticResult("TNG9000", DiagnosticSeverity.Hidden)
             .WithSpan("/0/Test0.cs", 3, 14, 3, 30)
-            .WithArguments("Exemption applied: bind except [HttpGet] (contracts.tan:7)");
+            .WithArguments("Violation ignored: bind except [HttpGet] (contracts.tan:7)");
 
         await Harness.AnalyzerAsync(contracts, source, second);
     }

@@ -17,7 +17,7 @@ public static class SarifWriter
     private const string SchemaUri = "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json";
 
     /// <summary>Renders the log.</summary>
-    /// <param name="findings">The findings to report, exemptions included or not as the caller chooses.</param>
+    /// <param name="findings">The findings to report, ignored violations included or not as the caller chooses.</param>
     /// <param name="root">The directory result URIs are relative to; emitted as the <c>SRCROOT</c> base id.</param>
     public static string Write(IReadOnlyList<Finding> findings, string root, Explainer? explainer = null)
     {

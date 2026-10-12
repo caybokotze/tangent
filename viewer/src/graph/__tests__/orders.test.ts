@@ -50,7 +50,7 @@ describe('public/orders.graph.json', () => {
     expect(stats.nodes).toBeGreaterThanOrEqual(20);
     expect(stats.edges).toBeGreaterThanOrEqual(30);
     expect(stats.layeringViolations).toBeGreaterThan(0);
-    expect(stats.exemptions).toBeGreaterThan(0);
+    expect(stats.ignored).toBeGreaterThan(0);
 
     const illegal = graph.edges.filter((e) => e.violatesLayering);
     expect(illegal).toContainEqual(

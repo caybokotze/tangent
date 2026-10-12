@@ -85,7 +85,7 @@ contract Handler {
 | Component | Delivered as | What it does |
 |---|---|---|
 | Analyzer | NuGet `Tangent.Analyzers` | Roslyn analyzer + code fixes. Squiggles in Rider/VS/VS Code, `dotnet build` diagnostics. |
-| Attributes | NuGet `Tangent.Attributes` | `[Tangent("Controller")]`, `[TangentExempt("reason")]`. Stripped from output assemblies. |
+| Attributes | NuGet `Tangent.Attributes` | `[Tangent("Controller")]`, `[TangentIgnore("reason")]`. Stripped from output assemblies. |
 | CLI | .NET tool `dotnet tangent` | `init`, `lint`, `check`, `diff`, `graph`, `serve`. SARIF and JSON output. |
 | Language server | `tangent serve` + `editors/vscode` | Diagnostics, completion, hover, go-to-definition for `.tan` files. |
 | Viewer | `viewer/` (static React app) | Renders `tangent.graph.json`: layers, types, dependencies, violations. |
@@ -311,10 +311,10 @@ Convention (`match:`) covers most types. Two escape hatches handle the rest, and
 
 ```tangent
 bind Orders.Api.Controllers.HealthController to Controller except [ProducesResponseType]
-exempt Orders.Infrastructure.Legacy.OldPricingGateway from LegacyGateway reason "removed in Q3"
+ignore Orders.Infrastructure.Legacy.OldPricingGateway from LegacyGateway reason "removed in Q3"
 ```
 
-A `reason` is required by the grammar, not by convention. Exemptions show up in `tangent check --show-exemptions`, so the debt is countable.
+A `reason` is required by the grammar, not by convention. Ignores show up in `tangent check --show-ignored`, so the debt is countable.
 
 ### What the DSL deliberately cannot do
 
@@ -363,11 +363,11 @@ Use `--explain` wherever an agent reads the output. A rule id is a lookup key fo
 
 **Do not give the agent write access to `.tangent/`.**
 
-An agent that cannot satisfy a rule will eventually relax the rule, or add an exemption with a plausible-sounding reason, and report success. That is Goodhart's law in its purest form, and it collapses the entire value proposition: a verifier the subject can edit verifies nothing.
+An agent that cannot satisfy a rule will eventually relax the rule, or add an ignore with a plausible-sounding reason, and report success. That is Goodhart's law in its purest form, and it collapses the entire value proposition: a verifier the subject can edit verifies nothing.
 
 - Make `.tangent/` human-owned and read-only at the permission layer.
 - Gate on `tangent diff` showing no loosening against a baseline. The concept already exists as TNG1011 for parent/child contracts; the same comparison applied to model-versus-baseline catches a weakened `project` block or a deleted rule.
-- Track exemption count as a first-class metric. The grammar forces a `reason`; nothing forces it to be *true*. New exemptions should need a human.
+- Track ignore count as a first-class metric. The grammar forces a `reason`; nothing forces it to be *true*. New ignores should need a human.
 
 ### Roadmap ideas
 

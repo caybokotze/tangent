@@ -59,7 +59,7 @@ contract Repository {
 
 Two keywords carry all constraint semantics: `require` (the default for a bare predicate) and `forbid`. See [TANGENT-PLAN.md §5](../TANGENT-PLAN.md) for the full grammar and [diagnostics.md](diagnostics.md) for every code.
 
-## 3. Bind and exempt
+## 3. Bind and ignore
 
 Three binding sources, in precedence order:
 
@@ -70,16 +70,16 @@ Three binding sources, in precedence order:
 Escape hatches are visible, never silent:
 
 ```tangent
-exempt Scheduling.Infrastructure.Repositories.LegacyReportRepository reason "migrating in Q4 2026"
-exempt Scheduling.Domain.Appointments.AuditEntry from Entity reason "append-only log"
+ignore Scheduling.Infrastructure.Repositories.LegacyReportRepository reason "migrating in Q4 2026"
+ignore Scheduling.Domain.Appointments.AuditEntry from Entity reason "append-only log"
 ```
 
 ```csharp
-[TangentExempt("export streams bytes", Contract = "Controller")]
+[TangentIgnore("export streams bytes", Contract = "Controller")]
 public async Task<IActionResult> Export() { ... }
 ```
 
-`dotnet tangent check --show-exemptions` lists every applied exemption with its reason.
+`dotnet tangent check --show-ignored` lists every applied ignore with its reason.
 
 ## 4. Enforce
 

@@ -56,15 +56,15 @@ unknown contract (11).
 
 ## Suppressed on purpose
 
-These are genuine rule breaks that an exemption or a `bind ... except` clause removes. The expected
-result is **no warning**; with `--show-exemptions` they surface as TNG9000.
+These are genuine rule breaks that an ignore or a `bind ... except` clause removes. The expected
+result is **no warning**; with `--show-ignored` they surface as TNG9000.
 
 | File | Type / member | Mechanism | What it suppresses |
 |---|---|---|---|
 | `.tangent/bindings.tan` + `src/Orders.Api/Controllers/HealthController.cs` | `HealthController.GetAsync` | `bind Orders.Api.Controllers.HealthController to Controller except [ProducesResponseType]` | The missing `[ProducesResponseType]` (would be TNG0104). |
-| `.tangent/bindings.tan` + `src/Orders.Infrastructure/Repositories/LegacyReportRepository.cs` | `LegacyReportRepository` | `exempt ... reason "migrating in Q4 2026"` | The whole type: not `sealed` (TNG0101), no `ILegacyReportRepository` (TNG0103 and TNG0109), injects a `string` (TNG0106), `Run` returns `DataTable` (TNG0105). |
-| `.tangent/bindings.tan` + `src/Orders.Domain/Entities/AuditEntry.cs` | `AuditEntry` | `exempt ... from Entity reason "append-only log, public setters by design"` | Public constructor (TNG0101) and three public setters (TNG0107). |
-| `src/Orders.Api/Controllers/CustomersController.cs` | `CustomersController.ExportAsync` | `[TangentExempt("...", Contract = "Controller")]` on the method | `Task<string>` instead of `Task<ActionResult<*>>` (TNG0105). |
+| `.tangent/bindings.tan` + `src/Orders.Infrastructure/Repositories/LegacyReportRepository.cs` | `LegacyReportRepository` | `ignore ... reason "migrating in Q4 2026"` | The whole type: not `sealed` (TNG0101), no `ILegacyReportRepository` (TNG0103 and TNG0109), injects a `string` (TNG0106), `Run` returns `DataTable` (TNG0105). |
+| `.tangent/bindings.tan` + `src/Orders.Domain/Entities/AuditEntry.cs` | `AuditEntry` | `ignore ... from Entity reason "append-only log, public setters by design"` | Public constructor (TNG0101) and three public setters (TNG0107). |
+| `src/Orders.Api/Controllers/CustomersController.cs` | `CustomersController.ExportAsync` | `[TangentIgnore("...", Contract = "Controller")]` on the method | `Task<string>` instead of `Task<ActionResult<*>>` (TNG0105). |
 
 `Contract = "Controller"` is used rather than `Rule = "Controller/methods/returns#0"` because rule
 ids are assigned by the binder and are not stable until Phase 2 lands. Once they are, this is the

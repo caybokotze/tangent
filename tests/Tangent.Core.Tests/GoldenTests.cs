@@ -43,6 +43,6 @@ public sealed class GoldenTests
         Assert.Equal(4, result.Model!.Layers.Length);
         Assert.Equal(6, result.Model.Contracts.Length);
         Assert.Single(result.Model.Bindings);
-        Assert.Equal(2, result.Model.Exemptions.Length);
+        Assert.Equal(2, result.Model.Ignores.Length);
     }
 }

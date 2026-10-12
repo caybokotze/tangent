@@ -10,5 +10,5 @@
   "allowedFrameworkNamespaces": ["System.**", "Tangent.**", "Microsoft.Extensions.**"],
   "contracts": [],
   "bindings": [],
-  "exemptions": []
+  "ignores": []
 }

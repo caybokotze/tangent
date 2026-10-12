@@ -5,7 +5,7 @@
  * these themselves.
  */
 import type { GraphIndex } from './derive';
-import type { Exemption, Rule, SourceFile, TangentNode, Violation } from './types';
+import type { Ignore, Rule, SourceFile, TangentNode, Violation } from './types';
 import { severityRank } from './types';
 
 /** Pseudo-contract that owns the synthesised layer rules (`layer:A->B`). */
@@ -106,13 +106,13 @@ export function issueGroups(index: GraphIndex): IssueGroup[] {
 // ---------------------------------------------------------------------------
 // Rules and the types they apply to
 
-export type RuleStatus = 'pass' | 'fail' | 'exempt';
+export type RuleStatus = 'pass' | 'fail' | 'ignored';
 
 export type RuleApplication = {
   node: TangentNode;
   status: RuleStatus;
   violations: Violation[];
-  exemptions: Exemption[];
+  ignores: Ignore[];
 };
 
 export type RuleSummary = {
@@ -120,7 +120,7 @@ export type RuleSummary = {
   applications: RuleApplication[];
   passing: number;
   failing: number;
-  exempt: number;
+  ignored: number;
   source: { file: string; line: number } | null;
 };
 
@@ -171,14 +171,14 @@ function byNodeAndRule<T extends { node: string; ruleId: string }>(items: T[]): 
 
 /**
  * Every contract with the types it applies to and, per rule, which of those
- * types pass, fail or are exempt. A rule declared on a parent contract is
+ * types pass, fail or are ignored. A rule declared on a parent contract is
  * inherited unchanged (same id) by every contract that extends it.
  */
 export function contractSummaries(index: GraphIndex): ContractSummary[] {
   const { graph } = index;
   const family = descendants(index);
   const violations = byNodeAndRule(graph.violations);
-  const exemptions = byNodeAndRule(graph.exemptions ?? []);
+  const ignores = byNodeAndRule(graph.ignored ?? []);
 
   const sources = new Map<string, { file: string; line: number }>();
   for (const violation of graph.violations) {
@@ -197,9 +197,9 @@ export function contractSummaries(index: GraphIndex): ContractSummary[] {
         const applications = types.map((node): RuleApplication => {
           const key = `${node.id}\u0000${rule.id}`;
           const failed = violations.get(key) ?? [];
-          const exempted = exemptions.get(key) ?? [];
-          const status: RuleStatus = failed.length > 0 ? 'fail' : exempted.length > 0 ? 'exempt' : 'pass';
-          return { node, status, violations: failed, exemptions: exempted };
+          const ignored = ignores.get(key) ?? [];
+          const status: RuleStatus = failed.length > 0 ? 'fail' : ignored.length > 0 ? 'ignored' : 'pass';
+          return { node, status, violations: failed, ignores: ignored };
         });
         applications.sort(
           (a, b) => statusRank(a.status) - statusRank(b.status) || a.node.name.localeCompare(b.node.name),
@@ -209,7 +209,7 @@ export function contractSummaries(index: GraphIndex): ContractSummary[] {
           applications,
           passing: applications.filter((a) => a.status === 'pass').length,
           failing: applications.filter((a) => a.status === 'fail').length,
-          exempt: applications.filter((a) => a.status === 'exempt').length,
+          ignored: applications.filter((a) => a.status === 'ignored').length,
           source: sources.get(rule.id) ?? null,
         };
       });
@@ -237,7 +237,7 @@ export function contractSummaries(index: GraphIndex): ContractSummary[] {
 }
 
 function statusRank(status: RuleStatus): number {
-  return status === 'fail' ? 0 : status === 'exempt' ? 1 : 2;
+  return status === 'fail' ? 0 : status === 'ignored' ? 1 : 2;
 }
 
 export type LayerRuleSummary = {

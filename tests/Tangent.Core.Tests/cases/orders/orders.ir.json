@@ -109,7 +109,7 @@
   "bindings": [
     { "type": "Orders.Api.Controllers.HealthController", "contracts": ["Controller"], "exceptAttributes": ["ProducesResponseType"], "exceptRules": [] }
   ],
-  "exemptions": [
+  "ignores": [
     { "type": "Orders.Infrastructure.LegacyReportRepository", "contracts": [], "allContracts": true, "reason": "migrating in Q4 2026" },
     { "type": "Orders.Domain.Entities.AuditEntry", "contracts": ["Entity"], "allContracts": false, "reason": "append-only log, public setters by design" }
   ]

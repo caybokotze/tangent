@@ -114,7 +114,7 @@ export function Shell(props: {
         <div className="mt-4 px-5 text-[11px] leading-relaxed text-faint">
           {plural(graph.nodes.length, 'type')} · {plural(graph.edges.length, 'edge')}
           <br />
-          {plural(issues.length, 'rule')} broken · {plural((graph.exemptions ?? []).length, 'exemption')}
+          {plural(issues.length, 'rule')} broken · {(graph.ignored ?? []).length} ignored
         </div>
 
         <div className="mt-auto flex items-center gap-1 border-t border-line p-2">

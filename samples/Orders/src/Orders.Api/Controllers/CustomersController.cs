@@ -7,7 +7,7 @@ using Tangent;
 namespace Orders.Api.Controllers;
 
 /// <summary>
-/// Mostly conforming. Two deliberate breaks plus one violation that is legitimately exempted.
+/// Mostly conforming. Two deliberate breaks plus one violation that is legitimately ignored.
 /// </summary>
 [ApiController]
 [Route("api/customers")]
@@ -32,11 +32,11 @@ public class CustomersController : ApiControllerBase
         return FoundOrNotFound(customer);
     }
 
-    // EXEMPTED: returns Task<string> rather than Task<ActionResult<*>> | Task<IActionResult>.
+    // IGNORED: returns Task<string> rather than Task<ActionResult<*>> | Task<IActionResult>.
     // The attribute suppresses the rule and is reported as TNG9000 instead.
     [HttpGet("export")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [TangentExempt("CSV export writes straight to the response; the ActionResult wrapper lands in v2", Contract = "Controller")]
+    [TangentIgnore("CSV export writes straight to the response; the ActionResult wrapper lands in v2", Contract = "Controller")]
     public Task<string> ExportAsync(CancellationToken cancellationToken) =>
         Task.FromResult("id,name,email");
 }

@@ -169,12 +169,12 @@ function RuleRow(props: { summary: RuleSummary }): JSX.Element {
           <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1">
             <span className="font-mono text-[11px] text-faint">{summary.rule.id}</span>
             <Badge>{TIER_LABEL[summary.rule.tier] ?? summary.rule.tier}</Badge>
-            <PassBar passing={summary.passing} failing={summary.failing} exempt={summary.exempt} />
+            <PassBar passing={summary.passing} failing={summary.failing} ignored={summary.ignored} />
             <span className="text-xs text-muted tabular-nums">
               {summary.failing > 0 ? <span className="font-semibold text-danger">{summary.failing} fail</span> : null}
               {summary.failing > 0 ? ' · ' : ''}
               {summary.passing} pass
-              {summary.exempt > 0 && <span className="text-faint"> · {summary.exempt} exempt</span>}
+              {summary.ignored > 0 && <span className="text-faint"> · {summary.ignored} ignored</span>}
             </span>
           </div>
         </div>
@@ -190,8 +190,8 @@ function RuleRow(props: { summary: RuleSummary }): JSX.Element {
                 {application.status === 'fail' && (
                   <div className="text-xs text-muted">{cleanMessage(application.violations[0]?.message ?? '')}</div>
                 )}
-                {application.status === 'exempt' && (
-                  <div className="text-xs text-faint italic">exempt: {application.exemptions[0]?.reason}</div>
+                {application.status === 'ignored' && (
+                  <div className="text-xs text-faint italic">ignored: {application.ignores[0]?.reason}</div>
                 )}
                 {application.violations[0] && (
                   <FileLink path={application.violations[0].file} line={application.violations[0].line} className="mt-0.5 max-w-full">

@@ -2,5 +2,5 @@
 File @1:1
   Bind 'Sample.Foo' 'Sample.Foo' @1:1
     ContractRef 'Nonexistent' @1:20
-  Exempt 'Sample.Bar' 'under review' @2:1
+  Ignore 'Sample.Bar' 'under review' @2:1
     ContractRef 'AlsoMissing' @2:24

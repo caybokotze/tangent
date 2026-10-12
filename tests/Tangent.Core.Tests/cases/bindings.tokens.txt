@@ -7,11 +7,11 @@
     1:67   LeftBracket      [
     1:68   Identifier       ProducesResponseType
     1:88   RightBracket     ]
-    2:1    Exempt           exempt
+    2:1    Ignore           ignore
     2:8    Identifier       Orders.Infrastructure.LegacyReportRepository
     2:53   Reason           reason
     2:60   StringLiteral    "migrating in Q4 2026"
-    3:1    Exempt           exempt
+    3:1    Ignore           ignore
     3:8    Identifier       Orders.Domain.Entities.AuditEntry
     3:42   From             from
     3:47   Identifier       Entity

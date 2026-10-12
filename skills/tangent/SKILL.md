@@ -63,10 +63,10 @@ Work from what the code already does. A contract that matches the existing conve
 ## Changing existing contracts
 
 - **Tightening** (a new rule, a narrower `injects only`, a new `forbid`) is what the user asked for; do it, then run the check and report what it now catches.
-- **Loosening** (removing a rule, widening a list, adding a `->` target or an `allow` glob, adding an `exempt`) changes what the architecture permits. Do it only when the user asked for that specific change, and say plainly what is now allowed that was not before.
-- **Keep rule ids stable.** A rule id is `Contract/selector/predicate#n`, where `n` counts rules of the same predicate kind in the same selector, in file order. Inserting a rule above another of the same kind renumbers the later one, and any `[TangentExempt(Rule = "...")]` or `bind ... except` that names the old id stops matching. Add new rules after existing rules of the same kind.
+- **Loosening** (removing a rule, widening a list, adding a `->` target or an `allow` glob, adding an `ignore`) changes what the architecture permits. Do it only when the user asked for that specific change, and say plainly what is now allowed that was not before.
+- **Keep rule ids stable.** A rule id is `Contract/selector/predicate#n`, where `n` counts rules of the same predicate kind in the same selector, in file order. Inserting a rule above another of the same kind renumbers the later one, and any `[TangentIgnore(Rule = "...")]` or `bind ... except` that names the old id stops matching. Add new rules after existing rules of the same kind.
 - **Use `extends` for a stricter variant** (`contract AggregateRoot extends Entity`). A child may only add rules; loosening an inherited rule is TNG1011.
-- **Exemptions** (`exempt Type [from Contract] reason "..."`) are for types that are deliberately different. Every one needs a real reason and is reported. Prefer a narrower `match` when a whole group of types should not be under a contract.
+- **Ignores** (`ignore Type [from Contract] reason "..."`) are for types that are deliberately different. Every one needs a real reason and is reported. Prefer a narrower `match` when a whole group of types should not be under a contract.
 
 ## When code, not contracts, is the task
 
@@ -86,6 +86,6 @@ Run them from the solution folder. If `tangent` is not on the path, try `dotnet 
 
 ## Reference files
 
-- `references/dsl.md`: the complete language: syntax, layers and `allow`, contracts and `extends`, selectors, every rule form, binding, exemptions. Read before writing rules.
+- `references/dsl.md`: the complete language: syntax, layers and `allow`, contracts and `extends`, selectors, every rule form, binding, ignores. Read before writing rules.
 - `references/patterns.md`: tested contracts for controllers, handlers, repositories, entities, domain services, view models and layering, with notes on when to adapt them.
 - `references/diagnostics.md`: every TNG code, what triggers it, and the usual fix. Use it to explain violations to the user.

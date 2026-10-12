@@ -1,7 +1,7 @@
 import type {
   Contract,
   Edge,
-  Exemption,
+  Ignore,
   Layer,
   Member,
   Rule,
@@ -159,8 +159,8 @@ export function parseGraph(json: unknown): TangentGraph {
   if (root !== null) graph.root = root;
 
   graph.files = objArray(ctx, json['files'], 'files', false, (i, p) => parseFile(ctx, i, p));
-  graph.exemptions = objArray(ctx, json['exemptions'], 'exemptions', false, (i, p) =>
-    parseExemption(ctx, i, p),
+  graph.ignored = objArray(ctx, json['ignored'], 'ignored', false, (i, p) =>
+    parseIgnore(ctx, i, p),
   );
 
   if (json['rules'] !== undefined && json['rules'] !== null) {
@@ -213,7 +213,7 @@ function parseNode(ctx: Ctx, item: Record<string, unknown>, path: string): Tange
     file: str(ctx, item['file'], `${path}.file`),
     line: num(ctx, item['line'], `${path}.line`),
     violations: num(ctx, item['violations'], `${path}.violations`),
-    exemptions: num(ctx, item['exemptions'], `${path}.exemptions`),
+    ignored: num(ctx, item['ignored'], `${path}.ignored`),
     members: objArray(ctx, item['members'], `${path}.members`, false, (i, p) =>
       parseMember(ctx, i, p),
     ),
@@ -283,7 +283,7 @@ function parseViolation(ctx: Ctx, item: Record<string, unknown>, path: string): 
   return violation;
 }
 
-function parseExemption(ctx: Ctx, item: Record<string, unknown>, path: string): Exemption {
+function parseIgnore(ctx: Ctx, item: Record<string, unknown>, path: string): Ignore {
   return {
     node: str(ctx, item['node'], `${path}.node`),
     member: optionalStr(ctx, item['member'], `${path}.member`),

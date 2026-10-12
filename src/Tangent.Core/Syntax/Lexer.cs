@@ -426,7 +426,7 @@ public static class Lexer
                 break;
             case 6:
                 if (word.SequenceEqual("except".AsSpan())) return TokenKind.Except;
-                if (word.SequenceEqual("exempt".AsSpan())) return TokenKind.Exempt;
+                if (word.SequenceEqual("ignore".AsSpan())) return TokenKind.Ignore;
                 if (word.SequenceEqual("events".AsSpan())) return TokenKind.Events;
                 if (word.SequenceEqual("reason".AsSpan())) return TokenKind.Reason;
                 if (word.SequenceEqual("record".AsSpan())) return TokenKind.Record;

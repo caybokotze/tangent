@@ -17,7 +17,7 @@ Namespaces:
 | `Tangent.Core.Diagnostics` | `TangentDiagnostic`, `DiagnosticDescriptor`, `DiagnosticCatalog`, severities |
 | `Tangent.Core.Syntax` | `Lexer`, `Token`, `TokenKind`, `Parser`, `Node`, `NodeList`, `SyntaxTree`, `SyntaxTreePrinter` |
 | `Tangent.Core.Matching` | `Glob`, `GlobTable`, `TypePattern`, `TypePatternTable`, `AttributeGroup`, `Template` |
-| `Tangent.Core.Ir` | `ArchitectureModel`, `Layer`, `Contract`, `Rule`, `Predicate`, `Selector`, `Condition`, `MatchClause`, `Binding`, `Exemption`, `LayerDependencyMatrix`, `IrText` |
+| `Tangent.Core.Ir` | `ArchitectureModel`, `Layer`, `Contract`, `Rule`, `Predicate`, `Selector`, `Condition`, `MatchClause`, `Binding`, `Ignore`, `LayerDependencyMatrix`, `IrText` |
 | `Tangent.Core.Binding` | `Binder`, `BindResult` |
 | `Tangent.Core.Serialization` | `IrJsonWriter` |
 
@@ -290,7 +290,7 @@ template; `IsLiteral` says the template expands to itself.
 | `ImmutableArray<Layer> Layers` | Declaration order. `Layer(StringId Name, int GlobIndex, SourceSpan DeclarationSpan)`. |
 | `ImmutableArray<Contract> Contracts` | Topologically ordered: a contract always follows the one it extends. |
 | `ImmutableArray<Binding> Bindings` | `bind` statements. |
-| `ImmutableArray<Exemption> Exemptions` | `exempt` statements. |
+| `ImmutableArray<Ignore> Ignores` | `ignore` statements. |
 | `LayerDependencyMatrix Dependencies` | Packed `ulong` bitsets. |
 | `StringTable Strings` | Every interned name. |
 | `TypePatternTable TypePatterns` | Patterns, their arguments and the alternation groups. |
@@ -343,7 +343,7 @@ public sealed class Contract
 `Rules` is already flattened over the `extends` chain. Every rule carries `OriginContract`, the index of
 the contract it was written in, so `rule.OriginContract == contractIndex` identifies a contract's own
 rules and anything else is inherited. Inherited rules keep the **originating contract's** rule id, so an
-exemption by rule id keeps working through inheritance.
+ignore by rule id keeps working through inheritance.
 
 ### `MatchClause`
 
@@ -458,7 +458,7 @@ void Evaluate(ArchitectureModel model, int index, INamedTypeSymbol symbol)
 `Left`/`Right` are condition indices for `And`/`Or` and `-1` for leaves. `and` binds tighter than `or`.
 `IrText.DescribeCondition(model, index)` renders a condition back to source-like text.
 
-### `Binding` and `Exemption`
+### `Binding` and `Ignore`
 
 ```csharp
 public sealed class Binding
@@ -470,7 +470,7 @@ public sealed class Binding
     SourceSpan Span;
 }
 
-public sealed class Exemption
+public sealed class Ignore
 {
     StringId TypeName;
     ImmutableArray<int> ContractIndices;        // empty = every contract
@@ -511,7 +511,7 @@ Entity/type-where/member-kind#0
 
 Ids are derived from structure, never from source position, so reformatting, adding comments or moving a
 rule between lines leaves them unchanged — which is what makes `except "..."` and
-`[TangentExempt(Rule = "...")]` durable. A golden test locks this in.
+`[TangentIgnore(Rule = "...")]` durable. A golden test locks this in.
 
 ### `IrText`
 
@@ -555,7 +555,7 @@ order throughout). Shape:
     }
   ],
   "bindings":   [ { "type": "...", "contracts": ["Controller"], "exceptAttributes": ["ProducesResponseType"], "exceptRules": [] } ],
-  "exemptions": [ { "type": "...", "contracts": [], "allContracts": true, "reason": "migrating in Q4 2026" } ]
+  "ignores": [ { "type": "...", "contracts": [], "allContracts": true, "reason": "migrating in Q4 2026" } ]
 }
 ```
 
@@ -567,7 +567,7 @@ This is what `tangent lint --dump-ir` prints and what the golden tests compare.
 
 `Binder.Bind` follows §8.3 of the plan:
 
-1. Collect `project`, `layer`, `contract`, `bind`, `exempt` across every file. Duplicate names →
+1. Collect `project`, `layer`, `contract`, `bind`, `ignore` across every file. Duplicate names →
    **TNG1003**.
 2. Compile layer globs; resolve `->` lines. An undeclared layer name → **TNG1005**. A cycle in the
    dependency graph → **TNG1006** (warning). `allow` globs plus the implicit `System.**` become
@@ -576,7 +576,7 @@ This is what `tangent lint --dump-ir` prints and what the golden tests compare.
    cut so flattening terminates), then order contracts topologically.
 4. Walk each contract body, compile patterns/globs/attribute groups/templates/conditions, assign
    selectors, specificity, tiers and rule ids, and flatten parent rules in front of own rules.
-5. Resolve `bind`/`exempt` contract names → **TNG1001** when unknown.
+5. Resolve `bind`/`ignore` contract names → **TNG1001** when unknown.
 6. Post-checks over the finished model:
    - **TNG1011** — an own rule that loosens an inherited one: same selector with the opposite polarity on
      the same predicate, or two `require`d modifier sets that contradict.
@@ -622,4 +622,4 @@ $env:TANGENT_UPDATE_GOLDENS='1'; dotnet test tests/Tangent.Core.Tests
 The cases cover every reference example in §5.4 of the plan (individually and as one multi-file model)
 plus malformed inputs that lock in error recovery: missing braces, an unknown keyword, an unterminated
 string, an undeclared layer, an `extends` cycle, conflicting rules, a loosening child, a duplicate
-contract and an unknown contract in `bind`/`exempt`.
+contract and an unknown contract in `bind`/`ignore`.

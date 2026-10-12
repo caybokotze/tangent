@@ -20,15 +20,15 @@ internal readonly struct AppliedRule
     internal int RuleIndex { get; }
 }
 
-/// <summary>An exemption that applied to a type, reported as TNG9000.</summary>
-internal readonly struct ExemptionNote
+/// <summary>An ignore that applied to a type, reported as TNG9000.</summary>
+internal readonly struct IgnoreNote
 {
-    internal ExemptionNote(Location location, string reason)
+    internal IgnoreNote(Location location, string reason)
         : this(location, reason, string.Empty, string.Empty)
     {
     }
 
-    internal ExemptionNote(Location location, string reason, string contract, string ruleId)
+    internal IgnoreNote(Location location, string reason, string contract, string ruleId)
     {
         Location = location;
         Reason = reason;
@@ -40,10 +40,10 @@ internal readonly struct ExemptionNote
 
     internal string Reason { get; }
 
-    /// <summary>The contract the removed rule came from, or <c>""</c> when the exemption is not rule-scoped.</summary>
+    /// <summary>The contract the removed rule came from, or <c>""</c> when the ignore is not rule-scoped.</summary>
     internal string Contract { get; }
 
-    /// <summary>The removed rule's id, or <c>""</c> when the exemption is not rule-scoped.</summary>
+    /// <summary>The removed rule's id, or <c>""</c> when the ignore is not rule-scoped.</summary>
     internal string RuleId { get; }
 }
 
@@ -66,7 +66,7 @@ internal readonly struct BindingDiagnostic
 
 /// <summary>
 /// Everything the analyzer needs to know about one named type, computed once per compilation: the layer
-/// it lives in, the contracts bound to it, and the rules that survive exemptions, split by tier.
+/// it lives in, the contracts bound to it, and the rules that survive ignores, split by tier.
 /// </summary>
 internal sealed class TypeContext
 {
@@ -79,7 +79,7 @@ internal sealed class TypeContext
         ImmutableArray<AppliedRule> referenceRules,
         ImmutableArray<AppliedRule> typeUsingRules,
         ImmutableArray<AppliedRule> flowRules,
-        ImmutableArray<ExemptionNote> exemptions,
+        ImmutableArray<IgnoreNote> ignores,
         ImmutableArray<BindingDiagnostic> bindingDiagnostics)
     {
         Type = type;
@@ -90,7 +90,7 @@ internal sealed class TypeContext
         ReferenceRules = referenceRules;
         TypeUsingRules = typeUsingRules;
         FlowRules = flowRules;
-        Exemptions = exemptions;
+        Ignores = ignores;
         BindingDiagnostics = bindingDiagnostics;
     }
 
@@ -102,7 +102,7 @@ internal sealed class TypeContext
     /// <summary>The layer the namespace falls in, or -1.</summary>
     internal int LayerIndex { get; }
 
-    /// <summary>The contracts bound to this type, after exemptions removed whole contracts.</summary>
+    /// <summary>The contracts bound to this type, after ignores removed whole contracts.</summary>
     internal ImmutableArray<int> Contracts { get; }
 
     /// <summary>Tier 0 rules that apply.</summary>
@@ -120,8 +120,8 @@ internal sealed class TypeContext
     /// <summary>Tier 2 rules that apply.</summary>
     internal ImmutableArray<AppliedRule> FlowRules { get; }
 
-    /// <summary>Exemptions that removed rules from this type.</summary>
-    internal ImmutableArray<ExemptionNote> Exemptions { get; }
+    /// <summary>Ignores that removed rules from this type.</summary>
+    internal ImmutableArray<IgnoreNote> Ignores { get; }
 
     /// <summary>TNG0001/TNG0002 problems found while binding, reported from the symbol action.</summary>
     internal ImmutableArray<BindingDiagnostic> BindingDiagnostics { get; }

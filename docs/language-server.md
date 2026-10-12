@@ -69,7 +69,7 @@ has it open.
 
 The whole folder is re-parsed and re-bound on every change, debounced by 150 ms. Binding a handful
 of `.tan` files costs microseconds, and rebinding everything is the only way to get cross-file
-diagnostics right: deleting `contract Entity` in `entities.tan` must light up `exempt … from Entity`
+diagnostics right: deleting `contract Entity` in `entities.tan` must light up `ignore … from Entity`
 in `bindings.tan`, which nobody has open.
 
 - **TNG1000** — lex and parse errors, phrased in domain terms by Core's parser.
@@ -98,13 +98,13 @@ tokenModifiers: declaration, defaultLibrary
 | `"..."` | `string` | |
 | `//` and `/* */` | `comment` | |
 | `contract X` | `class` | `declaration` |
-| `extends X`, `bind … to X`, `exempt … from X` | `class` | |
+| `extends X`, `bind … to X`, `ignore … from X` | `class` | |
 | `layer X = …` | `namespace` | `declaration` |
 | Layer references (`in Api`, `Api -> …`, `lives in Domain`) | `namespace` | |
 | Namespace globs (`Orders.Domain.**`) | `namespace` | |
 | Templates (`I{Name}`) | `variable` | |
 | Attribute names (`[Route(*)]`, `except [X]`) | `decorator` | |
-| Type patterns and `bind`/`exempt` type names | `type` | `defaultLibrary` when the name resolves in the compilation, none when it does not |
+| Type patterns and `bind`/`ignore` type names | `type` | `defaultLibrary` when the name resolves in the compilation, none when it does not |
 
 Tokens are derived from Core's token stream and AST — never from regular expressions. Comments are
 recovered from the gaps between tokens, because the lexer discards them. Multi-line block comments
@@ -119,7 +119,7 @@ The context comes from the token stream, so it keeps working in a half-typed buf
 
 | Position | Offered |
 | --- | --- |
-| Top level (brace depth 0) | `project`, `contract`, `bind`, `exempt` |
+| Top level (brace depth 0) | `project`, `contract`, `bind`, `ignore` |
 | Inside `project { }` | `root`, `layer`, `allow`, `nothing` plus every declared layer (for `->` lines) |
 | Inside a contract, member block or refinement | `require`, `forbid`, `match`, `where`, member kinds, predicate keywords, modifiers, condition keywords |
 | After `in` or `layer` | Declared layer names, with their globs as detail |
@@ -156,12 +156,12 @@ binding. See §6.
 
 - Contract reference or declaration → the `contract <Name>` identifier.
 - Layer reference or declaration → the `layer <Name>` identifier.
-- Type pattern or `bind`/`exempt` type name → every C# source declaration of the resolved symbol
+- Type pattern or `bind`/`ignore` type name → every C# source declaration of the resolved symbol
   (partial types give several), when the compilation is loaded.
 
 ### Find references
 
-- On a contract: its declaration, every `extends`, `bind … to` and `exempt … from` mention in the
+- On a contract: its declaration, every `extends`, `bind … to` and `ignore … from` mention in the
   `.tan` files, plus every `[Tangent("Name")]` attribute argument in C# source once the compilation
   is loaded. The attribute search is **syntax only** — it walks syntax trees looking for an
   attribute named `Tangent` or `TangentAttribute` with a string literal first argument. Binding

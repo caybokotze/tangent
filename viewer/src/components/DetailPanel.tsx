@@ -5,7 +5,7 @@ import { CodeFrame, InlineCode } from './CodeFrame';
 import { FileLink, RuleLink, TypeLink } from './links';
 import { Badge, Button, ContractChip, FileStatusBadge, PassBar, RuleStatusIcon, SectionTitle, SeverityIcon } from './ui';
 import { LAYERS_CONTRACT, cleanMessage, editorLink, pathInProject } from '../graph/explore';
-import type { Exemption, SourceFile, Violation } from '../graph/types';
+import type { Ignore, SourceFile, Violation } from '../graph/types';
 import { cn, namespaceOf, plural } from '../lib/cn';
 import { langOf } from '../lib/highlight';
 import type { Selection } from '../lib/route';
@@ -120,13 +120,13 @@ function TanFrame(props: { file: string; line: number; window?: number }): JSX.E
 // ---------------------------------------------------------------------------
 
 function TypeDetail(props: { id: string }): JSX.Element {
-  const { index, contracts, exemptionsByNode, navigate, select } = useExplorer();
+  const { index, contracts, ignoredByNode, navigate, select } = useExplorer();
   const fileOf = useFileOf();
   const node = index.nodesById.get(props.id);
   if (!node) return <Missing what="type" />;
 
   const violations = index.violationsByNode.get(node.id) ?? [];
-  const exemptions = exemptionsByNode.get(node.id) ?? [];
+  const ignores = ignoredByNode.get(node.id) ?? [];
   const outgoing = index.outgoing.get(node.id) ?? [];
   const incoming = index.incoming.get(node.id) ?? [];
   const file = fileOf(node);
@@ -181,9 +181,9 @@ function TypeDetail(props: { id: string }): JSX.Element {
         </Section>
       )}
 
-      {exemptions.length > 0 && (
-        <Section title="Exemptions">
-          <ExemptionList exemptions={exemptions} />
+      {ignores.length > 0 && (
+        <Section title="Ignored">
+          <IgnoreList ignores={ignores} />
         </Section>
       )}
 
@@ -260,19 +260,19 @@ function EdgeList(props: { ids: { id: string; count: number; illegal: boolean }[
   );
 }
 
-function ExemptionList(props: { exemptions: Exemption[]; showType?: boolean }): JSX.Element {
+function IgnoreList(props: { ignores: Ignore[]; showType?: boolean }): JSX.Element {
   return (
     <ul className="flex flex-col gap-2">
-      {props.exemptions.map((exemption, i) => (
+      {props.ignores.map((ignore, i) => (
         <li key={i} className="flex items-start gap-2 rounded-lg border border-dashed border-line-strong px-3 py-2">
           <ShieldOff className="mt-0.5 size-4 shrink-0 text-faint" />
           <div className="min-w-0 flex-1">
-            <div className="text-fg italic">“{exemption.reason}”</div>
+            <div className="text-fg italic">“{ignore.reason}”</div>
             <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
-              {props.showType && exemption.node && <TypeLink id={exemption.node} />}
-              {exemption.member && <Badge mono>{exemption.member}</Badge>}
-              {exemption.ruleId ? <RuleLink id={exemption.ruleId} /> : <Badge>whole contract</Badge>}
-              <FileLink path={exemption.file} line={exemption.line} />
+              {props.showType && ignore.node && <TypeLink id={ignore.node} />}
+              {ignore.member && <Badge mono>{ignore.member}</Badge>}
+              {ignore.ruleId ? <RuleLink id={ignore.ruleId} /> : <Badge>whole contract</Badge>}
+              <FileLink path={ignore.file} line={ignore.line} />
             </div>
           </div>
         </li>
@@ -354,9 +354,9 @@ function RuleDetail(props: { ruleId: string }): JSX.Element {
       <div className="mt-3 flex flex-wrap items-center gap-1.5">
         {contract && <ContractChip id={contract.id} color={contract.color} onClick={() => select({ kind: 'contract', id: contract.id })} />}
         <Badge>tier {summary.rule.tier} · {TIER_LABEL[summary.rule.tier] ?? '?'}</Badge>
-        <PassBar passing={summary.passing} failing={summary.failing} exempt={summary.exempt} />
+        <PassBar passing={summary.passing} failing={summary.failing} ignored={summary.ignored} />
         <span className="text-xs text-muted">
-          {summary.passing} pass · <span className={cn(summary.failing > 0 && 'font-semibold text-danger')}>{summary.failing} fail</span> · {summary.exempt} exempt
+          {summary.passing} pass · <span className={cn(summary.failing > 0 && 'font-semibold text-danger')}>{summary.failing} fail</span> · {summary.ignored} ignored
         </span>
       </div>
 
@@ -377,8 +377,8 @@ function RuleDetail(props: { ruleId: string }): JSX.Element {
                 {application.status === 'fail' && (
                   <div className="truncate text-xs text-muted">{cleanMessage(application.violations[0]?.message ?? '')}</div>
                 )}
-                {application.status === 'exempt' && (
-                  <div className="truncate text-xs text-faint italic">exempt: {application.exemptions[0]?.reason}</div>
+                {application.status === 'ignored' && (
+                  <div className="truncate text-xs text-faint italic">ignored: {application.ignores[0]?.reason}</div>
                 )}
               </div>
             </li>
@@ -405,7 +405,7 @@ function FileDetail(props: { id: number }): JSX.Element {
   if (!file) return <Missing what="file" />;
 
   const violations = index.graph.violations.filter((v) => v.fileId === file.id || (v.fileId === undefined && v.file === file.path));
-  const exemptions = (index.graph.exemptions ?? []).filter((e) => e.fileId === file.id);
+  const ignores = (index.graph.ignored ?? []).filter((e) => e.fileId === file.id);
   const declared = index.graph.contracts.filter((c) => c.file === file.path);
   const href = editorLink(index.graph.root, file.path, 1);
 
@@ -483,9 +483,9 @@ function FileDetail(props: { id: number }): JSX.Element {
         </Section>
       )}
 
-      {exemptions.length > 0 && (
-        <Section title="Exemptions in this file">
-          <ExemptionList exemptions={exemptions} showType />
+      {ignores.length > 0 && (
+        <Section title="Ignored in this file">
+          <IgnoreList ignores={ignores} showType />
         </Section>
       )}
     </div>
@@ -543,7 +543,7 @@ function ContractDetail(props: { id: string }): JSX.Element {
               >
                 <RuleStatusIcon status={summary.failing > 0 ? 'fail' : 'pass'} />
                 <InlineCode code={summary.rule.text} lang="tangent" className="min-w-0 flex-1 truncate" />
-                <PassBar passing={summary.passing} failing={summary.failing} exempt={summary.exempt} />
+                <PassBar passing={summary.passing} failing={summary.failing} ignored={summary.ignored} />
               </button>
             </li>
           ))}

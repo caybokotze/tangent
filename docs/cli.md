@@ -17,7 +17,7 @@ tangent check
 tangent init  [path] [--force]
 tangent lint  [path] [--strict] [--dump-ir] [--dump-ast]
 tangent check [path] [--sarif out.sarif] [--json out.json] [--fail-on warning|error]
-                     [--show-exemptions] [--explain] [--project name]... [--strict]
+                     [--show-ignored] [--explain] [--project name]... [--strict]
 tangent diff  [path] [--apply] [--project name]...
 tangent graph [path] [-o tangent.graph.json] [--include-unbound] [--include-source]
                      [--project name]...
@@ -134,7 +134,7 @@ Layers
   warning TNG0202 src/Orders.Api/Controllers/ReportsController.cs:20:38  Layer Api may not depend on layer Infrastructure (OrdersDbContext). (rule layer:Api->Infrastructure, project.tan:7)
   ...
 
-59 violations (1 error, 58 warnings) in 5 projects, 4 exemptions applied
+59 violations (1 error, 58 warnings) in 5 projects, 4 ignored
 ```
 
 Findings are grouped by **contract**, and within a group ordered by file, line and column. Four headings
@@ -143,7 +143,7 @@ belong to no contract:
 | Heading | What it collects |
 |---|---|
 | `Model` | TNG1xxx — problems in the `.tan` files themselves |
-| `Binding` | TNG000x — a `[Tangent("X")]` naming a contract that does not exist, an exemption naming a rule that does not |
+| `Binding` | TNG000x — a `[Tangent("X")]` naming a contract that does not exist, an ignore naming a rule that does not |
 | `Layers` | TNG0202 — the layer dependency matrix |
 | *contract name* | every rule violation of that contract |
 
@@ -158,7 +158,7 @@ off by `--no-color`, by `NO_COLOR` being set to anything, or by stdout being red
 | `--json <file>` | also write the JSON report |
 | `--fail-on warning\|error` | the lowest severity that makes the command fail. **Default `error`, so warnings alone exit 0** |
 | `--strict` | promote every warning to an error, in the console, in both report files, and in the exit code |
-| `--show-exemptions` | list the TNG9000 notes for exemptions that suppressed a violation, with their reason, and include them in the report files |
+| `--show-ignored` | list the TNG9000 notes for ignores that suppressed a violation, with their reason, and include them in the report files |
 | `--explain` | follow each violation with the rule text, where it is declared, what applies it, and the offending line. See [below](#--explain) |
 | `--project <name>` | restrict the run to this project. Repeatable |
 

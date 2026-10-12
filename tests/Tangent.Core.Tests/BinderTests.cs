@@ -421,14 +421,14 @@ public sealed class BinderTests
     }
 
     [Fact]
-    public void Bindings_and_exemptions_are_resolved()
+    public void Bindings_and_ignores_are_resolved()
     {
         BindResult result = Bind("""
             contract Controller { match: class in P.Api.** }
             contract Entity { match: class in P.Domain.** }
             bind P.Api.HealthController to Controller except [ProducesResponseType], "Controller/type/modifier#0"
-            exempt P.Infra.Legacy reason "migrating"
-            exempt P.Domain.AuditEntry from Entity reason "append-only"
+            ignore P.Infra.Legacy reason "migrating"
+            ignore P.Domain.AuditEntry from Entity reason "append-only"
             """);
 
         ArchitectureModel model = result.Model!;
@@ -440,10 +440,10 @@ public sealed class BinderTests
         Assert.Equal("ProducesResponseType", model.Text(binding.ExcludedAttributes[0]));
         Assert.Equal("Controller/type/modifier#0", model.Text(binding.ExcludedRules[0]));
 
-        Assert.True(model.Exemptions[0].AllContracts);
-        Assert.Equal("migrating", model.Text(model.Exemptions[0].Reason));
-        Assert.False(model.Exemptions[1].AllContracts);
-        Assert.Equal(model.FindContract("Entity".AsSpan()), model.Exemptions[1].ContractIndices[0]);
+        Assert.True(model.Ignores[0].AllContracts);
+        Assert.Equal("migrating", model.Text(model.Ignores[0].Reason));
+        Assert.False(model.Ignores[1].AllContracts);
+        Assert.Equal(model.FindContract("Entity".AsSpan()), model.Ignores[1].ContractIndices[0]);
     }
 
     [Fact]

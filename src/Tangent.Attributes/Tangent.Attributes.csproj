@@ -5,7 +5,7 @@
     <RootNamespace>Tangent</RootNamespace>
     <IsPackable>true</IsPackable>
     <PackageId>Tangent.Attributes</PackageId>
-    <Description>[Tangent] and [TangentExempt] attributes. Dependency-free; stripped from output assemblies unless TANGENT_ATTRIBUTES is defined.</Description>
+    <Description>[Tangent] and [TangentIgnore] attributes. Dependency-free; stripped from output assemblies unless TANGENT_ATTRIBUTES is defined.</Description>
   </PropertyGroup>
 
   <ItemGroup>

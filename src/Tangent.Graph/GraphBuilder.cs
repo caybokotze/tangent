@@ -20,7 +20,7 @@ public static class GraphBuilder
     /// <summary>Builds the document.</summary>
     /// <param name="model">The bound model, or null when the <c>.tan</c> files did not bind.</param>
     /// <param name="exporter">The sink that was registered on the analyzer for this run.</param>
-    /// <param name="findings">Every Tangent diagnostic of the run, including TNG9000 exemption notes.</param>
+    /// <param name="findings">Every Tangent diagnostic of the run, including the TNG9000 notes for ignored violations.</param>
     /// <param name="projectName">The graph's <c>project</c> field.</param>
     /// <param name="solutionRoot">Absolute path that file paths are made relative to.</param>
     /// <param name="generatedAt">The timestamp to stamp the document with.</param>
@@ -46,35 +46,35 @@ public static class GraphBuilder
         FileTable files = BuildFiles(exporter, findings, contractFiles, solutionRoot, includeSource, sources);
 
         var violationsByNode = new Dictionary<string, int>(StringComparer.Ordinal);
-        var exemptionsByNode = new Dictionary<string, int>(StringComparer.Ordinal);
+        var ignoredByNode = new Dictionary<string, int>(StringComparer.Ordinal);
         var violations = new List<GraphViolation>(findings.Count);
-        var exemptions = new List<GraphExemption>();
+        var ignored = new List<GraphIgnore>();
 
         foreach (GraphFinding finding in findings)
         {
-            bool isExemption = string.Equals(finding.Code, "TNG9000", StringComparison.Ordinal);
-            Dictionary<string, int> counter = isExemption ? exemptionsByNode : violationsByNode;
+            bool isIgnored = string.Equals(finding.Code, "TNG9000", StringComparison.Ordinal);
+            Dictionary<string, int> counter = isIgnored ? ignoredByNode : violationsByNode;
             if (finding.NodeId.Length > 0)
             {
                 counter.TryGetValue(finding.NodeId, out int current);
                 counter[finding.NodeId] = current + 1;
             }
 
-            if (isExemption)
+            if (isIgnored)
             {
-                const string prefix = "Exemption applied: ";
+                const string prefix = "Violation ignored: ";
                 string reason = finding.Message.StartsWith(prefix, StringComparison.Ordinal)
                     ? finding.Message[prefix.Length..]
                     : finding.Message;
-                string exemptFile = Relative(solutionRoot, finding.File);
-                exemptions.Add(new GraphExemption(
+                string ignoredFile = Relative(solutionRoot, finding.File);
+                ignored.Add(new GraphIgnore(
                     finding.NodeId,
                     string.IsNullOrEmpty(finding.Member) ? null : finding.Member,
                     finding.RuleId,
                     reason,
-                    exemptFile,
+                    ignoredFile,
                     finding.Line,
-                    files.IdOf(exemptFile)));
+                    files.IdOf(ignoredFile)));
                 continue;
             }
 
@@ -104,7 +104,7 @@ public static class GraphBuilder
             return byCode != 0 ? byCode : string.CompareOrdinal(a.Message, b.Message);
         });
 
-        exemptions.Sort(static (a, b) =>
+        ignored.Sort(static (a, b) =>
         {
             int byFile = string.CompareOrdinal(a.File, b.File);
             if (byFile != 0) return byFile;
@@ -112,7 +112,7 @@ public static class GraphBuilder
             return byLine != 0 ? byLine : string.CompareOrdinal(a.RuleId, b.RuleId);
         });
 
-        List<GraphNode> nodes = BuildNodes(exporter, violationsByNode, exemptionsByNode, solutionRoot, files);
+        List<GraphNode> nodes = BuildNodes(exporter, violationsByNode, ignoredByNode, solutionRoot, files);
         var nodeIds = new HashSet<string>(nodes.Count, StringComparer.Ordinal);
         foreach (GraphNode node in nodes) nodeIds.Add(node.Id);
 
@@ -129,14 +129,14 @@ public static class GraphBuilder
             nodes,
             edges,
             violations,
-            exemptions,
+            ignored,
             BuildRules(model));
     }
 
     private static List<GraphNode> BuildNodes(
         GraphExporter exporter,
         Dictionary<string, int> violations,
-        Dictionary<string, int> exemptions,
+        Dictionary<string, int> ignored,
         string solutionRoot,
         FileTable files)
     {
@@ -144,7 +144,7 @@ public static class GraphBuilder
         foreach (ExportedType type in exporter.Types)
         {
             violations.TryGetValue(type.Id, out int violationCount);
-            exemptions.TryGetValue(type.Id, out int exemptionCount);
+            ignored.TryGetValue(type.Id, out int ignoredCount);
             string file = Relative(solutionRoot, type.File);
 
             nodes.Add(new GraphNode(
@@ -156,7 +156,7 @@ public static class GraphBuilder
                 file,
                 type.Line,
                 violationCount,
-                exemptionCount,
+                ignoredCount,
                 type.Members,
                 files.IdOf(file)));
         }

@@ -108,7 +108,7 @@ public static class Program
         };
         failOn.AcceptOnlyFromAmong("warning", "error");
 
-        var showExemptions = new Option<bool>("--show-exemptions") { Description = "List the exemptions that suppressed a violation (TNG9000)." };
+        var showIgnored = new Option<bool>("--show-ignored") { Description = "List the violations that an ignore suppressed (TNG9000)." };
         var checkProjects = NewProjectOption();
         var checkStrict = new Option<bool>("--strict") { Description = "Treat warnings as errors." };
         var explain = new Option<bool>("--explain") { Description = "Follow each violation with the rule text, where it is declared, and the offending line." };
@@ -118,7 +118,7 @@ public static class Program
         check.Add(sarif);
         check.Add(json);
         check.Add(failOn);
-        check.Add(showExemptions);
+        check.Add(showIgnored);
         check.Add(checkProjects);
         check.Add(checkStrict);
         check.Add(explain);
@@ -129,7 +129,7 @@ public static class Program
                 Sarif = parse.GetValue(sarif),
                 Json = parse.GetValue(json),
                 FailOn = parse.GetValue(failOn) ?? "error",
-                ShowExemptions = parse.GetValue(showExemptions),
+                ShowIgnored = parse.GetValue(showIgnored),
                 Projects = parse.GetValue(checkProjects) ?? [],
                 Strict = parse.GetValue(checkStrict),
                 Explain = parse.GetValue(explain),

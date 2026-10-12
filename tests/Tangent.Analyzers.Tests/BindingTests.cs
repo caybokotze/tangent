@@ -97,7 +97,7 @@ public sealed class Legacy
     }
 
     [Fact]
-    public async Task UnknownRuleIdInExemptionIsAnError()
+    public async Task UnknownRuleIdInIgnoreIsAnError()
     {
         const string contracts = """
 contract Controller {
@@ -111,7 +111,7 @@ using Tangent;
 
 namespace Sample.Api;
 
-[{|TNG0002:TangentExempt("legacy", Rule = "Controller/type/modifier#7")|}]
+[{|TNG0002:TangentIgnore("legacy", Rule = "Controller/type/modifier#7")|}]
 public class {|TNG0101:LegacyController|}
 {
 }

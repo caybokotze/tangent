@@ -73,7 +73,7 @@ public sealed class GraphCommandTests(OrdersFixture fixture)
         Assert.Equal(["Controller"], controller.GetProperty("contracts").EnumerateArray().Select(c => c.GetString()!).ToArray());
         Assert.Equal("src/Orders.Api/Controllers/CustomersController.cs", controller.GetProperty("file").GetString());
         Assert.True(controller.GetProperty("violations").GetInt32() > 0);
-        Assert.Equal(1, controller.GetProperty("exemptions").GetInt32());
+        Assert.Equal(1, controller.GetProperty("ignored").GetInt32());
 
         JsonElement member = controller.GetProperty("members").EnumerateArray()
             .Single(m => m.GetProperty("name").GetString() == "GetByIdAsync");
@@ -264,19 +264,19 @@ public sealed class GraphCommandTests(OrdersFixture fixture)
     }
 
     [Fact]
-    public void ListsEveryAppliedExemption()
+    public void ListsEveryIgnoredViolation()
     {
-        // Like violations[], exemptions[] lists every exemption of the run, even for a type that is not in
-        // nodes[] (an exempted type with no contract left is unbound), so count against the unbound graph.
-        JsonElement[] exemptions = Bound.GetProperty("exemptions").EnumerateArray().ToArray();
-        int exemptNodes = Unbound.GetProperty("nodes").EnumerateArray().Sum(n => n.GetProperty("exemptions").GetInt32());
-        Assert.Equal(exemptNodes, exemptions.Length);
-        Assert.Equal(exemptions.Length, Unbound.GetProperty("exemptions").GetArrayLength());
+        // Like violations[], ignored[] lists every ignored violation of the run, even for a type that is not in
+        // nodes[] (an ignored type with no contract left is unbound), so count against the unbound graph.
+        JsonElement[] ignored = Bound.GetProperty("ignored").EnumerateArray().ToArray();
+        int ignoredNodes = Unbound.GetProperty("nodes").EnumerateArray().Sum(n => n.GetProperty("ignored").GetInt32());
+        Assert.Equal(ignoredNodes, ignored.Length);
+        Assert.Equal(ignored.Length, Unbound.GetProperty("ignored").GetArrayLength());
 
-        JsonElement customers = exemptions.First(e =>
+        JsonElement customers = ignored.First(e =>
             e.GetProperty("node").GetString() == "Orders.Api.Controllers.CustomersController");
         Assert.False(string.IsNullOrWhiteSpace(customers.GetProperty("reason").GetString()));
-        Assert.DoesNotContain("Exemption applied", customers.GetProperty("reason").GetString()!, StringComparison.Ordinal);
+        Assert.DoesNotContain("Violation ignored", customers.GetProperty("reason").GetString()!, StringComparison.Ordinal);
         Assert.NotEqual(string.Empty, customers.GetProperty("ruleId").GetString());
         Assert.True(customers.GetProperty("fileId").GetInt32() >= 0);
     }

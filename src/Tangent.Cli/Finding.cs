@@ -80,7 +80,7 @@ public sealed class Finding
     /// <summary>The member name, or "".</summary>
     public string Member { get; }
 
-    /// <summary>The rule tier, or the pseudo-tier <c>binding</c> / <c>exemption</c> / <c>model</c>.</summary>
+    /// <summary>The rule tier, or the pseudo-tier <c>binding</c> / <c>ignore</c> / <c>model</c>.</summary>
     public string Tier { get; }
 
     /// <summary>The mechanical fix kind, or null when there is none.</summary>
@@ -98,8 +98,8 @@ public sealed class Finding
     /// <summary>The id of the type the diagnostic was reported inside, or "".</summary>
     public string NodeId { get; }
 
-    /// <summary>True when the exemption note TNG9000 is what produced this.</summary>
-    public bool IsExemption => string.Equals(Code, "TNG9000", StringComparison.Ordinal);
+    /// <summary>True when this is a TNG9000 note: a violation that an ignore suppressed.</summary>
+    public bool IsIgnored => string.Equals(Code, "TNG9000", StringComparison.Ordinal);
 
     /// <summary>True when this is a model diagnostic (TNG1xxx) reported against the <c>.tan</c> files.</summary>
     public bool IsModelDiagnostic => Code.Length == 7 && Code.StartsWith("TNG1", StringComparison.Ordinal);

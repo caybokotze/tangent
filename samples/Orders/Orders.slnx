@@ -6,7 +6,7 @@
     <Project Path="src/Orders.Infrastructure/Orders.Infrastructure.csproj" />
   </Folder>
   <Folder Name="/tangent/">
-    <!-- Referenced so [Tangent] / [TangentExempt] compile. The analyzer is NOT referenced; the CLI applies it. -->
+    <!-- Referenced so [Tangent] / [TangentIgnore] compile. The analyzer is NOT referenced; the CLI applies it. -->
     <Project Path="../../src/Tangent.Attributes/Tangent.Attributes.csproj" />
   </Folder>
 </Solution>

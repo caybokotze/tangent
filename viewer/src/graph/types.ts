@@ -52,8 +52,8 @@ export type TangentNode = {
   line: number;
   /** Number of violations reported against this type. */
   violations: number;
-  /** Number of exemptions applied to this type. */
-  exemptions: number;
+  /** Number of violations of this type that were ignored. */
+  ignored: number;
   members: Member[];
   /** Index into `TangentGraph.files`, or -1. Absent in version 1 documents. */
   fileId?: number;
@@ -119,8 +119,8 @@ export type Violation = {
   snippet?: Snippet;
 };
 
-/** An exemption that suppressed a rule for one type or member. */
-export type Exemption = {
+/** An ignore that suppressed a rule for one type or member. */
+export type Ignore = {
   node: string;
   member: string | null;
   ruleId: string;
@@ -153,8 +153,8 @@ export type TangentGraph = {
   rules?: Rule[];
   /** The file table. Empty for version 1 documents. */
   files?: SourceFile[];
-  /** Applied exemptions. Empty for version 1 documents. */
-  exemptions?: Exemption[];
+  /** Ignored violations. Empty for version 1 documents. */
+  ignored?: Ignore[];
 };
 
 /** Lane id used for nodes whose `layer` is `null`. */

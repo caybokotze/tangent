@@ -10,13 +10,13 @@ dotnet_diagnostic.TNG0104.severity = suggestion
 
 | Range | Meaning | Default severity |
 |---|---|---|
-| TNG0001–0099 | Binding errors (unknown contract, unknown rule id in exemption) | Error |
+| TNG0001–0099 | Binding errors (unknown contract, unknown rule id in an ignore) | Error |
 | TNG0100–0199 | Structural violations (Tier 0, symbol) | Warning |
 | TNG0200–0299 | Reference and layer violations (Tier 1, reference) | Warning |
 | TNG0300–0399 | Flow violations (Tier 2, operation tree) | Warning |
 | TNG0110–0113 | Structural rules added after the first release (see below) | Warning |
 | TNG1000–1099 | `.tan` model problems (parse errors, conflicts, cycles) | Error |
-| TNG9000 | Exemption applied | Hidden |
+| TNG9000 | Violation ignored | Hidden |
 
 Every violation message has one shape:
 
@@ -30,7 +30,7 @@ Every violation message has one shape:
 **Contract '{0}' is not defined.** A `[Tangent("X")]` attribute names a contract that does not exist in the loaded `.tan` files. The message suggests the closest declared name. Error.
 
 ### TNG0002
-**Rule '{0}' referenced in exemption does not exist.** A `[TangentExempt(Rule = "...")]` names a rule id that no contract declares. Error.
+**Rule '{0}' referenced in an ignore does not exist.** A `[TangentIgnore(Rule = "...")]` names a rule id that no contract declares. Error.
 
 ## Structural (Tier 0)
 
@@ -106,8 +106,8 @@ Every violation message has one shape:
 | Code | Message | Severity |
 |---|---|---|
 | TNG1000 | Parse error: {0} | Error |
-| TNG1001 | Unknown contract '{0}' in bind/exempt/extends | Error |
-| TNG1002 | Unknown type '{0}' in bind/exempt | Error |
+| TNG1001 | Unknown contract '{0}' in bind/ignore/extends | Error |
+| TNG1002 | Unknown type '{0}' in bind/ignore | Error |
 | TNG1003 | Duplicate declaration '{0}' | Error |
 | TNG1004 | Contract inheritance cycle: {chain} | Error |
 | TNG1005 | Undeclared layer '{0}' | Error |
@@ -117,7 +117,7 @@ Every violation message has one shape:
 | TNG1020 | Type '{0}' in contract '{1}' could not be resolved | Warning (error with `tangent lint --strict`) |
 | TNG1030 | Contract '{0}' is never bound | Warning |
 
-## Exemptions
+## Ignored violations
 
 ### TNG9000
-**Exemption applied: {reason}.** Hidden by default. `tangent check --show-exemptions` lists them. Sources: `[TangentExempt("reason")]` on a type or member (optionally `Contract = "..."` or `Rule = "..."`), `exempt Type [from Contract] reason "..."` statements, and `bind Type to Contract except [Attr]`.
+**Violation ignored: {reason}.** Hidden by default. `tangent check --show-ignored` lists them. Sources: `[TangentIgnore("reason")]` on a type or member (optionally `Contract = "..."` or `Rule = "..."`), `ignore Type [from Contract] reason "..."` statements, and `bind Type to Contract except [Attr]`.

@@ -108,12 +108,12 @@ contract Controller {
 }
 """;
 
-    /// <summary>Explicit bindings and exemptions, which reference contracts by name.</summary>
+    /// <summary>Explicit bindings and ignores, which reference contracts by name.</summary>
     public const string BindingsTan = """
 bind Orders.Api.Controllers.HealthController to Controller except [ProducesResponseType]
 
-exempt Orders.Infrastructure.Repositories.LegacyReportRepository reason "migrating in Q4 2026"
-exempt Orders.Domain.Entities.AuditEntry from Entity reason "append-only log"
+ignore Orders.Infrastructure.Repositories.LegacyReportRepository reason "migrating in Q4 2026"
+ignore Orders.Domain.Entities.AuditEntry from Entity reason "append-only log"
 """;
 
     /// <inheritdoc/>

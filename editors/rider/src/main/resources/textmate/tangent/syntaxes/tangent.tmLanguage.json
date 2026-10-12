@@ -146,7 +146,7 @@
       "patterns": [
         {
           "name": "keyword.control.tangent",
-          "match": "\\b(project|root|layer|contract|extends|match|bind|exempt|to|except|reason|from|require-each|require|forbid|where|in|only|allow)\\b"
+          "match": "\\b(project|root|layer|contract|extends|match|bind|ignore|to|except|reason|from|require-each|require|forbid|where|in|only|allow)\\b"
         },
         {
           "name": "storage.modifier.tangent",

@@ -61,7 +61,7 @@ internal static class Navigation
 
     /// <summary>
     /// Every mention of a contract: its declaration, every <c>extends</c>, <c>bind</c> and
-    /// <c>exempt</c> reference in the <c>.tan</c> files, and every <c>[Tangent("name")]</c>
+    /// <c>ignore</c> reference in the <c>.tan</c> files, and every <c>[Tangent("name")]</c>
     /// attribute in C# source once the compilation has loaded.
     /// </summary>
     public static ImmutableArray<LspLocation> ContractReferences(

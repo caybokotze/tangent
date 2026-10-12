@@ -10,19 +10,19 @@ public static class ConsoleReporter
 {
     /// <summary>Prints the report and returns the summary counts.</summary>
     /// <param name="console">Where to print.</param>
-    /// <param name="findings">The findings to report, exemptions excluded.</param>
-    /// <param name="exemptions">TNG9000 notes; listed only when <paramref name="showExemptions"/> is true.</param>
+    /// <param name="findings">The findings to report, ignored violations excluded.</param>
+    /// <param name="ignored">TNG9000 notes; listed only when <paramref name="showIgnored"/> is true.</param>
     /// <param name="root">The directory paths are printed relative to.</param>
     /// <param name="projectCount">How many projects were analysed.</param>
-    /// <param name="showExemptions">Whether to list the exemptions that were applied.</param>
+    /// <param name="showIgnored">Whether to list the ignored violations.</param>
     /// <param name="explainer">When not null, each finding is followed by its rule and the offending line.</param>
     public static void Report(
         CliConsole console,
         IReadOnlyList<Finding> findings,
-        IReadOnlyList<Finding> exemptions,
+        IReadOnlyList<Finding> ignored,
         string root,
         int projectCount,
-        bool showExemptions,
+        bool showIgnored,
         Explainer? explainer = null)
     {
         foreach (IGrouping<string, Finding> group in findings
@@ -45,18 +45,18 @@ public static class ConsoleReporter
             console.WriteLine();
         }
 
-        if (showExemptions && exemptions.Count > 0)
+        if (showIgnored && ignored.Count > 0)
         {
-            console.WriteLine(console.Paint("Exemptions", AnsiColor.Cyan));
-            foreach (Finding exemption in exemptions)
+            console.WriteLine(console.Paint("Ignored", AnsiColor.Cyan));
+            foreach (Finding note in ignored)
             {
-                console.WriteLine(Line(console, exemption, root));
+                console.WriteLine(Line(console, note, root));
             }
 
             console.WriteLine();
         }
 
-        console.WriteLine(Summary(console, findings, exemptions.Count, projectCount));
+        console.WriteLine(Summary(console, findings, ignored.Count, projectCount));
     }
 
     /// <summary>Renders one finding as <c>  {severity} {code} {file}:{line}:{col}  {message}</c>.</summary>
@@ -109,7 +109,7 @@ public static class ConsoleReporter
         ExplainIndent + console.Paint(label.PadRight(12), AnsiColor.Grey);
 
     /// <summary>Renders the trailing summary line.</summary>
-    public static string Summary(CliConsole console, IReadOnlyList<Finding> findings, int exemptionCount, int projectCount)
+    public static string Summary(CliConsole console, IReadOnlyList<Finding> findings, int ignoredCount, int projectCount)
     {
         int errors = 0;
         int warnings = 0;
@@ -122,12 +122,12 @@ public static class ConsoleReporter
         if (findings.Count == 0)
         {
             return console.Paint("0 violations", AnsiColor.Green) +
-                   $" in {projectCount} {Plural(projectCount, "project")}, {exemptionCount} {Plural(exemptionCount, "exemption")} applied";
+                   $" in {projectCount} {Plural(projectCount, "project")}, {ignoredCount} ignored";
         }
 
         string head = $"{findings.Count} {Plural(findings.Count, "violation")} ({errors} {Plural(errors, "error")}, {warnings} {Plural(warnings, "warning")})";
         return console.Paint(head, errors > 0 ? AnsiColor.Red : AnsiColor.Yellow) +
-               $" in {projectCount} {Plural(projectCount, "project")}, {exemptionCount} {Plural(exemptionCount, "exemption")} applied";
+               $" in {projectCount} {Plural(projectCount, "project")}, {ignoredCount} ignored";
     }
 
     private static string Plural(int count, string word) => count == 1 ? word : word + "s";

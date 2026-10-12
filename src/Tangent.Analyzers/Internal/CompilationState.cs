@@ -44,7 +44,7 @@ internal sealed class CompilationState
     private readonly ConcurrentDictionary<string, bool> _reported =
         new ConcurrentDictionary<string, bool>(StringComparer.Ordinal);
 
-    private readonly ConcurrentDictionary<ISymbol, bool> _exemptionNotes =
+    private readonly ConcurrentDictionary<ISymbol, bool> _ignoreNotes =
         new ConcurrentDictionary<ISymbol, bool>(SymbolEqualityComparer.Default);
 
     private readonly ConcurrentDictionary<int, bool> _usedContracts = new ConcurrentDictionary<int, bool>();
@@ -137,8 +137,8 @@ internal sealed class CompilationState
     /// </summary>
     internal bool IsContractUsed(int contractIndex) => _usedContracts.ContainsKey(contractIndex);
 
-    /// <summary>True the first time an exemption is seen for a member, so TNG9000 is noted once per member.</summary>
-    internal bool ShouldNoteExemption(ISymbol symbol) => _exemptionNotes.TryAdd(symbol, true);
+    /// <summary>True the first time an ignore is seen for a member, so TNG9000 is noted once per member.</summary>
+    internal bool ShouldNoteIgnore(ISymbol symbol) => _ignoreNotes.TryAdd(symbol, true);
 
     internal Regex GetRegex(string pattern) =>
         _regexes.GetOrAdd(pattern, static p => new Regex(p, RegexOptions.CultureInvariant));
@@ -216,7 +216,7 @@ internal sealed class CompilationState
         for (int i = 0; i < attributes.Length; i++)
         {
             INamedTypeSymbol? attributeClass = attributes[i].AttributeClass;
-            if (SymbolFacts.IsTangentAttribute(attributeClass) || SymbolFacts.IsTangentExemptAttribute(attributeClass)) return true;
+            if (SymbolFacts.IsTangentAttribute(attributeClass) || SymbolFacts.IsTangentIgnoreAttribute(attributeClass)) return true;
         }
 
         return false;
@@ -293,15 +293,15 @@ internal sealed class CompilationState
     {
         var contracts = ImmutableArray.CreateBuilder<int>(count);
         var diagnostics = ImmutableArray.CreateBuilder<BindingDiagnostic>();
-        var exemptions = ImmutableArray.CreateBuilder<ExemptionNote>();
+        var ignores = ImmutableArray.CreateBuilder<IgnoreNote>();
         for (int i = 0; i < count; i++) contracts.Add(probed[i]);
 
         // Unknown contract names in [Tangent(...)] are errors, reported at the attribute.
         ImmutableArray<AttributeData> attributes = type.GetAttributes();
         var excludedRuleIds = new List<Exclusion>();
         var excludedAttributeNames = new List<Exclusion>();
-        bool exemptFromEverything = false;
-        var exemptContracts = new List<int>();
+        bool ignoreEverything = false;
+        var ignoredContracts = new List<int>();
 
         for (int i = 0; i < attributes.Length; i++)
         {
@@ -316,31 +316,31 @@ internal sealed class CompilationState
                     SymbolFacts.LocationOf(type, attribute),
                     MessageFactory.UnknownContract(Model, name)));
             }
-            else if (SymbolFacts.IsTangentExemptAttribute(attribute.AttributeClass))
+            else if (SymbolFacts.IsTangentIgnoreAttribute(attribute.AttributeClass))
             {
-                ReadExemption(attribute, type, contracts, diagnostics, exemptions,
-                    excludedRuleIds, exemptContracts, ref exemptFromEverything);
+                ReadIgnore(attribute, type, contracts, diagnostics, ignores,
+                    excludedRuleIds, ignoredContracts, ref ignoreEverything);
             }
         }
 
-        // `exempt` statements.
-        ImmutableArray<Exemption> statements = Model.Exemptions;
+        // `ignore` statements.
+        ImmutableArray<Ignore> statements = Model.Ignores;
         for (int i = 0; i < statements.Length; i++)
         {
-            Exemption exemption = statements[i];
-            if (!FullyQualifiedNameEquals(type, Model.Strings.GetSpan(exemption.TypeName))) continue;
-            exemptions.Add(new ExemptionNote(SymbolFacts.LocationOf(type), Model.Text(exemption.Reason)));
-            if (exemption.AllContracts)
+            Ignore ignore = statements[i];
+            if (!FullyQualifiedNameEquals(type, Model.Strings.GetSpan(ignore.TypeName))) continue;
+            ignores.Add(new IgnoreNote(SymbolFacts.LocationOf(type), Model.Text(ignore.Reason)));
+            if (ignore.AllContracts)
             {
-                exemptFromEverything = true;
+                ignoreEverything = true;
             }
             else
             {
-                for (int c = 0; c < exemption.ContractIndices.Length; c++) exemptContracts.Add(exemption.ContractIndices[c]);
+                for (int c = 0; c < ignore.ContractIndices.Length; c++) ignoredContracts.Add(ignore.ContractIndices[c]);
             }
         }
 
-        // `bind ... except` exclusions. Each one is an exemption, so it carries the reason TNG9000 reports
+        // `bind ... except` exclusions. Each one is an ignore, so it carries the reason TNG9000 reports
         // once the rule it removes is known.
         ImmutableArray<Binding> bindings = Model.Bindings;
         for (int i = 0; i < bindings.Length; i++)
@@ -362,12 +362,12 @@ internal sealed class CompilationState
             }
         }
 
-        if (exemptFromEverything) contracts.Clear();
-        else if (exemptContracts.Count > 0)
+        if (ignoreEverything) contracts.Clear();
+        else if (ignoredContracts.Count > 0)
         {
             for (int i = contracts.Count - 1; i >= 0; i--)
             {
-                if (exemptContracts.Contains(contracts[i])) contracts.RemoveAt(i);
+                if (ignoredContracts.Contains(contracts[i])) contracts.RemoveAt(i);
             }
         }
 
@@ -392,11 +392,11 @@ internal sealed class CompilationState
 
                 if (hasExclusions && IsExcluded(rule, excludedRuleIds, excludedAttributeNames, out string? exclusionReason))
                 {
-                    // Every exemption is visible: an `except` that removes a rule is noted once per
-                    // (type, removed rule). `[TangentExempt(Rule = ...)]` already noted itself.
+                    // Every ignore is visible: an `except` that removes a rule is noted once per
+                    // (type, removed rule). `[TangentIgnore(Rule = ...)]` already noted itself.
                     if (exclusionReason is not null)
                     {
-                        exemptions.Add(new ExemptionNote(
+                        ignores.Add(new IgnoreNote(
                             SymbolFacts.LocationOf(type),
                             exclusionReason,
                             Model.Text(Model.Contracts[contractIndex].Name),
@@ -434,19 +434,19 @@ internal sealed class CompilationState
             referenceRules.ToImmutable(),
             typeUsingRules.ToImmutable(),
             flowRules.ToImmutable(),
-            exemptions.ToImmutable(),
+            ignores.ToImmutable(),
             diagnostics.ToImmutable());
     }
 
-    private void ReadExemption(
+    private void ReadIgnore(
         AttributeData attribute,
         INamedTypeSymbol type,
         ImmutableArray<int>.Builder contracts,
         ImmutableArray<BindingDiagnostic>.Builder diagnostics,
-        ImmutableArray<ExemptionNote>.Builder exemptions,
+        ImmutableArray<IgnoreNote>.Builder ignores,
         List<Exclusion> excludedRuleIds,
-        List<int> exemptContracts,
-        ref bool exemptFromEverything)
+        List<int> ignoredContracts,
+        ref bool ignoreEverything)
     {
         string reason = string.Empty;
         ImmutableArray<TypedConstant> arguments = attribute.ConstructorArguments;
@@ -472,7 +472,7 @@ internal sealed class CompilationState
             }
 
             excludedRuleIds.Add(new Exclusion(ruleId, null));
-            exemptions.Add(new ExemptionNote(location, reason));
+            ignores.Add(new IgnoreNote(location, reason));
             return;
         }
 
@@ -485,13 +485,13 @@ internal sealed class CompilationState
                 return;
             }
 
-            exemptContracts.Add(index);
-            exemptions.Add(new ExemptionNote(location, reason));
+            ignoredContracts.Add(index);
+            ignores.Add(new IgnoreNote(location, reason));
             return;
         }
 
-        exemptFromEverything = true;
-        exemptions.Add(new ExemptionNote(location, reason));
+        ignoreEverything = true;
+        ignores.Add(new IgnoreNote(location, reason));
     }
 
     private bool RuleExists(ImmutableArray<int>.Builder contracts, string ruleId)
@@ -551,7 +551,7 @@ internal sealed class CompilationState
         /// <summary>The attribute name or rule id as written after <c>except</c>.</summary>
         internal string Text { get; }
 
-        /// <summary>The TNG9000 reason, or null when the exclusion reported its own exemption note already.</summary>
+        /// <summary>The TNG9000 reason, or null when the exclusion reported its own ignore note already.</summary>
         internal string? Reason { get; }
     }
 

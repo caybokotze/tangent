@@ -1,2 +1,2 @@
-err-unknown-contract-bind.tan(1,20): error TNG1001: Unknown contract 'Nonexistent' in bind/exempt
-err-unknown-contract-bind.tan(2,24): error TNG1001: Unknown contract 'AlsoMissing' in bind/exempt
+err-unknown-contract-bind.tan(1,20): error TNG1001: Unknown contract 'Nonexistent' in bind/ignore
+err-unknown-contract-bind.tan(2,24): error TNG1001: Unknown contract 'AlsoMissing' in bind/ignore

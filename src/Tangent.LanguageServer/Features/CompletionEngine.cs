@@ -12,7 +12,7 @@ internal static class CompletionEngine
     /// <summary>The most C#-derived items ever returned in one list.</summary>
     public const int MaxSymbolItems = 200;
 
-    private static readonly string[] TopLevelKeywords = { "project", "contract", "bind", "exempt" };
+    private static readonly string[] TopLevelKeywords = { "project", "contract", "bind", "ignore" };
 
     private static readonly string[] ProjectKeywords = { "root", "layer", "allow", "nothing" };
 

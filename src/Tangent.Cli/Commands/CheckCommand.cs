@@ -18,8 +18,8 @@ public sealed class CheckOptions
     /// <summary>The lowest severity that makes the command fail. Defaults to <c>error</c>.</summary>
     public string FailOn { get; init; } = "error";
 
-    /// <summary>List the TNG9000 notes for exemptions that were applied.</summary>
-    public bool ShowExemptions { get; init; }
+    /// <summary>List the TNG9000 notes for the ignored violations.</summary>
+    public bool ShowIgnored { get; init; }
 
     /// <summary>Restrict the run to these project names.</summary>
     public IReadOnlyList<string> Projects { get; init; } = Array.Empty<string>();
@@ -66,11 +66,11 @@ public static class CheckCommand
         }
 
         var reported = new List<Finding>();
-        var exemptions = new List<Finding>();
+        var ignored = new List<Finding>();
 
         foreach (Finding finding in analysis.Findings)
         {
-            if (finding.IsExemption) { exemptions.Add(finding); continue; }
+            if (finding.IsIgnored) { ignored.Add(finding); continue; }
             if (finding.Severity == "hidden") continue;
             if (options.Strict) finding.Promote();
             reported.Add(finding);
@@ -78,10 +78,10 @@ public static class CheckCommand
 
         string root = analysis.Target.Root;
         Explainer? explainer = options.Explain && analysis.Model.Model is { } model ? new Explainer(model, root) : null;
-        ConsoleReporter.Report(console, reported, exemptions, root, analysis.Projects.Count, options.ShowExemptions, explainer);
+        ConsoleReporter.Report(console, reported, ignored, root, analysis.Projects.Count, options.ShowIgnored, explainer);
 
         var written = new List<Finding>(reported);
-        if (options.ShowExemptions) written.AddRange(exemptions);
+        if (options.ShowIgnored) written.AddRange(ignored);
 
         if (options.Json is not null)
         {
