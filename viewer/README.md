@@ -18,6 +18,10 @@ hash, so the back button works and any view can be shared as a link.
 There is no backend: the graph is read in the browser, from a file you pick or a URL in the query
 string.
 
+The hosted copy is <https://caybokotze.github.io/tangent/>. `.github/workflows/pages.yml` builds and
+deploys it when `viewer/` or the `.tan` grammar changes on `main`. It makes no network request
+except to fetch its own files, so a graph opened there never leaves the browser.
+
 ## Running it
 
 ```bash

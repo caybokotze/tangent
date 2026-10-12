@@ -14,7 +14,7 @@ Tangent is an architectural conformance checker for .NET. Contracts are written 
 - `src/Tangent.Cli` — `tangent` tool: `init`, `lint`, `check`, `diff`, `graph`, `serve`.
 - `src/Tangent.Graph` — `tangent.graph.json` for the viewer: layers, contracts, rules, the file table, nodes, edges, violations and ignores (schema version 2).
 - `src/Tangent.LanguageServer` — LSP server for `.tan` files.
-- `viewer/` — the explorer (Vite, React, Tailwind v4): Issues, Rules, Coverage and a rooted Graph, with one shared detail panel. Pure logic lives in `src/graph/` (`parse`, `derive`, `explore`, `layout`) and is unit-tested against the real demo export.
+- `viewer/` — the explorer (Vite, React, Tailwind v4): Issues, Rules, Coverage and a rooted Graph, with one shared detail panel. Pure logic lives in `src/graph/` (`parse`, `derive`, `explore`, `layout`) and is unit-tested against the real demo export. `.github/workflows/pages.yml` deploys it to https://caybokotze.github.io/tangent/, which `tangent graph` prints. Keep it free of network requests: users open private graphs there.
 - `editors/vscode`, `editors/rider` — editor integrations.
 - `samples/Orders` — sample with deliberate violations. Drives the tests.
 - `demo/Scheduling` — demo API that consumes the packed analyzer and CLI from `artifacts/packages`.
