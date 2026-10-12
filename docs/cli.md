@@ -314,6 +314,7 @@ $ tangent graph samples/Orders --include-unbound
 Wrote samples/Orders/tangent.graph.json
   4 layers, 7 contracts, 62 nodes, 152 edges, 59 violations
   49 C# files: 18 tracked, 6 partial, 25 untracked
+Open https://caybokotze.github.io/tangent/ and choose this file. It stays in your browser.
 ```
 
 | Option | Effect |
@@ -331,7 +332,9 @@ are fully qualified metadata names (`Orders.Api.Controllers.OrdersController`, w
 suffix for generic types). Everything is ordered deterministically, so two runs over unchanged sources
 differ only in `generatedAt`.
 
-To open the export in the viewer:
+To open the export, go to <https://caybokotze.github.io/tangent/> and choose the file, or drop it on the
+page. The viewer reads the file in your browser and never uploads it. To run the viewer from a clone of
+this repository instead:
 
 ```
 cd viewer && npm run dev      # then http://localhost:5173/?graph=/orders.graph.json

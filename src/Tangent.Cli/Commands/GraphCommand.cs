@@ -13,6 +13,9 @@ public static class GraphCommand
     /// <summary>The default file name the exporter writes to.</summary>
     public const string DefaultFileName = "tangent.graph.json";
 
+    /// <summary>The hosted viewer. It reads the file in the browser and never uploads it.</summary>
+    public const string ViewerUrl = "https://caybokotze.github.io/tangent/";
+
     /// <summary>Runs the command.</summary>
     public static async Task<int> RunAsync(
         string? path,
@@ -56,6 +59,8 @@ public static class GraphCommand
         {
             console.WriteLine("  (only types bound to a contract are included; pass --include-unbound for the whole solution)");
         }
+
+        console.WriteLine($"Open {ViewerUrl} and choose this file. It stays in your browser.");
 
         return ExitCodes.Clean;
     }

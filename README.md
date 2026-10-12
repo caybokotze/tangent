@@ -88,7 +88,7 @@ contract Handler {
 | Attributes | NuGet `Tangent.Attributes` | `[Tangent("Controller")]`, `[TangentIgnore("reason")]`. Stripped from output assemblies. |
 | CLI | .NET tool `dotnet tangent` | `init`, `lint`, `check`, `diff`, `graph`, `serve`. SARIF and JSON output. |
 | Language server | `tangent serve` + `editors/vscode` | Diagnostics, completion, hover, go-to-definition for `.tan` files. |
-| Viewer | `viewer/` (static React app) | Renders `tangent.graph.json`: layers, types, dependencies, violations. |
+| Viewer | [caybokotze.github.io/tangent](https://caybokotze.github.io/tangent/), built from `viewer/` | Explores `tangent.graph.json`: issues, rules, coverage and dependencies. Reads the file in your browser. |
 
 Everything sits on one **rule IR** in `Tangent.Core`. The DSL compiles to the IR, the analyzer evaluates the IR, the graph exporter reads the IR. No component bypasses it.
 
@@ -408,6 +408,7 @@ dotnet add package Tangent.Analyzers
 dotnet tool install -g Tangent.Cli
 tangent init          # scaffolds .tangent/ from your namespaces
 tangent check         # or just: dotnet build
+tangent graph --include-unbound --include-source   # then open it at caybokotze.github.io/tangent
 ```
 
 ## Repository layout

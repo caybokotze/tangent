@@ -15,6 +15,13 @@ public sealed class GraphCommandTests(OrdersFixture fixture)
     private JsonElement Unbound => JsonDocument.Parse(fixture.UnboundGraphJson).RootElement;
 
     [Fact]
+    public void PointsAtTheHostedViewer()
+    {
+        Assert.Equal(ExitCodes.Clean, fixture.Graph.ExitCode);
+        Assert.Contains("Open https://caybokotze.github.io/tangent/ and choose this file.", fixture.Graph.Out, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void HasTheDocumentHeader()
     {
         Assert.Equal(2, Bound.GetProperty("version").GetInt32());
