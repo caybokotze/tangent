@@ -14,6 +14,8 @@ jobs:
         with:
           global-json-file: global.json
       - run: dotnet restore Tangent.slnx
+      - name: restore the sample (the CLI tests load it with MSBuildWorkspace, which needs it restored)
+        run: dotnet restore samples/Orders/Orders.slnx
       - run: dotnet build Tangent.slnx -c Release --no-restore
       - run: dotnet test Tangent.slnx -c Release --no-build --logger "trx"
       - run: dotnet pack Tangent.slnx -c Release --no-build

@@ -386,7 +386,8 @@ Conformance is not correctness. An agent can produce code that is fully conforma
 # Build everything
 dotnet build Tangent.slnx
 
-# Run the tests
+# Run the tests (the CLI tests load samples/Orders, so restore it first)
+dotnet restore samples/Orders/Orders.slnx
 dotnet test Tangent.slnx
 
 # Pack the analyzer, attributes and CLI into artifacts/packages (version 0.1.0-dev)

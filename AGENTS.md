@@ -23,8 +23,11 @@ Tangent is an architectural conformance checker for .NET. Contracts are written 
 
 ```sh
 dotnet build Tangent.slnx
+dotnet restore samples/Orders/Orders.slnx
 dotnet test Tangent.slnx
 ```
+
+The CLI tests load `samples/Orders` with MSBuildWorkspace. The sample is not in `Tangent.slnx`, so restore it before the first test run. Without the restore, package types such as `ILogger<*>` do not resolve and five CLI tests fail with TNG1020.
 
 Viewer: `cd viewer && npm ci && npm test` (also `npm run typecheck`, `npm run dev`).
 
