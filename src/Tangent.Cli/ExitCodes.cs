@@ -1,6 +1,6 @@
 namespace Tangent.Cli;
 
-/// <summary>The process exit codes every Tangent command shares (TANGENT-PLAN.md §10).</summary>
+/// <summary>The process exit codes every Tangent command shares (see docs/cli.md).</summary>
 public static class ExitCodes
 {
     /// <summary>Nothing to report.</summary>

@@ -1,4 +1,4 @@
-// Reference example from TANGENT-PLAN.md section 5.4 — services.tan
+// Reference example — services.tan
 contract DomainService {
     match: class in Orders.Domain.Services.**
 

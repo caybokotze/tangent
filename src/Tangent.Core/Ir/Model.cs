@@ -302,7 +302,7 @@ public sealed class ArchitectureModel
 
     /// <summary>
     /// True when the project declared an <c>allow</c> list. A namespace that no layer declares is then a
-    /// violation unless the allow list matches it, instead of being ignored (TANGENT-PLAN.md §16.1).
+    /// violation unless the allow list matches it, instead of being ignored.
     /// </summary>
     public bool StrictExternals { get; }
 

@@ -1,6 +1,6 @@
 # Tangent for Rider / JetBrains IDEs
 
-Editor support for [Tangent](../../TANGENT-PLAN.md), an architectural conformance checker for .NET
+Editor support for [Tangent](../../README.md), an architectural conformance checker for .NET
 whose contracts are written in `.tan` files. Same two features as the
 [VS Code extension](../vscode/README.md): the `source.tangent` TextMate grammar, and the
 `dotnet tangent serve` language server over stdio.

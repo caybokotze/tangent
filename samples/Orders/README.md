@@ -48,8 +48,7 @@ repositories:
 
 The one honest layer violation is `Orders.Api.DependencyInjection.ServiceRegistration`: the
 composition root has to name Infrastructure types, and `Api -> Application, Domain` forbids it.
-That tension is real, it is left unresolved here on purpose, and it is open question #1 in
-`TANGENT-PLAN.md` §16.
+That tension is real, and it is left unresolved here on purpose.
 
 ## Packages
 

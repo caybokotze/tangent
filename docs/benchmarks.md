@@ -1,6 +1,6 @@
 # Benchmarks
 
-`tests/Tangent.Benchmarks` is the BenchmarkDotNet harness that enforces §12 of `TANGENT-PLAN.md`. It
+`tests/Tangent.Benchmarks` is the BenchmarkDotNet harness that enforces Tangent's performance rules. It
 measures the two things that decide whether Tangent is usable — how long a `.tan` folder takes to become
 a model, and what the analyzer costs per named type inside the compiler — and it is the only place where
 the "unbound types cost nothing" rule (§12.2) is actually verified.

@@ -324,7 +324,7 @@ Open https://caybokotze.github.io/tangent/ and choose this file. It stays in you
 | `--include-source` | embed the code around each violation (15 lines either side), the full text of every `.tan` file, and the absolute solution root for `vscode://file/` links |
 | `--project <name>` | restrict the run to this project. Repeatable |
 
-The schema is TANGENT-PLAN.md §11.1 and `viewer/src/graph/types.ts`: `version` (currently 2), `project`,
+The schema is `viewer/src/graph/types.ts`: `version` (currently 2), `project`,
 `generatedAt`, `layers[]`, `contracts[]`, `files[]`, `nodes[]` (with `members[]`), `edges[]`,
 `violations[]`, and the optional `rules[]` array carrying each rule's `.tan` text so the viewer can show
 it beside a violation. Node ids
@@ -352,7 +352,7 @@ and in a codebase like `samples/Orders` the types that break layering (`OrdersDb
 files (`obj/`, `bin/`, `*.g.cs`) and files outside the solution root are left out. Each entry has an
 integer `id` (its index; the table is sorted by path), and `nodes[]` and `violations[]` point into it
 with `fileId` (-1 for a type declared outside the root). The viewer addresses files by id only, so no
-path parameter ever has to be accepted (TANGENT-PLAN.md §11.4).
+path parameter ever has to be accepted.
 
 | `status` | Meaning |
 |---|---|

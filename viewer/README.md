@@ -80,7 +80,7 @@ tracked (every type bound), partial (some) and untracked (none, or no type at al
 per project with the declared types (dashed when unbound), violation counts and status. The filter
 narrows the tree to untracked, partial, tracked or violating files.
 
-**Graph.** Never the whole solution: a **root** plus a bounded neighbourhood (TANGENT-PLAN.md §11.3).
+**Graph.** Never the whole solution: a **root** plus a bounded neighbourhood.
 The root is the types with violations (default), a contract, a layer, or one type (double-click a node,
 or "Show in graph" in the panel). **Depth** is 1 to 4 hops; **direction** is depends-on, used-by or
 both; a cap of 150 nodes truncates with an explicit "N more — Expand". Layers are swimlanes in
@@ -96,7 +96,7 @@ text. Both are highlighted by [Shiki](https://shiki.style) with the TextMate gra
 
 ## Schema
 
-The viewer reads versions 1 and 2 of the export (TANGENT-PLAN.md §11.1, `src/graph/types.ts`). Version 2
+The viewer reads versions 1 and 2 of the export (`src/graph/types.ts`). Version 2
 adds `files[]` (the file table), `fileId` on nodes and violations, `ignored[]`, and with
 `--include-source` `root`, `violation.snippet` and `file.text`. Version 1 documents still load; the
 Coverage view then says the export has no file table.

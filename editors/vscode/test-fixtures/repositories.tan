@@ -1,4 +1,4 @@
-// Reference example from TANGENT-PLAN.md section 5.4 — repositories.tan
+// Reference example — repositories.tan
 contract Repository {
     match: class in Infrastructure where name ends with "Repository"
 

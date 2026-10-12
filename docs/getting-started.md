@@ -57,7 +57,7 @@ contract Repository {
 }
 ```
 
-Two keywords carry all constraint semantics: `require` (the default for a bare predicate) and `forbid`. See [TANGENT-PLAN.md §5](../TANGENT-PLAN.md) for the full grammar and [diagnostics.md](diagnostics.md) for every code.
+Two keywords carry all constraint semantics: `require` (the default for a bare predicate) and `forbid`. See the [templates in the README](../README.md#architectural-templates) for every rule in use and [diagnostics.md](diagnostics.md) for every code.
 
 ## 3. Bind and ignore
 

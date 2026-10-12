@@ -1,4 +1,4 @@
-// Reference example from TANGENT-PLAN.md section 5.4 — entities.tan
+// Reference example — entities.tan
 contract Entity {
     match: class in Orders.Domain.Entities.**
 

@@ -1,5 +1,5 @@
 /**
- * TypeScript shape of `tangent.graph.json` (TANGENT-PLAN.md section 11.1).
+ * TypeScript shape of `tangent.graph.json`.
  *
  * The exporter writes exactly these fields. Two documented extensions are
  * modelled as optional:

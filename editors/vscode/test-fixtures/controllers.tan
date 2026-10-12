@@ -1,4 +1,4 @@
-// Reference example from TANGENT-PLAN.md section 5.4 — controllers.tan
+// Reference example — controllers.tan
 contract Controller {
     match: class in Api where name ends with "Controller"
 

@@ -1,4 +1,4 @@
-// Reference example from TANGENT-PLAN.md section 5.4 — project.tan
+// Reference example — project.tan
 project "Orders" {
     root: "src/"
 

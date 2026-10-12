@@ -56,7 +56,7 @@ public sealed record GraphNode(
     int FileId);
 
 /// <summary>
-/// One source file in the file table (TANGENT-PLAN.md §11.4). The viewer addresses files by
+/// One source file in the file table. The viewer addresses files by
 /// <paramref name="Id"/> only, so no API ever has to accept a path.
 /// </summary>
 /// <param name="Id">The file's index in the table.</param>
@@ -141,7 +141,7 @@ public sealed record GraphIgnore(
 public sealed record GraphRule(string Id, string Contract, string Text, int Tier);
 
 /// <summary>
-/// The whole <c>tangent.graph.json</c> document (TANGENT-PLAN.md §11.1). Property order here is the
+/// The whole <c>tangent.graph.json</c> document (viewer/src/graph/types.ts). Property order here is the
 /// order the writer emits, which keeps the output diffable.
 /// </summary>
 /// <param name="Root">

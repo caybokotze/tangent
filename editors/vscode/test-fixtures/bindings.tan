@@ -1,4 +1,4 @@
-// Reference example from TANGENT-PLAN.md section 5.4 — bindings.tan
+// Reference example — bindings.tan
 bind Orders.Api.Controllers.HealthController to Controller except [ProducesResponseType]
 ignore Orders.Infrastructure.LegacyReportRepository reason "migrating in Q4 2026"
 ignore Orders.Domain.Entities.AuditEntry from Entity reason "append-only log, public setters by design"

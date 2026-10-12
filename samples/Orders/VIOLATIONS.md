@@ -4,7 +4,7 @@ Every architectural break in this sample is intentional and listed below. The ta
 result set for `tangent check` against `samples/Orders/.tangent/`; `tests/Tangent.Cli.Tests` should
 assert against it.
 
-Paths are relative to `samples/Orders/`. Diagnostic codes come from `TANGENT-PLAN.md` Appendix A.
+Paths are relative to `samples/Orders/`. Every diagnostic code is described in [docs/diagnostics.md](../../docs/diagnostics.md).
 
 ## Violations
 

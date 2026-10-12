@@ -430,7 +430,6 @@ docs/        Design notes and API docs
 - [CLI reference](docs/cli.md): every command, option, exit code and output format.
 - [Diagnostics](docs/diagnostics.md): every `TNG` code with its meaning and default severity.
 - [Core API](docs/core-api.md), [Analyzer API](docs/analyzer-api.md), [Language server](docs/language-server.md), [Benchmarks](docs/benchmarks.md).
-- [TANGENT-PLAN.md](TANGENT-PLAN.md): the full design and roadmap.
 
 ## Status
 

@@ -349,7 +349,7 @@ public sealed class BinderTests
         Assert.True(model.IsReferenceAllowed(domain, "Microsoft.Extensions.Logging".AsSpan()));
         Assert.True(model.IsReferenceAllowed(domain, "P.Domain.Entities".AsSpan()));
 
-        // The allow list switches the model to strict externals (TANGENT-PLAN.md section 16.1).
+        // The allow list switches the model to strict externals.
         Assert.True(model.StrictExternals);
         Assert.False(model.IsReferenceAllowed(domain, "Newtonsoft.Json".AsSpan()));
     }

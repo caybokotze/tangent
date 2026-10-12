@@ -1,6 +1,6 @@
 # Tangent for VS Code
 
-Editor support for [Tangent](../../TANGENT-PLAN.md), an architectural conformance checker for .NET
+Editor support for [Tangent](../../README.md), an architectural conformance checker for .NET
 whose contracts are written in `.tan` files.
 
 ## Features

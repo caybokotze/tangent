@@ -6,7 +6,7 @@ namespace Tangent.Graph;
 
 /// <summary>
 /// Turns a bound <see cref="ArchitectureModel"/>, the analyzer's reference sink and the diagnostics of a
-/// run into the <c>tangent.graph.json</c> document described by TANGENT-PLAN.md §11.1.
+/// run into the <c>tangent.graph.json</c> document described by docs/cli.md and viewer/src/graph/types.ts.
 /// Everything is ordered deterministically so two runs over unchanged sources produce byte-identical output.
 /// </summary>
 public static class GraphBuilder

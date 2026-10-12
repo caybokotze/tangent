@@ -4,7 +4,7 @@ Context for coding agents working in this repository.
 
 ## Project
 
-Tangent is an architectural conformance checker for .NET. Contracts are written in a small DSL (`.tan` files in a `.tangent/` folder) and checked by a Roslyn analyzer, a CLI, and a language server. `TANGENT-PLAN.md` is the design document and roadmap; read it before large changes.
+Tangent is an architectural conformance checker for .NET. Contracts are written in a small DSL (`.tan` files in a `.tangent/` folder) and checked by a Roslyn analyzer, a CLI, and a language server. The design document and roadmap is `scratch/TANGENT-PLAN.md`. `scratch/` is git-ignored, so the file exists only on the maintainer's machine. When it is there, read its handoff section first and read the rest before large changes. Never commit anything under `scratch/`.
 
 ## Layout
 

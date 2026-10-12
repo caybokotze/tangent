@@ -8,7 +8,7 @@ export default defineConfig({
   build: { outDir: 'dist', sourcemap: true, chunkSizeWarningLimit: 1500 },
   server: {
     // The `.tan` TextMate grammar is imported from editors/vscode, outside this folder:
-    // one grammar, two consumers (TANGENT-PLAN.md §11.4).
+    // one grammar, two consumers.
     fs: { allow: ['..'] },
   },
   test: {
