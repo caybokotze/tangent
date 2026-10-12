@@ -7,6 +7,10 @@
  *     (for example when the graph was exported with `--include-unbound`).
  *   - `TangentGraph.rules` is emitted when the exporter is asked to inline the
  *     `.tan` rule text, so the viewer can show it next to a violation.
+ *
+ * Schema version 2 adds the file table (`files`, `fileId`) and, with
+ * `--include-source`, `root`, violation snippets and contract text. All of
+ * these are optional here so version 1 documents still load.
  */
 
 /** A named region of the codebase with a declared dependency direction. */
@@ -51,6 +55,36 @@ export type TangentNode = {
   /** Number of exemptions applied to this type. */
   exemptions: number;
   members: Member[];
+  /** Index into `TangentGraph.files`, or -1. Absent in version 1 documents. */
+  fileId?: number;
+};
+
+/** Coverage of a file: whether the types it declares are bound to contracts. */
+export type FileStatus = 'tracked' | 'partial' | 'untracked' | 'contract';
+
+/** One entry of the file table. Files are addressed by `id`, never by path. */
+export type SourceFile = {
+  id: number;
+  /** Path relative to the solution root. */
+  path: string;
+  /** `csharp` or `contract` (a `.tan` file). */
+  kind: string;
+  /** The project that compiles the file; `null` for contract files. */
+  project: string | null;
+  lines: number;
+  status: FileStatus;
+  /** Ids of the types the file declares. */
+  types: string[];
+  violations: number;
+  /** Whole file text: contract files exported with `--include-source` only. */
+  text?: string;
+};
+
+/** Source lines around a violation. */
+export type Snippet = {
+  /** 1-based line number of `lines[0]`. */
+  startLine: number;
+  lines: string[];
 };
 
 /** A reference from one type to another. */
@@ -79,6 +113,21 @@ export type Violation = {
   line: number;
   col: number;
   severity: string;
+  /** Index into `TangentGraph.files`, or -1. Absent in version 1 documents. */
+  fileId?: number;
+  /** Present when the graph was exported with `--include-source`. */
+  snippet?: Snippet;
+};
+
+/** An exemption that suppressed a rule for one type or member. */
+export type Exemption = {
+  node: string;
+  member: string | null;
+  ruleId: string;
+  reason: string;
+  file: string;
+  line: number;
+  fileId: number;
 };
 
 /** Optional inlined `.tan` rule text, keyed by the `ruleId` on a violation. */
@@ -94,12 +143,18 @@ export type TangentGraph = {
   version: number;
   project: string;
   generatedAt: string;
+  /** Absolute solution root, for `vscode://file/` links. `--include-source` only. */
+  root?: string;
   layers: Layer[];
   contracts: Contract[];
   nodes: TangentNode[];
   edges: Edge[];
   violations: Violation[];
   rules?: Rule[];
+  /** The file table. Empty for version 1 documents. */
+  files?: SourceFile[];
+  /** Applied exemptions. Empty for version 1 documents. */
+  exemptions?: Exemption[];
 };
 
 /** Lane id used for nodes whose `layer` is `null`. */

@@ -1,9 +1,12 @@
 import type {
   Contract,
   Edge,
+  Exemption,
   Layer,
   Member,
   Rule,
+  Snippet,
+  SourceFile,
   TangentGraph,
   TangentNode,
   Violation,
@@ -69,6 +72,11 @@ function num(ctx: Ctx, value: unknown, path: string, fallback = 0): number {
   return fallback;
 }
 
+function optionalNum(ctx: Ctx, value: unknown, path: string, fallback: number): number {
+  if (value === undefined || value === null) return fallback;
+  return num(ctx, value, path, fallback);
+}
+
 function bool(ctx: Ctx, value: unknown, path: string, fallback = false): boolean {
   if (typeof value === 'boolean') return value;
   ctx.fail(path, 'a boolean', value);
@@ -128,9 +136,9 @@ export function parseGraph(json: unknown): TangentGraph {
   }
 
   const version = num(ctx, json['version'], 'version', 1);
-  if (typeof json['version'] === 'number' && version !== 1) {
+  if (typeof json['version'] === 'number' && version !== 1 && version !== 2) {
     ctx.issues.push(
-      `version: expected 1, the only schema version this viewer understands, got ${version}`,
+      `version: expected 1 or 2, the schema versions this viewer understands, got ${version}`,
     );
   }
 
@@ -146,6 +154,14 @@ export function parseGraph(json: unknown): TangentGraph {
       parseViolation(ctx, i, p),
     ),
   };
+
+  const root = optionalStr(ctx, json['root'], 'root');
+  if (root !== null) graph.root = root;
+
+  graph.files = objArray(ctx, json['files'], 'files', false, (i, p) => parseFile(ctx, i, p));
+  graph.exemptions = objArray(ctx, json['exemptions'], 'exemptions', false, (i, p) =>
+    parseExemption(ctx, i, p),
+  );
 
   if (json['rules'] !== undefined && json['rules'] !== null) {
     graph.rules = objArray(ctx, json['rules'], 'rules', false, (i, p) => parseRule(ctx, i, p));
@@ -201,6 +217,41 @@ function parseNode(ctx: Ctx, item: Record<string, unknown>, path: string): Tange
     members: objArray(ctx, item['members'], `${path}.members`, false, (i, p) =>
       parseMember(ctx, i, p),
     ),
+    fileId: optionalNum(ctx, item['fileId'], `${path}.fileId`, -1),
+  };
+}
+
+const FILE_STATUSES = new Set(['tracked', 'partial', 'untracked', 'contract']);
+
+function parseFile(ctx: Ctx, item: Record<string, unknown>, path: string): SourceFile {
+  const status = str(ctx, item['status'], `${path}.status`, 'untracked');
+  if (!FILE_STATUSES.has(status)) {
+    ctx.fail(`${path}.status`, 'tracked, partial, untracked or contract', status);
+  }
+  const file: SourceFile = {
+    id: num(ctx, item['id'], `${path}.id`),
+    path: str(ctx, item['path'], `${path}.path`),
+    kind: str(ctx, item['kind'], `${path}.kind`, 'csharp'),
+    project: optionalStr(ctx, item['project'], `${path}.project`),
+    lines: num(ctx, item['lines'], `${path}.lines`),
+    status: status as SourceFile['status'],
+    types: strArray(ctx, item['types'], `${path}.types`),
+    violations: num(ctx, item['violations'], `${path}.violations`),
+  };
+  const text = optionalStr(ctx, item['text'], `${path}.text`);
+  if (text !== null) file.text = text;
+  return file;
+}
+
+function parseSnippet(ctx: Ctx, value: unknown, path: string): Snippet | undefined {
+  if (value === undefined || value === null) return undefined;
+  if (!isRecord(value)) {
+    ctx.fail(path, 'an object', value);
+    return undefined;
+  }
+  return {
+    startLine: num(ctx, value['startLine'], `${path}.startLine`, 1),
+    lines: strArray(ctx, value['lines'], `${path}.lines`),
   };
 }
 
@@ -215,7 +266,7 @@ function parseEdge(ctx: Ctx, item: Record<string, unknown>, path: string): Edge 
 }
 
 function parseViolation(ctx: Ctx, item: Record<string, unknown>, path: string): Violation {
-  return {
+  const violation: Violation = {
     node: str(ctx, item['node'], `${path}.node`),
     member: optionalStr(ctx, item['member'], `${path}.member`),
     ruleId: str(ctx, item['ruleId'], `${path}.ruleId`),
@@ -225,6 +276,22 @@ function parseViolation(ctx: Ctx, item: Record<string, unknown>, path: string): 
     line: num(ctx, item['line'], `${path}.line`),
     col: num(ctx, item['col'], `${path}.col`),
     severity: str(ctx, item['severity'], `${path}.severity`, 'warning'),
+    fileId: optionalNum(ctx, item['fileId'], `${path}.fileId`, -1),
+  };
+  const snippet = parseSnippet(ctx, item['snippet'], `${path}.snippet`);
+  if (snippet !== undefined) violation.snippet = snippet;
+  return violation;
+}
+
+function parseExemption(ctx: Ctx, item: Record<string, unknown>, path: string): Exemption {
+  return {
+    node: str(ctx, item['node'], `${path}.node`),
+    member: optionalStr(ctx, item['member'], `${path}.member`),
+    ruleId: str(ctx, item['ruleId'], `${path}.ruleId`),
+    reason: str(ctx, item['reason'], `${path}.reason`),
+    file: str(ctx, item['file'], `${path}.file`),
+    line: num(ctx, item['line'], `${path}.line`),
+    fileId: optionalNum(ctx, item['fileId'], `${path}.fileId`, -1),
   };
 }
 

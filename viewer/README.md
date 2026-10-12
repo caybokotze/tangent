@@ -1,12 +1,22 @@
-# Tangent graph viewer
+# Tangent viewer
 
-A static, read-only React app that renders `tangent.graph.json`, the architecture
-graph exported by [Tangent](../TANGENT-PLAN.md). It shows layers as swimlanes,
-types coloured by contract, illegal dependencies in red, and every violation with
-its rule text.
+A static, read-only React app for `tangent.graph.json`, the export of `tangent graph`. It answers four
+questions about a codebase, one view each:
 
-There is no backend: the graph is read in the browser, either from a file you
-pick or from a URL you pass in the query string.
+| View | Question |
+|---|---|
+| **Issues** (landing) | What breaks the contracts, and where? Violations grouped by rule, like an issue tracker groups events. |
+| **Rules** | What did we declare, and which types pass or fail each rule? |
+| **Coverage** | Which files do the contracts describe, and which are untracked? |
+| **Graph** | What does this type, contract or layer depend on, and what depends on it? |
+
+One detail panel serves every view. Every type, rule, file, contract and layer in it is a link, so you
+can click from an issue to the offending type, to its file, to the other types in that file, to the
+rule it breaks, to the other types that rule applies to, and so on. The selection lives in the URL
+hash, so the back button works and any view can be shared as a link.
+
+There is no backend: the graph is read in the browser, from a file you pick or a URL in the query
+string.
 
 ## Running it
 
@@ -15,102 +25,100 @@ npm install
 npm run dev        # http://localhost:5173
 ```
 
-| script              | what it does                                       |
-| ------------------- | -------------------------------------------------- |
-| `npm run dev`       | Vite dev server with hot reload                     |
-| `npm run build`     | typecheck, then emit a static site into `dist/`     |
-| `npm run preview`   | serve the built `dist/` locally                     |
-| `npm test`          | run the unit tests once (Vitest)                    |
-| `npm run typecheck` | TypeScript in strict mode, no emit                  |
+To look at the demo with code snippets and editor links, export it with source first:
 
-`dist/` is plain static files, so it can be served from any web server, a CI
-artifact, or a GitHub Pages branch. The build uses a relative base path, so it
-also works from a subdirectory.
+```bash
+cd ../demo/Scheduling
+dotnet tangent graph Scheduling.slnx --include-unbound --include-source -o ../../viewer/public/scheduling.local.graph.json
+```
+
+and open <http://localhost:5173/?graph=/scheduling.local.graph.json>. `*.local.graph.json` is
+git-ignored: `--include-source` records the absolute path of your checkout.
+
+| script              | what it does                                    |
+| ------------------- | ----------------------------------------------- |
+| `npm run dev`       | Vite dev server with hot reload                 |
+| `npm run build`     | typecheck, then emit a static site into `dist/` |
+| `npm run preview`   | serve the built `dist/` locally                 |
+| `npm test`          | run the unit tests once (Vitest)                |
+| `npm run typecheck` | TypeScript in strict mode, no emit              |
+
+`dist/` is plain static files with a relative base path, so it works from any web server, a CI
+artifact, or a subdirectory.
 
 ## Loading a graph
 
-Three ways, all equivalent:
+- **File picker**: "Choose file" on the landing page, or "Open…" in the sidebar.
+- **Drag and drop**: drop a `.json` file anywhere on the window.
+- **Query string**: `?graph=<url>`, for example `?graph=/artifacts/tangent.graph.json`. The browser
+  fetches it, so it must be reachable and CORS-enabled.
+- **Examples** on the landing page: the Scheduling demo, the Orders sample, and a small hand-written
+  graph.
 
-- **File picker** - "Choose file" on the landing panel, or "Open..." in the toolbar.
-- **Drag and drop** - drop a `.json` file anywhere on the window.
-- **Query string** - `?graph=<url>`, for example
-  `http://localhost:5173/?graph=/artifacts/tangent.graph.json`. The URL is fetched
-  by the browser, so it has to be reachable and CORS-enabled. Relative URLs work
-  and are resolved against the page.
-
-"Load sample" opens `public/sample.graph.json`, a fictional four-layer "Orders"
-solution with 22 types, 38 edges (3 of them illegal), 12 violations across six
-contracts and 2 exemptions. Use it to see what the viewer does before pointing it
-at a real export.
-
-Invalid documents are rejected with a precise message - `nodes[3].line: expected a
-number, got the string "twelve"` - rather than rendering half a graph. Problems
-that are survivable (a dangling edge, an unknown contract id) show up as a banner
-above the canvas.
+Invalid documents are rejected with a precise message (`nodes[3].line: expected a number, got the
+string "twelve"`). Survivable problems, such as a dangling edge, show as a banner.
 
 ## The views
 
-**Graph** (default). One swimlane per layer, stacked in dependency order:
-dependants on top, the layers they depend on below, with types that match no
-layer in an "Unlayered" lane at the bottom. Lane contents are laid out with
-[elkjs](https://github.com/kieler/elkjs); types are coloured by their first
-contract (see the legend) and carry a red badge with the violation count and a
-grey badge with the exemption count. Edges that break the declared layer
-direction are drawn red and on top of everything else; allowed references are
-muted and thin. Click a node to open the side panel; click the background to
-close it.
+**Issues.** One row per broken rule, worst severity first, then by event count. A row shows the rule's
+`.tan` text, the first message, the contract, the diagnostic codes, the rule id and where the rule is
+declared. Expand a row for its events; select it for the detail panel with the rule's `.tan` source and
+the code of every event. Search covers rules, messages, types, files and codes; the chips filter by
+contract. Sorting and expansion use TanStack Table.
 
-**Side panel**. For the selected type: `file:line`, layer, contracts, exemption
-count, reference counts, every violation (diagnostic code, severity, rule id,
-message, `file:line:col`, and the `.tan` rule text when the export includes a
-`rules` array), the member list, and its dependencies and dependents as links you
-can follow.
+**Rules.** Contracts on the left (plus **Layers**), rules on the right. Each rule shows its text, tier
+and a pass/exempt/fail bar; expand it for every type it applies to and the result for each. A rule
+declared on a parent contract applies to the types of every contract that extends it. The Layers page
+lists what each layer may depend on and every dependency that breaks it.
 
-**Contracts**. Pick a contract and get a matrix of bound types (rows) against
-rule ids (columns). A cell fails when a violation cites that rule for that type;
-hovering shows the failing messages, clicking a failing cell opens the type in the
-side panel. Columns come from the `rules` array when the exporter emitted one,
-plus any rule id seen in a violation for that contract.
+**Coverage.** Per project: the share of declared types bound to a contract, and the files that are
+tracked (every type bound), partial (some) and untracked (none, or no type at all). Below, a file tree
+per project with the declared types (dashed when unbound), violation counts and status. The filter
+narrows the tree to untracked, partial, tracked or violating files.
 
-**Filters**, shared by both views:
+**Graph.** Never the whole solution: a **root** plus a bounded neighbourhood (TANGENT-PLAN.md §11.3).
+The root is the types with violations (default), a contract, a layer, or one type (double-click a node,
+or "Show in graph" in the panel). **Depth** is 1 to 4 hops; **direction** is depends-on, used-by or
+both; a cap of 150 nodes truncates with an explicit "N more — Expand". Layers are swimlanes in
+dependency order, laid out with elkjs. Illegal edges are red and animated. Selecting a type centres
+and zooms on it.
 
-- **Search** by type name or full type id - matches are outlined, everything else
-  is dimmed.
-- **Focus** - show only the selected type and its 1-hop neighbourhood.
-- **Unbound types** - hide types with no contract.
-- **Only violations** - hide types with no violations.
+**Code.** With `--include-source`, violations carry 15 lines either side and the `.tan` files their full
+text. Both are highlighted by [Shiki](https://shiki.style) with the TextMate grammar that
+`editors/vscode` ships, so `.tan` looks the same here as in VS Code. Each frame has an "Open in VS Code"
+`vscode://file/` link. Without source the panel says how to get it.
+
+**Theme.** Dark by default; the sidebar toggles light. The choice is kept in `localStorage`.
 
 ## Schema
 
-The viewer reads version 1 of the export described in TANGENT-PLAN.md section 11.1:
-`version`, `project`, `generatedAt`, `layers[]`, `contracts[]`, `nodes[]`,
-`edges[]` and `violations[]`. Two optional extras are understood:
-
-- `node.layer` may be `null` for types that match no layer glob (what
-  `--include-unbound` produces).
-- a top-level `rules[]` array of `{ id, contract, text, tier }` so the side panel
-  and the contract matrix can show the original `.tan` rule text.
+The viewer reads versions 1 and 2 of the export (TANGENT-PLAN.md §11.1, `src/graph/types.ts`). Version 2
+adds `files[]` (the file table), `fileId` on nodes and violations, `exemptions[]`, and with
+`--include-source` `root`, `violation.snippet` and `file.text`. Version 1 documents still load; the
+Coverage view then says the export has no file table.
 
 ## Layout
 
 ```
 viewer/
-  public/sample.graph.json   demo graph
+  public/                     example graphs
   src/
-    graph/                   no React in here
-      types.ts               the export schema
-      parse.ts               validation with path-precise error messages
-      layout.ts              layer ordering + swimlane layout (elk, grid fallback)
-      derive.ts              indexes, colours, filters, contract matrix
-      __tests__/             Vitest unit tests
-    components/              Toolbar, GraphCanvas, TypeNode, LaneNode, Legend,
-                             SidePanel, ContractView, Landing
-    hooks/useGraphSource.ts  file picker, drag-and-drop, ?graph= loading
-    App.tsx                  state, filtering and layout orchestration
-    styles.css               hand-written CSS, light and dark
+    graph/                    no React in here
+      types.ts                the export schema
+      parse.ts                validation with path-precise error messages
+      derive.ts               indexes, colours, the v1 contract matrix
+      explore.ts              issues by rule, rule applications, coverage, rooted neighbourhoods
+      layout.ts               layer ordering + swimlane layout (elk, grid fallback)
+      __tests__/              Vitest unit tests, including against the real demo export
+    lib/
+      route.ts                the URL hash: view, selection, graph root/depth/direction
+      highlight.ts            lazy Shiki with C# and the .tan grammar
+    app/context.tsx           derived models and navigation, shared by every view
+    views/                    IssuesView, RulesView, CoverageView, GraphView
+    components/               Shell, DetailPanel, CodeFrame, links, graph/GraphCanvas, ui
+    hooks/useGraphSource.ts   file picker, drag-and-drop, ?graph= loading
+    index.css                 Tailwind v4, the palette as CSS variables, React Flow overrides
 ```
 
-The layout is deterministic and testable: `orderLayers` topologically sorts the
-layers by `allowedDependencies` (tolerating cycles), and `computeLayout` places
-nodes inside their lane with elkjs, falling back to a grid when elk is not
-available - which is what the unit tests exercise.
+Styling is Tailwind throughout, with the palette as CSS variables so the dark and light themes share
+every class. Tooltips come from Radix; icons from lucide.

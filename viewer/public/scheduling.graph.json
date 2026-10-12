@@ -1,7 +1,7 @@
 {
-  "version": 1,
+  "version": 2,
   "project": "Scheduling",
-  "generatedAt": "2026-09-22T12:03:36Z",
+  "generatedAt": "2026-09-23T07:11:03Z",
   "layers": [
     {
       "id": "Api",
@@ -67,14 +67,14 @@
       "file": ".tangent/handlers.tan",
       "line": 5,
       "extends": null,
-      "ruleCount": 6
+      "ruleCount": 8
     },
     {
       "id": "Repository",
       "file": ".tangent/repositories.tan",
       "line": 4,
       "extends": null,
-      "ruleCount": 5
+      "ruleCount": 6
     },
     {
       "id": "DomainService",
@@ -91,6 +91,629 @@
       "ruleCount": 6
     }
   ],
+  "files": [
+    {
+      "id": 0,
+      "path": ".tangent/bindings.tan",
+      "kind": "contract",
+      "project": null,
+      "lines": 10,
+      "status": "contract",
+      "types": [],
+      "violations": 0
+    },
+    {
+      "id": 1,
+      "path": ".tangent/controllers.tan",
+      "kind": "contract",
+      "project": null,
+      "lines": 25,
+      "status": "contract",
+      "types": [],
+      "violations": 0
+    },
+    {
+      "id": 2,
+      "path": ".tangent/entities.tan",
+      "kind": "contract",
+      "project": null,
+      "lines": 21,
+      "status": "contract",
+      "types": [],
+      "violations": 0
+    },
+    {
+      "id": 3,
+      "path": ".tangent/handlers.tan",
+      "kind": "contract",
+      "project": null,
+      "lines": 22,
+      "status": "contract",
+      "types": [],
+      "violations": 0
+    },
+    {
+      "id": 4,
+      "path": ".tangent/project.tan",
+      "kind": "contract",
+      "project": null,
+      "lines": 22,
+      "status": "contract",
+      "types": [],
+      "violations": 0
+    },
+    {
+      "id": 5,
+      "path": ".tangent/repositories.tan",
+      "kind": "contract",
+      "project": null,
+      "lines": 18,
+      "status": "contract",
+      "types": [],
+      "violations": 0
+    },
+    {
+      "id": 6,
+      "path": ".tangent/services.tan",
+      "kind": "contract",
+      "project": null,
+      "lines": 28,
+      "status": "contract",
+      "types": [],
+      "violations": 0
+    },
+    {
+      "id": 7,
+      "path": "src/Scheduling.Api/ApiControllerBase.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Api",
+      "lines": 14,
+      "status": "untracked",
+      "types": [
+        "Scheduling.Api.ApiControllerBase"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 8,
+      "path": "src/Scheduling.Api/Controllers/AppointmentsController.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Api",
+      "lines": 124,
+      "status": "partial",
+      "types": [
+        "Scheduling.Api.Controllers.AppointmentsController",
+        "Scheduling.Api.Controllers.RescheduleRequest"
+      ],
+      "violations": 1
+    },
+    {
+      "id": 9,
+      "path": "src/Scheduling.Api/Controllers/AvailabilityController.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Api",
+      "lines": 56,
+      "status": "tracked",
+      "types": [
+        "Scheduling.Api.Controllers.AvailabilityController"
+      ],
+      "violations": 1
+    },
+    {
+      "id": 10,
+      "path": "src/Scheduling.Api/Controllers/HealthController.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Api",
+      "lines": 33,
+      "status": "tracked",
+      "types": [
+        "Scheduling.Api.Controllers.HealthController"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 11,
+      "path": "src/Scheduling.Api/Controllers/ProvidersController.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Api",
+      "lines": 39,
+      "status": "tracked",
+      "types": [
+        "Scheduling.Api.Controllers.ProvidersController"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 12,
+      "path": "src/Scheduling.Api/Diagnostics/SeedInspector.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Api",
+      "lines": 20,
+      "status": "untracked",
+      "types": [
+        "Scheduling.Api.Diagnostics.SeedInspector"
+      ],
+      "violations": 1
+    },
+    {
+      "id": 13,
+      "path": "src/Scheduling.Api/Program.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Api",
+      "lines": 81,
+      "status": "untracked",
+      "types": [
+        "Program"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 14,
+      "path": "src/Scheduling.Application/Abstractions/IMediator.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Application",
+      "lines": 23,
+      "status": "untracked",
+      "types": [
+        "Scheduling.Application.Abstractions.IRequest`1",
+        "Scheduling.Application.Abstractions.IRequestHandler`2",
+        "Scheduling.Application.Abstractions.IMediator"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 15,
+      "path": "src/Scheduling.Application/Abstractions/IUserContext.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Application",
+      "lines": 9,
+      "status": "untracked",
+      "types": [
+        "Scheduling.Application.Abstractions.IUserContext"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 16,
+      "path": "src/Scheduling.Application/Abstractions/Mediator.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Application",
+      "lines": 33,
+      "status": "untracked",
+      "types": [
+        "Scheduling.Application.Abstractions.Mediator"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 17,
+      "path": "src/Scheduling.Application/Appointments/AppointmentMapping.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Application",
+      "lines": 19,
+      "status": "untracked",
+      "types": [
+        "Scheduling.Application.Appointments.AppointmentMapping"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 18,
+      "path": "src/Scheduling.Application/Appointments/BookAppointmentCommand.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Application",
+      "lines": 60,
+      "status": "partial",
+      "types": [
+        "Scheduling.Application.Appointments.BookAppointmentCommand",
+        "Scheduling.Application.Appointments.BookAppointmentCommandHandler"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 19,
+      "path": "src/Scheduling.Application/Appointments/CancelAppointmentCommand.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Application",
+      "lines": 47,
+      "status": "partial",
+      "types": [
+        "Scheduling.Application.Appointments.CancelAppointmentCommand",
+        "Scheduling.Application.Appointments.CancelAppointmentCommandHandler"
+      ],
+      "violations": 1
+    },
+    {
+      "id": 20,
+      "path": "src/Scheduling.Application/Appointments/FindAvailableSlotsQuery.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Application",
+      "lines": 53,
+      "status": "partial",
+      "types": [
+        "Scheduling.Application.Appointments.FindAvailableSlotsQuery",
+        "Scheduling.Application.Appointments.FindAvailableSlotsQueryHandler"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 21,
+      "path": "src/Scheduling.Application/Appointments/GetAppointmentQuery.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Application",
+      "lines": 29,
+      "status": "partial",
+      "types": [
+        "Scheduling.Application.Appointments.GetAppointmentQuery",
+        "Scheduling.Application.Appointments.GetAppointmentQueryHandler"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 22,
+      "path": "src/Scheduling.Application/Appointments/GetProviderAvailabilityQuery.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Application",
+      "lines": 39,
+      "status": "partial",
+      "types": [
+        "Scheduling.Application.Appointments.GetProviderAvailabilityQuery",
+        "Scheduling.Application.Appointments.GetProviderAvailabilityQueryHandler"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 23,
+      "path": "src/Scheduling.Application/Appointments/ListAppointmentsForDayQuery.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Application",
+      "lines": 30,
+      "status": "partial",
+      "types": [
+        "Scheduling.Application.Appointments.ListAppointmentsForDayQuery",
+        "Scheduling.Application.Appointments.ListAppointmentsForDayQueryHandler"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 24,
+      "path": "src/Scheduling.Application/Appointments/ListProvidersQuery.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Application",
+      "lines": 27,
+      "status": "partial",
+      "types": [
+        "Scheduling.Application.Appointments.ListProvidersQuery",
+        "Scheduling.Application.Appointments.ListProvidersQueryHandler"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 25,
+      "path": "src/Scheduling.Application/Appointments/RescheduleAppointmentCommand.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Application",
+      "lines": 49,
+      "status": "partial",
+      "types": [
+        "Scheduling.Application.Appointments.RescheduleAppointmentCommand",
+        "Scheduling.Application.Appointments.RescheduleAppointmentCommandHandler"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 26,
+      "path": "src/Scheduling.Application/ViewModels/AppointmentViewModel.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Application",
+      "lines": 30,
+      "status": "tracked",
+      "types": [
+        "Scheduling.Application.ViewModels.AppointmentViewModel"
+      ],
+      "violations": 1
+    },
+    {
+      "id": 27,
+      "path": "src/Scheduling.Application/ViewModels/AvailabilityViewModel.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Application",
+      "lines": 5,
+      "status": "tracked",
+      "types": [
+        "Scheduling.Application.ViewModels.AvailabilityViewModel"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 28,
+      "path": "src/Scheduling.Application/ViewModels/ProviderViewModel.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Application",
+      "lines": 5,
+      "status": "tracked",
+      "types": [
+        "Scheduling.Application.ViewModels.ProviderViewModel"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 29,
+      "path": "src/Scheduling.Application/ViewModels/TimeSlotViewModel.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Application",
+      "lines": 5,
+      "status": "tracked",
+      "types": [
+        "Scheduling.Application.ViewModels.TimeSlotViewModel"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 30,
+      "path": "src/Scheduling.Domain/AggregateRoot.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Domain",
+      "lines": 15,
+      "status": "tracked",
+      "types": [
+        "Scheduling.Domain.AggregateRoot`1"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 31,
+      "path": "src/Scheduling.Domain/Appointments/Appointment.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Domain",
+      "lines": 117,
+      "status": "tracked",
+      "types": [
+        "Scheduling.Domain.Appointments.Appointment"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 32,
+      "path": "src/Scheduling.Domain/Appointments/AppointmentAuditEntry.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Domain",
+      "lines": 25,
+      "status": "untracked",
+      "types": [
+        "Scheduling.Domain.Appointments.AppointmentAuditEntry"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 33,
+      "path": "src/Scheduling.Domain/Appointments/AppointmentStatus.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Domain",
+      "lines": 15,
+      "status": "untracked",
+      "types": [
+        "Scheduling.Domain.Appointments.AppointmentStatus"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 34,
+      "path": "src/Scheduling.Domain/Appointments/TimeSlot.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Domain",
+      "lines": 39,
+      "status": "untracked",
+      "types": [
+        "Scheduling.Domain.Appointments.TimeSlot"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 35,
+      "path": "src/Scheduling.Domain/Entity.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Domain",
+      "lines": 19,
+      "status": "untracked",
+      "types": [
+        "Scheduling.Domain.Entity`1"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 36,
+      "path": "src/Scheduling.Domain/IClock.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Domain",
+      "lines": 9,
+      "status": "untracked",
+      "types": [
+        "Scheduling.Domain.IClock"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 37,
+      "path": "src/Scheduling.Domain/Providers/Availability.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Domain",
+      "lines": 47,
+      "status": "tracked",
+      "types": [
+        "Scheduling.Domain.Providers.Availability"
+      ],
+      "violations": 1
+    },
+    {
+      "id": 38,
+      "path": "src/Scheduling.Domain/Providers/Provider.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Domain",
+      "lines": 53,
+      "status": "tracked",
+      "types": [
+        "Scheduling.Domain.Providers.Provider"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 39,
+      "path": "src/Scheduling.Domain/Repositories/IAppointmentRepository.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Domain",
+      "lines": 23,
+      "status": "untracked",
+      "types": [
+        "Scheduling.Domain.Repositories.IAppointmentRepository"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 40,
+      "path": "src/Scheduling.Domain/Repositories/IProviderRepository.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Domain",
+      "lines": 14,
+      "status": "untracked",
+      "types": [
+        "Scheduling.Domain.Repositories.IProviderRepository"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 41,
+      "path": "src/Scheduling.Domain/SchedulingRuleViolationException.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Domain",
+      "lines": 15,
+      "status": "untracked",
+      "types": [
+        "Scheduling.Domain.SchedulingRuleViolationException"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 42,
+      "path": "src/Scheduling.Domain/Services/IOverlapPolicy.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Domain",
+      "lines": 11,
+      "status": "untracked",
+      "types": [
+        "Scheduling.Domain.Services.IOverlapPolicy"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 43,
+      "path": "src/Scheduling.Domain/Services/ISlotFinderService.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Domain",
+      "lines": 20,
+      "status": "untracked",
+      "types": [
+        "Scheduling.Domain.Services.ISlotFinderService"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 44,
+      "path": "src/Scheduling.Domain/Services/OverlapPolicy.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Domain",
+      "lines": 29,
+      "status": "tracked",
+      "types": [
+        "Scheduling.Domain.Services.OverlapPolicy"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 45,
+      "path": "src/Scheduling.Domain/Services/SlotFinderService.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Domain",
+      "lines": 57,
+      "status": "tracked",
+      "types": [
+        "Scheduling.Domain.Services.SlotFinderService"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 46,
+      "path": "src/Scheduling.Infrastructure/Repositories/AppointmentRepository.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Infrastructure",
+      "lines": 67,
+      "status": "tracked",
+      "types": [
+        "Scheduling.Infrastructure.Repositories.AppointmentRepository"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 47,
+      "path": "src/Scheduling.Infrastructure/Repositories/ProviderRepository.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Infrastructure",
+      "lines": 68,
+      "status": "tracked",
+      "types": [
+        "Scheduling.Infrastructure.Repositories.ProviderRepository"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 48,
+      "path": "src/Scheduling.Infrastructure/StaticUserContext.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Infrastructure",
+      "lines": 14,
+      "status": "untracked",
+      "types": [
+        "Scheduling.Infrastructure.StaticUserContext"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 49,
+      "path": "src/Scheduling.Infrastructure/SystemClock.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Infrastructure",
+      "lines": 11,
+      "status": "untracked",
+      "types": [
+        "Scheduling.Infrastructure.SystemClock"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 50,
+      "path": "tests/Scheduling.Api.Tests/AppointmentsEndpointTests.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Api.Tests",
+      "lines": 134,
+      "status": "untracked",
+      "types": [
+        "Scheduling.Tests.AppointmentsEndpointTests"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 51,
+      "path": "tests/Scheduling.Api.Tests/SchedulingApiFactory.cs",
+      "kind": "csharp",
+      "project": "Scheduling.Api.Tests",
+      "lines": 27,
+      "status": "untracked",
+      "types": [
+        "Scheduling.Tests.SchedulingApiFactory"
+      ],
+      "violations": 0
+    }
+  ],
   "nodes": [
     {
       "id": "Program",
@@ -102,7 +725,8 @@
       "line": 80,
       "violations": 0,
       "exemptions": 0,
-      "members": []
+      "members": [],
+      "fileId": 13
     },
     {
       "id": "Scheduling.Api.ApiControllerBase",
@@ -114,7 +738,8 @@
       "line": 9,
       "violations": 0,
       "exemptions": 0,
-      "members": []
+      "members": [],
+      "fileId": 7
     },
     {
       "id": "Scheduling.Api.Controllers.AppointmentsController",
@@ -164,7 +789,8 @@
           "kind": "method",
           "signature": "Task<FileContentResult> ExportIcsAsync(DateOnly, CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 8
     },
     {
       "id": "Scheduling.Api.Controllers.AvailabilityController",
@@ -194,7 +820,8 @@
           "kind": "method",
           "signature": "Task<ActionResult<IReadOnlyList<TimeSlotViewModel>>> GetSlotsAsync(Guid, DateOnly, int, CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 9
     },
     {
       "id": "Scheduling.Api.Controllers.HealthController",
@@ -219,7 +846,8 @@
           "kind": "method",
           "signature": "Task<ActionResult<object>> GetAsync()"
         }
-      ]
+      ],
+      "fileId": 10
     },
     {
       "id": "Scheduling.Api.Controllers.ProvidersController",
@@ -244,7 +872,8 @@
           "kind": "method",
           "signature": "Task<ActionResult<IReadOnlyList<ProviderViewModel>>> ListAsync(CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 11
     },
     {
       "id": "Scheduling.Api.Controllers.RescheduleRequest",
@@ -267,7 +896,8 @@
           "kind": "property",
           "signature": "DateTimeOffset StartsAt"
         }
-      ]
+      ],
+      "fileId": 8
     },
     {
       "id": "Scheduling.Api.Diagnostics.SeedInspector",
@@ -285,7 +915,8 @@
           "kind": "property",
           "signature": "IReadOnlyList<Guid> SeededProviderIds"
         }
-      ]
+      ],
+      "fileId": 12
     },
     {
       "id": "Scheduling.Application.Abstractions.IMediator",
@@ -303,7 +934,8 @@
           "kind": "method",
           "signature": "Task<TResponse> SendAsync<TResponse>(IRequest<TResponse>, CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 14
     },
     {
       "id": "Scheduling.Application.Abstractions.IRequestHandler`2",
@@ -321,7 +953,8 @@
           "kind": "method",
           "signature": "Task<TResponse> HandleAsync(TRequest, CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 14
     },
     {
       "id": "Scheduling.Application.Abstractions.IRequest`1",
@@ -333,7 +966,8 @@
       "line": 7,
       "violations": 0,
       "exemptions": 0,
-      "members": []
+      "members": [],
+      "fileId": 14
     },
     {
       "id": "Scheduling.Application.Abstractions.IUserContext",
@@ -351,7 +985,8 @@
           "kind": "property",
           "signature": "string UserName"
         }
-      ]
+      ],
+      "fileId": 15
     },
     {
       "id": "Scheduling.Application.Abstractions.Mediator",
@@ -374,7 +1009,8 @@
           "kind": "method",
           "signature": "Task<TResponse> SendAsync<TResponse>(IRequest<TResponse>, CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 16
     },
     {
       "id": "Scheduling.Application.Appointments.AppointmentMapping",
@@ -386,7 +1022,8 @@
       "line": 7,
       "violations": 0,
       "exemptions": 0,
-      "members": []
+      "members": [],
+      "fileId": 17
     },
     {
       "id": "Scheduling.Application.Appointments.BookAppointmentCommand",
@@ -424,7 +1061,8 @@
           "kind": "property",
           "signature": "string PatientName"
         }
-      ]
+      ],
+      "fileId": 18
     },
     {
       "id": "Scheduling.Application.Appointments.BookAppointmentCommandHandler",
@@ -449,7 +1087,8 @@
           "kind": "method",
           "signature": "Task<AppointmentViewModel> HandleAsync(BookAppointmentCommand, CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 18
     },
     {
       "id": "Scheduling.Application.Appointments.CancelAppointmentCommand",
@@ -477,7 +1116,8 @@
           "kind": "property",
           "signature": "string Reason"
         }
-      ]
+      ],
+      "fileId": 19
     },
     {
       "id": "Scheduling.Application.Appointments.CancelAppointmentCommandHandler",
@@ -502,7 +1142,8 @@
           "kind": "method",
           "signature": "Task<AppointmentViewModel> HandleAsync(CancelAppointmentCommand, CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 19
     },
     {
       "id": "Scheduling.Application.Appointments.FindAvailableSlotsQuery",
@@ -535,7 +1176,8 @@
           "kind": "property",
           "signature": "int DurationMinutes"
         }
-      ]
+      ],
+      "fileId": 20
     },
     {
       "id": "Scheduling.Application.Appointments.FindAvailableSlotsQueryHandler",
@@ -560,7 +1202,8 @@
           "kind": "method",
           "signature": "Task<IReadOnlyList<TimeSlotViewModel>> HandleAsync(FindAvailableSlotsQuery, CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 20
     },
     {
       "id": "Scheduling.Application.Appointments.GetAppointmentQuery",
@@ -583,7 +1226,8 @@
           "kind": "property",
           "signature": "Guid AppointmentId"
         }
-      ]
+      ],
+      "fileId": 21
     },
     {
       "id": "Scheduling.Application.Appointments.GetAppointmentQueryHandler",
@@ -608,7 +1252,8 @@
           "kind": "method",
           "signature": "Task<AppointmentViewModel> HandleAsync(GetAppointmentQuery, CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 21
     },
     {
       "id": "Scheduling.Application.Appointments.GetProviderAvailabilityQuery",
@@ -631,7 +1276,8 @@
           "kind": "property",
           "signature": "Guid ProviderId"
         }
-      ]
+      ],
+      "fileId": 22
     },
     {
       "id": "Scheduling.Application.Appointments.GetProviderAvailabilityQueryHandler",
@@ -656,7 +1302,8 @@
           "kind": "method",
           "signature": "Task<IReadOnlyList<AvailabilityViewModel>> HandleAsync(GetProviderAvailabilityQuery, CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 22
     },
     {
       "id": "Scheduling.Application.Appointments.ListAppointmentsForDayQuery",
@@ -679,7 +1326,8 @@
           "kind": "property",
           "signature": "DateOnly Day"
         }
-      ]
+      ],
+      "fileId": 23
     },
     {
       "id": "Scheduling.Application.Appointments.ListAppointmentsForDayQueryHandler",
@@ -704,7 +1352,8 @@
           "kind": "method",
           "signature": "Task<IReadOnlyList<AppointmentViewModel>> HandleAsync(ListAppointmentsForDayQuery, CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 23
     },
     {
       "id": "Scheduling.Application.Appointments.ListProvidersQuery",
@@ -716,7 +1365,8 @@
       "line": 8,
       "violations": 0,
       "exemptions": 0,
-      "members": []
+      "members": [],
+      "fileId": 24
     },
     {
       "id": "Scheduling.Application.Appointments.ListProvidersQueryHandler",
@@ -741,7 +1391,8 @@
           "kind": "method",
           "signature": "Task<IReadOnlyList<ProviderViewModel>> HandleAsync(ListProvidersQuery, CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 24
     },
     {
       "id": "Scheduling.Application.Appointments.RescheduleAppointmentCommand",
@@ -769,7 +1420,8 @@
           "kind": "property",
           "signature": "Guid AppointmentId"
         }
-      ]
+      ],
+      "fileId": 25
     },
     {
       "id": "Scheduling.Application.Appointments.RescheduleAppointmentCommandHandler",
@@ -794,7 +1446,8 @@
           "kind": "method",
           "signature": "Task<AppointmentViewModel> HandleAsync(RescheduleAppointmentCommand, CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 25
     },
     {
       "id": "Scheduling.Application.ViewModels.AppointmentViewModel",
@@ -839,7 +1492,8 @@
           "kind": "property",
           "signature": "string PatientName"
         }
-      ]
+      ],
+      "fileId": 26
     },
     {
       "id": "Scheduling.Application.ViewModels.AvailabilityViewModel",
@@ -879,7 +1533,8 @@
           "kind": "property",
           "signature": "string Day"
         }
-      ]
+      ],
+      "fileId": 27
     },
     {
       "id": "Scheduling.Application.ViewModels.ProviderViewModel",
@@ -914,7 +1569,8 @@
           "kind": "property",
           "signature": "string Speciality"
         }
-      ]
+      ],
+      "fileId": 28
     },
     {
       "id": "Scheduling.Application.ViewModels.TimeSlotViewModel",
@@ -944,7 +1600,8 @@
           "kind": "property",
           "signature": "DateTimeOffset StartsAt"
         }
-      ]
+      ],
+      "fileId": 29
     },
     {
       "id": "Scheduling.Domain.AggregateRoot`1",
@@ -958,7 +1615,8 @@
       "line": 7,
       "violations": 0,
       "exemptions": 0,
-      "members": []
+      "members": [],
+      "fileId": 30
     },
     {
       "id": "Scheduling.Domain.Appointments.Appointment",
@@ -1018,7 +1676,8 @@
           "kind": "property",
           "signature": "string PatientName"
         }
-      ]
+      ],
+      "fileId": 31
     },
     {
       "id": "Scheduling.Domain.Appointments.AppointmentAuditEntry",
@@ -1051,7 +1710,8 @@
           "kind": "property",
           "signature": "string Action"
         }
-      ]
+      ],
+      "fileId": 32
     },
     {
       "id": "Scheduling.Domain.Appointments.AppointmentStatus",
@@ -1079,7 +1739,8 @@
           "kind": "field",
           "signature": "Scheduled"
         }
-      ]
+      ],
+      "fileId": 33
     },
     {
       "id": "Scheduling.Domain.Appointments.TimeSlot",
@@ -1127,7 +1788,8 @@
           "kind": "property",
           "signature": "TimeSpan Duration"
         }
-      ]
+      ],
+      "fileId": 34
     },
     {
       "id": "Scheduling.Domain.Entity`1",
@@ -1155,7 +1817,8 @@
           "kind": "property",
           "signature": "TId Id"
         }
-      ]
+      ],
+      "fileId": 35
     },
     {
       "id": "Scheduling.Domain.IClock",
@@ -1173,7 +1836,8 @@
           "kind": "property",
           "signature": "DateTimeOffset UtcNow"
         }
-      ]
+      ],
+      "fileId": 36
     },
     {
       "id": "Scheduling.Domain.Providers.Availability",
@@ -1213,7 +1877,8 @@
           "kind": "property",
           "signature": "TimeOnly StartsAt"
         }
-      ]
+      ],
+      "fileId": 37
     },
     {
       "id": "Scheduling.Domain.Providers.Provider",
@@ -1258,7 +1923,8 @@
           "kind": "property",
           "signature": "string Speciality"
         }
-      ]
+      ],
+      "fileId": 38
     },
     {
       "id": "Scheduling.Domain.Repositories.IAppointmentRepository",
@@ -1296,7 +1962,8 @@
           "kind": "method",
           "signature": "Task<IReadOnlyList<AppointmentAuditEntry>> AuditAsync(Guid, CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 39
     },
     {
       "id": "Scheduling.Domain.Repositories.IProviderRepository",
@@ -1319,7 +1986,8 @@
           "kind": "method",
           "signature": "Task<Provider> FindAsync(Guid, CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 40
     },
     {
       "id": "Scheduling.Domain.SchedulingRuleViolationException",
@@ -1337,7 +2005,8 @@
           "kind": "constructor",
           "signature": "SchedulingRuleViolationException(string)"
         }
-      ]
+      ],
+      "fileId": 41
     },
     {
       "id": "Scheduling.Domain.Services.IOverlapPolicy",
@@ -1355,7 +2024,8 @@
           "kind": "method",
           "signature": "bool Allows(TimeSlot, IReadOnlyList<Appointment>)"
         }
-      ]
+      ],
+      "fileId": 42
     },
     {
       "id": "Scheduling.Domain.Services.ISlotFinderService",
@@ -1373,7 +2043,8 @@
           "kind": "method",
           "signature": "IReadOnlyList<TimeSlot> FindFreeSlots(IReadOnlyList<Availability>, IReadOnlyList<Appointment>, DateOnly, TimeSpan)"
         }
-      ]
+      ],
+      "fileId": 43
     },
     {
       "id": "Scheduling.Domain.Services.OverlapPolicy",
@@ -1393,7 +2064,8 @@
           "kind": "method",
           "signature": "bool Allows(TimeSlot, IReadOnlyList<Appointment>)"
         }
-      ]
+      ],
+      "fileId": 44
     },
     {
       "id": "Scheduling.Domain.Services.SlotFinderService",
@@ -1418,7 +2090,8 @@
           "kind": "method",
           "signature": "IReadOnlyList<TimeSlot> FindFreeSlots(IReadOnlyList<Availability>, IReadOnlyList<Appointment>, DateOnly, TimeSpan)"
         }
-      ]
+      ],
+      "fileId": 45
     },
     {
       "id": "Scheduling.Infrastructure.Repositories.AppointmentRepository",
@@ -1458,7 +2131,8 @@
           "kind": "method",
           "signature": "Task<IReadOnlyList<AppointmentAuditEntry>> AuditAsync(Guid, CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 46
     },
     {
       "id": "Scheduling.Infrastructure.Repositories.ProviderRepository",
@@ -1498,7 +2172,8 @@
           "kind": "method",
           "signature": "Task<Provider> FindAsync(Guid, CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 47
     },
     {
       "id": "Scheduling.Infrastructure.StaticUserContext",
@@ -1521,7 +2196,8 @@
           "kind": "property",
           "signature": "string UserName"
         }
-      ]
+      ],
+      "fileId": 48
     },
     {
       "id": "Scheduling.Infrastructure.SystemClock",
@@ -1539,7 +2215,8 @@
           "kind": "property",
           "signature": "DateTimeOffset UtcNow"
         }
-      ]
+      ],
+      "fileId": 49
     },
     {
       "id": "Scheduling.Tests.AppointmentsEndpointTests",
@@ -1597,7 +2274,8 @@
           "kind": "method",
           "signature": "void Dispose()"
         }
-      ]
+      ],
+      "fileId": 50
     },
     {
       "id": "Scheduling.Tests.SchedulingApiFactory",
@@ -1620,7 +2298,8 @@
           "kind": "method",
           "signature": "DateTimeOffset NextMondayAt(int)"
         }
-      ]
+      ],
+      "fileId": 51
     }
   ],
   "edges": [
@@ -2979,7 +3658,8 @@
       "file": "src/Scheduling.Api/Controllers/AppointmentsController.cs",
       "line": 26,
       "col": 108,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 8
     },
     {
       "node": "Scheduling.Api.Controllers.AvailabilityController",
@@ -2990,7 +3670,8 @@
       "file": "src/Scheduling.Api/Controllers/AvailabilityController.cs",
       "line": 17,
       "col": 14,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 9
     },
     {
       "node": "Scheduling.Api.Diagnostics.SeedInspector",
@@ -3001,18 +3682,20 @@
       "file": "src/Scheduling.Api/Diagnostics/SeedInspector.cs",
       "line": 18,
       "col": 61,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 12
     },
     {
       "node": "Scheduling.Application.Appointments.CancelAppointmentCommandHandler",
       "member": "clock",
       "ruleId": "Handler/ctor/each-param-assigned-to-field#0",
       "code": "TNG0301",
-      "message": "Handler: constructor parameter 'clock' is not assigned to a private readonly field. (rule Handler/ctor/each-param-assigned-to-field#0, handlers.tan:13)",
+      "message": "Handler: constructor parameter 'clock' is not assigned to a private readonly field. (rule Handler/ctor/each-param-assigned-to-field#0, handlers.tan:15)",
       "file": "src/Scheduling.Application/Appointments/CancelAppointmentCommand.cs",
       "line": 25,
       "col": 88,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 19
     },
     {
       "node": "Scheduling.Application.ViewModels.AppointmentViewModel",
@@ -3023,7 +3706,8 @@
       "file": "src/Scheduling.Application/ViewModels/AppointmentViewModel.cs",
       "line": 28,
       "col": 39,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 26
     },
     {
       "node": "Scheduling.Domain.Providers.Availability",
@@ -3034,7 +3718,37 @@
       "file": "src/Scheduling.Domain/Providers/Availability.cs",
       "line": 34,
       "col": 35,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 37
+    }
+  ],
+  "exemptions": [
+    {
+      "node": "Scheduling.Api.Controllers.AppointmentsController",
+      "member": "ExportIcsAsync",
+      "ruleId": "Controller/methods/returns#0",
+      "reason": "calendar feed returns a file, not a view model",
+      "file": "src/Scheduling.Api/Controllers/AppointmentsController.cs",
+      "line": 100,
+      "fileId": 8
+    },
+    {
+      "node": "Scheduling.Api.Controllers.HealthController",
+      "member": "HealthController",
+      "ruleId": "Controller/methods/attributes#1",
+      "reason": "bind except [ProducesResponseType] (bindings.tan:6)",
+      "file": "src/Scheduling.Api/Controllers/HealthController.cs",
+      "line": 14,
+      "fileId": 10
+    },
+    {
+      "node": "Scheduling.Domain.Appointments.AppointmentAuditEntry",
+      "member": "AppointmentAuditEntry",
+      "ruleId": "",
+      "reason": "append-only audit row, written field by field by the repository",
+      "file": "src/Scheduling.Domain/Appointments/AppointmentAuditEntry.cs",
+      "line": 8,
+      "fileId": 32
     }
   ],
   "rules": [
@@ -3153,6 +3867,18 @@
       "tier": 0
     },
     {
+      "id": "Handler/type/name#0",
+      "contract": "Handler",
+      "text": "require name ends with \"Handler\"",
+      "tier": 0
+    },
+    {
+      "id": "Handler/type/lives-in#0",
+      "contract": "Handler",
+      "text": "require lives in Application",
+      "tier": 0
+    },
+    {
       "id": "Handler/type/modifier#0",
       "contract": "Handler",
       "text": "require sealed",
@@ -3183,9 +3909,9 @@
       "tier": 1
     },
     {
-      "id": "Repository/type/implements#0",
+      "id": "Repository/type/implements-only#0",
       "contract": "Repository",
-      "text": "require implements I{Name}",
+      "text": "require implements only I{Name}",
       "tier": 0
     },
     {
@@ -3199,6 +3925,12 @@
       "contract": "Repository",
       "text": "require sealed",
       "tier": 0
+    },
+    {
+      "id": "Repository/type/using-contract#0",
+      "contract": "Repository",
+      "text": "forbid using contract Repository",
+      "tier": 1
     },
     {
       "id": "Repository/methods/returns#0",

@@ -100,7 +100,50 @@ describe('parseGraph', () => {
   });
 
   it('rejects an unsupported schema version', () => {
-    expect(() => parseGraph({ ...minimal, version: 2 })).toThrow(/version: expected 1/);
+    expect(() => parseGraph({ ...minimal, version: 3 })).toThrow(/version: expected 1 or 2/);
+  });
+
+  it('defaults the version 2 fields for a version 1 document', () => {
+    const graph = parseGraph(minimal);
+    expect(graph.files).toEqual([]);
+    expect(graph.root).toBeUndefined();
+    expect(graph.nodes[0]?.fileId).toBe(-1);
+  });
+
+  it('reads the file table, snippets and root of a version 2 document', () => {
+    const graph = parseGraph({
+      ...minimal,
+      version: 2,
+      root: 'C:/src/Orders',
+      files: [
+        { id: 0, path: '.tangent/domain.tan', kind: 'contract', project: null, lines: 9, status: 'contract', types: [], violations: 0, text: 'contract Entity {}' },
+        { id: 1, path: 'src/Order.cs', kind: 'csharp', project: 'Orders.Domain', lines: 20, status: 'tracked', types: ['Orders.Domain.Order'], violations: 1 },
+      ],
+      nodes: [{ ...minimal.nodes[0], fileId: 1 }],
+      violations: [
+        {
+          node: 'Orders.Domain.Order', member: null, ruleId: 'Entity/type/modifier#0', code: 'TNG0101',
+          message: 'Entity: type must be sealed.', file: 'src/Order.cs', line: 4, col: 14, severity: 'warning',
+          fileId: 1, snippet: { startLine: 1, lines: ['namespace Orders.Domain;', '', '', 'public class Order'] },
+        },
+      ],
+    });
+
+    expect(graph.root).toBe('C:/src/Orders');
+    expect(graph.files?.map((f) => f.status)).toEqual(['contract', 'tracked']);
+    expect(graph.files?.[0]?.text).toBe('contract Entity {}');
+    expect(graph.files?.[1]?.text).toBeUndefined();
+    expect(graph.nodes[0]?.fileId).toBe(1);
+    expect(graph.violations[0]?.snippet?.lines[3]).toBe('public class Order');
+  });
+
+  it('rejects an unknown file status', () => {
+    expect(() =>
+      parseGraph({
+        ...minimal,
+        files: [{ id: 0, path: 'a.cs', kind: 'csharp', project: 'A', lines: 1, status: 'ignored', types: [], violations: 0 }],
+      }),
+    ).toThrow(/files\[0\]\.status/);
   });
 
   it('rejects duplicate node ids', () => {

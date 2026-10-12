@@ -2,3 +2,4 @@ node_modules/
 dist/
 *.local
 .vite/
+public/*.local.graph.json

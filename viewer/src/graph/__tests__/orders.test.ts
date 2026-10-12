@@ -16,7 +16,7 @@ const graph = parseGraphText(readFileSync(ordersPath, 'utf8'));
 describe('public/orders.graph.json', () => {
   it('parses with no referential problems', () => {
     expect(collectWarnings(graph)).toEqual([]);
-    expect(graph.version).toBe(1);
+    expect(graph.version).toBe(2);
     expect(graph.project).toBe('Orders');
     expect(graph.generatedAt).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
   });

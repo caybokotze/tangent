@@ -1,0 +1,187 @@
+@import 'tailwindcss';
+
+/* Dark is the default; `.light` on <html> switches the palette. */
+@custom-variant light (&:where(.light, .light *));
+
+:root {
+  color-scheme: dark;
+  --bg: #13111c;
+  --sidebar: #0f0d17;
+  --surface: #1b1826;
+  --surface-2: #231f31;
+  --surface-3: #2c273d;
+  --border: #2f2940;
+  --border-strong: #463d5c;
+  --text: #ece8f2;
+  --muted: #a39bb3;
+  --faint: #6f6784;
+  --accent: #8d7ff5;
+  --accent-strong: #a89dff;
+  --accent-soft: rgb(141 127 245 / 0.16);
+  --danger: #f2555a;
+  --danger-soft: rgb(242 85 90 / 0.14);
+  --warning: #f0b43c;
+  --warning-soft: rgb(240 180 60 / 0.14);
+  --success: #33b27a;
+  --success-soft: rgb(51 178 122 / 0.14);
+  --info: #4aa3f5;
+  --info-soft: rgb(74 163 245 / 0.14);
+  --code-bg: #100e18;
+  --code-hit: rgb(242 85 90 / 0.14);
+  --edge: #4d4563;
+  --edge-violation: #f2555a;
+}
+
+:root.light {
+  color-scheme: light;
+  --bg: #f6f5f9;
+  --sidebar: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #f3f1f7;
+  --surface-3: #e9e5f0;
+  --border: #e2dde9;
+  --border-strong: #cbc3d6;
+  --text: #241d2e;
+  --muted: #6c6078;
+  --faint: #9d92aa;
+  --accent: #6a5cd1;
+  --accent-strong: #5646c4;
+  --accent-soft: rgb(106 92 209 / 0.12);
+  --danger: #d9383e;
+  --danger-soft: rgb(217 56 62 / 0.1);
+  --warning: #b87705;
+  --warning-soft: rgb(184 119 5 / 0.12);
+  --success: #1a8a57;
+  --success-soft: rgb(26 138 87 / 0.1);
+  --info: #2466d0;
+  --info-soft: rgb(36 102 208 / 0.1);
+  --code-bg: #faf9fc;
+  --code-hit: rgb(217 56 62 / 0.1);
+  --edge: #bdb4ca;
+  --edge-violation: #d9383e;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-sidebar: var(--sidebar);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+  --color-fg: var(--text);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+  --color-code: var(--code-bg);
+  --color-code-hit: var(--code-hit);
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', 'SFMono-Regular', Menlo, Consolas, monospace;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  -webkit-font-smoothing: antialiased;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+::selection {
+  background: var(--accent-soft);
+}
+
+/* Thin scrollbars that follow the palette. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+/* Shiki emits both palettes; pick one per theme. */
+.shiki-token {
+  color: var(--shiki-dark);
+}
+.light .shiki-token {
+  color: var(--shiki-light);
+}
+
+/* ---- React Flow ------------------------------------------------------- */
+
+.react-flow {
+  --xy-background-color: transparent;
+  --xy-edge-stroke: var(--edge);
+  --xy-controls-button-background-color: var(--surface-2);
+  --xy-controls-button-background-color-hover: var(--surface-3);
+  --xy-controls-button-color: var(--text);
+  --xy-controls-button-border-color: var(--border);
+  --xy-minimap-background-color: var(--surface);
+}
+
+.react-flow__edge.muted path {
+  stroke: var(--edge);
+  stroke-width: 1.2;
+}
+.react-flow__edge.violating path {
+  stroke: var(--edge-violation);
+  stroke-width: 2.4;
+  stroke-dasharray: 6 4;
+  animation: dash 1.2s linear infinite;
+}
+.react-flow__edge.faded {
+  opacity: 0.12;
+}
+.react-flow__edge.hot path {
+  stroke: var(--accent);
+  stroke-width: 1.8;
+}
+.react-flow__edge-text {
+  fill: var(--muted);
+  font-size: 10px;
+}
+.react-flow__handle {
+  opacity: 0;
+  pointer-events: none;
+}
+.react-flow__controls {
+  box-shadow: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.react-flow__minimap {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.react-flow__attribution {
+  background: transparent;
+  color: var(--faint);
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
