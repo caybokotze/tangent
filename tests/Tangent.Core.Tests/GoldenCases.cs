@@ -1,5 +1,4 @@
 using System.Collections.Immutable;
-using System.Runtime.CompilerServices;
 using System.Text;
 using Tangent.Core.Binding;
 using Tangent.Core.Diagnostics;
@@ -38,8 +37,22 @@ public static class GoldenCases
     /// <summary>The <c>cases</c> directory in the test project source tree.</summary>
     public static string Root { get; } = Locate();
 
-    private static string Locate([CallerFilePath] string path = "") =>
-        Path.Combine(Path.GetDirectoryName(path)!, "cases");
+    // Not [CallerFilePath]: a CI build maps source paths to "/_/", so the compiled path does not exist.
+    private static string Locate()
+    {
+        var directory = new DirectoryInfo(AppContext.BaseDirectory);
+        while (directory is not null)
+        {
+            if (File.Exists(Path.Combine(directory.FullName, "Tangent.slnx")))
+            {
+                return Path.Combine(directory.FullName, "tests", "Tangent.Core.Tests", "cases");
+            }
+
+            directory = directory.Parent;
+        }
+
+        throw new InvalidOperationException("Tangent.slnx was not found above " + AppContext.BaseDirectory + ".");
+    }
 
     /// <summary>Every case name, for <c>[MemberData]</c>.</summary>
     public static IEnumerable<object[]> Names()
