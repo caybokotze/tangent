@@ -4,8 +4,8 @@
     <TargetFrameworks>netstandard2.0;net10.0</TargetFrameworks>
     <RootNamespace>Tangent.Core</RootNamespace>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <IsPackable>true</IsPackable>
-    <PackageId>Tangent.Core</PackageId>
+    <!-- Not published: the analyzer and CLI packages each include Tangent.Core.dll. A package would make this API public. -->
+    <IsPackable>false</IsPackable>
     <Description>Tangent DSL lexer, parser, binder and rule IR. No Roslyn dependency.</Description>
   </PropertyGroup>
 

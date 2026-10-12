@@ -7,6 +7,7 @@ exporter all read that IR and nothing else.
 - Targets: `netstandard2.0` (what the compiler loads) and `net10.0`.
 - Package references: `System.Memory`, `System.Collections.Immutable`, `PolySharp` — nothing else, ever.
 - No `System.Text.Json`, no Roslyn, no regex engine. The binder never resolves C# type names.
+- Not published as a package. `Tangent.Analyzers` and `Tangent.Cli` each include `Tangent.Core.dll`, so this API can still change without a breaking release.
 
 Namespaces:
 
