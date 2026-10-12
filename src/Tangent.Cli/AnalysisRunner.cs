@@ -179,6 +179,8 @@ public static class AnalysisRunner
                         console.Trace($"{project.Name}: {diagnostic.Id}: {diagnostic.GetMessage(System.Globalization.CultureInfo.InvariantCulture)}");
                     }
 
+                    exporter?.AddSourceFiles(compilation, project.Name, ct);
+
                     CompilationWithAnalyzers withAnalyzers = compilation.WithAnalyzers(
                         ImmutableArray.Create<DiagnosticAnalyzer>(analyzer),
                         project.AnalyzerOptions);

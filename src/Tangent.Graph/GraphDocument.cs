@@ -41,6 +41,7 @@ public sealed record GraphMember(string Name, string Kind, string Signature);
 /// <param name="Violations">How many violations were reported against this type.</param>
 /// <param name="Exemptions">How many exemptions were applied to this type.</param>
 /// <param name="Members">The type's public members.</param>
+/// <param name="FileId">The id of <paramref name="File"/> in the file table, or -1.</param>
 public sealed record GraphNode(
     string Id,
     string Name,
@@ -51,7 +52,41 @@ public sealed record GraphNode(
     int Line,
     int Violations,
     int Exemptions,
-    IReadOnlyList<GraphMember> Members);
+    IReadOnlyList<GraphMember> Members,
+    int FileId);
+
+/// <summary>
+/// One source file in the file table (TANGENT-PLAN.md §11.4). The viewer addresses files by
+/// <paramref name="Id"/> only, so no API ever has to accept a path.
+/// </summary>
+/// <param name="Id">The file's index in the table.</param>
+/// <param name="Path">The path relative to the solution root.</param>
+/// <param name="Kind"><c>csharp</c> or <c>contract</c> (a <c>.tan</c> file).</param>
+/// <param name="Project">The project that compiles the file, or null for a contract file.</param>
+/// <param name="Lines">The number of lines in the file.</param>
+/// <param name="Status">
+/// For C# files: <c>tracked</c> when every type it declares is bound to a contract, <c>partial</c> when
+/// some are, <c>untracked</c> when none are or it declares no type. <c>contract</c> for <c>.tan</c> files.
+/// </param>
+/// <param name="Types">The ids of the types the file declares, in declaration order.</param>
+/// <param name="Violations">How many violations point into the file.</param>
+/// <param name="Text">The whole file, for contract files exported with <c>--include-source</c>; otherwise null.</param>
+public sealed record GraphFile(
+    int Id,
+    string Path,
+    string Kind,
+    string? Project,
+    int Lines,
+    string Status,
+    IReadOnlyList<string> Types,
+    int Violations,
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    string? Text);
+
+/// <summary>Lines of source around a violation, embedded by <c>--include-source</c>.</summary>
+/// <param name="StartLine">The 1-based line number of the first line in <paramref name="Lines"/>.</param>
+/// <param name="Lines">The source lines, without line terminators.</param>
+public sealed record GraphSnippet(int StartLine, IReadOnlyList<string> Lines);
 
 /// <summary>An aggregated reference from one type to another.</summary>
 /// <param name="From">The referencing type's id.</param>
@@ -67,6 +102,8 @@ public sealed record GraphEdge(
     bool ViolatesLayering);
 
 /// <summary>A single rule failure, as the viewer shows it.</summary>
+/// <param name="FileId">The id of <paramref name="File"/> in the file table, or -1.</param>
+/// <param name="Snippet">The code around the violation, with <c>--include-source</c>; otherwise null.</param>
 public sealed record GraphViolation(
     string Node,
     string? Member,
@@ -76,7 +113,25 @@ public sealed record GraphViolation(
     string File,
     int Line,
     int Col,
-    string Severity);
+    string Severity,
+    int FileId,
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    GraphSnippet? Snippet);
+
+/// <summary>An exemption that suppressed a rule for one type or member (a TNG9000 note).</summary>
+/// <param name="Node">The id of the exempted type, or "" when unknown.</param>
+/// <param name="Member">The exempted member, or null for the whole type.</param>
+/// <param name="RuleId">The rule the exemption suppressed.</param>
+/// <param name="Reason">The exemption's reason, or where it was declared.</param>
+/// <param name="FileId">The id of <paramref name="File"/> in the file table, or -1.</param>
+public sealed record GraphExemption(
+    string Node,
+    string? Member,
+    string RuleId,
+    string Reason,
+    string File,
+    int Line,
+    int FileId);
 
 /// <summary>The <c>.tan</c> text of one rule, so the viewer can show it next to a violation.</summary>
 /// <param name="Id">The stable rule id.</param>
@@ -89,15 +144,23 @@ public sealed record GraphRule(string Id, string Contract, string Text, int Tier
 /// The whole <c>tangent.graph.json</c> document (TANGENT-PLAN.md §11.1). Property order here is the
 /// order the writer emits, which keeps the output diffable.
 /// </summary>
+/// <param name="Root">
+/// The absolute solution root with forward slashes, so the viewer can build <c>vscode://file/</c> links.
+/// Only written with <c>--include-source</c>, because it is machine-specific.
+/// </param>
 public sealed record GraphDocument(
     int Version,
     string Project,
     string GeneratedAt,
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    string? Root,
     IReadOnlyList<GraphLayer> Layers,
     IReadOnlyList<GraphContract> Contracts,
+    IReadOnlyList<GraphFile> Files,
     IReadOnlyList<GraphNode> Nodes,
     IReadOnlyList<GraphEdge> Edges,
     IReadOnlyList<GraphViolation> Violations,
+    IReadOnlyList<GraphExemption> Exemptions,
     [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyList<GraphRule>? Rules);
 

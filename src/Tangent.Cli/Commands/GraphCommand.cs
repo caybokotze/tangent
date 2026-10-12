@@ -18,6 +18,7 @@ public static class GraphCommand
         string? path,
         string? output,
         bool includeUnbound,
+        bool includeSource,
         IReadOnlyList<string> projects,
         CliConsole console,
         CancellationToken cancellationToken)
@@ -34,7 +35,7 @@ public static class GraphCommand
             .RunAsync(target, projects, exporter, includeUnbound, console, cancellationToken)
             .ConfigureAwait(false);
 
-        GraphDocument document = Build(analysis, exporter, DateTimeOffset.UtcNow);
+        GraphDocument document = Build(analysis, exporter, DateTimeOffset.UtcNow, includeSource);
 
         string destination = Path.GetFullPath(output ?? Path.Combine(target.Root, DefaultFileName));
         string? directory = Path.GetDirectoryName(destination);
@@ -46,6 +47,11 @@ public static class GraphCommand
             $"  {document.Layers.Count} layers, {document.Contracts.Count} contracts, " +
             $"{document.Nodes.Count} nodes, {document.Edges.Count} edges, {document.Violations.Count} violations");
 
+        int untracked = document.Files.Count(f => f.Status == "untracked");
+        int partial = document.Files.Count(f => f.Status == "partial");
+        int tracked = document.Files.Count(f => f.Status == "tracked");
+        console.WriteLine($"  {tracked + partial + untracked} C# files: {tracked} tracked, {partial} partial, {untracked} untracked");
+
         if (!includeUnbound)
         {
             console.WriteLine("  (only types bound to a contract are included; pass --include-unbound for the whole solution)");
@@ -55,7 +61,7 @@ public static class GraphCommand
     }
 
     /// <summary>Builds the document from a finished analysis run.</summary>
-    internal static GraphDocument Build(AnalysisResult analysis, GraphExporter exporter, DateTimeOffset generatedAt)
+    internal static GraphDocument Build(AnalysisResult analysis, GraphExporter exporter, DateTimeOffset generatedAt, bool includeSource)
     {
         ArchitectureModel? model = analysis.Model.Model;
 
@@ -80,6 +86,8 @@ public static class GraphCommand
             ? model.Text(model.ProjectName)
             : Path.GetFileNameWithoutExtension(analysis.Target.Path);
 
-        return GraphBuilder.Build(model, exporter, findings, projectName, analysis.Target.Root, generatedAt);
+        return GraphBuilder.Build(
+            model, exporter, findings, projectName, analysis.Target.Root, generatedAt,
+            analysis.Target.ContractFiles, includeSource);
     }
 }

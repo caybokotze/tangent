@@ -15,13 +15,15 @@ public static class ConsoleReporter
     /// <param name="root">The directory paths are printed relative to.</param>
     /// <param name="projectCount">How many projects were analysed.</param>
     /// <param name="showExemptions">Whether to list the exemptions that were applied.</param>
+    /// <param name="explainer">When not null, each finding is followed by its rule and the offending line.</param>
     public static void Report(
         CliConsole console,
         IReadOnlyList<Finding> findings,
         IReadOnlyList<Finding> exemptions,
         string root,
         int projectCount,
-        bool showExemptions)
+        bool showExemptions,
+        Explainer? explainer = null)
     {
         foreach (IGrouping<string, Finding> group in findings
                      .GroupBy(f => f.Group, StringComparer.Ordinal)
@@ -37,6 +39,7 @@ public static class ConsoleReporter
                          .ThenBy(f => f.Code, StringComparer.Ordinal))
             {
                 console.WriteLine(Line(console, finding, root));
+                if (explainer?.Explain(finding) is { } explanation) WriteExplanation(console, finding, explanation);
             }
 
             console.WriteLine();
@@ -69,6 +72,41 @@ public static class ConsoleReporter
                console.Paint(location, AnsiColor.Grey) + "  " +
                finding.Message;
     }
+
+    /// <summary>
+    /// Writes the <c>--explain</c> block under a finding: the rule, where it is declared, what applies it,
+    /// and the offending line with a caret under the reported span.
+    /// </summary>
+    public static void WriteExplanation(CliConsole console, Finding finding, Explanation explanation)
+    {
+        ArgumentNullException.ThrowIfNull(console);
+        ArgumentNullException.ThrowIfNull(finding);
+        ArgumentNullException.ThrowIfNull(explanation);
+
+        console.WriteLine(Label(console, "rule") + explanation.Rule);
+        if (explanation.Declared is not null) console.WriteLine(Label(console, "declared") + explanation.Declared);
+        if (explanation.AppliesTo is not null) console.WriteLine(Label(console, "applies to") + explanation.AppliesTo);
+        if (explanation.Source is null) return;
+
+        string number = finding.Line.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        string gutter = new(' ', number.Length);
+        console.WriteLine(ExplainIndent + console.Paint(number + " | ", AnsiColor.Grey) + explanation.Source);
+
+        int start = Math.Max(0, finding.Col - 1 - explanation.SourceIndent);
+        if (start >= explanation.Source.Length) return;
+        int end = finding.EndLine == finding.Line
+            ? Math.Min(explanation.Source.Length, finding.EndCol - 1 - explanation.SourceIndent)
+            : explanation.Source.Length;
+        int length = Math.Max(1, end - start);
+
+        console.WriteLine(ExplainIndent + console.Paint(gutter + " | ", AnsiColor.Grey) +
+                          new string(' ', start) + console.Paint(new string('^', length), AnsiColor.Red));
+    }
+
+    private const string ExplainIndent = "      ";
+
+    private static string Label(CliConsole console, string label) =>
+        ExplainIndent + console.Paint(label.PadRight(12), AnsiColor.Grey);
 
     /// <summary>Renders the trailing summary line.</summary>
     public static string Summary(CliConsole console, IReadOnlyList<Finding> findings, int exemptionCount, int projectCount)

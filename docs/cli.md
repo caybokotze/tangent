@@ -17,9 +17,10 @@ tangent check
 tangent init  [path] [--force]
 tangent lint  [path] [--strict] [--dump-ir] [--dump-ast]
 tangent check [path] [--sarif out.sarif] [--json out.json] [--fail-on warning|error]
-                     [--show-exemptions] [--project name]... [--strict]
+                     [--show-exemptions] [--explain] [--project name]... [--strict]
 tangent diff  [path] [--apply] [--project name]...
-tangent graph [path] [-o tangent.graph.json] [--include-unbound] [--project name]...
+tangent graph [path] [-o tangent.graph.json] [--include-unbound] [--include-source]
+                     [--project name]...
 tangent serve [--workspace path]
 ```
 
@@ -158,7 +159,48 @@ off by `--no-color`, by `NO_COLOR` being set to anything, or by stdout being red
 | `--fail-on warning\|error` | the lowest severity that makes the command fail. **Default `error`, so warnings alone exit 0** |
 | `--strict` | promote every warning to an error, in the console, in both report files, and in the exit code |
 | `--show-exemptions` | list the TNG9000 notes for exemptions that suppressed a violation, with their reason, and include them in the report files |
+| `--explain` | follow each violation with the rule text, where it is declared, what applies it, and the offending line. See [below](#--explain) |
 | `--project <name>` | restrict the run to this project. Repeatable |
+
+### `--explain`
+
+A rule id is a lookup key for a person. The rule **text** is what a person, or an agent in a fix loop,
+can act on directly. `--explain` adds it under every violation that belongs to a rule:
+
+```
+$ tangent check samples/Orders --explain
+Controller
+  warning TNG0101 src/Orders.Api/Controllers/CustomersController.cs:15:14  Controller: type must be sealed. (rule Controller/type/modifier#0, controllers.tan:7)
+      rule        require sealed
+      declared    .tangent/controllers.tan:7
+      applies to  contract Controller matches class in Api where name ends with "Controller"
+      15 | public class CustomersController : ApiControllerBase
+         |              ^^^^^^^^^^^^^^^^^^^
+  warning TNG0203 src/Orders.Api/Controllers/LegacyOrdersController.cs:28:26  Controller: forbidden object creation: new HttpClient. (rule Controller/methods/new#1, controllers.tan:20)
+      rule        methods where public { forbid new HttpClient }
+      ...
+
+Layers
+  warning TNG0202 src/Orders.Api/Controllers/LegacyOrdersController.cs:32:24  Layer Api may not depend on layer Infrastructure (OrdersDbContext). (rule layer:Api->Infrastructure, project.tan:7)
+      rule        Api -> Application, Domain
+      declared    .tangent/project.tan
+      applies to  layer Api = Orders.Api.**
+      ...
+```
+
+| Line | What it shows |
+|---|---|
+| `rule` | the rule rendered back to DSL from the bound model, inside the member block or `where { }` refinement that scopes it. For a layer violation, the layer's `->` line; for TNG0205, the effective `allow` list |
+| `declared` | the `.tan` file and line of the rule. Layer rules show the file only, because the `->` lines carry no position of their own |
+| `applies to` | the contract's `match` clause, or the `layer` line whose glob puts the type in that layer. Absent for a contract with no `match` (bound by `bind` or `[Tangent]`) |
+| the code | the offending line, with a caret under the reported span |
+
+Model and binding diagnostics (TNG1xxx, TNG0001) belong to no rule and are printed without an
+explanation. `--explain` changes no finding and no exit code.
+
+The report files carry the same information. Each JSON row gains an `explain` object with `rule`,
+`declared`, `appliesTo` and `source`. Each SARIF result's `properties` gains `ruleText`, `ruleDeclared` and
+`appliesTo`. Without `--explain`, neither file changes.
 
 ### Exit codes
 
@@ -270,18 +312,21 @@ than a second pass over the solution.
 ```
 $ tangent graph samples/Orders --include-unbound
 Wrote samples/Orders/tangent.graph.json
-  4 layers, 7 contracts, 62 nodes, 121 edges, 59 violations
+  4 layers, 7 contracts, 62 nodes, 152 edges, 59 violations
+  49 C# files: 18 tracked, 6 partial, 25 untracked
 ```
 
 | Option | Effect |
 |---|---|
 | `-o`, `--output <file>` | where to write. Default `<solution root>/tangent.graph.json` |
 | `--include-unbound` | add the types no contract binds, so the graph shows the whole solution |
+| `--include-source` | embed the code around each violation (15 lines either side), the full text of every `.tan` file, and the absolute solution root for `vscode://file/` links |
 | `--project <name>` | restrict the run to this project. Repeatable |
 
-The schema is TANGENT-PLAN.md §11.1 and `viewer/src/graph/types.ts`: `version`, `project`, `generatedAt`,
-`layers[]`, `contracts[]`, `nodes[]` (with `members[]`), `edges[]`, `violations[]`, and the optional
-`rules[]` array carrying each rule's `.tan` text so the viewer can show it beside a violation. Node ids
+The schema is TANGENT-PLAN.md §11.1 and `viewer/src/graph/types.ts`: `version` (currently 2), `project`,
+`generatedAt`, `layers[]`, `contracts[]`, `files[]`, `nodes[]` (with `members[]`), `edges[]`,
+`violations[]`, and the optional `rules[]` array carrying each rule's `.tan` text so the viewer can show
+it beside a violation. Node ids
 are fully qualified metadata names (`Orders.Api.Controllers.OrdersController`, with a `` `N `` arity
 suffix for generic types). Everything is ordered deterministically, so two runs over unchanged sources
 differ only in `generatedAt`.
@@ -297,6 +342,27 @@ outside the graph — the BCL, a NuGet package, or an unbound type — are dropp
 and in a codebase like `samples/Orders` the types that break layering (`OrdersDbContext`, `CacheKeys`,
 `INotificationDispatcher`) are bound to nothing. Pass `--include-unbound` to see the illegal edges.
 `violations[]` always carries every violation of the run, whether or not its type is in `nodes[]`.
+
+### The file table
+
+`files[]` lists every `.tan` file and every hand-written C# file of the analysed projects. Generated
+files (`obj/`, `bin/`, `*.g.cs`) and files outside the solution root are left out. Each entry has an
+integer `id` (its index; the table is sorted by path), and `nodes[]` and `violations[]` point into it
+with `fileId` (-1 for a type declared outside the root). The viewer addresses files by id only, so no
+path parameter ever has to be accepted (TANGENT-PLAN.md §11.4).
+
+| `status` | Meaning |
+|---|---|
+| `tracked` | every type the file declares is bound to a contract |
+| `partial` | some of its types are bound; typically a command bound as nothing next to its bound handler |
+| `untracked` | none of its types are bound, or it declares no type (`Program.cs`) |
+| `contract` | a `.tan` file |
+
+Coverage is independent of `--include-unbound`: the file table is the same either way. Note that
+`untracked` means *no contract*. Layer rules still apply to every type whose namespace falls in a layer.
+
+**`--include-source` makes the file machine-specific** (it records the absolute root) and larger, so
+keep it for local use and leave it off graphs you commit.
 
 ---
 

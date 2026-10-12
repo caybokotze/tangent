@@ -19,7 +19,7 @@ public static class SarifWriter
     /// <summary>Renders the log.</summary>
     /// <param name="findings">The findings to report, exemptions included or not as the caller chooses.</param>
     /// <param name="root">The directory result URIs are relative to; emitted as the <c>SRCROOT</c> base id.</param>
-    public static string Write(IReadOnlyList<Finding> findings, string root)
+    public static string Write(IReadOnlyList<Finding> findings, string root, Explainer? explainer = null)
     {
         ArgumentNullException.ThrowIfNull(findings);
 
@@ -39,7 +39,7 @@ public static class SarifWriter
 
             WriteTool(writer);
             WriteOriginalUriBaseIds(writer, root);
-            WriteResults(writer, findings, root);
+            WriteResults(writer, findings, root, explainer);
 
             writer.WriteEndObject();
             writer.WriteEndArray();
@@ -104,7 +104,7 @@ public static class SarifWriter
         writer.WriteEndObject();
     }
 
-    private static void WriteResults(Utf8JsonWriter writer, IReadOnlyList<Finding> findings, string root)
+    private static void WriteResults(Utf8JsonWriter writer, IReadOnlyList<Finding> findings, string root, Explainer? explainer)
     {
         writer.WriteStartArray("results");
 
@@ -150,6 +150,14 @@ public static class SarifWriter
             }
 
             writer.WriteString("project", finding.Project);
+
+            if (explainer?.Explain(finding) is { } explanation)
+            {
+                writer.WriteString("ruleText", explanation.Rule);
+                if (explanation.Declared is not null) writer.WriteString("ruleDeclared", explanation.Declared);
+                if (explanation.AppliesTo is not null) writer.WriteString("appliesTo", explanation.AppliesTo);
+            }
+
             writer.WriteEndObject();
 
             writer.WriteEndObject();

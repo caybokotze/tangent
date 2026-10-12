@@ -26,6 +26,9 @@ public sealed class CheckOptions
 
     /// <summary>Treat warnings as errors.</summary>
     public bool Strict { get; init; }
+
+    /// <summary>Follow each finding with the rule text, its declaration and the offending line.</summary>
+    public bool Explain { get; init; }
 }
 
 /// <summary><c>tangent check</c>: the command CI runs.</summary>
@@ -74,19 +77,20 @@ public static class CheckCommand
         }
 
         string root = analysis.Target.Root;
-        ConsoleReporter.Report(console, reported, exemptions, root, analysis.Projects.Count, options.ShowExemptions);
+        Explainer? explainer = options.Explain && analysis.Model.Model is { } model ? new Explainer(model, root) : null;
+        ConsoleReporter.Report(console, reported, exemptions, root, analysis.Projects.Count, options.ShowExemptions, explainer);
 
         var written = new List<Finding>(reported);
         if (options.ShowExemptions) written.AddRange(exemptions);
 
         if (options.Json is not null)
         {
-            Write(options.Json, FindingsJsonWriter.Write(written, root), console, "JSON report");
+            Write(options.Json, FindingsJsonWriter.Write(written, root, explainer), console, "JSON report");
         }
 
         if (options.Sarif is not null)
         {
-            Write(options.Sarif, SarifWriter.Write(written, root), console, "SARIF log");
+            Write(options.Sarif, SarifWriter.Write(written, root, explainer), console, "SARIF log");
         }
 
         return ExitCodeFor(reported, options.FailOn);

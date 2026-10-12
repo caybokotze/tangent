@@ -111,6 +111,7 @@ public static class Program
         var showExemptions = new Option<bool>("--show-exemptions") { Description = "List the exemptions that suppressed a violation (TNG9000)." };
         var checkProjects = NewProjectOption();
         var checkStrict = new Option<bool>("--strict") { Description = "Treat warnings as errors." };
+        var explain = new Option<bool>("--explain") { Description = "Follow each violation with the rule text, where it is declared, and the offending line." };
 
         var check = new Command("check", "Run every contract over the solution and report what breaks.");
         check.Add(NewPathArgument());
@@ -120,6 +121,7 @@ public static class Program
         check.Add(showExemptions);
         check.Add(checkProjects);
         check.Add(checkStrict);
+        check.Add(explain);
         check.SetAction((parse, token) => CheckCommand.RunAsync(
             new CheckOptions
             {
@@ -130,6 +132,7 @@ public static class Program
                 ShowExemptions = parse.GetValue(showExemptions),
                 Projects = parse.GetValue(checkProjects) ?? [],
                 Strict = parse.GetValue(checkStrict),
+                Explain = parse.GetValue(explain),
             },
             MakeConsole(parse, stdout, stderr, noColor, verbose),
             token));
@@ -151,16 +154,19 @@ public static class Program
         // ---- graph ---------------------------------------------------------
         var output = new Option<string?>("--output", "-o") { Description = "Where to write the graph. Default: <solution>/tangent.graph.json.", HelpName = "file" };
         var includeUnbound = new Option<bool>("--include-unbound") { Description = "Add types that no contract binds, so the graph shows the whole solution." };
+        var includeSource = new Option<bool>("--include-source") { Description = "Embed code around each violation, the .tan files and the solution root (for editor links)." };
         var graphProjects = NewProjectOption();
         var graph = new Command("graph", "Export tangent.graph.json for the viewer.");
         graph.Add(NewPathArgument());
         graph.Add(output);
         graph.Add(includeUnbound);
+        graph.Add(includeSource);
         graph.Add(graphProjects);
         graph.SetAction((parse, token) => GraphCommand.RunAsync(
             parse.GetValue<string?>("path"),
             parse.GetValue(output),
             parse.GetValue(includeUnbound),
+            parse.GetValue(includeSource),
             parse.GetValue(graphProjects) ?? [],
             MakeConsole(parse, stdout, stderr, noColor, verbose),
             token));

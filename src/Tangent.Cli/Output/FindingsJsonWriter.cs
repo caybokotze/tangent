@@ -1,5 +1,6 @@
 using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Tangent.Graph;
 
 namespace Tangent.Cli.Output;
@@ -27,10 +28,14 @@ public static class FindingsJsonWriter
         string Contract,
         string RuleId,
         string Member,
-        string Project);
+        string Project,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] ExplainRow? Explain = null);
 
-    /// <summary>Renders the array.</summary>
-    public static string Write(IReadOnlyList<Finding> findings, string root)
+    /// <summary>The <c>--explain</c> part of a row: the rule text, its declaration, what applies it, and the offending line.</summary>
+    public sealed record ExplainRow(string Rule, string? Declared, string? AppliesTo, string? Source);
+
+    /// <summary>Renders the array. With an <paramref name="explainer"/>, each row also carries <c>explain</c>.</summary>
+    public static string Write(IReadOnlyList<Finding> findings, string root, Explainer? explainer = null)
     {
         ArgumentNullException.ThrowIfNull(findings);
 
@@ -49,7 +54,10 @@ public static class FindingsJsonWriter
                 finding.Contract,
                 finding.RuleId,
                 finding.Member,
-                finding.Project));
+                finding.Project,
+                explainer?.Explain(finding) is { } explanation
+                    ? new ExplainRow(explanation.Rule, explanation.Declared, explanation.AppliesTo, explanation.Source)
+                    : null));
         }
 
         rows.Sort(static (a, b) =>

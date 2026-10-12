@@ -12,7 +12,10 @@ namespace Tangent.Graph;
 public static class GraphBuilder
 {
     /// <summary>The schema version this builder writes.</summary>
-    public const int SchemaVersion = 1;
+    public const int SchemaVersion = 2;
+
+    /// <summary>How many lines above and below a violation <c>--include-source</c> embeds.</summary>
+    public const int SnippetContext = 15;
 
     /// <summary>Builds the document.</summary>
     /// <param name="model">The bound model, or null when the <c>.tan</c> files did not bind.</param>
@@ -21,20 +24,31 @@ public static class GraphBuilder
     /// <param name="projectName">The graph's <c>project</c> field.</param>
     /// <param name="solutionRoot">Absolute path that file paths are made relative to.</param>
     /// <param name="generatedAt">The timestamp to stamp the document with.</param>
+    /// <param name="contractFiles">Absolute paths of the <c>.tan</c> files, added to the file table.</param>
+    /// <param name="includeSource">Embed violation snippets, contract text and the absolute root.</param>
+    /// <param name="readFile">Reads a file by absolute path, or returns null. Defaults to the disk.</param>
     public static GraphDocument Build(
         ArchitectureModel? model,
         GraphExporter exporter,
         IReadOnlyList<GraphFinding> findings,
         string projectName,
         string solutionRoot,
-        DateTimeOffset generatedAt)
+        DateTimeOffset generatedAt,
+        IReadOnlyList<string> contractFiles,
+        bool includeSource,
+        Func<string, string?>? readFile = null)
     {
         ArgumentNullException.ThrowIfNull(exporter);
         ArgumentNullException.ThrowIfNull(findings);
+        ArgumentNullException.ThrowIfNull(contractFiles);
+
+        var sources = new SourceCache(readFile ?? ReadFromDisk);
+        FileTable files = BuildFiles(exporter, findings, contractFiles, solutionRoot, includeSource, sources);
 
         var violationsByNode = new Dictionary<string, int>(StringComparer.Ordinal);
         var exemptionsByNode = new Dictionary<string, int>(StringComparer.Ordinal);
         var violations = new List<GraphViolation>(findings.Count);
+        var exemptions = new List<GraphExemption>();
 
         foreach (GraphFinding finding in findings)
         {
@@ -46,7 +60,23 @@ public static class GraphBuilder
                 counter[finding.NodeId] = current + 1;
             }
 
-            if (isExemption) continue;
+            if (isExemption)
+            {
+                const string prefix = "Exemption applied: ";
+                string reason = finding.Message.StartsWith(prefix, StringComparison.Ordinal)
+                    ? finding.Message[prefix.Length..]
+                    : finding.Message;
+                string exemptFile = Relative(solutionRoot, finding.File);
+                exemptions.Add(new GraphExemption(
+                    finding.NodeId,
+                    string.IsNullOrEmpty(finding.Member) ? null : finding.Member,
+                    finding.RuleId,
+                    reason,
+                    exemptFile,
+                    finding.Line,
+                    files.IdOf(exemptFile)));
+                continue;
+            }
 
             violations.Add(new GraphViolation(
                 finding.NodeId,
@@ -57,7 +87,9 @@ public static class GraphBuilder
                 Relative(solutionRoot, finding.File),
                 finding.Line,
                 finding.Col,
-                finding.Severity));
+                finding.Severity,
+                files.IdOf(Relative(solutionRoot, finding.File)),
+                includeSource ? sources.Snippet(finding.File, finding.Line) : null));
         }
 
         violations.Sort(static (a, b) =>
@@ -72,7 +104,15 @@ public static class GraphBuilder
             return byCode != 0 ? byCode : string.CompareOrdinal(a.Message, b.Message);
         });
 
-        List<GraphNode> nodes = BuildNodes(exporter, violationsByNode, exemptionsByNode, solutionRoot);
+        exemptions.Sort(static (a, b) =>
+        {
+            int byFile = string.CompareOrdinal(a.File, b.File);
+            if (byFile != 0) return byFile;
+            int byLine = a.Line.CompareTo(b.Line);
+            return byLine != 0 ? byLine : string.CompareOrdinal(a.RuleId, b.RuleId);
+        });
+
+        List<GraphNode> nodes = BuildNodes(exporter, violationsByNode, exemptionsByNode, solutionRoot, files);
         var nodeIds = new HashSet<string>(nodes.Count, StringComparer.Ordinal);
         foreach (GraphNode node in nodes) nodeIds.Add(node.Id);
 
@@ -82,11 +122,14 @@ public static class GraphBuilder
             SchemaVersion,
             projectName,
             generatedAt.ToUniversalTime().ToString("yyyy-MM-dd'T'HH:mm:ss'Z'", CultureInfo.InvariantCulture),
+            includeSource ? solutionRoot.Replace('\\', '/') : null,
             BuildLayers(model),
             BuildContracts(model, solutionRoot),
+            files.Files,
             nodes,
             edges,
             violations,
+            exemptions,
             BuildRules(model));
     }
 
@@ -94,13 +137,15 @@ public static class GraphBuilder
         GraphExporter exporter,
         Dictionary<string, int> violations,
         Dictionary<string, int> exemptions,
-        string solutionRoot)
+        string solutionRoot,
+        FileTable files)
     {
         var nodes = new List<GraphNode>();
         foreach (ExportedType type in exporter.Types)
         {
             violations.TryGetValue(type.Id, out int violationCount);
             exemptions.TryGetValue(type.Id, out int exemptionCount);
+            string file = Relative(solutionRoot, type.File);
 
             nodes.Add(new GraphNode(
                 type.Id,
@@ -108,11 +153,12 @@ public static class GraphBuilder
                 type.Kind,
                 type.Layer,
                 type.Contracts,
-                Relative(solutionRoot, type.File),
+                file,
                 type.Line,
                 violationCount,
                 exemptionCount,
-                type.Members));
+                type.Members,
+                files.IdOf(file)));
         }
 
         nodes.Sort(static (a, b) => string.CompareOrdinal(a.Id, b.Id));
@@ -217,6 +263,141 @@ public static class GraphBuilder
         }
 
         return rules;
+    }
+
+    private static FileTable BuildFiles(
+        GraphExporter exporter,
+        IReadOnlyList<GraphFinding> findings,
+        IReadOnlyList<string> contractFiles,
+        string solutionRoot,
+        bool includeSource,
+        SourceCache sources)
+    {
+        var bound = new HashSet<string>(StringComparer.Ordinal);
+        foreach (ExportedType type in exporter.Types)
+        {
+            if (!type.Contracts.IsEmpty) bound.Add(type.Id);
+        }
+
+        var violations = new Dictionary<string, int>(StringComparer.Ordinal);
+        foreach (GraphFinding finding in findings)
+        {
+            if (string.Equals(finding.Code, "TNG9000", StringComparison.Ordinal)) continue;
+            string path = Relative(solutionRoot, finding.File);
+            violations.TryGetValue(path, out int current);
+            violations[path] = current + 1;
+        }
+
+        var entries = new List<GraphFile>();
+        var seen = new HashSet<string>(StringComparer.Ordinal);
+
+        foreach (string contractFile in contractFiles)
+        {
+            string path = Relative(solutionRoot, contractFile);
+            if (!seen.Add(path)) continue;
+
+            string? text = sources.Text(contractFile);
+            violations.TryGetValue(path, out int count);
+            entries.Add(new GraphFile(
+                0, path, "contract", null, text is null ? 0 : SourceCache.SplitLines(text).Length, "contract",
+                Array.Empty<string>(), count, includeSource ? text : null));
+        }
+
+        foreach (ExportedFile file in exporter.Files)
+        {
+            string path = Relative(solutionRoot, file.Path);
+
+            // Files outside the solution root come from packages (the test SDK's generated Program.cs, for one).
+            if (Path.IsPathRooted(path)) continue;
+            if (!seen.Add(path)) continue;
+
+            int boundCount = 0;
+            foreach (string id in file.Types)
+            {
+                if (bound.Contains(id)) boundCount++;
+            }
+
+            string status = boundCount == 0 ? "untracked" : boundCount == file.Types.Length ? "tracked" : "partial";
+            violations.TryGetValue(path, out int count);
+            entries.Add(new GraphFile(0, path, "csharp", file.Project, file.Lines, status, file.Types, count, null));
+        }
+
+        entries.Sort(static (a, b) => string.CompareOrdinal(a.Path, b.Path));
+        for (int i = 0; i < entries.Count; i++) entries[i] = entries[i] with { Id = i };
+
+        return new FileTable(entries);
+    }
+
+    private static string? ReadFromDisk(string path)
+    {
+        try
+        {
+            return File.Exists(path) ? File.ReadAllText(path) : null;
+        }
+        catch (IOException)
+        {
+            return null;
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return null;
+        }
+    }
+
+    /// <summary>The finished file table plus a path-to-id lookup.</summary>
+    private sealed class FileTable
+    {
+        private readonly Dictionary<string, int> _ids = new(StringComparer.Ordinal);
+
+        internal FileTable(List<GraphFile> files)
+        {
+            Files = files;
+            foreach (GraphFile file in files) _ids[file.Path] = file.Id;
+        }
+
+        internal List<GraphFile> Files { get; }
+
+        internal int IdOf(string relativePath) =>
+            _ids.TryGetValue(relativePath, out int id) ? id : -1;
+    }
+
+    /// <summary>Reads each file at most once and cuts snippets out of it.</summary>
+    private sealed class SourceCache(Func<string, string?> read)
+    {
+        private readonly Dictionary<string, string?> _texts = new(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, string[]?> _lines = new(StringComparer.OrdinalIgnoreCase);
+
+        internal string? Text(string path)
+        {
+            if (!_texts.TryGetValue(path, out string? text))
+            {
+                text = read(path);
+                _texts[path] = text;
+            }
+
+            return text;
+        }
+
+        internal GraphSnippet? Snippet(string path, int line)
+        {
+            if (string.IsNullOrEmpty(path) || line < 1) return null;
+
+            if (!_lines.TryGetValue(path, out string[]? lines))
+            {
+                string? text = Text(path);
+                lines = text is null ? null : SplitLines(text);
+                _lines[path] = lines;
+            }
+
+            if (lines is null || line > lines.Length) return null;
+
+            int first = Math.Max(1, line - SnippetContext);
+            int last = Math.Min(lines.Length, line + SnippetContext);
+            return new GraphSnippet(first, lines[(first - 1)..last]);
+        }
+
+        internal static string[] SplitLines(string text) =>
+            text.Replace("\r\n", "\n", StringComparison.Ordinal).Split('\n');
     }
 
     /// <summary>Makes <paramref name="path"/> relative to <paramref name="root"/>, with forward slashes.</summary>

@@ -17,7 +17,7 @@ public sealed class GraphCommandTests(OrdersFixture fixture)
     [Fact]
     public void HasTheDocumentHeader()
     {
-        Assert.Equal(1, Bound.GetProperty("version").GetInt32());
+        Assert.Equal(2, Bound.GetProperty("version").GetInt32());
         Assert.Equal("Orders", Bound.GetProperty("project").GetString());
         Assert.Matches(@"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$", Bound.GetProperty("generatedAt").GetString()!);
     }
@@ -160,6 +160,125 @@ public sealed class GraphCommandTests(OrdersFixture fixture)
             if (id.Length == 0 || id.StartsWith("layer:", StringComparison.Ordinal)) continue;
             Assert.Contains(id, ruleIds);
         }
+    }
+
+    [Fact]
+    public void FileTableCoversEverySourceFileAndEveryContract()
+    {
+        JsonElement[] files = Bound.GetProperty("files").EnumerateArray().ToArray();
+        string[] paths = files.Select(f => f.GetProperty("path").GetString()!).ToArray();
+
+        // Ids are the index, and the table is sorted by path.
+        for (int i = 0; i < files.Length; i++) Assert.Equal(i, files[i].GetProperty("id").GetInt32());
+        Assert.Equal(paths.Order(StringComparer.Ordinal), paths);
+
+        string[] expected = Directory.EnumerateFiles(Path.Combine(Cli.OrdersSample, "src"), "*.cs", SearchOption.AllDirectories)
+            .Select(p => Path.GetRelativePath(Cli.OrdersSample, p).Replace('\\', '/'))
+            .Where(p => !p.Contains("/obj/", StringComparison.Ordinal) && !p.Contains("/bin/", StringComparison.Ordinal))
+            .ToArray();
+        foreach (string path in expected) Assert.Contains(path, paths);
+
+        Assert.All(paths, p => Assert.False(Path.IsPathRooted(p), $"{p} is outside the solution root"));
+
+        JsonElement[] contracts = files.Where(f => f.GetProperty("kind").GetString() == "contract").ToArray();
+        Assert.Contains(contracts, f => f.GetProperty("path").GetString() == ".tangent/controllers.tan");
+        Assert.All(contracts, f => Assert.Equal("contract", f.GetProperty("status").GetString()));
+    }
+
+    [Fact]
+    public void FileStatusReflectsContractCoverage()
+    {
+        Dictionary<string, JsonElement> files = Bound.GetProperty("files").EnumerateArray()
+            .ToDictionary(f => f.GetProperty("path").GetString()!, StringComparer.Ordinal);
+
+        JsonElement controller = files["src/Orders.Api/Controllers/CustomersController.cs"];
+        Assert.Equal("tracked", controller.GetProperty("status").GetString());
+        Assert.Contains("Orders.Api.Controllers.CustomersController",
+            controller.GetProperty("types").EnumerateArray().Select(t => t.GetString()));
+        Assert.True(controller.GetProperty("violations").GetInt32() > 0);
+
+        Assert.Equal("untracked", files["src/Orders.Api/Program.cs"].GetProperty("status").GetString());
+        Assert.Equal("untracked", files["src/Orders.Infrastructure/StaticUserContext.cs"].GetProperty("status").GetString());
+
+        // Coverage does not depend on --include-unbound: the file table is the same either way.
+        string Statuses(JsonElement graph) => string.Join('\n', graph.GetProperty("files").EnumerateArray()
+            .Select(f => f.GetProperty("path").GetString() + " " + f.GetProperty("status").GetString()));
+        Assert.Equal(Statuses(Bound), Statuses(Unbound));
+    }
+
+    [Fact]
+    public void NodesAndViolationsPointIntoTheFileTable()
+    {
+        foreach (JsonElement graph in new[] { Bound, Unbound })
+        {
+            string[] paths = graph.GetProperty("files").EnumerateArray().Select(f => f.GetProperty("path").GetString()!).ToArray();
+
+            foreach (JsonElement item in graph.GetProperty("nodes").EnumerateArray().Concat(graph.GetProperty("violations").EnumerateArray()))
+            {
+                int id = item.GetProperty("fileId").GetInt32();
+
+                // Types from projects outside the solution root (the sample references Tangent.Attributes
+                // directly) keep an absolute path and have no file table entry.
+                if (id == -1)
+                {
+                    Assert.True(Path.IsPathRooted(item.GetProperty("file").GetString()!));
+                    continue;
+                }
+
+                Assert.InRange(id, 0, paths.Length - 1);
+                Assert.Equal(item.GetProperty("file").GetString(), paths[id]);
+            }
+        }
+    }
+
+    [Fact]
+    public void WithoutIncludeSourceNoSourceOrRootIsEmbedded()
+    {
+        Assert.False(Bound.TryGetProperty("root", out _));
+        Assert.All(Bound.GetProperty("violations").EnumerateArray(), v => Assert.False(v.TryGetProperty("snippet", out _)));
+        Assert.All(Bound.GetProperty("files").EnumerateArray(), f => Assert.False(f.TryGetProperty("text", out _)));
+    }
+
+    [Fact]
+    public void IncludeSourceEmbedsSnippetsContractTextAndTheRoot()
+    {
+        Assert.Equal(Cli.OrdersSample.Replace('\\', '/'), Unbound.GetProperty("root").GetString());
+
+        foreach (JsonElement violation in Unbound.GetProperty("violations").EnumerateArray())
+        {
+            JsonElement snippet = violation.GetProperty("snippet");
+            int start = snippet.GetProperty("startLine").GetInt32();
+            string[] lines = snippet.GetProperty("lines").EnumerateArray().Select(l => l.GetString()!).ToArray();
+            int line = violation.GetProperty("line").GetInt32();
+
+            Assert.InRange(line, start, start + lines.Length - 1);
+            Assert.True(lines.Length <= 31, "a snippet is at most 15 lines either side of the violation");
+
+            string[] actual = File.ReadAllLines(Path.Combine(Cli.OrdersSample, violation.GetProperty("file").GetString()!));
+            Assert.Equal(actual[line - 1], lines[line - start]);
+        }
+
+        JsonElement controllers = Unbound.GetProperty("files").EnumerateArray()
+            .Single(f => f.GetProperty("path").GetString() == ".tangent/controllers.tan");
+        Assert.Contains("contract Controller", controllers.GetProperty("text").GetString()!, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void ListsEveryAppliedExemption()
+    {
+        // Like violations[], exemptions[] lists every exemption of the run, even for a type that is not in
+        // nodes[] (an exempted type with no contract left is unbound), so count against the unbound graph.
+        JsonElement[] exemptions = Bound.GetProperty("exemptions").EnumerateArray().ToArray();
+        int exemptNodes = Unbound.GetProperty("nodes").EnumerateArray().Sum(n => n.GetProperty("exemptions").GetInt32());
+        Assert.Equal(exemptNodes, exemptions.Length);
+        Assert.Equal(exemptions.Length, Unbound.GetProperty("exemptions").GetArrayLength());
+
+        JsonElement customers = exemptions.First(e =>
+            e.GetProperty("node").GetString() == "Orders.Api.Controllers.CustomersController");
+        Assert.False(string.IsNullOrWhiteSpace(customers.GetProperty("reason").GetString()));
+        Assert.DoesNotContain("Exemption applied", customers.GetProperty("reason").GetString()!, StringComparison.Ordinal);
+        Assert.NotEqual(string.Empty, customers.GetProperty("ruleId").GetString());
+        Assert.True(customers.GetProperty("fileId").GetInt32() >= 0);
     }
 
     [Fact]

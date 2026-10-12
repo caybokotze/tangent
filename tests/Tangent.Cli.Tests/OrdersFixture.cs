@@ -51,7 +51,7 @@ public static class Cli
 
 /// <summary>
 /// One analysis of <c>samples/Orders</c>, shared by every test that needs it: a <c>check</c> with both
-/// report files, a bound and an unbound <c>graph</c>, and a <c>diff</c>.
+/// report files, a bound and an unbound <c>graph</c>, a <c>diff</c>, and a <c>check --explain</c>.
 /// </summary>
 public sealed class OrdersFixture : IDisposable
 {
@@ -64,16 +64,21 @@ public sealed class OrdersFixture : IDisposable
         SarifPath = Path.Combine(TempDirectory, "check.sarif");
         GraphPath = Path.Combine(TempDirectory, "tangent.graph.json");
         UnboundGraphPath = Path.Combine(TempDirectory, "unbound.graph.json");
+        ExplainJsonPath = Path.Combine(TempDirectory, "explain.json");
+        ExplainSarifPath = Path.Combine(TempDirectory, "explain.sarif");
 
         Check = Cli.Run("check", Cli.OrdersSample, "--json", JsonPath, "--sarif", SarifPath, "--no-color");
         Graph = Cli.Run("graph", Cli.OrdersSample, "-o", GraphPath, "--no-color");
-        UnboundGraph = Cli.Run("graph", Cli.OrdersSample, "--include-unbound", "-o", UnboundGraphPath, "--no-color");
+        UnboundGraph = Cli.Run("graph", Cli.OrdersSample, "--include-unbound", "--include-source", "-o", UnboundGraphPath, "--no-color");
         Diff = Cli.Run("diff", Cli.OrdersSample, "--no-color");
+        ExplainCheck = Cli.Run("check", Cli.OrdersSample, "--explain", "--json", ExplainJsonPath, "--sarif", ExplainSarifPath, "--no-color");
 
         Json = File.ReadAllText(JsonPath);
         Sarif = File.ReadAllText(SarifPath);
         GraphJson = File.ReadAllText(GraphPath);
         UnboundGraphJson = File.ReadAllText(UnboundGraphPath);
+        ExplainJson = File.ReadAllText(ExplainJsonPath);
+        ExplainSarif = File.ReadAllText(ExplainSarifPath);
     }
 
     /// <summary>Where the report files were written.</summary>
@@ -89,8 +94,14 @@ public sealed class OrdersFixture : IDisposable
     /// <summary>The path of the bound graph.</summary>
     public string GraphPath { get; }
 
-    /// <summary>The path of the graph exported with <c>--include-unbound</c>.</summary>
+    /// <summary>The path of the graph exported with <c>--include-unbound --include-source</c>.</summary>
     public string UnboundGraphPath { get; }
+
+    /// <summary>The path of the JSON report written with <c>--explain</c>.</summary>
+    public string ExplainJsonPath { get; }
+
+    /// <summary>The path of the SARIF log written with <c>--explain</c>.</summary>
+    public string ExplainSarifPath { get; }
 
     /// <summary>The <c>check</c> run.</summary>
     public CliRun Check { get; }
@@ -98,11 +109,20 @@ public sealed class OrdersFixture : IDisposable
     /// <summary>The <c>graph</c> run.</summary>
     public CliRun Graph { get; }
 
-    /// <summary>The <c>graph --include-unbound</c> run.</summary>
+    /// <summary>The <c>graph --include-unbound --include-source</c> run.</summary>
     public CliRun UnboundGraph { get; }
 
     /// <summary>The <c>diff</c> run.</summary>
     public CliRun Diff { get; }
+
+    /// <summary>The <c>check --explain</c> run.</summary>
+    public CliRun ExplainCheck { get; }
+
+    /// <summary>The JSON report written with <c>--explain</c>.</summary>
+    public string ExplainJson { get; }
+
+    /// <summary>The SARIF log written with <c>--explain</c>.</summary>
+    public string ExplainSarif { get; }
 
     /// <summary>The JSON report's text.</summary>
     public string Json { get; }

@@ -1,7 +1,7 @@
 {
-  "version": 1,
+  "version": 2,
   "project": "Orders",
-  "generatedAt": "2026-09-22T11:13:29Z",
+  "generatedAt": "2026-09-23T07:11:11Z",
   "layers": [
     {
       "id": "Api",
@@ -91,6 +91,665 @@
       "ruleCount": 6
     }
   ],
+  "files": [
+    {
+      "id": 0,
+      "path": ".tangent/bindings.tan",
+      "kind": "contract",
+      "project": null,
+      "lines": 8,
+      "status": "contract",
+      "types": [],
+      "violations": 0
+    },
+    {
+      "id": 1,
+      "path": ".tangent/controllers.tan",
+      "kind": "contract",
+      "project": null,
+      "lines": 26,
+      "status": "contract",
+      "types": [],
+      "violations": 0
+    },
+    {
+      "id": 2,
+      "path": ".tangent/entities.tan",
+      "kind": "contract",
+      "project": null,
+      "lines": 23,
+      "status": "contract",
+      "types": [],
+      "violations": 0
+    },
+    {
+      "id": 3,
+      "path": ".tangent/project.tan",
+      "kind": "contract",
+      "project": null,
+      "lines": 17,
+      "status": "contract",
+      "types": [],
+      "violations": 0
+    },
+    {
+      "id": 4,
+      "path": ".tangent/repositories.tan",
+      "kind": "contract",
+      "project": null,
+      "lines": 16,
+      "status": "contract",
+      "types": [],
+      "violations": 0
+    },
+    {
+      "id": 5,
+      "path": ".tangent/services.tan",
+      "kind": "contract",
+      "project": null,
+      "lines": 41,
+      "status": "contract",
+      "types": [],
+      "violations": 0
+    },
+    {
+      "id": 6,
+      "path": "src/Orders.Api/ApiControllerBase.cs",
+      "kind": "csharp",
+      "project": "Orders.Api",
+      "lines": 14,
+      "status": "untracked",
+      "types": [
+        "Orders.Api.ApiControllerBase"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 7,
+      "path": "src/Orders.Api/Controllers/CustomersController.cs",
+      "kind": "csharp",
+      "project": "Orders.Api",
+      "lines": 43,
+      "status": "tracked",
+      "types": [
+        "Orders.Api.Controllers.CustomersController"
+      ],
+      "violations": 2
+    },
+    {
+      "id": 8,
+      "path": "src/Orders.Api/Controllers/HealthController.cs",
+      "kind": "csharp",
+      "project": "Orders.Api",
+      "lines": 25,
+      "status": "tracked",
+      "types": [
+        "Orders.Api.Controllers.HealthController"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 9,
+      "path": "src/Orders.Api/Controllers/LegacyOrdersController.cs",
+      "kind": "csharp",
+      "project": "Orders.Api",
+      "lines": 43,
+      "status": "tracked",
+      "types": [
+        "Orders.Api.Controllers.LegacyOrdersController"
+      ],
+      "violations": 7
+    },
+    {
+      "id": 10,
+      "path": "src/Orders.Api/Controllers/OrdersController.cs",
+      "kind": "csharp",
+      "project": "Orders.Api",
+      "lines": 56,
+      "status": "tracked",
+      "types": [
+        "Orders.Api.Controllers.OrdersController"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 11,
+      "path": "src/Orders.Api/Controllers/ReportsController.cs",
+      "kind": "csharp",
+      "project": "Orders.Api",
+      "lines": 47,
+      "status": "tracked",
+      "types": [
+        "Orders.Api.Controllers.ReportsController"
+      ],
+      "violations": 13
+    },
+    {
+      "id": 12,
+      "path": "src/Orders.Api/DependencyInjection/ServiceRegistration.cs",
+      "kind": "csharp",
+      "project": "Orders.Api",
+      "lines": 52,
+      "status": "untracked",
+      "types": [
+        "Orders.Api.DependencyInjection.ServiceRegistration"
+      ],
+      "violations": 8
+    },
+    {
+      "id": 13,
+      "path": "src/Orders.Api/Program.cs",
+      "kind": "csharp",
+      "project": "Orders.Api",
+      "lines": 13,
+      "status": "untracked",
+      "types": [],
+      "violations": 0
+    },
+    {
+      "id": 14,
+      "path": "src/Orders.Application/Abstractions/IMediator.cs",
+      "kind": "csharp",
+      "project": "Orders.Application",
+      "lines": 19,
+      "status": "untracked",
+      "types": [
+        "Orders.Application.Abstractions.IRequest`1",
+        "Orders.Application.Abstractions.IRequestHandler`2",
+        "Orders.Application.Abstractions.IMediator"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 15,
+      "path": "src/Orders.Application/Abstractions/IUserContext.cs",
+      "kind": "csharp",
+      "project": "Orders.Application",
+      "lines": 9,
+      "status": "untracked",
+      "types": [
+        "Orders.Application.Abstractions.IUserContext"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 16,
+      "path": "src/Orders.Application/Customers/GetCustomerQuery.cs",
+      "kind": "csharp",
+      "project": "Orders.Application",
+      "lines": 37,
+      "status": "partial",
+      "types": [
+        "Orders.Application.Customers.GetCustomerQuery",
+        "Orders.Application.Customers.GetCustomerQueryHandler"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 17,
+      "path": "src/Orders.Application/Misplaced/CacheKeys.cs",
+      "kind": "csharp",
+      "project": "Orders.Application",
+      "lines": 13,
+      "status": "untracked",
+      "types": [
+        "Orders.Infrastructure.Caching.CacheKeys"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 18,
+      "path": "src/Orders.Application/Orders/CreateOrderCommand.cs",
+      "kind": "csharp",
+      "project": "Orders.Application",
+      "lines": 50,
+      "status": "partial",
+      "types": [
+        "Orders.Application.Orders.NewOrderLine",
+        "Orders.Application.Orders.CreateOrderCommand",
+        "Orders.Application.Orders.CreateOrderCommandHandler"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 19,
+      "path": "src/Orders.Application/Orders/GetOrderQuery.cs",
+      "kind": "csharp",
+      "project": "Orders.Application",
+      "lines": 42,
+      "status": "partial",
+      "types": [
+        "Orders.Application.Orders.GetOrderQuery",
+        "Orders.Application.Orders.GetOrderQueryHandler"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 20,
+      "path": "src/Orders.Application/Orders/ListOrdersQuery.cs",
+      "kind": "csharp",
+      "project": "Orders.Application",
+      "lines": 44,
+      "status": "partial",
+      "types": [
+        "Orders.Application.Orders.ListOrdersQuery",
+        "Orders.Application.Orders.ListOrdersQueryHandler"
+      ],
+      "violations": 3
+    },
+    {
+      "id": 21,
+      "path": "src/Orders.Application/ViewModels/CustomerViewModel.cs",
+      "kind": "csharp",
+      "project": "Orders.Application",
+      "lines": 5,
+      "status": "tracked",
+      "types": [
+        "Orders.Application.ViewModels.CustomerViewModel"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 22,
+      "path": "src/Orders.Application/ViewModels/DraftOrderViewModel.cs",
+      "kind": "csharp",
+      "project": "Orders.Application",
+      "lines": 11,
+      "status": "tracked",
+      "types": [
+        "Orders.Application.ViewModels.DraftOrderViewModel"
+      ],
+      "violations": 1
+    },
+    {
+      "id": 23,
+      "path": "src/Orders.Application/ViewModels/OrderViewModel.cs",
+      "kind": "csharp",
+      "project": "Orders.Application",
+      "lines": 14,
+      "status": "tracked",
+      "types": [
+        "Orders.Application.ViewModels.OrderViewModel",
+        "Orders.Application.ViewModels.OrderLineViewModel"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 24,
+      "path": "src/Orders.Application/ViewModels/ReportViewModel.cs",
+      "kind": "csharp",
+      "project": "Orders.Application",
+      "lines": 5,
+      "status": "tracked",
+      "types": [
+        "Orders.Application.ViewModels.ReportViewModel"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 25,
+      "path": "src/Orders.Domain/AggregateRoot.cs",
+      "kind": "csharp",
+      "project": "Orders.Domain",
+      "lines": 21,
+      "status": "untracked",
+      "types": [
+        "Orders.Domain.IDomainEvent",
+        "Orders.Domain.AggregateRoot`1"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 26,
+      "path": "src/Orders.Domain/Entities/AuditEntry.cs",
+      "kind": "csharp",
+      "project": "Orders.Domain",
+      "lines": 22,
+      "status": "untracked",
+      "types": [
+        "Orders.Domain.Entities.AuditEntry"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 27,
+      "path": "src/Orders.Domain/Entities/Customer.cs",
+      "kind": "csharp",
+      "project": "Orders.Domain",
+      "lines": 37,
+      "status": "tracked",
+      "types": [
+        "Orders.Domain.Entities.Customer"
+      ],
+      "violations": 3
+    },
+    {
+      "id": 28,
+      "path": "src/Orders.Domain/Entities/Order.cs",
+      "kind": "csharp",
+      "project": "Orders.Domain",
+      "lines": 66,
+      "status": "tracked",
+      "types": [
+        "Orders.Domain.Entities.Order"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 29,
+      "path": "src/Orders.Domain/Entities/OrderLine.cs",
+      "kind": "csharp",
+      "project": "Orders.Domain",
+      "lines": 29,
+      "status": "tracked",
+      "types": [
+        "Orders.Domain.Entities.OrderLine"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 30,
+      "path": "src/Orders.Domain/Entities/OrderStatus.cs",
+      "kind": "csharp",
+      "project": "Orders.Domain",
+      "lines": 10,
+      "status": "untracked",
+      "types": [
+        "Orders.Domain.Entities.OrderStatus"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 31,
+      "path": "src/Orders.Domain/Entities/ShipmentNote.cs",
+      "kind": "csharp",
+      "project": "Orders.Domain",
+      "lines": 29,
+      "status": "tracked",
+      "types": [
+        "Orders.Domain.Entities.ShipmentNote"
+      ],
+      "violations": 6
+    },
+    {
+      "id": 32,
+      "path": "src/Orders.Domain/Entity.cs",
+      "kind": "csharp",
+      "project": "Orders.Domain",
+      "lines": 15,
+      "status": "untracked",
+      "types": [
+        "Orders.Domain.Entity`1"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 33,
+      "path": "src/Orders.Domain/IClock.cs",
+      "kind": "csharp",
+      "project": "Orders.Domain",
+      "lines": 8,
+      "status": "untracked",
+      "types": [
+        "Orders.Domain.IClock"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 34,
+      "path": "src/Orders.Domain/Misplaced/NotificationDispatcher.cs",
+      "kind": "csharp",
+      "project": "Orders.Domain",
+      "lines": 14,
+      "status": "untracked",
+      "types": [
+        "Orders.Application.Notifications.INotificationDispatcher"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 35,
+      "path": "src/Orders.Domain/OrderConfirmed.cs",
+      "kind": "csharp",
+      "project": "Orders.Domain",
+      "lines": 9,
+      "status": "untracked",
+      "types": [
+        "Orders.Domain.OrderConfirmed"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 36,
+      "path": "src/Orders.Domain/Repositories/ICustomerRepository.cs",
+      "kind": "csharp",
+      "project": "Orders.Domain",
+      "lines": 13,
+      "status": "untracked",
+      "types": [
+        "Orders.Domain.Repositories.ICustomerRepository"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 37,
+      "path": "src/Orders.Domain/Repositories/IOrderRepository.cs",
+      "kind": "csharp",
+      "project": "Orders.Domain",
+      "lines": 15,
+      "status": "untracked",
+      "types": [
+        "Orders.Domain.Repositories.IOrderRepository"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 38,
+      "path": "src/Orders.Domain/Services/DiscountPolicyService.cs",
+      "kind": "csharp",
+      "project": "Orders.Domain",
+      "lines": 24,
+      "status": "tracked",
+      "types": [
+        "Orders.Domain.Services.DiscountPolicyService"
+      ],
+      "violations": 5
+    },
+    {
+      "id": 39,
+      "path": "src/Orders.Domain/Services/IDiscountPolicyService.cs",
+      "kind": "csharp",
+      "project": "Orders.Domain",
+      "lines": 9,
+      "status": "untracked",
+      "types": [
+        "Orders.Domain.Services.IDiscountPolicyService"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 40,
+      "path": "src/Orders.Domain/Services/IPricingService.cs",
+      "kind": "csharp",
+      "project": "Orders.Domain",
+      "lines": 10,
+      "status": "untracked",
+      "types": [
+        "Orders.Domain.Services.IPricingService"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 41,
+      "path": "src/Orders.Domain/Services/ITaxCalculator.cs",
+      "kind": "csharp",
+      "project": "Orders.Domain",
+      "lines": 9,
+      "status": "untracked",
+      "types": [
+        "Orders.Domain.Services.ITaxCalculator"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 42,
+      "path": "src/Orders.Domain/Services/OrderNotificationService.cs",
+      "kind": "csharp",
+      "project": "Orders.Domain",
+      "lines": 25,
+      "status": "partial",
+      "types": [
+        "Orders.Domain.Services.IOrderNotificationService",
+        "Orders.Domain.Services.OrderNotificationService"
+      ],
+      "violations": 7
+    },
+    {
+      "id": 43,
+      "path": "src/Orders.Domain/Services/PricingService.cs",
+      "kind": "csharp",
+      "project": "Orders.Domain",
+      "lines": 15,
+      "status": "tracked",
+      "types": [
+        "Orders.Domain.Services.PricingService"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 44,
+      "path": "src/Orders.Domain/Services/TaxCalculator.cs",
+      "kind": "csharp",
+      "project": "Orders.Domain",
+      "lines": 14,
+      "status": "tracked",
+      "types": [
+        "Orders.Domain.Services.TaxCalculator"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 45,
+      "path": "src/Orders.Domain/ValueObjects/Address.cs",
+      "kind": "csharp",
+      "project": "Orders.Domain",
+      "lines": 4,
+      "status": "untracked",
+      "types": [
+        "Orders.Domain.ValueObjects.Address"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 46,
+      "path": "src/Orders.Domain/ValueObjects/Money.cs",
+      "kind": "csharp",
+      "project": "Orders.Domain",
+      "lines": 16,
+      "status": "untracked",
+      "types": [
+        "Orders.Domain.ValueObjects.Money"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 47,
+      "path": "src/Orders.Infrastructure/Messaging/Mediator.cs",
+      "kind": "csharp",
+      "project": "Orders.Infrastructure",
+      "lines": 27,
+      "status": "untracked",
+      "types": [
+        "Orders.Infrastructure.Messaging.Mediator"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 48,
+      "path": "src/Orders.Infrastructure/Persistence/OrdersDbContext.cs",
+      "kind": "csharp",
+      "project": "Orders.Infrastructure",
+      "lines": 32,
+      "status": "untracked",
+      "types": [
+        "Orders.Infrastructure.Persistence.OrdersDbContext"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 49,
+      "path": "src/Orders.Infrastructure/Repositories/CustomerRepository.cs",
+      "kind": "csharp",
+      "project": "Orders.Infrastructure",
+      "lines": 24,
+      "status": "tracked",
+      "types": [
+        "Orders.Infrastructure.Repositories.CustomerRepository"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 50,
+      "path": "src/Orders.Infrastructure/Repositories/LegacyReportRepository.cs",
+      "kind": "csharp",
+      "project": "Orders.Infrastructure",
+      "lines": 27,
+      "status": "untracked",
+      "types": [
+        "Orders.Infrastructure.Repositories.LegacyReportRepository"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 51,
+      "path": "src/Orders.Infrastructure/Repositories/OrderRepository.cs",
+      "kind": "csharp",
+      "project": "Orders.Infrastructure",
+      "lines": 37,
+      "status": "tracked",
+      "types": [
+        "Orders.Infrastructure.Repositories.OrderRepository"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 52,
+      "path": "src/Orders.Infrastructure/Repositories/StockLevelRepository.cs",
+      "kind": "csharp",
+      "project": "Orders.Infrastructure",
+      "lines": 36,
+      "status": "partial",
+      "types": [
+        "Orders.Infrastructure.Repositories.IStockLevelRepository",
+        "Orders.Infrastructure.Repositories.StockLevelRepository"
+      ],
+      "violations": 4
+    },
+    {
+      "id": 53,
+      "path": "src/Orders.Infrastructure/StaticUserContext.cs",
+      "kind": "csharp",
+      "project": "Orders.Infrastructure",
+      "lines": 11,
+      "status": "untracked",
+      "types": [
+        "Orders.Infrastructure.StaticUserContext"
+      ],
+      "violations": 0
+    },
+    {
+      "id": 54,
+      "path": "src/Orders.Infrastructure/SystemClock.cs",
+      "kind": "csharp",
+      "project": "Orders.Infrastructure",
+      "lines": 9,
+      "status": "untracked",
+      "types": [
+        "Orders.Infrastructure.SystemClock"
+      ],
+      "violations": 0
+    }
+  ],
   "nodes": [
     {
       "id": "Orders.Api.ApiControllerBase",
@@ -102,7 +761,8 @@
       "line": 9,
       "violations": 0,
       "exemptions": 0,
-      "members": []
+      "members": [],
+      "fileId": 6
     },
     {
       "id": "Orders.Api.Controllers.CustomersController",
@@ -132,7 +792,8 @@
           "kind": "method",
           "signature": "Task<string> ExportAsync(CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 7
     },
     {
       "id": "Orders.Api.Controllers.HealthController",
@@ -145,7 +806,7 @@
       "file": "src/Orders.Api/Controllers/HealthController.cs",
       "line": 12,
       "violations": 0,
-      "exemptions": 0,
+      "exemptions": 1,
       "members": [
         {
           "name": ".ctor",
@@ -157,7 +818,8 @@
           "kind": "method",
           "signature": "Task<ActionResult<string>> GetAsync()"
         }
-      ]
+      ],
+      "fileId": 8
     },
     {
       "id": "Orders.Api.Controllers.LegacyOrdersController",
@@ -187,7 +849,8 @@
           "kind": "method",
           "signature": "Task<IActionResult> RebuildProjectionsAsync()"
         }
-      ]
+      ],
+      "fileId": 9
     },
     {
       "id": "Orders.Api.Controllers.OrdersController",
@@ -222,7 +885,8 @@
           "kind": "method",
           "signature": "Task<ActionResult<OrderViewModel>> GetByIdAsync(Guid, CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 10
     },
     {
       "id": "Orders.Api.Controllers.ReportsController",
@@ -247,7 +911,8 @@
           "kind": "method",
           "signature": "IEnumerable<ReportViewModel> GetSummaries()"
         }
-      ]
+      ],
+      "fileId": 11
     },
     {
       "id": "Orders.Api.DependencyInjection.ServiceRegistration",
@@ -257,7 +922,7 @@
       "contracts": [],
       "file": "src/Orders.Api/DependencyInjection/ServiceRegistration.cs",
       "line": 25,
-      "violations": 1,
+      "violations": 8,
       "exemptions": 0,
       "members": [
         {
@@ -265,7 +930,8 @@
           "kind": "method",
           "signature": "IServiceCollection AddOrdersServices(IServiceCollection)"
         }
-      ]
+      ],
+      "fileId": 12
     },
     {
       "id": "Orders.Application.Abstractions.IMediator",
@@ -283,7 +949,8 @@
           "kind": "method",
           "signature": "Task<TResponse> SendAsync<TResponse>(IRequest<TResponse>, CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 14
     },
     {
       "id": "Orders.Application.Abstractions.IRequestHandler`2",
@@ -301,7 +968,8 @@
           "kind": "method",
           "signature": "Task<TResponse> HandleAsync(TRequest, CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 14
     },
     {
       "id": "Orders.Application.Abstractions.IRequest`1",
@@ -313,7 +981,8 @@
       "line": 7,
       "violations": 0,
       "exemptions": 0,
-      "members": []
+      "members": [],
+      "fileId": 14
     },
     {
       "id": "Orders.Application.Abstractions.IUserContext",
@@ -336,7 +1005,8 @@
           "kind": "property",
           "signature": "string UserId"
         }
-      ]
+      ],
+      "fileId": 15
     },
     {
       "id": "Orders.Application.Customers.GetCustomerQuery",
@@ -359,7 +1029,8 @@
           "kind": "property",
           "signature": "Guid CustomerId"
         }
-      ]
+      ],
+      "fileId": 16
     },
     {
       "id": "Orders.Application.Customers.GetCustomerQueryHandler",
@@ -384,7 +1055,8 @@
           "kind": "method",
           "signature": "Task<CustomerViewModel> HandleAsync(GetCustomerQuery, CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 16
     },
     {
       "id": "Orders.Application.Notifications.INotificationDispatcher",
@@ -402,7 +1074,8 @@
           "kind": "method",
           "signature": "void Dispatch(string)"
         }
-      ]
+      ],
+      "fileId": 34
     },
     {
       "id": "Orders.Application.Orders.CreateOrderCommand",
@@ -435,7 +1108,8 @@
           "kind": "property",
           "signature": "string Currency"
         }
-      ]
+      ],
+      "fileId": 18
     },
     {
       "id": "Orders.Application.Orders.CreateOrderCommandHandler",
@@ -460,7 +1134,8 @@
           "kind": "method",
           "signature": "Task<Guid> HandleAsync(CreateOrderCommand, CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 18
     },
     {
       "id": "Orders.Application.Orders.GetOrderQuery",
@@ -483,7 +1158,8 @@
           "kind": "property",
           "signature": "Guid OrderId"
         }
-      ]
+      ],
+      "fileId": 19
     },
     {
       "id": "Orders.Application.Orders.GetOrderQueryHandler",
@@ -508,7 +1184,8 @@
           "kind": "method",
           "signature": "Task<OrderViewModel> HandleAsync(GetOrderQuery, CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 19
     },
     {
       "id": "Orders.Application.Orders.ListOrdersQuery",
@@ -536,7 +1213,8 @@
           "kind": "property",
           "signature": "int Size"
         }
-      ]
+      ],
+      "fileId": 20
     },
     {
       "id": "Orders.Application.Orders.ListOrdersQueryHandler",
@@ -561,7 +1239,8 @@
           "kind": "method",
           "signature": "Task<IReadOnlyList<OrderViewModel>> HandleAsync(ListOrdersQuery, CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 20
     },
     {
       "id": "Orders.Application.Orders.NewOrderLine",
@@ -594,7 +1273,8 @@
           "kind": "property",
           "signature": "string Sku"
         }
-      ]
+      ],
+      "fileId": 18
     },
     {
       "id": "Orders.Application.ViewModels.CustomerViewModel",
@@ -634,7 +1314,8 @@
           "kind": "property",
           "signature": "string Name"
         }
-      ]
+      ],
+      "fileId": 21
     },
     {
       "id": "Orders.Application.ViewModels.DraftOrderViewModel",
@@ -659,7 +1340,8 @@
           "kind": "property",
           "signature": "string Notes"
         }
-      ]
+      ],
+      "fileId": 22
     },
     {
       "id": "Orders.Application.ViewModels.OrderLineViewModel",
@@ -699,7 +1381,8 @@
           "kind": "property",
           "signature": "string Sku"
         }
-      ]
+      ],
+      "fileId": 23
     },
     {
       "id": "Orders.Application.ViewModels.OrderViewModel",
@@ -749,7 +1432,8 @@
           "kind": "property",
           "signature": "string Status"
         }
-      ]
+      ],
+      "fileId": 23
     },
     {
       "id": "Orders.Application.ViewModels.ReportViewModel",
@@ -784,7 +1468,8 @@
           "kind": "property",
           "signature": "string Name"
         }
-      ]
+      ],
+      "fileId": 24
     },
     {
       "id": "Orders.Domain.AggregateRoot`1",
@@ -802,7 +1487,8 @@
           "kind": "property",
           "signature": "IReadOnlyList<IDomainEvent> DomainEvents"
         }
-      ]
+      ],
+      "fileId": 25
     },
     {
       "id": "Orders.Domain.Entities.AuditEntry",
@@ -835,7 +1521,8 @@
           "kind": "property",
           "signature": "string Actor"
         }
-      ]
+      ],
+      "fileId": 26
     },
     {
       "id": "Orders.Domain.Entities.Customer",
@@ -886,7 +1573,8 @@
           "kind": "property",
           "signature": "string Name"
         }
-      ]
+      ],
+      "fileId": 27
     },
     {
       "id": "Orders.Domain.Entities.Order",
@@ -952,7 +1640,8 @@
           "kind": "property",
           "signature": "string Currency"
         }
-      ]
+      ],
+      "fileId": 28
     },
     {
       "id": "Orders.Domain.Entities.OrderLine",
@@ -987,7 +1676,8 @@
           "kind": "property",
           "signature": "string Sku"
         }
-      ]
+      ],
+      "fileId": 29
     },
     {
       "id": "Orders.Domain.Entities.OrderStatus",
@@ -1020,7 +1710,8 @@
           "kind": "field",
           "signature": "Shipped"
         }
-      ]
+      ],
+      "fileId": 30
     },
     {
       "id": "Orders.Domain.Entities.ShipmentNote",
@@ -1055,7 +1746,8 @@
           "kind": "property",
           "signature": "string TrackingNumber"
         }
-      ]
+      ],
+      "fileId": 31
     },
     {
       "id": "Orders.Domain.Entity`1",
@@ -1083,7 +1775,8 @@
           "kind": "property",
           "signature": "TId Id"
         }
-      ]
+      ],
+      "fileId": 32
     },
     {
       "id": "Orders.Domain.IClock",
@@ -1101,7 +1794,8 @@
           "kind": "property",
           "signature": "DateTimeOffset UtcNow"
         }
-      ]
+      ],
+      "fileId": 33
     },
     {
       "id": "Orders.Domain.IDomainEvent",
@@ -1119,7 +1813,8 @@
           "kind": "property",
           "signature": "DateTimeOffset OccurredAt"
         }
-      ]
+      ],
+      "fileId": 25
     },
     {
       "id": "Orders.Domain.OrderConfirmed",
@@ -1147,7 +1842,8 @@
           "kind": "property",
           "signature": "Guid OrderId"
         }
-      ]
+      ],
+      "fileId": 35
     },
     {
       "id": "Orders.Domain.Repositories.ICustomerRepository",
@@ -1175,7 +1871,8 @@
           "kind": "method",
           "signature": "Task<int> SaveChangesAsync(CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 36
     },
     {
       "id": "Orders.Domain.Repositories.IOrderRepository",
@@ -1208,7 +1905,8 @@
           "kind": "method",
           "signature": "Task<int> SaveChangesAsync(CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 37
     },
     {
       "id": "Orders.Domain.Services.DiscountPolicyService",
@@ -1233,7 +1931,8 @@
           "kind": "method",
           "signature": "decimal DiscountFor(Customer)"
         }
-      ]
+      ],
+      "fileId": 38
     },
     {
       "id": "Orders.Domain.Services.IDiscountPolicyService",
@@ -1251,7 +1950,8 @@
           "kind": "method",
           "signature": "decimal DiscountFor(Customer)"
         }
-      ]
+      ],
+      "fileId": 39
     },
     {
       "id": "Orders.Domain.Services.IOrderNotificationService",
@@ -1269,7 +1969,8 @@
           "kind": "method",
           "signature": "void NotifyConfirmed(Order)"
         }
-      ]
+      ],
+      "fileId": 42
     },
     {
       "id": "Orders.Domain.Services.IPricingService",
@@ -1287,7 +1988,8 @@
           "kind": "method",
           "signature": "Money PriceFor(Order)"
         }
-      ]
+      ],
+      "fileId": 40
     },
     {
       "id": "Orders.Domain.Services.ITaxCalculator",
@@ -1305,7 +2007,8 @@
           "kind": "method",
           "signature": "Money AddTax(Money)"
         }
-      ]
+      ],
+      "fileId": 41
     },
     {
       "id": "Orders.Domain.Services.OrderNotificationService",
@@ -1330,7 +2033,8 @@
           "kind": "method",
           "signature": "void NotifyConfirmed(Order)"
         }
-      ]
+      ],
+      "fileId": 42
     },
     {
       "id": "Orders.Domain.Services.PricingService",
@@ -1355,7 +2059,8 @@
           "kind": "method",
           "signature": "Money PriceFor(Order)"
         }
-      ]
+      ],
+      "fileId": 43
     },
     {
       "id": "Orders.Domain.Services.TaxCalculator",
@@ -1380,7 +2085,8 @@
           "kind": "method",
           "signature": "Money AddTax(Money)"
         }
-      ]
+      ],
+      "fileId": 44
     },
     {
       "id": "Orders.Domain.ValueObjects.Address",
@@ -1418,7 +2124,8 @@
           "kind": "property",
           "signature": "string PostCode"
         }
-      ]
+      ],
+      "fileId": 45
     },
     {
       "id": "Orders.Domain.ValueObjects.Money",
@@ -1456,7 +2163,8 @@
           "kind": "property",
           "signature": "string Currency"
         }
-      ]
+      ],
+      "fileId": 46
     },
     {
       "id": "Orders.Infrastructure.Caching.CacheKeys",
@@ -1474,7 +2182,8 @@
           "kind": "method",
           "signature": "string Orders(int, int)"
         }
-      ]
+      ],
+      "fileId": 17
     },
     {
       "id": "Orders.Infrastructure.Messaging.Mediator",
@@ -1497,7 +2206,8 @@
           "kind": "method",
           "signature": "Task<TResponse> SendAsync<TResponse>(IRequest<TResponse>, CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 47
     },
     {
       "id": "Orders.Infrastructure.Persistence.OrdersDbContext",
@@ -1530,7 +2240,8 @@
           "kind": "property",
           "signature": "DbSet<Order> Orders"
         }
-      ]
+      ],
+      "fileId": 48
     },
     {
       "id": "Orders.Infrastructure.Repositories.CustomerRepository",
@@ -1565,7 +2276,8 @@
           "kind": "method",
           "signature": "Task<int> SaveChangesAsync(CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 49
     },
     {
       "id": "Orders.Infrastructure.Repositories.IStockLevelRepository",
@@ -1583,7 +2295,8 @@
           "kind": "method",
           "signature": "IReadOnlyList<int> GetLevels(string)"
         }
-      ]
+      ],
+      "fileId": 52
     },
     {
       "id": "Orders.Infrastructure.Repositories.LegacyReportRepository",
@@ -1606,7 +2319,8 @@
           "kind": "method",
           "signature": "DataTable Run(string)"
         }
-      ]
+      ],
+      "fileId": 50
     },
     {
       "id": "Orders.Infrastructure.Repositories.OrderRepository",
@@ -1646,7 +2360,8 @@
           "kind": "method",
           "signature": "Task<int> SaveChangesAsync(CancellationToken)"
         }
-      ]
+      ],
+      "fileId": 51
     },
     {
       "id": "Orders.Infrastructure.Repositories.StockLevelRepository",
@@ -1671,7 +2386,8 @@
           "kind": "method",
           "signature": "IReadOnlyList<int> GetLevels(string)"
         }
-      ]
+      ],
+      "fileId": 52
     },
     {
       "id": "Orders.Infrastructure.StaticUserContext",
@@ -1694,7 +2410,8 @@
           "kind": "property",
           "signature": "string UserId"
         }
-      ]
+      ],
+      "fileId": 53
     },
     {
       "id": "Orders.Infrastructure.SystemClock",
@@ -1712,7 +2429,8 @@
           "kind": "property",
           "signature": "DateTimeOffset UtcNow"
         }
-      ]
+      ],
+      "fileId": 54
     },
     {
       "id": "Program",
@@ -1724,7 +2442,8 @@
       "line": 3,
       "violations": 0,
       "exemptions": 0,
-      "members": []
+      "members": [],
+      "fileId": 13
     },
     {
       "id": "Tangent.TangentAttribute",
@@ -1747,7 +2466,8 @@
           "kind": "property",
           "signature": "string Contract"
         }
-      ]
+      ],
+      "fileId": -1
     },
     {
       "id": "Tangent.TangentExemptAttribute",
@@ -1780,7 +2500,8 @@
           "kind": "property",
           "signature": "string Rule"
         }
-      ]
+      ],
+      "fileId": -1
     }
   ],
   "edges": [
@@ -1809,7 +2530,7 @@
       "from": "Orders.Api.Controllers.CustomersController",
       "to": "Orders.Application.ViewModels.CustomerViewModel",
       "kind": "reference",
-      "count": 1,
+      "count": 3,
       "violatesLayering": false
     },
     {
@@ -1893,21 +2614,21 @@
       "from": "Orders.Api.Controllers.OrdersController",
       "to": "Orders.Application.ViewModels.OrderViewModel",
       "kind": "reference",
-      "count": 4,
+      "count": 7,
       "violatesLayering": false
     },
     {
       "from": "Orders.Api.Controllers.ReportsController",
       "to": "Orders.Application.ViewModels.ReportViewModel",
       "kind": "reference",
-      "count": 3,
+      "count": 4,
       "violatesLayering": false
     },
     {
       "from": "Orders.Api.Controllers.ReportsController",
       "to": "Orders.Domain.Entities.Order",
       "kind": "reference",
-      "count": 1,
+      "count": 3,
       "violatesLayering": false
     },
     {
@@ -1926,9 +2647,212 @@
     },
     {
       "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Application.Abstractions.IMediator",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Application.Abstractions.IRequestHandler`2",
+      "kind": "reference",
+      "count": 4,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Application.Abstractions.IUserContext",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Application.Customers.GetCustomerQuery",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Application.Customers.GetCustomerQueryHandler",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Application.Orders.CreateOrderCommand",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Application.Orders.CreateOrderCommandHandler",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Application.Orders.GetOrderQuery",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Application.Orders.GetOrderQueryHandler",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Application.Orders.ListOrdersQuery",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Application.Orders.ListOrdersQueryHandler",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Application.ViewModels.CustomerViewModel",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Application.ViewModels.OrderViewModel",
+      "kind": "reference",
+      "count": 2,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Domain.IClock",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Domain.Repositories.ICustomerRepository",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Domain.Repositories.IOrderRepository",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Domain.Services.DiscountPolicyService",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Domain.Services.IDiscountPolicyService",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Domain.Services.IPricingService",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Domain.Services.ITaxCalculator",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Domain.Services.PricingService",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Domain.Services.TaxCalculator",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Infrastructure.Messaging.Mediator",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": true
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
       "to": "Orders.Infrastructure.Persistence.OrdersDbContext",
       "kind": "reference",
-      "count": 3,
+      "count": 4,
+      "violatesLayering": true
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Infrastructure.Repositories.CustomerRepository",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": true
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Infrastructure.Repositories.IStockLevelRepository",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": true
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Infrastructure.Repositories.OrderRepository",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": true
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Infrastructure.Repositories.StockLevelRepository",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": true
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Infrastructure.StaticUserContext",
+      "kind": "reference",
+      "count": 1,
+      "violatesLayering": true
+    },
+    {
+      "from": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "to": "Orders.Infrastructure.SystemClock",
+      "kind": "reference",
+      "count": 1,
       "violatesLayering": true
     },
     {
@@ -2110,7 +3034,7 @@
       "from": "Orders.Application.Orders.GetOrderQueryHandler",
       "to": "Orders.Application.ViewModels.OrderLineViewModel",
       "kind": "reference",
-      "count": 1,
+      "count": 2,
       "violatesLayering": false
     },
     {
@@ -2131,7 +3055,7 @@
       "from": "Orders.Application.Orders.GetOrderQueryHandler",
       "to": "Orders.Domain.Entities.OrderLine",
       "kind": "reference",
-      "count": 3,
+      "count": 4,
       "violatesLayering": false
     },
     {
@@ -2194,28 +3118,28 @@
       "from": "Orders.Application.Orders.ListOrdersQueryHandler",
       "to": "Orders.Application.ViewModels.OrderLineViewModel",
       "kind": "reference",
-      "count": 1,
+      "count": 2,
       "violatesLayering": false
     },
     {
       "from": "Orders.Application.Orders.ListOrdersQueryHandler",
       "to": "Orders.Application.ViewModels.OrderViewModel",
       "kind": "reference",
-      "count": 3,
+      "count": 4,
       "violatesLayering": false
     },
     {
       "from": "Orders.Application.Orders.ListOrdersQueryHandler",
       "to": "Orders.Domain.Entities.Order",
       "kind": "reference",
-      "count": 5,
+      "count": 6,
       "violatesLayering": false
     },
     {
       "from": "Orders.Application.Orders.ListOrdersQueryHandler",
       "to": "Orders.Domain.Entities.OrderLine",
       "kind": "reference",
-      "count": 3,
+      "count": 4,
       "violatesLayering": false
     },
     {
@@ -2299,7 +3223,7 @@
       "from": "Orders.Domain.Entities.Order",
       "to": "Orders.Domain.Entities.OrderLine",
       "kind": "reference",
-      "count": 7,
+      "count": 8,
       "violatesLayering": false
     },
     {
@@ -2327,7 +3251,7 @@
       "from": "Orders.Domain.Entities.Order",
       "to": "Orders.Domain.ValueObjects.Money",
       "kind": "reference",
-      "count": 3,
+      "count": 4,
       "violatesLayering": false
     },
     {
@@ -2509,35 +3433,35 @@
       "from": "Orders.Infrastructure.Persistence.OrdersDbContext",
       "to": "Orders.Domain.Entities.AuditEntry",
       "kind": "reference",
-      "count": 1,
+      "count": 3,
       "violatesLayering": false
     },
     {
       "from": "Orders.Infrastructure.Persistence.OrdersDbContext",
       "to": "Orders.Domain.Entities.Customer",
-      "kind": "reference",
-      "count": 2,
-      "violatesLayering": false
-    },
-    {
-      "from": "Orders.Infrastructure.Persistence.OrdersDbContext",
-      "to": "Orders.Domain.Entities.Order",
       "kind": "reference",
       "count": 4,
       "violatesLayering": false
     },
     {
       "from": "Orders.Infrastructure.Persistence.OrdersDbContext",
+      "to": "Orders.Domain.Entities.Order",
+      "kind": "reference",
+      "count": 7,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Infrastructure.Persistence.OrdersDbContext",
       "to": "Orders.Domain.Entities.OrderLine",
       "kind": "reference",
-      "count": 2,
+      "count": 3,
       "violatesLayering": false
     },
     {
       "from": "Orders.Infrastructure.Repositories.CustomerRepository",
       "to": "Orders.Domain.Entities.Customer",
       "kind": "reference",
-      "count": 1,
+      "count": 3,
       "violatesLayering": false
     },
     {
@@ -2565,7 +3489,14 @@
       "from": "Orders.Infrastructure.Repositories.OrderRepository",
       "to": "Orders.Domain.Entities.Order",
       "kind": "reference",
-      "count": 7,
+      "count": 13,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Infrastructure.Repositories.OrderRepository",
+      "to": "Orders.Domain.Entities.OrderLine",
+      "kind": "reference",
+      "count": 1,
       "violatesLayering": false
     },
     {
@@ -2587,6 +3518,13 @@
       "to": "Orders.Infrastructure.Persistence.OrdersDbContext",
       "kind": "reference",
       "count": 5,
+      "violatesLayering": false
+    },
+    {
+      "from": "Orders.Infrastructure.Repositories.StockLevelRepository",
+      "to": "Orders.Domain.Entities.Order",
+      "kind": "reference",
+      "count": 1,
       "violatesLayering": false
     },
     {
@@ -2642,7 +3580,8 @@
       "file": "src/Orders.Api/Controllers/CustomersController.cs",
       "line": 15,
       "col": 14,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 7
     },
     {
       "node": "Orders.Api.Controllers.CustomersController",
@@ -2653,7 +3592,8 @@
       "file": "src/Orders.Api/Controllers/CustomersController.cs",
       "line": 28,
       "col": 56,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 7
     },
     {
       "node": "Orders.Api.Controllers.LegacyOrdersController",
@@ -2664,7 +3604,8 @@
       "file": "src/Orders.Api/Controllers/LegacyOrdersController.cs",
       "line": 16,
       "col": 2,
-      "severity": "error"
+      "severity": "error",
+      "fileId": 9
     },
     {
       "node": "Orders.Api.Controllers.LegacyOrdersController",
@@ -2675,7 +3616,8 @@
       "file": "src/Orders.Api/Controllers/LegacyOrdersController.cs",
       "line": 28,
       "col": 26,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 9
     },
     {
       "node": "Orders.Api.Controllers.LegacyOrdersController",
@@ -2686,7 +3628,8 @@
       "file": "src/Orders.Api/Controllers/LegacyOrdersController.cs",
       "line": 32,
       "col": 24,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 9
     },
     {
       "node": "Orders.Api.Controllers.LegacyOrdersController",
@@ -2697,7 +3640,8 @@
       "file": "src/Orders.Api/Controllers/LegacyOrdersController.cs",
       "line": 32,
       "col": 24,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 9
     },
     {
       "node": "Orders.Api.Controllers.LegacyOrdersController",
@@ -2708,7 +3652,8 @@
       "file": "src/Orders.Api/Controllers/LegacyOrdersController.cs",
       "line": 32,
       "col": 24,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 9
     },
     {
       "node": "Orders.Api.Controllers.LegacyOrdersController",
@@ -2719,7 +3664,8 @@
       "file": "src/Orders.Api/Controllers/LegacyOrdersController.cs",
       "line": 32,
       "col": 44,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 9
     },
     {
       "node": "Orders.Api.Controllers.LegacyOrdersController",
@@ -2730,7 +3676,8 @@
       "file": "src/Orders.Api/Controllers/LegacyOrdersController.cs",
       "line": 40,
       "col": 32,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 9
     },
     {
       "node": "Orders.Api.Controllers.ReportsController",
@@ -2741,7 +3688,8 @@
       "file": "src/Orders.Api/Controllers/ReportsController.cs",
       "line": 16,
       "col": 21,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 11
     },
     {
       "node": "Orders.Api.Controllers.ReportsController",
@@ -2752,7 +3700,8 @@
       "file": "src/Orders.Api/Controllers/ReportsController.cs",
       "line": 16,
       "col": 21,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 11
     },
     {
       "node": "Orders.Api.Controllers.ReportsController",
@@ -2763,7 +3712,8 @@
       "file": "src/Orders.Api/Controllers/ReportsController.cs",
       "line": 20,
       "col": 38,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 11
     },
     {
       "node": "Orders.Api.Controllers.ReportsController",
@@ -2774,7 +3724,8 @@
       "file": "src/Orders.Api/Controllers/ReportsController.cs",
       "line": 20,
       "col": 38,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 11
     },
     {
       "node": "Orders.Api.Controllers.ReportsController",
@@ -2785,7 +3736,8 @@
       "file": "src/Orders.Api/Controllers/ReportsController.cs",
       "line": 25,
       "col": 46,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 11
     },
     {
       "node": "Orders.Api.Controllers.ReportsController",
@@ -2796,7 +3748,8 @@
       "file": "src/Orders.Api/Controllers/ReportsController.cs",
       "line": 25,
       "col": 46,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 11
     },
     {
       "node": "Orders.Api.Controllers.ReportsController",
@@ -2807,7 +3760,8 @@
       "file": "src/Orders.Api/Controllers/ReportsController.cs",
       "line": 25,
       "col": 46,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 11
     },
     {
       "node": "Orders.Api.Controllers.ReportsController",
@@ -2818,7 +3772,8 @@
       "file": "src/Orders.Api/Controllers/ReportsController.cs",
       "line": 25,
       "col": 57,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 11
     },
     {
       "node": "Orders.Api.Controllers.ReportsController",
@@ -2829,7 +3784,8 @@
       "file": "src/Orders.Api/Controllers/ReportsController.cs",
       "line": 25,
       "col": 57,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 11
     },
     {
       "node": "Orders.Api.Controllers.ReportsController",
@@ -2840,7 +3796,8 @@
       "file": "src/Orders.Api/Controllers/ReportsController.cs",
       "line": 35,
       "col": 41,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 11
     },
     {
       "node": "Orders.Api.Controllers.ReportsController",
@@ -2851,7 +3808,8 @@
       "file": "src/Orders.Api/Controllers/ReportsController.cs",
       "line": 39,
       "col": 26,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 11
     },
     {
       "node": "Orders.Api.Controllers.ReportsController",
@@ -2862,7 +3820,8 @@
       "file": "src/Orders.Api/Controllers/ReportsController.cs",
       "line": 39,
       "col": 26,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 11
     },
     {
       "node": "Orders.Api.Controllers.ReportsController",
@@ -2873,7 +3832,8 @@
       "file": "src/Orders.Api/Controllers/ReportsController.cs",
       "line": 39,
       "col": 26,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 11
     },
     {
       "node": "Orders.Api.DependencyInjection.ServiceRegistration",
@@ -2883,8 +3843,93 @@
       "message": "Layer Api may not depend on layer Infrastructure (OrdersDbContext). (rule layer:Api->Infrastructure, project.tan:7)",
       "file": "src/Orders.Api/DependencyInjection/ServiceRegistration.cs",
       "line": 30,
-      "col": 33,
-      "severity": "warning"
+      "col": 9,
+      "severity": "warning",
+      "fileId": 12
+    },
+    {
+      "node": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "member": "AddOrdersServices",
+      "ruleId": "layer:Api->Infrastructure",
+      "code": "TNG0202",
+      "message": "Layer Api may not depend on layer Infrastructure (SystemClock). (rule layer:Api->Infrastructure, project.tan:7)",
+      "file": "src/Orders.Api/DependencyInjection/ServiceRegistration.cs",
+      "line": 32,
+      "col": 9,
+      "severity": "warning",
+      "fileId": 12
+    },
+    {
+      "node": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "member": "AddOrdersServices",
+      "ruleId": "layer:Api->Infrastructure",
+      "code": "TNG0202",
+      "message": "Layer Api may not depend on layer Infrastructure (StaticUserContext). (rule layer:Api->Infrastructure, project.tan:7)",
+      "file": "src/Orders.Api/DependencyInjection/ServiceRegistration.cs",
+      "line": 33,
+      "col": 9,
+      "severity": "warning",
+      "fileId": 12
+    },
+    {
+      "node": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "member": "AddOrdersServices",
+      "ruleId": "layer:Api->Infrastructure",
+      "code": "TNG0202",
+      "message": "Layer Api may not depend on layer Infrastructure (Mediator). (rule layer:Api->Infrastructure, project.tan:7)",
+      "file": "src/Orders.Api/DependencyInjection/ServiceRegistration.cs",
+      "line": 34,
+      "col": 9,
+      "severity": "warning",
+      "fileId": 12
+    },
+    {
+      "node": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "member": "AddOrdersServices",
+      "ruleId": "layer:Api->Infrastructure",
+      "code": "TNG0202",
+      "message": "Layer Api may not depend on layer Infrastructure (OrderRepository). (rule layer:Api->Infrastructure, project.tan:7)",
+      "file": "src/Orders.Api/DependencyInjection/ServiceRegistration.cs",
+      "line": 36,
+      "col": 9,
+      "severity": "warning",
+      "fileId": 12
+    },
+    {
+      "node": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "member": "AddOrdersServices",
+      "ruleId": "layer:Api->Infrastructure",
+      "code": "TNG0202",
+      "message": "Layer Api may not depend on layer Infrastructure (CustomerRepository). (rule layer:Api->Infrastructure, project.tan:7)",
+      "file": "src/Orders.Api/DependencyInjection/ServiceRegistration.cs",
+      "line": 37,
+      "col": 9,
+      "severity": "warning",
+      "fileId": 12
+    },
+    {
+      "node": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "member": "AddOrdersServices",
+      "ruleId": "layer:Api->Infrastructure",
+      "code": "TNG0202",
+      "message": "Layer Api may not depend on layer Infrastructure (IStockLevelRepository). (rule layer:Api->Infrastructure, project.tan:7)",
+      "file": "src/Orders.Api/DependencyInjection/ServiceRegistration.cs",
+      "line": 38,
+      "col": 9,
+      "severity": "warning",
+      "fileId": 12
+    },
+    {
+      "node": "Orders.Api.DependencyInjection.ServiceRegistration",
+      "member": "AddOrdersServices",
+      "ruleId": "layer:Api->Infrastructure",
+      "code": "TNG0202",
+      "message": "Layer Api may not depend on layer Infrastructure (StockLevelRepository). (rule layer:Api->Infrastructure, project.tan:7)",
+      "file": "src/Orders.Api/DependencyInjection/ServiceRegistration.cs",
+      "line": 38,
+      "col": 9,
+      "severity": "warning",
+      "fileId": 12
     },
     {
       "node": "Orders.Application.Orders.ListOrdersQueryHandler",
@@ -2895,7 +3940,8 @@
       "file": "src/Orders.Application/Orders/ListOrdersQuery.cs",
       "line": 21,
       "col": 52,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 20
     },
     {
       "node": "Orders.Application.Orders.ListOrdersQueryHandler",
@@ -2906,7 +3952,8 @@
       "file": "src/Orders.Application/Orders/ListOrdersQuery.cs",
       "line": 28,
       "col": 25,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 20
     },
     {
       "node": "Orders.Application.Orders.ListOrdersQueryHandler",
@@ -2917,7 +3964,8 @@
       "file": "src/Orders.Application/Orders/ListOrdersQuery.cs",
       "line": 28,
       "col": 25,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 20
     },
     {
       "node": "Orders.Application.ViewModels.DraftOrderViewModel",
@@ -2928,7 +3976,8 @@
       "file": "src/Orders.Application/ViewModels/DraftOrderViewModel.cs",
       "line": 7,
       "col": 27,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 22
     },
     {
       "node": "Orders.Domain.Entities.Customer",
@@ -2939,7 +3988,8 @@
       "file": "src/Orders.Domain/Entities/Customer.cs",
       "line": 13,
       "col": 12,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 27
     },
     {
       "node": "Orders.Domain.Entities.Customer",
@@ -2950,7 +4000,8 @@
       "file": "src/Orders.Domain/Entities/Customer.cs",
       "line": 22,
       "col": 32,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 27
     },
     {
       "node": "Orders.Domain.Entities.Customer",
@@ -2961,7 +4012,8 @@
       "file": "src/Orders.Domain/Entities/Customer.cs",
       "line": 29,
       "col": 17,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 27
     },
     {
       "node": "Orders.Domain.Entities.ShipmentNote",
@@ -2972,7 +4024,8 @@
       "file": "src/Orders.Domain/Entities/ShipmentNote.cs",
       "line": 10,
       "col": 21,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 31
     },
     {
       "node": "Orders.Domain.Entities.ShipmentNote",
@@ -2983,7 +4036,8 @@
       "file": "src/Orders.Domain/Entities/ShipmentNote.cs",
       "line": 13,
       "col": 19,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 31
     },
     {
       "node": "Orders.Domain.Entities.ShipmentNote",
@@ -2994,7 +4048,8 @@
       "file": "src/Orders.Domain/Entities/ShipmentNote.cs",
       "line": 20,
       "col": 22,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 31
     },
     {
       "node": "Orders.Domain.Entities.ShipmentNote",
@@ -3005,7 +4060,8 @@
       "file": "src/Orders.Domain/Entities/ShipmentNote.cs",
       "line": 22,
       "col": 21,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 31
     },
     {
       "node": "Orders.Domain.Entities.ShipmentNote",
@@ -3016,7 +4072,8 @@
       "file": "src/Orders.Domain/Entities/ShipmentNote.cs",
       "line": 23,
       "col": 9,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 31
     },
     {
       "node": "Orders.Domain.Entities.ShipmentNote",
@@ -3027,7 +4084,8 @@
       "file": "src/Orders.Domain/Entities/ShipmentNote.cs",
       "line": 25,
       "col": 9,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 31
     },
     {
       "node": "Orders.Domain.Services.DiscountPolicyService",
@@ -3038,7 +4096,8 @@
       "file": "src/Orders.Domain/Services/DiscountPolicyService.cs",
       "line": 12,
       "col": 23,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 38
     },
     {
       "node": "Orders.Domain.Services.DiscountPolicyService",
@@ -3049,7 +4108,8 @@
       "file": "src/Orders.Domain/Services/DiscountPolicyService.cs",
       "line": 12,
       "col": 23,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 38
     },
     {
       "node": "Orders.Domain.Services.DiscountPolicyService",
@@ -3060,7 +4120,8 @@
       "file": "src/Orders.Domain/Services/DiscountPolicyService.cs",
       "line": 12,
       "col": 23,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 38
     },
     {
       "node": "Orders.Domain.Services.DiscountPolicyService",
@@ -3071,7 +4132,8 @@
       "file": "src/Orders.Domain/Services/DiscountPolicyService.cs",
       "line": 15,
       "col": 17,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 38
     },
     {
       "node": "Orders.Domain.Services.DiscountPolicyService",
@@ -3082,7 +4144,8 @@
       "file": "src/Orders.Domain/Services/DiscountPolicyService.cs",
       "line": 15,
       "col": 17,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 38
     },
     {
       "node": "Orders.Domain.Services.OrderNotificationService",
@@ -3093,7 +4156,8 @@
       "file": "src/Orders.Domain/Services/OrderNotificationService.cs",
       "line": 16,
       "col": 21,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 42
     },
     {
       "node": "Orders.Domain.Services.OrderNotificationService",
@@ -3104,7 +4168,8 @@
       "file": "src/Orders.Domain/Services/OrderNotificationService.cs",
       "line": 19,
       "col": 46,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 42
     },
     {
       "node": "Orders.Domain.Services.OrderNotificationService",
@@ -3115,7 +4180,8 @@
       "file": "src/Orders.Domain/Services/OrderNotificationService.cs",
       "line": 19,
       "col": 46,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 42
     },
     {
       "node": "Orders.Domain.Services.OrderNotificationService",
@@ -3126,7 +4192,8 @@
       "file": "src/Orders.Domain/Services/OrderNotificationService.cs",
       "line": 21,
       "col": 61,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 42
     },
     {
       "node": "Orders.Domain.Services.OrderNotificationService",
@@ -3137,7 +4204,8 @@
       "file": "src/Orders.Domain/Services/OrderNotificationService.cs",
       "line": 21,
       "col": 61,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 42
     },
     {
       "node": "Orders.Domain.Services.OrderNotificationService",
@@ -3148,7 +4216,8 @@
       "file": "src/Orders.Domain/Services/OrderNotificationService.cs",
       "line": 23,
       "col": 49,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 42
     },
     {
       "node": "Orders.Domain.Services.OrderNotificationService",
@@ -3159,7 +4228,8 @@
       "file": "src/Orders.Domain/Services/OrderNotificationService.cs",
       "line": 23,
       "col": 49,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 42
     },
     {
       "node": "Orders.Infrastructure.Repositories.StockLevelRepository",
@@ -3170,7 +4240,8 @@
       "file": "src/Orders.Infrastructure/Repositories/StockLevelRepository.cs",
       "line": 20,
       "col": 14,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 52
     },
     {
       "node": "Orders.Infrastructure.Repositories.StockLevelRepository",
@@ -3181,7 +4252,8 @@
       "file": "src/Orders.Infrastructure/Repositories/StockLevelRepository.cs",
       "line": 20,
       "col": 14,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 52
     },
     {
       "node": "Orders.Infrastructure.Repositories.StockLevelRepository",
@@ -3192,7 +4264,8 @@
       "file": "src/Orders.Infrastructure/Repositories/StockLevelRepository.cs",
       "line": 27,
       "col": 60,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 52
     },
     {
       "node": "Orders.Infrastructure.Repositories.StockLevelRepository",
@@ -3203,7 +4276,46 @@
       "file": "src/Orders.Infrastructure/Repositories/StockLevelRepository.cs",
       "line": 34,
       "col": 31,
-      "severity": "warning"
+      "severity": "warning",
+      "fileId": 52
+    }
+  ],
+  "exemptions": [
+    {
+      "node": "Orders.Api.Controllers.CustomersController",
+      "member": "ExportAsync",
+      "ruleId": "Controller/methods/returns#0",
+      "reason": "CSV export writes straight to the response; the ActionResult wrapper lands in v2",
+      "file": "src/Orders.Api/Controllers/CustomersController.cs",
+      "line": 39,
+      "fileId": 7
+    },
+    {
+      "node": "Orders.Api.Controllers.HealthController",
+      "member": "HealthController",
+      "ruleId": "Controller/methods/attributes#1",
+      "reason": "bind except [ProducesResponseType] (bindings.tan:4)",
+      "file": "src/Orders.Api/Controllers/HealthController.cs",
+      "line": 12,
+      "fileId": 8
+    },
+    {
+      "node": "Orders.Domain.Entities.AuditEntry",
+      "member": "AuditEntry",
+      "ruleId": "",
+      "reason": "append-only log, public setters by design",
+      "file": "src/Orders.Domain/Entities/AuditEntry.cs",
+      "line": 8,
+      "fileId": 26
+    },
+    {
+      "node": "Orders.Infrastructure.Repositories.LegacyReportRepository",
+      "member": "LegacyReportRepository",
+      "ruleId": "",
+      "reason": "migrating in Q4 2026",
+      "file": "src/Orders.Infrastructure/Repositories/LegacyReportRepository.cs",
+      "line": 10,
+      "fileId": 50
     }
   ],
   "rules": [

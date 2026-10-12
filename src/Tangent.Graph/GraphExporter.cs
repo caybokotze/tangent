@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Tangent.Analyzers;
 
 namespace Tangent.Graph;
@@ -81,6 +82,30 @@ public sealed class ExportedReference
     public bool TargetIsInSource;
 }
 
+/// <summary>A C# source file of an analysed project, with the types it declares.</summary>
+public sealed class ExportedFile
+{
+    internal ExportedFile(string path, string project, int lines, ImmutableArray<string> types)
+    {
+        Path = path;
+        Project = project;
+        Lines = lines;
+        Types = types;
+    }
+
+    /// <summary>The absolute path.</summary>
+    public string Path { get; }
+
+    /// <summary>The project that compiles the file. For a file shared by several projects, the first by name.</summary>
+    public string Project { get; }
+
+    /// <summary>The number of lines.</summary>
+    public int Lines { get; }
+
+    /// <summary>The ids of the declared types, nested types included, in declaration order.</summary>
+    public ImmutableArray<string> Types { get; }
+}
+
 /// <summary>
 /// The <see cref="IReferenceSink"/> <c>tangent graph</c> registers on the analyzer, so the graph is a
 /// by-product of the same Tier 1 walk that produces the diagnostics rather than a second pass.
@@ -111,6 +136,57 @@ public sealed class GraphExporter : IReferenceSink
 
     /// <summary>Every (from, to) pair the Tier 1 walk observed.</summary>
     public IReadOnlyCollection<ExportedReference> References => _references.Values.ToArray();
+
+    /// <summary>Every C# source file recorded through <see cref="AddSourceFiles"/>, keyed by path.</summary>
+    public IReadOnlyCollection<ExportedFile> Files => _files.Values.ToArray();
+
+    private readonly ConcurrentDictionary<string, ExportedFile> _files = new(StringComparer.OrdinalIgnoreCase);
+
+    /// <summary>
+    /// Records the hand-written source files of one compilation and the types each declares, so the graph
+    /// can show files that no contract covers. Generated files (under <c>obj/</c>, <c>*.g.cs</c>, or with no
+    /// file on disk) are skipped. Safe to call for several projects concurrently.
+    /// </summary>
+    public void AddSourceFiles(Compilation compilation, string projectName, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(compilation);
+
+        foreach (SyntaxTree tree in compilation.SyntaxTrees)
+        {
+            string path = tree.FilePath;
+            if (!IsHandWritten(path)) continue;
+
+            SyntaxNode root = tree.GetRoot(cancellationToken);
+            SemanticModel semanticModel = compilation.GetSemanticModel(tree);
+
+            ImmutableArray<string>.Builder types = ImmutableArray.CreateBuilder<string>();
+            foreach (SyntaxNode node in root.DescendantNodes(static n => n is not BaseMethodDeclarationSyntax and not AccessorListSyntax))
+            {
+                if (node is not (BaseTypeDeclarationSyntax or DelegateDeclarationSyntax)) continue;
+                if (semanticModel.GetDeclaredSymbol(node, cancellationToken) is INamedTypeSymbol type)
+                {
+                    string id = IdOf(type);
+                    if (!types.Contains(id)) types.Add(id);
+                }
+            }
+
+            var file = new ExportedFile(path, projectName, tree.GetText(cancellationToken).Lines.Count, types.ToImmutable());
+            _files.AddOrUpdate(
+                path,
+                file,
+                (_, existing) => string.CompareOrdinal(projectName, existing.Project) < 0 ? file : existing);
+        }
+    }
+
+    private static bool IsHandWritten(string path)
+    {
+        if (string.IsNullOrEmpty(path) || !System.IO.File.Exists(path)) return false;
+        if (path.EndsWith(".g.cs", StringComparison.OrdinalIgnoreCase)) return false;
+
+        string normalized = path.Replace('\\', '/');
+        return !normalized.Contains("/obj/", StringComparison.OrdinalIgnoreCase) &&
+               !normalized.Contains("/bin/", StringComparison.OrdinalIgnoreCase);
+    }
 
     /// <summary>The fully qualified metadata-style id this exporter gives a type.</summary>
     public static string IdOf(INamedTypeSymbol type)
