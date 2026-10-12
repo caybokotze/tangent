@@ -65,7 +65,7 @@ public static class ContractFiles
 
 Every descriptor in `TangentDiagnostics.All` is built from `Tangent.Core.Diagnostics.DiagnosticCatalog`,
 so ids, titles and default severities live in exactly one place. `helpLinkUri` is
-`https://github.com/tangent-dotnet/tangent/blob/main/docs/diagnostics.md#tngNNNN`.
+`https://github.com/caybokotze/tangent/blob/main/docs/diagnostics.md#tngNNNN`.
 
 The Roslyn `messageFormat` is a single `{0}` hole: the analyzer composes the whole message (contract,
 member, expectation, actual, rule id and `.tan` location) and passes it as the one argument. The Core

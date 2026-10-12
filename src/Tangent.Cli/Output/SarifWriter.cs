@@ -56,7 +56,7 @@ public static class SarifWriter
         writer.WriteString("name", "Tangent");
         writer.WriteString("semanticVersion", Version);
         writer.WriteString("version", Version);
-        writer.WriteString("informationUri", "https://github.com/tangent-dotnet/tangent");
+        writer.WriteString("informationUri", "https://github.com/caybokotze/tangent");
 
         writer.WriteStartArray("rules");
         foreach (DiagnosticDescriptor descriptor in TangentDiagnostics.All)

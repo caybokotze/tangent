@@ -19,7 +19,7 @@ public static class TangentDiagnostics
     public const string Category = "Tangent";
 
     private const string HelpLinkPrefix =
-        "https://github.com/tangent-dotnet/tangent/blob/main/docs/diagnostics.md#";
+        "https://github.com/caybokotze/tangent/blob/main/docs/diagnostics.md#";
 
     private static readonly Dictionary<string, DiagnosticDescriptor> ById;
 
