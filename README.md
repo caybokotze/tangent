@@ -2,9 +2,17 @@
 
 > A line is tangent to a curve when it touches it at exactly one point. Tangent checks that your codebase touches its architectural contracts exactly where it should, and nowhere else.
 
-**Tangent is SonarCloud for software architecture.**
+A deterministic tool to align non-deterministic code generation. The main point being that you can create more consitent output from a architectural perspective with AI agents by enforcing deterministic rules to re-enforce patterns and prevent architectural drift.
 
-Static analysers look at code in the small: this method is too complex, this variable is never read, this string comparison is culture-sensitive. They are excellent at it, and they say nothing at all about whether your controllers reach into the database, whether your domain layer has quietly taken a dependency on EF Core, or whether the repository someone added last sprint looks anything like the other nine.
+## WTF is Tangent?
+
+**In one line Tangent is SonarCloud for software architecture. It is a deterministic architectural validator.**
+
+## Why?
+
+Agentic and AI development is here to stay and if used correctly can really boost productivity. However there are notable risks involved. When I use AI for programming it might generally be for incremental changes with a harness like Github Copilot, Claude Code, Opencode Codex or whatever else is hot right now. What I have found happening over and over is that I might use a fronteir model for the planning or core development and cheaper models for bulk execution. When introducting multiple agents or loop-engineering with agents what tends to happen is you experience some drift from your target architecture. AI is non As a big believer in quality and good architecture I knew there was a solution for this. Tangent is what that solution has become. A way of building out determinstic contracts, so that when your AI drifts off and breaks that contract there is something that will notify you. You can use this information to then guide the agent back on track.
+
+Static analysers look at code compositional patterns: this method is too complex, this variable is never read, this string comparison is culture-sensitive. They are excellent at it, and they say nothing at all about whether your controllers reach into the database, whether your domain layer has quietly taken a dependency on EF Core, or whether the repository someone added last sprint looks anything like the other nine. This might be possible to some extent but can become very tedious
 
 Tangent checks structure in the large, against **your** rules rather than a vendor's generic ruleset. You describe the shape of your codebase in a small declarative language (`.tan` files in a `.tangent/` folder at the solution root), and Tangent reports every place the code deviates: as IDE squiggles, as `dotnet build` warnings, as a CI failure, and as a diff of the changes that would bring the code into line.
 
@@ -46,6 +54,32 @@ contract Controller {
 
 Rules are evaluated against Roslyn's semantic model, never against source text, so they survive reformatting, `partial` classes, primary constructors and file-scoped namespaces.
 
+### Closed sets, naming, location, and references by contract
+
+```tangent
+contract Repository {
+    match: class in Infrastructure where name ends with "Repository" and not abstract
+
+    implements only I{Name}              // its own interface, and nothing else
+    inherits only RepositoryBase         // one allowed base type, or none
+    forbid using contract Repository     // no repository reaches for another repository
+}
+
+contract Handler {
+    // select by what a type *is*, then require what it should be called and where it belongs
+    match: any in Sample.** where implements IRequestHandler<*> and not abstract
+
+    require name ends with "Handler"
+    require lives in Application
+    methods where public { require name ends with "Async" }
+}
+```
+
+- **`implements only` / `inherits only`** are the closed-set forms of `implements` and `inherits`, as `injects only` is for `injects`. Interfaces that an allowed interface itself extends stay allowed, so `implements only I{Name}` does not fight inheritance.
+- **`require name ...` and `require lives in ...`** turn what `match` uses as a selector into a rule. That is how you say "a handler is anything implementing `IRequestHandler<*>`, and it must be named `*Handler` and live in Application".
+- **`forbid using contract X`** follows the contract, not the namespace. It catches a reference in a method body that `injects only` never sees, and it keeps working when the type moves.
+- **Conditions take `not` and parentheses**: `where (implements IHandler or implements IJob) and not abstract`.
+
 ## Components
 
 | Component | Delivered as | What it does |
@@ -79,7 +113,7 @@ project "Orders" {
     layer Domain         = Orders.Domain.**
     layer Infrastructure = Orders.Infrastructure.**
 
-    allow Microsoft.Extensions.**      // framework namespaces every layer may use
+    allow Microsoft.Extensions.**      // the external packages these layers may use
 
     Api            -> Application, Domain
     Application    -> Domain
@@ -88,7 +122,7 @@ project "Orders" {
 }
 ```
 
-That single block expresses Clean Architecture's dependency rule, Onion's inward-only references, and the "domain knows nothing" invariant at the heart of both. Variations are a matter of how you draw the lanes:
+That single block expresses Clean Architecture's dependency rule, Onion's inward-only references, and the "domain knows nothing" invariant at the heart of both. **`allow` closes the external hole**: without it, a namespace that no layer declares (an external package) is ignored, so `Domain -> nothing` would not stop the domain from taking a dependency on EF Core. Declare one and every external dependency is either listed or a violation (TNG0205). `System.**` and Tangent's own attributes are always allowed. Variations are a matter of how you draw the lanes:
 
 - **Hexagonal / ports and adapters** — ports are interfaces in `Domain`, adapters are classes in `Infrastructure` that implement them. The `Adapter` contract below enforces that an adapter's port actually lives on the domain side.
 - **Vertical slice** — one layer per feature rather than per technical concern (`layer Orders = Shop.Features.Orders.**`), with `-> nothing` between slices so features cannot reach sideways into each other.
@@ -308,11 +342,22 @@ Four properties make Tangent a good fit, none of which were designed with agents
 Tangent is a CLI and a Roslyn analyzer, so it is agnostic about which harness you run — Claude Code, Codex, OpenHands, Aider, or a loop you wrote yourself. Layer it, so each stage catches what the previous one missed:
 
 1. **Context.** Contracts in the system prompt or `CLAUDE.md`. Prevention beats correction.
-2. **Hook.** Run `tangent check` on file write or pre-commit. Catching it immediately beats catching it at the end, and it does not depend on the agent remembering to look.
-3. **Tool.** Expose `tangent check --sarif out.sarif` (or `--json out.json`) as a callable tool so the agent can self-correct in a loop.
+2. **Hook.** Run `tangent check --explain` on file write or pre-commit. Catching it immediately beats catching it at the end, and it does not depend on the agent remembering to look.
+3. **Tool.** Expose `tangent check --explain --json out.json` (or `--sarif out.sarif`) as a callable tool so the agent can self-correct in a loop.
 4. **Gate.** CI blocks the PR. The backstop that does not negotiate.
 
 The highest-leverage step needs no integration at all: `Tangent.Analyzers` runs **inside the compiler**, so violations land in ordinary `dotnet build` output. Any agent that reads build output gets architectural feedback for free.
+
+Use `--explain` wherever an agent reads the output. A rule id is a lookup key for a human; the rule text is directly actionable for a model. With `--explain`, each violation carries the rule rendered back to DSL, the `.tan` line that declares it, the `match` that applies it, and the offending line of code:
+
+```
+  warning TNG0203 src/Orders.Api/Controllers/LegacyOrdersController.cs:28:26  Controller: forbidden object creation: new HttpClient. (rule Controller/methods/new#1, controllers.tan:20)
+      rule        methods where public { forbid new HttpClient }
+      declared    .tangent/controllers.tan:20
+      applies to  contract Controller matches class in Api where name ends with "Controller"
+      28 | using var http = new HttpClient();
+         |                  ^^^^^^^^^^^^^^^^
+```
 
 ### The failure mode to design for
 
@@ -326,7 +371,6 @@ An agent that cannot satisfy a rule will eventually relax the rule, or add an ex
 
 ### Roadmap ideas
 
-- **`tangent check --explain`** — emit the rule text alongside the violation, not just the id. `IrText.DescribeRule` already renders a rule back to DSL, so a diagnostic can say *"the rule you broke reads `methods where public { returns Task<ActionResult<*>> }`, declared in `.tangent/controllers.tan:17`"*. A rule id is a lookup key for a human; the rule text is directly actionable for a model. This is probably the single largest available improvement to agent success rate.
 - **A template library** — `clean-architecture.tan`, `ddd-tactical.tan`, `cqrs.tan` as starting points to copy and adapt, so a new project gets a defensible architecture on day one rather than inheriting one by accident.
 - **Tier-scoped checks** — run Tier 0 in the tight edit loop and the full set at PR time, since the tiers already encode exactly this cost gradient.
 
@@ -394,3 +438,4 @@ docs/        Design notes and API docs
 | 4 | Tier 2 (parameter flow, `stateless`), templates, source generator | Done |
 | 5 | `tangent graph` and the React viewer | Done |
 | 6 | Language server and VS Code extension | Done (Rider plugin is an unverified scaffold in `editors/rider`) |
+| 7 | Viewer v2: Issues, Rules, Coverage and rooted Graph views; file table and `--include-source` | Done |
