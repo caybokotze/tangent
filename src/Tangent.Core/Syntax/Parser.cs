@@ -614,6 +614,8 @@ public sealed class Parser
         {
             case TokenKind.Inherits:
             case TokenKind.Implements:
+            case TokenKind.Name:
+            case TokenKind.Lives:
             case TokenKind.Attributes:
             case TokenKind.Returns:
             case TokenKind.Injects:
@@ -637,21 +639,34 @@ public sealed class Parser
         switch (Kind)
         {
             case TokenKind.Inherits:
-            {
                 Advance();
-                int node = _nodes.Add(NodeKind.PredInherits, SpanOf(start));
-                ParseTypeAltList(node, allowNewPrefix: false);
-                _nodes.SetSpan(node, SpanFrom(start));
-                return node;
-            }
+                return ParseTypeAltPredicate(start, NodeKind.PredInherits, NodeKind.PredInheritsOnly);
 
             case TokenKind.Implements:
+                Advance();
+                return ParseTypeAltPredicate(start, NodeKind.PredImplements, NodeKind.PredImplementsOnly);
+
+            case TokenKind.Name:
             {
                 Advance();
-                int node = _nodes.Add(NodeKind.PredImplements, SpanOf(start));
-                ParseTypeAltList(node, allowNewPrefix: false);
-                _nodes.SetSpan(node, SpanFrom(start));
-                return node;
+                NameOperator op = ParseNameOperator(out bool ok);
+                if (!ok) return -1;
+                StringId value = StringId.Invalid;
+                if (Kind == TokenKind.StringLiteral) value = InternString(Advance());
+                else Error("expected a string");
+                return _nodes.Add(NodeKind.PredName, SpanFrom(start), (int)op, value.Value);
+            }
+
+            case TokenKind.Lives:
+            {
+                Advance();
+                Expect(TokenKind.In, "expected 'in' after 'lives'");
+                StringId layer = StringId.Invalid;
+                StringId glob = StringId.Invalid;
+                if (Kind == TokenKind.Glob) glob = Intern(Advance());
+                else if (Kind == TokenKind.Identifier) layer = Intern(Advance());
+                else Error("expected a layer name or a namespace glob after 'lives in'");
+                return _nodes.Add(NodeKind.PredLivesIn, SpanFrom(start), layer.Value, glob.Value);
             }
 
             case TokenKind.Returns:
@@ -694,6 +709,29 @@ public sealed class Parser
             case TokenKind.Using:
             {
                 Advance();
+                if (Kind == TokenKind.Contract)
+                {
+                    Advance();
+                    int contracts = _nodes.Add(NodeKind.PredUsingContract, SpanOf(start));
+                    do
+                    {
+                        if (Kind == TokenKind.Identifier)
+                        {
+                            Token contract = Advance();
+                            _nodes.AddChild(contracts, _nodes.Add(NodeKind.ContractRef, SpanOf(contract), Intern(contract).Value));
+                        }
+                        else
+                        {
+                            Error("expected a contract name after 'using contract'");
+                            break;
+                        }
+                    }
+                    while (Match(TokenKind.Comma));
+
+                    _nodes.SetSpan(contracts, SpanFrom(start));
+                    return contracts;
+                }
+
                 int node = _nodes.Add(NodeKind.PredUsing, SpanOf(start));
                 ParseGlobList(node);
                 _nodes.SetSpan(node, SpanFrom(start));
@@ -945,6 +983,52 @@ public sealed class Parser
         while (Match(TokenKind.Comma));
     }
 
+    /// <summary>
+    /// Parses the tail of <c>inherits</c> or <c>implements</c>: an alternation list, or a single group
+    /// after <c>only</c> (<c>implements only I{Name}, IDisposable</c>).
+    /// </summary>
+    private int ParseTypeAltPredicate(Token start, NodeKind plain, NodeKind only)
+    {
+        bool isOnly = Match(TokenKind.Only);
+        int node = _nodes.Add(isOnly ? only : plain, SpanOf(start));
+        if (isOnly)
+        {
+            int group = ParseTypeAltSingleGroup(allowCommas: true);
+            if (group >= 0) _nodes.AddChild(node, group);
+        }
+        else
+        {
+            ParseTypeAltList(node, allowNewPrefix: false);
+        }
+
+        _nodes.SetSpan(node, SpanFrom(start));
+        return node;
+    }
+
+    /// <summary>Parses <c>starts with</c>, <c>ends with</c>, <c>contains</c> or <c>matches</c>.</summary>
+    private NameOperator ParseNameOperator(out bool ok)
+    {
+        ok = true;
+        if (Match(TokenKind.Starts))
+        {
+            Expect(TokenKind.With, "expected 'with' after 'starts'");
+            return NameOperator.StartsWith;
+        }
+
+        if (Match(TokenKind.Ends))
+        {
+            Expect(TokenKind.With, "expected 'with' after 'ends'");
+            return NameOperator.EndsWith;
+        }
+
+        if (Match(TokenKind.Contains)) return NameOperator.Contains;
+        if (Match(TokenKind.Matches)) return NameOperator.Matches;
+
+        Error("expected 'starts with', 'ends with', 'contains' or 'matches' after 'name'");
+        ok = false;
+        return NameOperator.StartsWith;
+    }
+
     private void ParseGlobList(int parent)
     {
         do
@@ -1008,33 +1092,37 @@ public sealed class Parser
         Token start = Current;
         switch (Kind)
         {
+            case TokenKind.Not:
+            {
+                Advance();
+                int operand = ParseSimpleCondition();
+                if (operand < 0) return -1;
+                int node = _nodes.Add(NodeKind.CondNot, SpanFrom(start));
+                _nodes.AddChild(node, operand);
+                _nodes.SetSpan(node, SpanFrom(start));
+                return node;
+            }
+
+            case TokenKind.LeftParen:
+            {
+                Advance();
+                int inner = ParseCondition();
+                Expect(TokenKind.RightParen, "expected ')' to close the condition");
+                return inner;
+            }
+
             case TokenKind.Name:
             {
                 Advance();
-                NodeKind kind;
-                if (Match(TokenKind.Starts))
+                NameOperator op = ParseNameOperator(out bool ok);
+                if (!ok) return -1;
+                NodeKind kind = op switch
                 {
-                    Expect(TokenKind.With, "expected 'with' after 'starts'");
-                    kind = NodeKind.CondNameStartsWith;
-                }
-                else if (Match(TokenKind.Ends))
-                {
-                    Expect(TokenKind.With, "expected 'with' after 'ends'");
-                    kind = NodeKind.CondNameEndsWith;
-                }
-                else if (Match(TokenKind.Contains))
-                {
-                    kind = NodeKind.CondNameContains;
-                }
-                else if (Match(TokenKind.Matches))
-                {
-                    kind = NodeKind.CondNameMatches;
-                }
-                else
-                {
-                    Error("expected 'starts with', 'ends with', 'contains' or 'matches' after 'name'");
-                    return -1;
-                }
+                    NameOperator.EndsWith => NodeKind.CondNameEndsWith,
+                    NameOperator.Contains => NodeKind.CondNameContains,
+                    NameOperator.Matches => NodeKind.CondNameMatches,
+                    _ => NodeKind.CondNameStartsWith,
+                };
 
                 StringId value = StringId.Invalid;
                 if (Kind == TokenKind.StringLiteral) value = InternString(Advance());
@@ -1085,7 +1173,7 @@ public sealed class Parser
             return _nodes.Add(NodeKind.CondModifier, SpanFrom(start), (int)modifiers);
         }
 
-        Error("expected a condition such as 'name ends with \"X\"', 'inherits T' or a modifier");
+        Error("expected a condition such as 'name ends with \"X\"', 'inherits T', 'not ...' or a modifier");
         return -1;
     }
 

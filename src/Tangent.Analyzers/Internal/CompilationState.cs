@@ -271,6 +271,8 @@ internal sealed class CompilationState
                        PatternMatching.AnyInterfaceMatches(Model, condition.Payload, implementing, NameSpan(boundType), NamespaceSpan(boundType));
             case ConditionKind.HasAttributes:
                 return PatternMatching.HasAttribute(Model, condition.Payload, symbol);
+            case ConditionKind.Not:
+                return !EvaluateCondition(condition.Left, symbol, boundType);
             case ConditionKind.Modifier:
                 return SymbolFacts.HasModifiers(symbol, (Modifiers)condition.Payload);
             default:
@@ -409,7 +411,7 @@ internal sealed class CompilationState
                 {
                     case RuleTier.Reference:
                         referenceRules.Add(applied);
-                        if (rule.Predicate.Kind == PredicateKind.UsingNamespace &&
+                        if (rule.Predicate.Kind is PredicateKind.UsingNamespace or PredicateKind.UsingContract &&
                             rule.Selector.Kind == MemberKind.Type &&
                             EvaluateCondition(rule.Selector.ConditionIndex, type, type))
                         {

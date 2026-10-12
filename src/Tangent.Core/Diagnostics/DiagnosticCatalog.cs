@@ -78,6 +78,30 @@ public static class DiagnosticCatalog
         "{0}: interface {1} must live in {2}",
         DiagnosticSeverity.Warning, DiagnosticCategory.Structural, RuleTier.Symbol);
 
+    /// <summary>TNG0110: the type implements an interface the contract does not allow.</summary>
+    public static readonly DiagnosticDescriptor ImplementsOnlyViolation = new DiagnosticDescriptor(
+        "TNG0110", "Interface not allowed",
+        "{0}: may only implement {1}; found {2}",
+        DiagnosticSeverity.Warning, DiagnosticCategory.Structural, RuleTier.Symbol);
+
+    /// <summary>TNG0111: the type inherits a base type the contract does not allow.</summary>
+    public static readonly DiagnosticDescriptor InheritsOnlyViolation = new DiagnosticDescriptor(
+        "TNG0111", "Base type not allowed",
+        "{0}: may only inherit {1}; found {2}",
+        DiagnosticSeverity.Warning, DiagnosticCategory.Structural, RuleTier.Symbol);
+
+    /// <summary>TNG0112: a name does not satisfy the contract's naming rule.</summary>
+    public static readonly DiagnosticDescriptor NameViolation = new DiagnosticDescriptor(
+        "TNG0112", "Name violation",
+        "{0}: {1} must have a name that {2}",
+        DiagnosticSeverity.Warning, DiagnosticCategory.Structural, RuleTier.Symbol);
+
+    /// <summary>TNG0113: the type lives outside the layer or namespace the contract requires.</summary>
+    public static readonly DiagnosticDescriptor LivesInViolation = new DiagnosticDescriptor(
+        "TNG0113", "Location violation",
+        "{0}: type must live in {1}, but lives in {2}",
+        DiagnosticSeverity.Warning, DiagnosticCategory.Structural, RuleTier.Symbol);
+
     // ---- TNG02xx: reference / layering (tier 1) --------------------------
 
     /// <summary>TNG0201: a symbol in a forbidden namespace is referenced.</summary>
@@ -90,6 +114,18 @@ public static class DiagnosticCatalog
     public static readonly DiagnosticDescriptor LayerDependencyViolation = new DiagnosticDescriptor(
         "TNG0202", "Layer dependency violation",
         "Layer {0} may not depend on layer {1} ({2})",
+        DiagnosticSeverity.Warning, DiagnosticCategory.Reference, RuleTier.Reference);
+
+    /// <summary>TNG0204: a reference to a type bound to a forbidden contract.</summary>
+    public static readonly DiagnosticDescriptor ForbiddenContractReference = new DiagnosticDescriptor(
+        "TNG0204", "Forbidden contract reference",
+        "{0}: reference to {1}, which is bound to contract {2}",
+        DiagnosticSeverity.Warning, DiagnosticCategory.Reference, RuleTier.Reference);
+
+    /// <summary>TNG0205: a reference to a namespace no layer declares and no allow list permits.</summary>
+    public static readonly DiagnosticDescriptor UndeclaredDependency = new DiagnosticDescriptor(
+        "TNG0205", "Undeclared external dependency",
+        "Layer {0} may not depend on {1} ({2}); add it to the project's allow list",
         DiagnosticSeverity.Warning, DiagnosticCategory.Reference, RuleTier.Reference);
 
     /// <summary>TNG0203: a forbidden object creation expression.</summary>
@@ -210,6 +246,12 @@ public static class DiagnosticCatalog
         ForbiddenNamespaceReference,
         LayerDependencyViolation,
         ForbiddenNewViolation,
+        ImplementsOnlyViolation,
+        InheritsOnlyViolation,
+        NameViolation,
+        LivesInViolation,
+        ForbiddenContractReference,
+        UndeclaredDependency,
         ParameterNotAssignedToField,
         ParameterNotNullChecked,
         NotStateless,

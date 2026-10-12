@@ -38,6 +38,20 @@ internal static class ReferenceScanner
         in DiagnosticReporter reporter) =>
         ObserveCore(state, context, usingRules, referenced, referencedSymbol, kind, location, memberName, scope, 0, in reporter);
 
+    /// <summary>True when the referenced type is bound to the given contract.</summary>
+    private static bool IsBoundTo(CompilationState state, INamedTypeSymbol target, int contractIndex)
+    {
+        TypeContext? targetContext = state.GetContext(target);
+        if (targetContext is null) return false;
+        ImmutableArray<int> contracts = targetContext.Contracts;
+        for (int i = 0; i < contracts.Length; i++)
+        {
+            if (contracts[i] == contractIndex) return true;
+        }
+
+        return false;
+    }
+
     private static void ObserveCore(
         CompilationState state,
         TypeContext context,
@@ -106,22 +120,66 @@ internal static class ReferenceScanner
                 MessageFactory.Properties(contract, rule.Id.Value, memberName, rule.Tier)));
         }
 
+        for (int i = 0; i < usingRules.Length; i++)
+        {
+            Rule rule = model.Contracts[usingRules[i].ContractIndex].Rules[usingRules[i].RuleIndex];
+            if (rule.Predicate.Kind != PredicateKind.UsingContract) continue;
+            // Like `forbid using Ns.**`, a contract reference rule is a prohibition.
+            if (rule.Polarity != Polarity.Forbid) continue;
+
+            int forbidden = rule.Predicate.Payload;
+            if (forbidden < 0 || forbidden >= model.Contracts.Length) continue;
+            if (!IsBoundTo(state, target, forbidden)) continue;
+
+            string contract = model.Text(model.Contracts[usingRules[i].ContractIndex].Name);
+            if (!state.ShouldReport(context.Type, scope, target, DiagnosticCatalog.ForbiddenContractReference.Id, rule.Id.Value)) continue;
+
+            string symbolName = referencedSymbol is null ? target.Name : referencedSymbol.Name;
+            reporter.Report(MessageFactory.Create(
+                DiagnosticCatalog.ForbiddenContractReference.Id,
+                location,
+                MessageFactory.Violation(
+                    DiagnosticCatalog.ForbiddenContractReference, model, in rule, string.Empty,
+                    contract, symbolName, model.Text(model.Contracts[forbidden].Name)),
+                MessageFactory.Properties(contract, rule.Id.Value, memberName, rule.Tier)));
+        }
+
         bool violatesLayering = false;
         if (context.LayerIndex >= 0 && !model.IsReferenceAllowed(context.LayerIndex, ns.Name.AsSpan()))
         {
             violatesLayering = true;
-            if (state.ShouldReport(context.Type, scope, target, DiagnosticCatalog.LayerDependencyViolation.Id, string.Empty))
+            // A target inside a declared layer breaks the matrix; a target outside every layer is an
+            // external dependency the project's allow list does not cover.
+            bool external = ns.LayerIndex < 0;
+            string code = external
+                ? DiagnosticCatalog.UndeclaredDependency.Id
+                : DiagnosticCatalog.LayerDependencyViolation.Id;
+
+            if (state.ShouldReport(context.Type, scope, target, code, string.Empty))
             {
                 string fromLayer = state.LayerName(context.LayerIndex);
-                string toLayer = state.LayerName(ns.LayerIndex);
                 string symbolName = referencedSymbol is null ? target.Name : referencedSymbol.Name;
-                reporter.Report(MessageFactory.Create(
-                    DiagnosticCatalog.LayerDependencyViolation.Id,
-                    location,
-                    DiagnosticCatalog.LayerDependencyViolation.Format(fromLayer, toLayer, symbolName) +
-                    ". (rule layer:" + fromLayer + "->" + toLayer + ", " +
-                    MessageFactory.Origin(model, model.Layers[context.LayerIndex].DeclarationSpan) + ")",
-                    LayerProperties(fromLayer, toLayer, symbolName, memberName)));
+                string origin = MessageFactory.Origin(model, model.Layers[context.LayerIndex].DeclarationSpan);
+
+                if (external)
+                {
+                    reporter.Report(MessageFactory.Create(
+                        DiagnosticCatalog.UndeclaredDependency.Id,
+                        location,
+                        DiagnosticCatalog.UndeclaredDependency.Format(fromLayer, ns.Name, symbolName) +
+                        ". (rule allow, " + origin + ")",
+                        LayerProperties(fromLayer, ns.Name, symbolName, memberName)));
+                }
+                else
+                {
+                    string toLayer = state.LayerName(ns.LayerIndex);
+                    reporter.Report(MessageFactory.Create(
+                        DiagnosticCatalog.LayerDependencyViolation.Id,
+                        location,
+                        DiagnosticCatalog.LayerDependencyViolation.Format(fromLayer, toLayer, symbolName) +
+                        ". (rule layer:" + fromLayer + "->" + toLayer + ", " + origin + ")",
+                        LayerProperties(fromLayer, toLayer, symbolName, memberName)));
+                }
             }
         }
 

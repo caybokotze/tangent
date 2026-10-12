@@ -57,7 +57,9 @@ internal sealed class OperationAnalyzer
         MemberKind? kind = MemberKindOf(owningSymbol);
         ISymbol member = owningSymbol is IMethodSymbol { AssociatedSymbol: { } associated } ? associated : owningSymbol;
 
-        ImmutableArray<AppliedRule> usingRules = Filter(state, context, member, kind, context.ReferenceRules, PredicateKind.UsingNamespace);
+        // Both reference prohibitions ride the same scan: `forbid using Ns.**` and `forbid using contract X`.
+        ImmutableArray<AppliedRule> usingRules = Filter(state, context, member, kind, context.ReferenceRules, PredicateKind.UsingNamespace)
+            .AddRange(Filter(state, context, member, kind, context.ReferenceRules, PredicateKind.UsingContract));
         ImmutableArray<AppliedRule> newRules = Filter(state, context, member, kind, context.ReferenceRules, PredicateKind.NewExpression);
 
         ImmutableArray<AppliedRule> flowRules = ImmutableArray<AppliedRule>.Empty;

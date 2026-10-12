@@ -4,7 +4,7 @@
   "layers": [
     { "name": "Api", "namespace": "Sample.Api.**", "allowedDependencies": [] }
   ],
-  "allowedFrameworkNamespaces": ["System.**"],
+  "allowedFrameworkNamespaces": ["System.**", "Tangent.**"],
   "contracts": [
     {
       "name": "Handler",

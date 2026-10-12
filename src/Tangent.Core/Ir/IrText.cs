@@ -43,6 +43,11 @@ public static class IrText
             case PredicateKind.EachParamNullChecked: return "each-param-null-checked";
             case PredicateKind.EachParamNotStored: return "each-param-not-stored";
             case PredicateKind.Stateless: return "stateless";
+            case PredicateKind.ImplementsOnly: return "implements-only";
+            case PredicateKind.InheritsOnly: return "inherits-only";
+            case PredicateKind.NameIs: return "name";
+            case PredicateKind.LivesIn: return "lives-in";
+            case PredicateKind.UsingContract: return "using-contract";
             default: return "predicate";
         }
     }
@@ -170,6 +175,10 @@ public static class IrText
             case ConditionKind.HasAttributes:
                 sb.Append("attributes ").Append(model.AttributeGroups[condition.Payload].Describe());
                 return;
+            case ConditionKind.Not:
+                sb.Append("not ");
+                AppendCondition(model, condition.Left, sb);
+                return;
             case ConditionKind.Modifier:
                 sb.Append(ModifierText((Modifiers)condition.Payload));
                 return;
@@ -198,6 +207,19 @@ public static class IrText
                 return "injects " + model.TypePatterns.DescribeGroup(predicate.Payload);
             case PredicateKind.InjectsOnly:
                 return "injects only " + DescribeGroupAsList(model, predicate.Payload);
+            case PredicateKind.ImplementsOnly:
+                return "implements only " + DescribeGroupAsList(model, predicate.Payload);
+            case PredicateKind.InheritsOnly:
+                return "inherits only " + DescribeGroupAsList(model, predicate.Payload);
+            case PredicateKind.NameIs:
+                return "name " + NameOperatorText((NameOperator)predicate.Payload) +
+                       " \"" + model.Text(new Text.StringId(predicate.Payload2)) + "\"";
+            case PredicateKind.LivesIn:
+                return "lives in " + DescribeLocation(model, predicate);
+            case PredicateKind.UsingContract:
+                return "using contract " + (predicate.Payload >= 0 && predicate.Payload < model.Contracts.Length
+                    ? model.Text(model.Contracts[predicate.Payload].Name)
+                    : "<unknown contract>");
             case PredicateKind.UsingNamespace:
                 return "using " + model.Globs[predicate.Payload].Text;
             case PredicateKind.NewExpression:
@@ -244,6 +266,26 @@ public static class IrText
         }
     }
 
+    /// <summary>The DSL text of a name operator, for example <c>ends with</c>.</summary>
+    public static string NameOperatorText(NameOperator op)
+    {
+        switch (op)
+        {
+            case NameOperator.EndsWith: return "ends with";
+            case NameOperator.Contains: return "contains";
+            case NameOperator.Matches: return "matches";
+            default: return "starts with";
+        }
+    }
+
+    /// <summary>The layer name or namespace glob a <see cref="PredicateKind.LivesIn"/> predicate points at.</summary>
+    public static string DescribeLocation(ArchitectureModel model, in Predicate predicate)
+    {
+        if (predicate.Payload2 >= 0 && predicate.Payload2 < model.Globs.Length) return model.Globs[predicate.Payload2].Text;
+        if (predicate.Payload >= 0 && predicate.Payload < model.Layers.Length) return model.Text(model.Layers[predicate.Payload].Name);
+        return "<unknown location>";
+    }
+
     private static string DescribeGroupAsList(ArchitectureModel model, int groupIndex)
     {
         var sb = new StringBuilder();
@@ -260,6 +302,52 @@ public static class IrText
     /// <summary>Renders a whole rule, for example <c>forbid public set</c>.</summary>
     public static string DescribeRule(ArchitectureModel model, in Rule rule) =>
         PolarityName(rule.Polarity) + " " + DescribePredicate(model, rule.Predicate);
+
+    /// <summary>
+    /// Renders a rule inside the block that scopes it, for example
+    /// <c>methods where public { require returns Task&lt;*&gt; }</c>. A type-level rule with no refinement
+    /// renders as <see cref="DescribeRule"/> alone.
+    /// </summary>
+    public static string DescribeScopedRule(ArchitectureModel model, in Rule rule)
+    {
+        string text = DescribeRule(model, rule);
+        Selector selector = rule.Selector;
+        if (selector.Kind != MemberKind.Type) return DescribeSelector(model, selector) + " { " + text + " }";
+        if (selector.ConditionIndex < 0) return text;
+        return "where " + DescribeCondition(model, selector.ConditionIndex) + " { " + text + " }";
+    }
+
+    /// <summary>Renders a layer's <c>-&gt;</c> line, for example <c>Api -&gt; Application, Domain</c>.</summary>
+    public static string DescribeLayerDependencies(ArchitectureModel model, int layerIndex)
+    {
+        if (layerIndex < 0 || layerIndex >= model.Layers.Length) return "<unknown layer>";
+
+        var sb = new StringBuilder();
+        sb.Append(model.Text(model.Layers[layerIndex].Name)).Append(" -> ");
+        int written = 0;
+        foreach (int target in model.Dependencies.AllowedTargets(layerIndex))
+        {
+            if (target == layerIndex) continue;
+            if (written++ > 0) sb.Append(", ");
+            sb.Append(model.Text(model.Layers[target].Name));
+        }
+
+        if (written == 0) sb.Append("nothing");
+        return sb.ToString();
+    }
+
+    /// <summary>Renders the effective allow list, implicit globs included, for example <c>allow System.**, Tangent.**</c>.</summary>
+    public static string DescribeAllowList(ArchitectureModel model)
+    {
+        var sb = new StringBuilder("allow ");
+        for (int i = 0; i < model.AllowedFrameworkGlobs.Length; i++)
+        {
+            if (i > 0) sb.Append(", ");
+            sb.Append(model.Globs[model.AllowedFrameworkGlobs[i]].Text);
+        }
+
+        return sb.ToString();
+    }
 
     /// <summary>Renders a match clause, for example <c>class in Api where name ends with "Controller"</c>.</summary>
     public static string DescribeMatch(ArchitectureModel model, in MatchClause match)

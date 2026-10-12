@@ -1,0 +1,49 @@
+// The rules added after the first release: closed sets, naming, location,
+// references by contract, and negated conditions.
+
+project "Sample" {
+    root: "src/"
+
+    layer Api            = Sample.Api.**
+    layer Application    = Sample.Application.**
+    layer Domain         = Sample.Domain.**
+    layer Infrastructure = Sample.Infrastructure.**
+
+    allow Microsoft.Extensions.**
+
+    Api            -> Application, Domain
+    Application    -> Domain
+    Infrastructure -> Application, Domain
+    Domain         -> nothing
+}
+
+contract Repository {
+    match: class in Infrastructure where name ends with "Repository" and not abstract
+
+    implements only I{Name}
+    inherits only RepositoryBase
+    require name ends with "Repository"
+    require lives in Infrastructure
+
+    forbid using contract Repository
+}
+
+contract Handler {
+    match: any in Application where (implements IRequestHandler<*> or implements ICommandHandler<*>) and not abstract
+
+    require name ends with "Handler"
+    require lives in Sample.Application.**
+
+    forbid using contract Repository, Controller
+
+    methods where public {
+        require name ends with "Async"
+    }
+}
+
+contract Controller {
+    match: class in Api where name ends with "Controller"
+
+    implements only IDisposable
+    forbid name contains "Legacy"
+}

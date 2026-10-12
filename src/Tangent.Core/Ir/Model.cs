@@ -237,7 +237,8 @@ public sealed class ArchitectureModel
         ImmutableArray<Template> templates,
         ImmutableArray<Condition> conditions,
         ImmutableArray<int> allowedFrameworkGlobs,
-        ImmutableArray<SourceFile> files)
+        ImmutableArray<SourceFile> files,
+        bool strictExternals = false)
     {
         ProjectName = projectName;
         Root = root;
@@ -254,6 +255,7 @@ public sealed class ArchitectureModel
         Conditions = conditions;
         AllowedFrameworkGlobs = allowedFrameworkGlobs;
         Files = files;
+        StrictExternals = strictExternals;
     }
 
     /// <summary>The <c>project "Name"</c> value, or <see cref="StringId.Invalid"/> when no project block was written.</summary>
@@ -297,6 +299,12 @@ public sealed class ArchitectureModel
 
     /// <summary>Glob indices allowed for every layer regardless of the matrix. Always contains <c>System.**</c>.</summary>
     public ImmutableArray<int> AllowedFrameworkGlobs { get; }
+
+    /// <summary>
+    /// True when the project declared an <c>allow</c> list. A namespace that no layer declares is then a
+    /// violation unless the allow list matches it, instead of being ignored (TANGENT-PLAN.md §16.1).
+    /// </summary>
+    public bool StrictExternals { get; }
 
     /// <summary>The files the model was bound from, indexed by <see cref="SourceSpan.FileIndex"/>.</summary>
     public ImmutableArray<SourceFile> Files { get; }
@@ -362,7 +370,10 @@ public sealed class ArchitectureModel
         }
 
         int target = LayerOf(namespaceName);
-        if (target < 0) return true; // outside every declared layer: not this model's business
+
+        // Outside every declared layer: an external package, or code nobody has described. Without an
+        // allow list that is not this model's business; with one, every dependency is declared or wrong.
+        if (target < 0) return !StrictExternals;
         return Dependencies.IsAllowed(fromLayer, target);
     }
 

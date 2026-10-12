@@ -21,7 +21,7 @@ internal static class CompletionEngine
         "match", "require", "require-each", "forbid", "where",
         "ctor", "methods", "properties", "fields", "events", "nested",
         "inherits", "implements", "attributes", "returns", "injects", "only",
-        "using", "new", "interface", "lives", "in", "stateless",
+        "using", "new", "interface", "lives", "in", "stateless", "contract",
         "get", "set", "init",
         "public", "private", "protected", "internal",
         "static", "sealed", "abstract", "readonly", "partial",

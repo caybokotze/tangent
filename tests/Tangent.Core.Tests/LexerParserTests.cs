@@ -366,7 +366,8 @@ public sealed class DiagnosticCatalogTests
         {
             "TNG0001", "TNG0002",
             "TNG0101", "TNG0102", "TNG0103", "TNG0104", "TNG0105", "TNG0106", "TNG0107", "TNG0108", "TNG0109",
-            "TNG0201", "TNG0202", "TNG0203",
+            "TNG0110", "TNG0111", "TNG0112", "TNG0113",
+            "TNG0201", "TNG0202", "TNG0203", "TNG0204", "TNG0205",
             "TNG0301", "TNG0302", "TNG0303",
             "TNG1000", "TNG1001", "TNG1002", "TNG1003", "TNG1004", "TNG1005", "TNG1006",
             "TNG1010", "TNG1011", "TNG1020", "TNG1030",

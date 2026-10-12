@@ -1,0 +1,51 @@
+{
+  "project": "Sample",
+  "root": "src/",
+  "layers": [
+    { "name": "Api", "namespace": "Sample.Api.**", "allowedDependencies": ["Application", "Domain"] },
+    { "name": "Application", "namespace": "Sample.Application.**", "allowedDependencies": ["Domain"] },
+    { "name": "Domain", "namespace": "Sample.Domain.**", "allowedDependencies": [] },
+    { "name": "Infrastructure", "namespace": "Sample.Infrastructure.**", "allowedDependencies": ["Application", "Domain"] }
+  ],
+  "allowedFrameworkNamespaces": ["System.**", "Tangent.**", "Microsoft.Extensions.**"],
+  "contracts": [
+    {
+      "name": "Repository",
+      "extends": null,
+      "file": "closed-sets.tan", "line": 20,
+      "match": "class in Infrastructure where (name ends with \"Repository\" and not abstract)",
+      "rules": [
+        { "id": "Repository/type/implements-only#0", "origin": "Repository", "polarity": "require", "selector": "type", "predicateKind": "implements-only", "predicate": "implements only I{Name}", "tier": "symbol", "specificity": 0 },
+        { "id": "Repository/type/inherits-only#0", "origin": "Repository", "polarity": "require", "selector": "type", "predicateKind": "inherits-only", "predicate": "inherits only RepositoryBase", "tier": "symbol", "specificity": 0 },
+        { "id": "Repository/type/name#0", "origin": "Repository", "polarity": "require", "selector": "type", "predicateKind": "name", "predicate": "name ends with \"Repository\"", "tier": "symbol", "specificity": 0 },
+        { "id": "Repository/type/lives-in#0", "origin": "Repository", "polarity": "require", "selector": "type", "predicateKind": "lives-in", "predicate": "lives in Infrastructure", "tier": "symbol", "specificity": 0 },
+        { "id": "Repository/type/using-contract#0", "origin": "Repository", "polarity": "forbid", "selector": "type", "predicateKind": "using-contract", "predicate": "using contract Repository", "tier": "reference", "specificity": 0 }
+      ]
+    },
+    {
+      "name": "Handler",
+      "extends": null,
+      "file": "closed-sets.tan", "line": 31,
+      "match": "any in Application where ((implements IRequestHandler<*> or implements ICommandHandler<*>) and not abstract)",
+      "rules": [
+        { "id": "Handler/type/name#0", "origin": "Handler", "polarity": "require", "selector": "type", "predicateKind": "name", "predicate": "name ends with \"Handler\"", "tier": "symbol", "specificity": 0 },
+        { "id": "Handler/type/lives-in#0", "origin": "Handler", "polarity": "require", "selector": "type", "predicateKind": "lives-in", "predicate": "lives in Sample.Application.**", "tier": "symbol", "specificity": 0 },
+        { "id": "Handler/type/using-contract#0", "origin": "Handler", "polarity": "forbid", "selector": "type", "predicateKind": "using-contract", "predicate": "using contract Repository", "tier": "reference", "specificity": 0 },
+        { "id": "Handler/type/using-contract#1", "origin": "Handler", "polarity": "forbid", "selector": "type", "predicateKind": "using-contract", "predicate": "using contract Controller", "tier": "reference", "specificity": 0 },
+        { "id": "Handler/methods/name#0", "origin": "Handler", "polarity": "require", "selector": "methods where public", "predicateKind": "name", "predicate": "name ends with \"Async\"", "tier": "symbol", "specificity": 2 }
+      ]
+    },
+    {
+      "name": "Controller",
+      "extends": null,
+      "file": "closed-sets.tan", "line": 44,
+      "match": "class in Api where name ends with \"Controller\"",
+      "rules": [
+        { "id": "Controller/type/implements-only#0", "origin": "Controller", "polarity": "require", "selector": "type", "predicateKind": "implements-only", "predicate": "implements only IDisposable", "tier": "symbol", "specificity": 0 },
+        { "id": "Controller/type/name#0", "origin": "Controller", "polarity": "forbid", "selector": "type", "predicateKind": "name", "predicate": "name contains \"Legacy\"", "tier": "symbol", "specificity": 0 }
+      ]
+    }
+  ],
+  "bindings": [],
+  "exemptions": []
+}

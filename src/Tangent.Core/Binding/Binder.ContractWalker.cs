@@ -152,6 +152,81 @@ public static partial class Binder
                     return;
                 }
 
+                case NodeKind.PredImplementsOnly:
+                {
+                    int alt = _nodes.FirstChild(predicate);
+                    if (alt < 0) return;
+                    Emit(polarity, selector, new Predicate(PredicateKind.ImplementsOnly, CompileTypeAlt(alt)), specificity, span);
+                    return;
+                }
+
+                case NodeKind.PredInheritsOnly:
+                {
+                    int alt = _nodes.FirstChild(predicate);
+                    if (alt < 0) return;
+                    Emit(polarity, selector, new Predicate(PredicateKind.InheritsOnly, CompileTypeAlt(alt)), specificity, span);
+                    return;
+                }
+
+                case NodeKind.PredName:
+                {
+                    var value = new StringId(_nodes[predicate].Payload2);
+                    if (!value.IsValid) return;
+                    Emit(polarity, selector,
+                        new Predicate(PredicateKind.NameIs, _nodes[predicate].Payload, value.Value),
+                        specificity, span);
+                    return;
+                }
+
+                case NodeKind.PredLivesIn:
+                {
+                    var layerName = new StringId(_nodes[predicate].Payload);
+                    var globText = new StringId(_nodes[predicate].Payload2);
+                    int layer = -1;
+                    int glob = -1;
+                    if (globText.IsValid)
+                    {
+                        glob = _state.AddGlob(globText);
+                    }
+                    else if (layerName.IsValid)
+                    {
+                        layer = _state.FindLayer(layerName);
+                        if (layer < 0)
+                        {
+                            _state.Report(DiagnosticCatalog.UndeclaredLayer, _nodes[predicate].Span, _tree,
+                                _state.Strings.GetString(layerName));
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        return;
+                    }
+
+                    Emit(polarity, selector, new Predicate(PredicateKind.LivesIn, layer, glob), specificity, span);
+                    return;
+                }
+
+                case NodeKind.PredUsingContract:
+                {
+                    foreach (int child in _nodes.Children(predicate))
+                    {
+                        if (_nodes[child].Kind != NodeKind.ContractRef) continue;
+                        var name = new StringId(_nodes[child].Payload);
+                        int contract = _state.FindContract(name);
+                        if (contract < 0)
+                        {
+                            _state.Report(DiagnosticCatalog.UnknownContract, _nodes[child].Span, _tree,
+                                _state.Strings.GetString(name));
+                            continue;
+                        }
+
+                        Emit(polarity, selector, new Predicate(PredicateKind.UsingContract, contract), specificity, span);
+                    }
+
+                    return;
+                }
+
                 case NodeKind.PredAttributes:
                     foreach (int group in _nodes.Children(predicate))
                     {
@@ -239,6 +314,7 @@ public static partial class Binder
             switch (kind)
             {
                 case PredicateKind.UsingNamespace:
+                case PredicateKind.UsingContract:
                 case PredicateKind.NewExpression:
                     return RuleTier.Reference;
                 case PredicateKind.EachParamAssignedToField:
@@ -300,7 +376,7 @@ public static partial class Binder
         // --------------------------------------------------------------
 
         private static bool IsCondition(NodeKind kind) =>
-            kind >= NodeKind.CondAnd && kind <= NodeKind.CondModifier;
+            (kind >= NodeKind.CondAnd && kind <= NodeKind.CondModifier) || kind == NodeKind.CondNot;
 
         private int CompileCondition(int node)
         {
@@ -328,6 +404,14 @@ public static partial class Binder
                     return _state.AddCondition(ConditionKind.NameMatches, -1, -1, _nodes[node].Payload);
                 case NodeKind.CondModifier:
                     return _state.AddCondition(ConditionKind.Modifier, -1, -1, _nodes[node].Payload);
+
+                case NodeKind.CondNot:
+                {
+                    int operand = _nodes.FirstChild(node);
+                    if (operand < 0) return -1;
+                    int compiled = CompileCondition(operand);
+                    return compiled < 0 ? -1 : _state.AddCondition(ConditionKind.Not, compiled, -1, 0);
+                }
 
                 case NodeKind.CondInherits:
                 case NodeKind.CondImplements:

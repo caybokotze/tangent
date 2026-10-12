@@ -1,0 +1,79 @@
+-- closed-sets.tan --
+File @1:1
+  Project 'Sample' @4:1
+    ProjectRoot 'src/' @5:5
+    LayerDecl 'Api' 'Sample.Api.**' @7:5
+    LayerDecl 'Application' 'Sample.Application.**' @8:5
+    LayerDecl 'Domain' 'Sample.Domain.**' @9:5
+    LayerDecl 'Infrastructure' 'Sample.Infrastructure.**' @10:5
+    Allow @12:5
+      GlobRef 'Microsoft.Extensions.**' @12:11
+    Dependency 'Api' @14:5
+      LayerRef 'Application' @14:23
+      LayerRef 'Domain' @14:36
+    Dependency 'Application' @15:5
+      LayerRef 'Domain' @15:23
+    Dependency 'Infrastructure' @16:5
+      LayerRef 'Application' @16:23
+      LayerRef 'Domain' @16:36
+    Dependency 'Domain' @17:5
+      Nothing @17:23
+  Contract 'Repository' @20:1
+    Match class @21:5
+      LayerRef 'Infrastructure' @21:21
+      CondAnd @21:70
+        CondNameEndsWith 'Repository' @21:42
+        CondNot @21:74
+          CondModifier abstract @21:78
+    Rule require @23:5
+      PredImplementsOnly @23:5
+        TypeAlt @23:21
+          TypeTemplate 'I{Name}' @23:21
+    Rule require @24:5
+      PredInheritsOnly @24:5
+        TypeAlt @24:19
+          TypePattern 'RepositoryBase' @24:19
+    Rule require @25:5
+      PredName @25:13
+    Rule require @26:5
+      PredLivesIn @26:13
+    Rule forbid @28:5
+      PredUsingContract @28:12
+        ContractRef 'Repository' @28:27
+  Contract 'Handler' @31:1
+    Match any @32:5
+      LayerRef 'Application' @32:19
+      CondAnd @32:102
+        CondOr @32:68
+          CondImplements @32:38
+            TypeAlt @32:49
+              TypePattern 'IRequestHandler' @32:49
+                TypeWildcard @32:65
+          CondImplements @32:71
+            TypeAlt @32:82
+              TypePattern 'ICommandHandler' @32:82
+                TypeWildcard @32:98
+        CondNot @32:106
+          CondModifier abstract @32:110
+    Rule require @34:5
+      PredName @34:13
+    Rule require @35:5
+      PredLivesIn @35:13
+    Rule forbid @37:5
+      PredUsingContract @37:12
+        ContractRef 'Repository' @37:27
+        ContractRef 'Controller' @37:39
+    MemberBlock methods @39:5
+      CondModifier public @39:19
+      Rule require @40:9
+        PredName @40:17
+  Contract 'Controller' @44:1
+    Match class @45:5
+      LayerRef 'Api' @45:21
+      CondNameEndsWith 'Controller' @45:31
+    Rule require @47:5
+      PredImplementsOnly @47:5
+        TypeAlt @47:21
+          TypePattern 'IDisposable' @47:21
+    Rule forbid @48:5
+      PredName @48:12

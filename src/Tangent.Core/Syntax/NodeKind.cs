@@ -102,6 +102,21 @@ public enum NodeKind : byte
     /// <summary><c>stateless</c>.</summary>
     PredStateless = 35,
 
+    /// <summary><c>implements only</c>. The single child is a <see cref="TypeAlt"/> group.</summary>
+    PredImplementsOnly = 36,
+
+    /// <summary><c>inherits only</c>. The single child is a <see cref="TypeAlt"/> group.</summary>
+    PredInheritsOnly = 37,
+
+    /// <summary><c>name ends with "X"</c> as a rule. Payload is a <c>NameOperator</c>, Payload2 the string.</summary>
+    PredName = 38,
+
+    /// <summary><c>lives in Layer</c> or <c>lives in Ns.**</c>. Payload is the layer name, Payload2 the glob.</summary>
+    PredLivesIn = 39,
+
+    /// <summary><c>using contract Name</c>. Children are <see cref="ContractRef"/> nodes.</summary>
+    PredUsingContract = 46,
+
     // ---- type patterns and attributes ----
 
     /// <summary>An alternation or list of type patterns. Children are <see cref="TypePattern"/> nodes.</summary>
@@ -153,6 +168,9 @@ public enum NodeKind : byte
 
     /// <summary>A bare modifier in a condition. Payload is a <c>Modifiers</c> mask.</summary>
     CondModifier = 59,
+
+    /// <summary><c>not cond</c>. The single child is the negated condition.</summary>
+    CondNot = 65,
 
     // ---- bind / exempt ----
 

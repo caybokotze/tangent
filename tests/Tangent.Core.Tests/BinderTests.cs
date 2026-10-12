@@ -340,11 +340,66 @@ public sealed class BinderTests
         ArchitectureModel model = result.Model!;
         int domain = model.FindLayer("Domain".AsSpan());
 
-        Assert.Equal(2, model.AllowedFrameworkGlobs.Length);
+        // System.** and Tangent.** are implicit; the allow list adds the third.
+        Assert.Equal(3, model.AllowedFrameworkGlobs.Length);
         Assert.Equal("System.**", model.Globs[model.AllowedFrameworkGlobs[0]].Text);
+        Assert.Equal("Tangent.**", model.Globs[model.AllowedFrameworkGlobs[1]].Text);
         Assert.True(model.IsReferenceAllowed(domain, "System.Collections.Generic".AsSpan()));
+        Assert.True(model.IsReferenceAllowed(domain, "Tangent".AsSpan()));
         Assert.True(model.IsReferenceAllowed(domain, "Microsoft.Extensions.Logging".AsSpan()));
         Assert.True(model.IsReferenceAllowed(domain, "P.Domain.Entities".AsSpan()));
+
+        // The allow list switches the model to strict externals (TANGENT-PLAN.md section 16.1).
+        Assert.True(model.StrictExternals);
+        Assert.False(model.IsReferenceAllowed(domain, "Newtonsoft.Json".AsSpan()));
+    }
+
+    [Fact]
+    public void Scoped_rules_render_inside_the_block_that_scopes_them()
+    {
+        BindResult result = Bind("""
+            contract Controller {
+                match: class in N.**
+                sealed
+                where name ends with "Admin" { forbid public fields }
+                methods where public { returns Task<*> }
+            }
+            """);
+
+        Assert.False(result.HasErrors, string.Join(Environment.NewLine, result.Diagnostics));
+        ArchitectureModel model = result.Model!;
+        string[] rendered = model.Contracts[model.FindContract("Controller".AsSpan())].Rules
+            .Select(rule => IrText.DescribeScopedRule(model, rule))
+            .ToArray();
+
+        Assert.Equal(
+            new[]
+            {
+                "require sealed",
+                "where name ends with \"Admin\" { forbid public fields }",
+                "methods where public { require returns Task<*> }",
+            },
+            rendered);
+    }
+
+    [Fact]
+    public void Layer_lines_and_the_allow_list_render_as_written()
+    {
+        BindResult result = Bind("""
+            project "P" {
+                layer Api = P.Api.**
+                layer Domain = P.Domain.**
+                allow Microsoft.Extensions.**
+                Api -> Domain
+                Domain -> nothing
+            }
+            """);
+
+        ArchitectureModel model = result.Model!;
+        Assert.Equal("Api -> Domain", IrText.DescribeLayerDependencies(model, model.FindLayer("Api".AsSpan())));
+        Assert.Equal("Domain -> nothing", IrText.DescribeLayerDependencies(model, model.FindLayer("Domain".AsSpan())));
+        Assert.Equal("<unknown layer>", IrText.DescribeLayerDependencies(model, -1));
+        Assert.Equal("allow System.**, Tangent.**, Microsoft.Extensions.**", IrText.DescribeAllowList(model));
     }
 
     [Fact]

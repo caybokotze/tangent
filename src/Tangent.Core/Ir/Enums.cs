@@ -139,6 +139,22 @@ public enum Modifiers : uint
 }
 
 /// <summary>The discriminator of <see cref="Predicate"/>.</summary>
+/// <summary>The string test of a <see cref="PredicateKind.NameIs"/> predicate or a name condition.</summary>
+public enum NameOperator : byte
+{
+    /// <summary><c>name starts with "..."</c>.</summary>
+    StartsWith = 0,
+
+    /// <summary><c>name ends with "..."</c>.</summary>
+    EndsWith = 1,
+
+    /// <summary><c>name contains "..."</c>.</summary>
+    Contains = 2,
+
+    /// <summary><c>name matches "..."</c>, a regular expression.</summary>
+    Matches = 3,
+}
+
 public enum PredicateKind : byte
 {
     /// <summary>The selected entity carries the given modifiers. Payload is a <see cref="Modifiers"/> mask.</summary>
@@ -188,6 +204,35 @@ public enum PredicateKind : byte
 
     /// <summary>The type holds no mutable instance state.</summary>
     Stateless = 15,
+
+    /// <summary>
+    /// Every interface the type implements directly must match the group. Payload is a type-pattern
+    /// group index.
+    /// </summary>
+    ImplementsOnly = 16,
+
+    /// <summary>
+    /// The type's base type, when it has one other than <c>object</c>, must match the group. Payload is
+    /// a type-pattern group index.
+    /// </summary>
+    InheritsOnly = 17,
+
+    /// <summary>
+    /// The name must satisfy a string test. Payload is a <see cref="NameOperator"/>, Payload2 a
+    /// <c>StringId</c> holding the operand.
+    /// </summary>
+    NameIs = 18,
+
+    /// <summary>
+    /// The type must live in a layer or a namespace glob. Payload is a layer index or -1, Payload2 a
+    /// glob index or -1.
+    /// </summary>
+    LivesIn = 19,
+
+    /// <summary>
+    /// A reference to a type bound to another contract. Payload is a contract index.
+    /// </summary>
+    UsingContract = 20,
 }
 
 /// <summary>The discriminator of <see cref="Condition"/>.</summary>
@@ -222,4 +267,7 @@ public enum ConditionKind : byte
 
     /// <summary>Carries the given modifiers. Payload is a <see cref="Modifiers"/> mask.</summary>
     Modifier = 9,
+
+    /// <summary>The operand does not hold. Left is the negated condition index.</summary>
+    Not = 10,
 }

@@ -13,7 +13,8 @@ namespace Tangent.Core.Binding;
 /// <summary>Turns parsed <c>.tan</c> files into one immutable <see cref="ArchitectureModel"/>, checking internal consistency.</summary>
 public static partial class Binder
 {
-    private const string ImplicitFrameworkGlob = "System.**";
+    /// <summary>Namespaces every layer may always reach: the BCL, and Tangent's own attributes.</summary>
+    private static readonly string[] ImplicitAllowedGlobs = { "System.**", "Tangent.**" };
 
     /// <summary>Binds every tree as one compilation unit. Names are global across files and order is irrelevant.</summary>
     public static BindResult Bind(ImmutableArray<SyntaxTree> trees)
@@ -81,6 +82,7 @@ public static partial class Binder
         private readonly List<Condition> _conditions = new List<Condition>();
         private readonly Dictionary<Condition, int> _conditionCache = new Dictionary<Condition, int>();
         private readonly List<int> _allowedFrameworkGlobs = new List<int>();
+        private bool _hasAllowList;
 
         private readonly List<LayerRecord> _layerRecords = new List<LayerRecord>();
         private readonly List<ContractRecord> _contractRecords = new List<ContractRecord>();
@@ -145,7 +147,8 @@ public static partial class Binder
                 _templates.ToImmutableArray(),
                 _conditions.ToImmutableArray(),
                 _allowedFrameworkGlobs.ToImmutableArray(),
-                files.ToImmutable());
+                files.ToImmutable(),
+                _hasAllowList);
 
             Model = model;
 
@@ -240,6 +243,7 @@ public static partial class Binder
                         break;
 
                     case NodeKind.Allow:
+                        _hasAllowList = true;
                         foreach (int glob in nodes.Children(item))
                         {
                             if (nodes[glob].Kind != NodeKind.GlobRef) continue;
@@ -292,8 +296,11 @@ public static partial class Binder
 
             _layers = builder.ToImmutable();
 
-            int implicitGlob = _globs.GetOrAdd(ImplicitFrameworkGlob.AsSpan());
-            if (!_allowedFrameworkGlobs.Contains(implicitGlob)) _allowedFrameworkGlobs.Insert(0, implicitGlob);
+            for (int i = ImplicitAllowedGlobs.Length - 1; i >= 0; i--)
+            {
+                int implicitGlob = _globs.GetOrAdd(ImplicitAllowedGlobs[i].AsSpan());
+                if (!_allowedFrameworkGlobs.Contains(implicitGlob)) _allowedFrameworkGlobs.Insert(0, implicitGlob);
+            }
         }
 
         private LayerDependencyMatrix BuildDependencyMatrix()

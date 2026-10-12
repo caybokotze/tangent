@@ -7,7 +7,7 @@
     { "name": "Domain", "namespace": "Orders.Domain.**", "allowedDependencies": [] },
     { "name": "Infrastructure", "namespace": "Orders.Infrastructure.**", "allowedDependencies": ["Application", "Domain"] }
   ],
-  "allowedFrameworkNamespaces": ["System.**", "Microsoft.Extensions.**"],
+  "allowedFrameworkNamespaces": ["System.**", "Tangent.**", "Microsoft.Extensions.**"],
   "contracts": [],
   "bindings": [],
   "exemptions": []

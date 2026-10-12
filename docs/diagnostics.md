@@ -14,6 +14,7 @@ dotnet_diagnostic.TNG0104.severity = suggestion
 | TNG0100–0199 | Structural violations (Tier 0, symbol) | Warning |
 | TNG0200–0299 | Reference and layer violations (Tier 1, reference) | Warning |
 | TNG0300–0399 | Flow violations (Tier 2, operation tree) | Warning |
+| TNG0110–0113 | Structural rules added after the first release (see below) | Warning |
 | TNG1000–1099 | `.tan` model problems (parse errors, conflicts, cycles) | Error |
 | TNG9000 | Exemption applied | Hidden |
 
@@ -60,16 +61,34 @@ Every violation message has one shape:
 ### TNG0109
 **{Contract}: interface {name} must live in {layer}.** `interface I{Name} lives in Domain` found the interface in another layer.
 
+### TNG0110
+**{Contract}: may only implement {allowed}; found {interface}.** From `implements only I{Name}, IDisposable`. Only interfaces the type implements *directly* count, and an interface that an allowed interface itself extends is allowed too.
+
+### TNG0111
+**{Contract}: may only inherit {allowed}; found {base}.** From `inherits only EntityBase`. A type with no base type, or whose base is `object`, `ValueType` or `Enum`, never violates this rule.
+
+### TNG0112
+**{Contract}: {subject} must have a name that {test}.** From `require name ends with "Handler"` on the type, or inside a member block (`methods { require name ends with "Async" }`).
+
+### TNG0113
+**{Contract}: type must live in {layer or glob}, but lives in {namespace}.** From `require lives in Application` or `require lives in Orders.Application.**`.
+
 ## Reference (Tier 1)
 
 ### TNG0201
 **{Contract}: reference to {symbol} in forbidden namespace {glob}.** `forbid using Orders.Infrastructure.**`. Any symbol reference in the type resolves into the namespace: base types, attributes, member signatures, and bodies.
 
 ### TNG0202
-**Layer {from} may not depend on layer {to} ({symbol}).** Synthesised from the `project` dependency matrix. `System.**` and the project's `allow` globs are implicitly permitted. Namespaces that belong to no layer are permitted.
+**Layer {from} may not depend on layer {to} ({symbol}).** Synthesised from the `project` dependency matrix. `System.**` and the project's `allow` globs are always permitted. A namespace that belongs to no layer produces TNG0205 instead, and only when the project declares an `allow` list.
 
 ### TNG0203
 **{Contract}: forbidden object creation: new {type}.** `forbid new DbContext, new HttpClient`. Derived types count: `new OrdersDbContext()` violates `forbid new DbContext`.
+
+### TNG0204
+**{Contract}: reference to {symbol}, which is bound to contract {contract}.** From `forbid using contract Repository`. The rule follows the contract, not the namespace: any reference to a type that contract binds is a violation, wherever the type lives.
+
+### TNG0205
+**Layer {from} may not depend on {namespace} ({symbol}); add it to the project's allow list.** Reported only when the `project` block declares at least one `allow` glob. Without an allow list, a namespace outside every declared layer (an external package, or code nobody has described) is ignored. With one, every external dependency is either declared or a violation.
 
 ## Flow (Tier 2)
 

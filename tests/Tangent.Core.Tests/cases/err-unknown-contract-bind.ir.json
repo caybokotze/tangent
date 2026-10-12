@@ -2,7 +2,7 @@
   "project": null,
   "root": null,
   "layers": [],
-  "allowedFrameworkNamespaces": ["System.**"],
+  "allowedFrameworkNamespaces": ["System.**", "Tangent.**"],
   "contracts": [],
   "bindings": [
     { "type": "Sample.Foo", "contracts": [], "exceptAttributes": [], "exceptRules": [] }

@@ -7,6 +7,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using Tangent.Core.Diagnostics;
 using Tangent.Core.Ir;
 using Tangent.Core.Matching;
+using Tangent.Core.Text;
 using CoreDescriptor = Tangent.Core.Diagnostics.DiagnosticDescriptor;
 
 namespace Tangent.Analyzers.Internal;
@@ -99,6 +100,22 @@ internal ref struct RuleEvaluator
                     ContractName(applied), Negate(in rule, DescribeExpectedGroup(rule.Predicate.Payload)));
                 return;
             }
+
+            case PredicateKind.ImplementsOnly:
+                EvaluateImplementsOnly(applied, in rule);
+                return;
+
+            case PredicateKind.InheritsOnly:
+                EvaluateInheritsOnly(applied, in rule);
+                return;
+
+            case PredicateKind.NameIs:
+                EvaluateName(applied, in rule, Type, MemberKind.Type, SymbolFacts.LocationOf(Type));
+                return;
+
+            case PredicateKind.LivesIn:
+                EvaluateLivesIn(applied, in rule);
+                return;
 
             case PredicateKind.HasAttributes:
                 EvaluateAttributes(applied, in rule, Type, MemberKind.Type, SymbolFacts.LocationOf(Type));
@@ -251,6 +268,10 @@ internal ref struct RuleEvaluator
         {
             case PredicateKind.Modifier:
                 EvaluateModifier(applied, in rule, member, kind, location);
+                return;
+
+            case PredicateKind.NameIs:
+                EvaluateName(applied, in rule, member, kind, location);
                 return;
 
             case PredicateKind.HasAttributes:
@@ -554,6 +575,121 @@ internal ref struct RuleEvaluator
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// <c>implements only X, Y</c>: every interface the type implements directly must match the group.
+    /// Interfaces the group's own members inherit are not reported, so `implements only I{Name}` does not
+    /// trip over what I{Name} itself extends.
+    /// </summary>
+    private void EvaluateImplementsOnly(AppliedRule applied, in Rule rule)
+    {
+        ImmutableArray<INamedTypeSymbol> interfaces = Type.Interfaces;
+        if (interfaces.IsDefaultOrEmpty) return;
+
+        var allowed = new HashSet<INamedTypeSymbol>(SymbolEqualityComparer.Default);
+        for (int i = 0; i < interfaces.Length; i++)
+        {
+            if (!PatternMatching.MatchesGroup(Model, rule.Predicate.Payload, interfaces[i], BoundName, BoundNamespace)) continue;
+            allowed.Add(interfaces[i]);
+            foreach (INamedTypeSymbol inherited in interfaces[i].AllInterfaces) allowed.Add(inherited);
+        }
+
+        for (int i = 0; i < interfaces.Length; i++)
+        {
+            INamedTypeSymbol candidate = interfaces[i];
+            if (allowed.Contains(candidate)) continue;
+            if (rule.Polarity != Polarity.Require) continue;
+
+            Report(
+                applied, in rule, DiagnosticCatalog.ImplementsOnlyViolation, SymbolFacts.LocationOf(Type),
+                string.Empty, string.Empty, null, null,
+                ContractName(applied),
+                Model.TypePatterns.DescribeGroup(rule.Predicate.Payload),
+                candidate.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat));
+        }
+    }
+
+    /// <summary><c>inherits only X</c>: the base type, when there is one other than object, must match.</summary>
+    private void EvaluateInheritsOnly(AppliedRule applied, in Rule rule)
+    {
+        INamedTypeSymbol? baseType = Type.BaseType;
+        if (baseType is null || baseType.SpecialType is SpecialType.System_Object or SpecialType.System_ValueType or SpecialType.System_Enum) return;
+        if (rule.Polarity != Polarity.Require) return;
+        if (PatternMatching.MatchesGroupIncludingBases(Model, rule.Predicate.Payload, baseType, BoundName, BoundNamespace)) return;
+
+        Report(
+            applied, in rule, DiagnosticCatalog.InheritsOnlyViolation, SymbolFacts.LocationOf(Type),
+            string.Empty, string.Empty, null, null,
+            ContractName(applied),
+            Model.TypePatterns.DescribeGroup(rule.Predicate.Payload),
+            baseType.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat));
+    }
+
+    /// <summary><c>name ends with "Handler"</c> and friends, on the type or on a member.</summary>
+    private void EvaluateName(AppliedRule applied, in Rule rule, ISymbol symbol, MemberKind kind, Location location)
+    {
+        var op = (NameOperator)rule.Predicate.Payload;
+        ReadOnlySpan<char> operand = Model.Strings.GetSpan(new StringId(rule.Predicate.Payload2));
+        ReadOnlySpan<char> name = symbol.Name.AsSpan();
+
+        bool holds;
+        switch (op)
+        {
+            case NameOperator.EndsWith:
+                holds = name.EndsWith(operand, StringComparison.Ordinal);
+                break;
+            case NameOperator.Contains:
+                holds = name.IndexOf(operand, StringComparison.Ordinal) >= 0;
+                break;
+            case NameOperator.Matches:
+                holds = _state.GetRegex(Model.Strings.GetString(new StringId(rule.Predicate.Payload2))).IsMatch(symbol.Name);
+                break;
+            default:
+                holds = name.StartsWith(operand, StringComparison.Ordinal);
+                break;
+        }
+
+        if (holds == (rule.Polarity == Polarity.Require)) return;
+
+        string subject = kind == MemberKind.Type ? "type" : SymbolFacts.DescribeMember(symbol, kind);
+        Report(
+            applied, in rule, DiagnosticCatalog.NameViolation, location,
+            kind == MemberKind.Type ? string.Empty : subject,
+            kind == MemberKind.Type ? string.Empty : symbol.Name,
+            null, null,
+            ContractName(applied),
+            subject,
+            Negate(in rule, IrText.NameOperatorText(op) + " \"" + Model.Strings.GetString(new StringId(rule.Predicate.Payload2)) + "\""));
+    }
+
+    /// <summary><c>lives in Application</c> or <c>lives in Orders.Application.**</c>.</summary>
+    private void EvaluateLivesIn(AppliedRule applied, in Rule rule)
+    {
+        ReadOnlySpan<char> ns = BoundNamespace;
+        bool holds;
+
+        if (rule.Predicate.Payload2 >= 0 && rule.Predicate.Payload2 < Model.Globs.Length)
+        {
+            holds = Model.Globs[rule.Predicate.Payload2].Matches(ns);
+        }
+        else if (rule.Predicate.Payload >= 0 && rule.Predicate.Payload < Model.Layers.Length)
+        {
+            holds = Model.Globs[Model.Layers[rule.Predicate.Payload].GlobIndex].Matches(ns);
+        }
+        else
+        {
+            return;
+        }
+
+        if (holds == (rule.Polarity == Polarity.Require)) return;
+
+        Report(
+            applied, in rule, DiagnosticCatalog.LivesInViolation, SymbolFacts.LocationOf(Type),
+            string.Empty, string.Empty, null, null,
+            ContractName(applied),
+            Negate(in rule, IrText.DescribeLocation(Model, rule.Predicate)),
+            ns.Length == 0 ? "the global namespace" : ns.ToString());
     }
 
     private void Report(

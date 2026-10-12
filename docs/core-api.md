@@ -396,9 +396,9 @@ condition onto the block's own. Each level adds one to `Specificity`. A refineme
 the `match` clause's `where`: `match: class in Api` followed by `where name ends with "X" { sealed }`
 binds the condition to the refinement, because only a refinement's condition is followed by `{`.
 
-**Tiers** — `Symbol` for `Modifier`, `Inherits`, `Implements`, `HasAttributes`, `Returns`, `Injects`,
-`InjectsOnly`, `Accessor`, `HasMemberKind`, `InterfaceLivesIn`; `Reference` for `UsingNamespace` and
-`NewExpression`; `Flow` for `EachParamAssignedToField`, `EachParamNullChecked`, `EachParamNotStored` and
+**Tiers** — `Symbol` for `Modifier`, `Inherits`, `Implements`, `ImplementsOnly`, `InheritsOnly`,
+`HasAttributes`, `Returns`, `Injects`, `InjectsOnly`, `Accessor`, `HasMemberKind`, `InterfaceLivesIn`,
+`NameIs`, `LivesIn`; `Reference` for `UsingNamespace`, `UsingContract` and `NewExpression`; `Flow` for `EachParamAssignedToField`, `EachParamNullChecked`, `EachParamNotStored` and
 `Stateless`. Register operation actions only when a bound type has rules above `Symbol`.
 
 **Predicate payloads**, switched on `PredicateKind`:
@@ -406,14 +406,20 @@ binds the condition to the refinement, because only a refinement's condition is 
 | Kind | `Payload` | `Payload2` |
 |---|---|---|
 | `Modifier` | `Modifiers` mask | — |
-| `Inherits`, `Implements`, `Returns`, `Injects`, `InjectsOnly`, `NewExpression` | type-pattern **group** index | — |
+| `Inherits`, `Implements`, `Returns`, `Injects`, `InjectsOnly`, `ImplementsOnly`, `InheritsOnly`, `NewExpression` | type-pattern **group** index | — |
 | `HasAttributes` | attribute-group index | — |
 | `UsingNamespace` | glob index | — |
+| `UsingContract` | contract index | — |
+| `NameIs` | `NameOperator` (`StartsWith`/`EndsWith`/`Contains`/`Matches`) | `StringId` of the operand |
+| `LivesIn` | layer index, or -1 | glob index, or -1 |
 | `Accessor` | `AccessorKind` (`Get`/`Set`/`Init`) | `Modifiers` mask (`forbid public set`) |
 | `InterfaceLivesIn` | template index | layer index (-1 if the layer was undeclared) |
 | `HasMemberKind` | `MemberKind` | `Modifiers` mask (`forbid public fields`) |
 | `EachParamAssignedToField` | `Modifiers` mask for the field (`private readonly`) | — |
 | `EachParamNullChecked`, `EachParamNotStored`, `Stateless` | — | — |
+
+`ConditionKind` covers `And`, `Or`, `Not` (Left is the negated condition), the four name tests,
+`Inherits`, `Implements`, `HasAttributes` and `Modifier`.
 
 `Modifiers` is a `[Flags]` enum covering `public private protected internal static sealed abstract
 readonly partial class record struct interface`, plus `AccessibilityMask` and `TypeKindMask`.
@@ -512,7 +518,9 @@ rule between lines leaves them unchanged — which is what makes `except "..."` 
 Renders IR back to DSL-like text, used by diagnostics, the JSON writer and the CLI:
 `PolarityName`, `TierName`, `TypeKindName`, `AccessorName`, `MemberKindSlug`, `PredicateSlug`,
 `ModifierText`, `DescribeSelector`, `DescribeCondition`, `DescribePredicate`, `DescribeRule`,
-`DescribeMatch`.
+`DescribeScopedRule` (a rule inside its member block or `where { }` refinement), `DescribeMatch`,
+`DescribeLayerDependencies` (a layer's `->` line) and `DescribeAllowList` (the effective `allow` list).
+`tangent check --explain` is built on the last four.
 
 ---
 
