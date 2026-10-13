@@ -7,8 +7,10 @@ You describe the architecture of a solution in `.tan` files in a `.tangent/` fol
 ## Install
 
 ```bash
-dotnet add package Tangent.Analyzers
+dotnet add package Tangent.Analyzers --prerelease
 ```
+
+Tangent is in preview, so the command needs `--prerelease`.
 
 The package is a development dependency, so it never flows to the projects that reference yours. To check every project, add the reference once in `Directory.Build.props` at the solution root:
 

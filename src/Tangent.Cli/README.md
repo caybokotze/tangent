@@ -10,15 +10,17 @@ As a local tool, so the team and CI use the same version:
 
 ```bash
 dotnet new tool-manifest
-dotnet tool install Tangent.Cli
+dotnet tool install Tangent.Cli --prerelease
 dotnet tangent --help
 ```
 
 Or globally:
 
 ```bash
-dotnet tool install --global Tangent.Cli
+dotnet tool install --global Tangent.Cli --prerelease
 ```
+
+Tangent is in preview, so the install needs `--prerelease`.
 
 ## Commands
 
