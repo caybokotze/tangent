@@ -5,8 +5,19 @@
   "version": "0.1.0",
   "publisher": "tangent",
   "license": "MIT",
+  "icon": "images/icon.png",
+  "preview": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/caybokotze/tangent.git",
+    "directory": "editors/vscode"
+  },
+  "homepage": "https://github.com/caybokotze/tangent",
+  "bugs": {
+    "url": "https://github.com/caybokotze/tangent/issues"
+  },
   "engines": {
-    "vscode": "^1.75.0"
+    "vscode": "^1.82.0"
   },
   "categories": [
     "Programming Languages",
@@ -79,7 +90,7 @@
         },
         "tangent.viewerUrl": {
           "type": "string",
-          "default": "http://localhost:5173",
+          "default": "https://caybokotze.github.io/tangent/",
           "description": "URL of the Tangent graph viewer opened by the 'Tangent: Show Dependency Graph' command.",
           "scope": "window"
         }
@@ -102,14 +113,14 @@
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "package": "vsce package --no-dependencies"
+    "package": "vsce package"
   },
   "dependencies": {
     "vscode-languageclient": "^9.0.1"
   },
   "devDependencies": {
     "@types/node": "^20.14.0",
-    "@types/vscode": "^1.75.0",
+    "@types/vscode": "~1.82.0",
     "@vscode/vsce": "^3.2.0",
     "typescript": "^5.5.0"
   }

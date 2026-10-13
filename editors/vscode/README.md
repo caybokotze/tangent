@@ -1,7 +1,9 @@
 # Tangent for VS Code
 
-Editor support for [Tangent](../../README.md), an architectural conformance checker for .NET
+Editor support for [Tangent](https://github.com/caybokotze/tangent), an architectural conformance checker for .NET
 whose contracts are written in `.tan` files.
+
+Tangent is in preview.
 
 ## Features
 
@@ -22,11 +24,15 @@ without the language server.
 
 ## Requirements
 
-The language server ships with the Tangent CLI:
+The language server ships with the Tangent CLI. Install it as a local tool in the workspace folder:
 
 ```
-dotnet tool install -g Tangent.Cli
+dotnet new tool-manifest
+dotnet tool install Tangent.Cli --prerelease
 ```
+
+The extension starts `dotnet tangent serve`, and `dotnet tangent` finds a local tool, not a global one.
+To use a global install, set `tangent.server.command` to `tangent` and `tangent.server.args` to `["serve"]`.
 
 If it is missing, the extension shows a warning once per session with the install command and keeps
 syntax highlighting working.
@@ -38,7 +44,7 @@ syntax highlighting working.
 | `tangent.server.command` | `dotnet` | Executable used to launch the language server. |
 | `tangent.server.args` | `["tangent", "serve"]` | Arguments passed to that executable. |
 | `tangent.server.trace` | `off` | LSP trace level (`off`, `messages`, `verbose`); written to the **Tangent** output channel. |
-| `tangent.viewerUrl` | `http://localhost:5173` | URL opened by `Tangent: Show Dependency Graph` (the `tangent.graph.json` viewer). |
+| `tangent.viewerUrl` | `https://caybokotze.github.io/tangent/` | URL opened by `Tangent: Show Dependency Graph` (the `tangent.graph.json` viewer). |
 
 The extension makes no network calls; the only process it starts is the local language server.
 
@@ -66,7 +72,7 @@ Then press <kbd>F5</kbd> ("Run Extension") to launch an Extension Development Ho
 ## Packaging
 
 ```
-npm run package        # vsce package --no-dependencies
+npm run package        # vsce package
 ```
 
 This produces `tangent-vscode-<version>.vsix`, installable with

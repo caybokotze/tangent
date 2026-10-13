@@ -57,4 +57,9 @@ jobs:
         with:
           node-version: 22
       - run: npm ci
-      - run: npm run compile
+      - name: package (vsce runs the compile first)
+        run: npm run package
+      - uses: actions/upload-artifact@v7
+        with:
+          name: vscode-extension
+          path: editors/vscode/*.vsix

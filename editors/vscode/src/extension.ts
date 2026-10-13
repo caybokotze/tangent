@@ -23,7 +23,9 @@ const ContractDefinitionRequest = new RequestType<ContractDefinitionParams, LspL
 	'tangent/contractDefinition'
 );
 
-const INSTALL_COMMAND = 'dotnet tool install -g Tangent.Cli';
+// `dotnet tangent` finds a local tool, not a global one, so the CLI goes in the workspace's tool manifest.
+const INSTALL_COMMAND = 'dotnet tool install Tangent.Cli --prerelease';
+const VIEWER_URL = 'https://caybokotze.github.io/tangent/';
 
 /** Matches `[Tangent("Contract")]` / `[TangentAttribute("Contract")]` in C# source. */
 const TANGENT_ATTRIBUTE = /\[\s*(?:[A-Za-z_][A-Za-z0-9_]*\s*:\s*)?Tangent(?:Attribute)?\s*\(\s*"((?:[^"\\]|\\.)*)"/g;
@@ -115,7 +117,7 @@ async function restartServer(context: vscode.ExtensionContext): Promise<void> {
 }
 
 async function showGraph(): Promise<void> {
-	const url = config().get<string>('viewerUrl', 'http://localhost:5173');
+	const url = config().get<string>('viewerUrl', VIEWER_URL);
 	await vscode.env.openExternal(vscode.Uri.parse(url));
 }
 
@@ -144,7 +146,7 @@ function reportMissingServer(command: string): void {
 	const showOutput = 'Show output';
 	void vscode.window
 		.showWarningMessage(
-			`Could not start the Tangent language server ('${command}'). Install it with: ${INSTALL_COMMAND}`,
+			`Could not start the Tangent language server ('${command}'). Install it in the workspace folder with: ${INSTALL_COMMAND}`,
 			copy,
 			showOutput
 		)
