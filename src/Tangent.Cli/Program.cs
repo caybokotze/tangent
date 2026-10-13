@@ -156,18 +156,30 @@ public static class Program
         var includeUnbound = new Option<bool>("--include-unbound") { Description = "Add types that no contract binds, so the graph shows the whole solution." };
         var includeSource = new Option<bool>("--include-source") { Description = "Embed code around each violation, the .tan files and the solution root (for editor links)." };
         var graphProjects = NewProjectOption();
-        var graph = new Command("graph", "Export tangent.graph.json for the viewer.");
+        var serveGraph = new Option<bool>("--serve") { Description = "Serve the viewer and the graph on 127.0.0.1 until Ctrl+C. Writes a file only with -o." };
+        var openGraph = new Option<bool>("--open") { Description = "Serve, and open the viewer in the default browser." };
+        var port = new Option<int>("--port") { Description = "The port for --serve. Default: a free port.", HelpName = "number" };
+        port.Validators.Add(result =>
+        {
+            int value = result.GetValueOrDefault<int>();
+            if (value is < 0 or > 65535) result.AddError("--port must be between 0 and 65535.");
+        });
+        var graph = new Command("graph", "Export tangent.graph.json for the viewer, or serve it with --serve.");
         graph.Add(NewPathArgument());
         graph.Add(output);
         graph.Add(includeUnbound);
         graph.Add(includeSource);
         graph.Add(graphProjects);
+        graph.Add(serveGraph);
+        graph.Add(openGraph);
+        graph.Add(port);
         graph.SetAction((parse, token) => GraphCommand.RunAsync(
             parse.GetValue<string?>("path"),
             parse.GetValue(output),
             parse.GetValue(includeUnbound),
             parse.GetValue(includeSource),
             parse.GetValue(graphProjects) ?? [],
+            new ServeOptions(parse.GetValue(serveGraph), parse.GetValue(openGraph), parse.GetValue(port)),
             MakeConsole(parse, stdout, stderr, noColor, verbose),
             token));
 

@@ -27,11 +27,42 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Kestrel, for the serve mode of `tangent graph`. A .NET tool runs where the SDK is, and the SDK has this runtime. -->
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
     <InternalsVisibleTo Include="Tangent.Cli.Tests" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
+
+  <!--
+    The viewer for the serve mode of `tangent graph`: the build of viewer/ (`npm ci` and `npm run build` there) when it
+    exists. Only what the page loads is embedded: no source maps, and no *.local.graph.json, which records an
+    absolute path.
+  -->
+  <PropertyGroup>
+    <TangentViewerDist>$(MSBuildThisFileDirectory)../../viewer/dist/</TangentViewerDist>
+  </PropertyGroup>
+
+  <ItemGroup Condition="Exists('$(TangentViewerDist)index.html')">
+    <EmbeddedResource Include="$(TangentViewerDist)index.html;$(TangentViewerDist)favicon.svg;$(TangentViewerDist)*.graph.json"
+                      Exclude="$(TangentViewerDist)*.local.graph.json"
+                      LogicalName="viewer/%(Filename)%(Extension)" />
+    <EmbeddedResource Include="$(TangentViewerDist)assets/**/*"
+                      Exclude="$(TangentViewerDist)assets/**/*.map"
+                      LogicalName="viewer/assets/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <!-- A release must carry the viewer: release.yml passes -p:TangentRequireViewer=true. -->
+  <Target Name="TangentCheckViewer" BeforeTargets="GenerateNuspec" Condition="!Exists('$(TangentViewerDist)index.html')">
+    <Error Condition="'$(TangentRequireViewer)' == 'true'"
+           Text="viewer/dist is missing. Run 'npm ci' and 'npm run build' in viewer/ before the pack." />
+    <Warning Condition="'$(TangentRequireViewer)' != 'true'"
+             Text="viewer/dist is missing, so this Tangent.Cli package has no viewer and 'tangent graph --serve' cannot start. Run 'npm ci' and 'npm run build' in viewer/ before the pack." />
+  </Target>
 
 </Project>

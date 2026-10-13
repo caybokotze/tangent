@@ -22,6 +22,12 @@ jobs:
       - uses: actions/setup-dotnet@v6
         with:
           global-json-file: global.json
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: build the viewer (the CLI embeds viewer/dist for tangent graph --serve)
+        working-directory: viewer
+        run: npm ci && npm run build
       - name: version from the tag
         run: |
           version="${GITHUB_REF_NAME#v}"
@@ -35,7 +41,8 @@ jobs:
         run: dotnet restore samples/Orders/Orders.slnx
       - run: dotnet build Tangent.slnx -c Release --no-restore -p:Version=$VERSION
       - run: dotnet test Tangent.slnx -c Release --no-build
-      - run: dotnet pack Tangent.slnx -c Release --no-build -p:Version=$VERSION
+      - name: pack (a release must carry the viewer, so a missing viewer/dist fails the pack)
+        run: dotnet pack Tangent.slnx -c Release --no-build -p:Version=$VERSION -p:TangentRequireViewer=true
       - uses: actions/upload-artifact@v7
         with:
           name: packages

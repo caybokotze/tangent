@@ -30,7 +30,7 @@ Tangent is in preview, so the install needs `--prerelease`.
 | `tangent lint` | Parses and binds the `.tan` files, and resolves their type names against the solution. |
 | `tangent check` | Runs every contract over the solution. Writes SARIF with `--sarif` and JSON with `--json`. `--explain` adds the rule text and the offending line to each violation. |
 | `tangent diff` | Prints the code fixes as a unified diff. `--apply` writes them. |
-| `tangent graph` | Exports `tangent.graph.json`. Open it in the viewer at [caybokotze.github.io/tangent](https://caybokotze.github.io/tangent/), which reads the file in your browser. |
+| `tangent graph` | Exports `tangent.graph.json`. Open it in the viewer at [caybokotze.github.io/tangent](https://caybokotze.github.io/tangent/), which reads the file in your browser. `--open` serves the viewer on `127.0.0.1` and opens it instead. |
 | `tangent serve` | Runs the language server for `.tan` files over stdio. |
 
 ## In CI

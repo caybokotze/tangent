@@ -13,6 +13,12 @@ jobs:
       - uses: actions/setup-dotnet@v6
         with:
           global-json-file: global.json
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: build the viewer (the CLI embeds viewer/dist for tangent graph --serve)
+        working-directory: viewer
+        run: npm ci && npm run build
       - run: dotnet restore Tangent.slnx
       - name: restore the sample (the CLI tests load it with MSBuildWorkspace, which needs it restored)
         run: dotnet restore samples/Orders/Orders.slnx

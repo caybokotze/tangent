@@ -24,7 +24,7 @@ tangent check [path] [--sarif out.sarif] [--json out.json] [--fail-on warning|er
                      [--show-ignored] [--explain] [--project name]... [--strict]
 tangent diff  [path] [--apply] [--project name]...
 tangent graph [path] [-o tangent.graph.json] [--include-unbound] [--include-source]
-                     [--project name]...
+                     [--project name]... [--serve] [--open] [--port number]
 tangent serve [--workspace path]
 ```
 
@@ -327,6 +327,28 @@ Open https://caybokotze.github.io/tangent/ and choose this file. It stays in you
 | `--include-unbound` | add the types no contract binds, so the graph shows the whole solution |
 | `--include-source` | embed the code around each violation (15 lines either side), the full text of every `.tan` file, and the absolute solution root for `vscode://file/` links |
 | `--project <name>` | restrict the run to this project. Repeatable |
+| `--serve` | serve the viewer and the graph on `127.0.0.1` until Ctrl+C, instead of writing the file. With `-o`, it writes the file too |
+| `--open` | serve, and open the viewer in the default browser |
+| `--port <number>` | the port for `--serve`. Default: a free port |
+
+### Serving the viewer
+
+```
+$ tangent graph samples/Orders --include-unbound --open
+  4 layers, 7 contracts, 62 nodes, 152 edges, 59 violations
+  49 C# files: 18 tracked, 6 partial, 25 untracked
+Serving the viewer at http://127.0.0.1:58905/?graph=/api/graph/612f8f5706a6397c814ce0df7e3027ef
+  Only this computer can reach it. Press Ctrl+C to stop.
+```
+
+The viewer is inside the `Tangent.Cli` package, so `--serve` needs no network. The server listens on
+`127.0.0.1` only, and serves the graph at an address with a random token per run. It refuses a request
+whose `Host` is not the server (DNS rebinding) or whose `Origin` is another site, and it sends no CORS
+header. It reads no file from disk and writes none. The graph is exported once at the start; run the
+command again to see a change.
+
+A build of the CLI from source has the viewer only when `viewer/dist` exists: run `npm ci` and
+`npm run build` in `viewer/` first. Without it, `--serve` stops with a message that says so.
 
 The schema is `viewer/src/graph/types.ts`: `version` (currently 2), `project`,
 `generatedAt`, `layers[]`, `contracts[]`, `files[]`, `nodes[]` (with `members[]`), `edges[]`,

@@ -144,7 +144,13 @@ Reference and flow violations have no mechanical fix; they are design decisions.
 dotnet tangent graph -o tangent.graph.json --include-unbound
 ```
 
-Open <https://caybokotze.github.io/tangent/> and choose the file, or drop it on the page. The viewer reads the file in your browser and never uploads it. Add `--include-source` to see the code beside each violation, with links that open the file in VS Code.
+Open <https://caybokotze.github.io/tangent/> and choose the file, or drop it on the page. The viewer reads the file in your browser and never uploads it.
+
+Or let the CLI serve the viewer on your own computer, and open it in the browser:
+
+```bash
+dotnet tangent graph --include-unbound --open
+``` Add `--include-source` to see the code beside each violation, with links that open the file in VS Code.
 
 The viewer has four views: Issues groups the violations by rule, Rules shows what passes and fails each rule, Coverage shows which files the contracts describe, and Graph shows what a type, contract or layer depends on. To run the viewer from a clone of this repository instead, use `cd viewer && npm run dev`, then the file picker or `?graph=<url>`.
 
