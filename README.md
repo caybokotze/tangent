@@ -2,17 +2,67 @@
 
 > A line is tangent to a curve when it touches it at exactly one point. Tangent checks that your codebase touches its architectural contracts exactly where it should, and nowhere else.
 
-A deterministic tool to align non-deterministic code generation. The main point being that you can create more consitent output from a architectural perspective with AI agents by enforcing deterministic rules to re-enforce patterns and prevent architectural drift.
+A deterministic tool to align non-deterministic code generation. The main point being that you can create more consistent output from an architectural perspective with AI agents by enforcing deterministic rules to re-enforce patterns and prevent architectural drift.
 
 ## WTF is Tangent?
 
 **In one line Tangent is SonarCloud for software architecture. It is a deterministic architectural validator.**
 
+## Use it
+
+Tangent is in preview, so the install commands need `--prerelease`.
+
+```bash
+dotnet add package Tangent.Analyzers --prerelease   # in each project, or once in Directory.Build.props
+dotnet new tool-manifest                             # once per repository
+dotnet tool install Tangent.Cli --prerelease
+dotnet tangent init                                  # writes .tangent/ from your namespaces
+```
+
+Add a contract to `.tangent/handlers.tan`:
+
+```tangent
+contract Handler {
+    match: class in Shop.Application.** where name ends with "Handler"
+
+    sealed
+    ctor { injects only IOrderRepository }
+}
+```
+
+This handler breaks it twice:
+
+```csharp
+using Shop.Infrastructure;
+
+namespace Shop.Application;
+
+public class PlaceOrderHandler(IOrderRepository orders, ShopDbContext db)
+{
+    // ...
+}
+```
+
+`dotnet build` reports both, with the rule and the `.tan` line that declares it:
+
+```
+Application\PlaceOrderHandler.cs(5,14): warning TNG0101: Handler: type must be sealed. (rule Handler/type/modifier#0, handlers.tan:4)
+Application\PlaceOrderHandler.cs(5,71): warning TNG0106: Handler: constructor may only inject IOrderRepository; found Shop.Infrastructure.ShopDbContext db. (rule Handler/ctor/injects-only#0, handlers.tan:5)
+```
+
+Seal the class and go through the repository, and the warnings go away:
+
+```csharp
+public sealed class PlaceOrderHandler(IOrderRepository orders)
+```
+
+`dotnet tangent diff --apply` adds the missing `sealed` for you. The dependency is a design decision, so you fix that one by hand. The same rules run in the IDE, in `dotnet tangent check` for CI, and in the [viewer](https://caybokotze.github.io/tangent/) through `dotnet tangent graph`. [Getting started](docs/getting-started.md) has the full walk-through.
+
 ## Why?
 
-Agentic and AI development is here to stay and if used correctly can really boost productivity. However there are notable risks involved. When I use AI for programming it might generally be for incremental changes with a harness like Github Copilot, Claude Code, Opencode Codex or whatever else is hot right now. What I have found happening over and over is that I might use a fronteir model for the planning or core development and cheaper models for bulk execution. When introducting multiple agents or loop-engineering with agents what tends to happen is you experience some drift from your target architecture. AI is non As a big believer in quality and good architecture I knew there was a solution for this. Tangent is what that solution has become. A way of building out determinstic contracts, so that when your AI drifts off and breaks that contract there is something that will notify you. You can use this information to then guide the agent back on track.
+Agentic and AI development is here to stay and if used correctly can really boost productivity. However there are notable risks involved. When I use AI for programming it might generally be for incremental changes with a harness like Github Copilot, Claude Code, Opencode Codex or whatever else is hot right now. What I have found happening over and over is that I might use a frontier model for the planning or core development and cheaper models for bulk execution. When introducing multiple agents or loop-engineering with agents what tends to happen is you experience some drift from your target architecture. AI is non-deterministic. As a big believer in quality and good architecture I knew there was a solution for this. Tangent is what that solution has become. A way of building out deterministic contracts, so that when your AI drifts off and breaks that contract there is something that will notify you. You can use this information to then guide the agent back on track.
 
-Static analysers look at code compositional patterns: this method is too complex, this variable is never read, this string comparison is culture-sensitive. They are excellent at it, and they say nothing at all about whether your controllers reach into the database, whether your domain layer has quietly taken a dependency on EF Core, or whether the repository someone added last sprint looks anything like the other nine. This might be possible to some extent but can become very tedious
+Static analysers look at code compositional patterns: this method is too complex, this variable is never read, this string comparison is culture-sensitive. They are excellent at it, and they say nothing at all about whether your controllers reach into the database, whether your domain layer has quietly taken a dependency on EF Core, or whether the repository someone added last sprint looks anything like the other nine. This might be possible to some extent but can become very tedious.
 
 Tangent checks structure in the large, against **your** rules rather than a vendor's generic ruleset. You describe the shape of your codebase in a small declarative language (`.tan` files in a `.tangent/` folder at the solution root), and Tangent reports every place the code deviates: as IDE squiggles, as `dotnet build` warnings, as a CI failure, and as a diff of the changes that would bring the code into line.
 
@@ -380,7 +430,7 @@ Conformance is not correctness. An agent can produce code that is fully conforma
 
 ---
 
-## Quick start
+## Build from source
 
 ```bash
 # Build everything
@@ -398,17 +448,6 @@ dotnet pack Tangent.slnx -c Release -p:Version=0.1.0-preview.1
 
 # Check the sample solution
 dotnet run --project src/Tangent.Cli -- check samples/Orders/Orders.slnx
-```
-
-In your own solution:
-
-```bash
-dotnet add package Tangent.Attributes
-dotnet add package Tangent.Analyzers
-dotnet tool install -g Tangent.Cli
-tangent init          # scaffolds .tangent/ from your namespaces
-tangent check         # or just: dotnet build
-tangent graph --include-unbound --include-source   # then open it at caybokotze.github.io/tangent
 ```
 
 ## Repository layout
