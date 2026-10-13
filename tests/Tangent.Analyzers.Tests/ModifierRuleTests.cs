@@ -139,6 +139,37 @@ public sealed class PricingService
     }
 
     [Fact]
+    public async Task NegatedAccessibilityFilterSelectsTheOtherAccessibilities()
+    {
+        const string contracts = """
+contract Service {
+    match: class in Sample.Domain.**
+    methods where public { forbid static }
+    methods where not public { require private }
+}
+""";
+
+        const string source = """
+namespace Sample.Domain;
+
+public sealed class PricingService
+{
+    public int Rate() => 1;
+
+    private int Cached() => 1;
+
+    internal int {|TNG0101:Shared|}() => 1;
+
+    internal static string {|TNG0101:Label|}() => "";
+
+    protected internal int {|TNG0101:Exposed|}() => 1;
+}
+""";
+
+        await Harness.AnalyzerAsync(contracts, source);
+    }
+
+    [Fact]
     public async Task ConstructorAccessibilityIsChecked()
     {
         const string contracts = """
