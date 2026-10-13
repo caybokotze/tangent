@@ -1,0 +1,53 @@
+name: release
+
+# Publishes Tangent.Analyzers, Tangent.Attributes and Tangent.Cli to nuget.org when a v* tag is pushed.
+# The version comes from the tag: v0.1.0-preview.2 packs 0.1.0-preview.2.
+# nuget.org issues a short-lived API key through Trusted Publishing, so the repository stores no key.
+# The policy on nuget.org names this file, and the secret NUGET_USER holds the nuget.org profile name.
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+      - name: version from the tag
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          if ! [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "The tag $GITHUB_REF_NAME is not v<major>.<minor>.<patch>[-<prerelease>]."
+            exit 1
+          fi
+          echo "VERSION=$version" >> "$GITHUB_ENV"
+      - run: dotnet restore Tangent.slnx
+      - name: restore the sample (the CLI tests load it with MSBuildWorkspace, which needs it restored)
+        run: dotnet restore samples/Orders/Orders.slnx
+      - run: dotnet build Tangent.slnx -c Release --no-restore -p:Version=$VERSION
+      - run: dotnet test Tangent.slnx -c Release --no-build
+      - run: dotnet pack Tangent.slnx -c Release --no-build -p:Version=$VERSION
+      - uses: actions/upload-artifact@v7
+        with:
+          name: packages
+          path: artifacts/packages/*.nupkg
+      - name: nuget.org login (Trusted Publishing)
+        id: login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ secrets.NUGET_USER }}
+      - name: push to nuget.org (--skip-duplicate, so a re-run does not fail on a version that is already there)
+        run: >
+          dotnet nuget push "artifacts/packages/*.nupkg"
+          --api-key "${{ steps.login.outputs.NUGET_API_KEY }}"
+          --source https://api.nuget.org/v3/index.json
+          --skip-duplicate
