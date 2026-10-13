@@ -5,9 +5,13 @@ same IR `Tangent.Core` binds, so `tangent check` and `dotnet build` agree by con
 exactly one rule engine.
 
 ```
-dotnet tool install --global Tangent.Cli
-tangent check
+dotnet new tool-manifest
+dotnet tool install Tangent.Cli --prerelease
+dotnet tangent check
 ```
+
+Tangent is in preview, so the install needs `--prerelease`. As a local tool, the version is in
+`.config/dotnet-tools.json`, so the team and CI use the same one.
 
 ---
 
@@ -387,14 +391,14 @@ There are two routes, and they produce the same diagnostics because they run the
 ### The CLI, with SARIF for code scanning
 
 ```yaml
-- uses: actions/setup-dotnet@v4
+- uses: actions/setup-dotnet@v6
   with: { dotnet-version: '10.0.x' }
 
-- run: dotnet tool install --global Tangent.Cli
+- run: dotnet tool restore
 - run: dotnet restore
-- run: tangent check --sarif tangent.sarif --fail-on error
+- run: dotnet tangent check --sarif tangent.sarif --fail-on error
 
-- uses: github/codeql-action/upload-sarif@v3
+- uses: github/codeql-action/upload-sarif@v4
   if: always()
   with:
     sarif_file: tangent.sarif

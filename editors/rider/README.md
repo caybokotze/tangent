@@ -51,10 +51,12 @@ The JetBrains LSP API is not usable without writing a plugin, so for the zero-bu
 **Prerequisite:** the server ships with the Tangent CLI —
 
 ```
-dotnet tool install -g Tangent.Cli
+dotnet new tool-manifest
+dotnet tool install Tangent.Cli --prerelease
 ```
 
-Check it is on `PATH` with `dotnet tangent --version`.
+Install it as a local tool in the solution folder: `dotnet tangent` finds a local tool, not a global one.
+Check it with `dotnet tangent --version` in that folder.
 
 **Install LSP4IJ:** <kbd>Settings</kbd> → **Plugins** → **Marketplace** → search `LSP4IJ` → **Install**
 → restart.

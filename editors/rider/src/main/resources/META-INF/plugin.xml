@@ -11,8 +11,8 @@
       <li>Diagnostics, completion, hover and navigation from the Tangent language server
           (<code>dotnet tangent serve</code>, started over stdio).</li>
     </ul>
-    The language server ships with the Tangent CLI:
-    <code>dotnet tool install -g Tangent.Cli</code>.
+    The language server ships with the Tangent CLI. Install it as a local tool in the solution folder:
+    <code>dotnet tool install Tangent.Cli --prerelease</code>.
     ]]></description>
 
     <!-- Rider frontend. -->

@@ -4,17 +4,26 @@ This guide takes an existing .NET solution from zero to enforced architecture in
 
 ## 1. Install
 
-```bash
-# In every project (or once in Directory.Build.props):
-dotnet add package Tangent.Attributes
-dotnet add package Tangent.Analyzers
+Tangent is in preview, so the install commands need `--prerelease`.
 
-# The CLI, as a local tool:
+```bash
+# The analyzer, in every project (or once in Directory.Build.props):
+dotnet add package Tangent.Analyzers --prerelease
+
+# The CLI, as a local tool, so the team and CI use the same version:
 dotnet new tool-manifest
-dotnet tool install Tangent.Cli
+dotnet tool install Tangent.Cli --prerelease
 ```
 
-`Tangent.Analyzers` is a development dependency. It ships a `.props` file that finds the nearest ancestor folder containing `.tangent/` and hands every `*.tan` file in it to the compiler as an additional file. Nothing about Tangent ends up in your built assemblies: the attributes are `[Conditional("TANGENT_ATTRIBUTES")]` and are stripped unless you define that symbol.
+`Tangent.Analyzers` is a development dependency. It ships a `.props` file that finds the nearest ancestor folder containing `.tangent/` and hands every `*.tan` file in it to the compiler as an additional file.
+
+`Tangent.Attributes` is optional. Add it when you want `[Tangent("Contract")]` or `[TangentIgnore("reason")]` in your code, with the same version as the analyzer:
+
+```xml
+<PackageReference Include="Tangent.Attributes" Version="x.y.z" PrivateAssets="all" ExcludeAssets="runtime" />
+```
+
+Nothing about Tangent ends up in your built assemblies: the attributes are `[Conditional("TANGENT_ATTRIBUTES")]` and are stripped unless you define that symbol, and `ExcludeAssets="runtime"` keeps the attributes DLL out of `bin/`.
 
 ## 2. Describe the shape
 
