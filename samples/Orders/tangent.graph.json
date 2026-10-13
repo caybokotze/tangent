@@ -1,7 +1,7 @@
 {
   "version": 2,
   "project": "Orders",
-  "generatedAt": "2026-10-12T16:50:47Z",
+  "generatedAt": "2026-10-13T12:03:56Z",
   "layers": [
     {
       "id": "Api",
@@ -2451,7 +2451,7 @@
       "kind": "class",
       "layer": null,
       "contracts": [],
-      "file": "C:/Code/Personal/tangent/src/Tangent.Attributes/TangentAttribute.cs",
+      "file": "",
       "line": 20,
       "violations": 0,
       "ignored": 0,
@@ -2475,7 +2475,7 @@
       "kind": "class",
       "layer": null,
       "contracts": [],
-      "file": "C:/Code/Personal/tangent/src/Tangent.Attributes/TangentIgnoreAttribute.cs",
+      "file": "",
       "line": 23,
       "violations": 0,
       "ignored": 0,

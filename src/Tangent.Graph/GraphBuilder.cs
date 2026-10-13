@@ -66,7 +66,7 @@ public static class GraphBuilder
                 string reason = finding.Message.StartsWith(prefix, StringComparison.Ordinal)
                     ? finding.Message[prefix.Length..]
                     : finding.Message;
-                string ignoredFile = Relative(solutionRoot, finding.File);
+                string ignoredFile = InRoot(solutionRoot, finding.File);
                 ignored.Add(new GraphIgnore(
                     finding.NodeId,
                     string.IsNullOrEmpty(finding.Member) ? null : finding.Member,
@@ -78,17 +78,18 @@ public static class GraphBuilder
                 continue;
             }
 
+            string file = InRoot(solutionRoot, finding.File);
             violations.Add(new GraphViolation(
                 finding.NodeId,
                 string.IsNullOrEmpty(finding.Member) ? null : finding.Member,
                 finding.RuleId,
                 finding.Code,
                 finding.Message,
-                Relative(solutionRoot, finding.File),
+                file,
                 finding.Line,
                 finding.Col,
                 finding.Severity,
-                files.IdOf(Relative(solutionRoot, finding.File)),
+                files.IdOf(file),
                 includeSource ? sources.Snippet(finding.File, finding.Line) : null));
         }
 
@@ -145,7 +146,7 @@ public static class GraphBuilder
         {
             violations.TryGetValue(type.Id, out int violationCount);
             ignored.TryGetValue(type.Id, out int ignoredCount);
-            string file = Relative(solutionRoot, type.File);
+            string file = InRoot(solutionRoot, type.File);
 
             nodes.Add(new GraphNode(
                 type.Id,
@@ -228,7 +229,7 @@ public static class GraphBuilder
 
             contracts.Add(new GraphContract(
                 model.Text(contract.Name),
-                Relative(solutionRoot, model.FilePathOf(contract.DeclarationSpan) ?? string.Empty),
+                InRoot(solutionRoot, model.FilePathOf(contract.DeclarationSpan) ?? string.Empty),
                 contract.DeclarationSpan.Line,
                 contract.ExtendsIndex >= 0 ? model.Text(model.Contracts[contract.ExtendsIndex].Name) : null,
                 own));
@@ -398,6 +399,17 @@ public static class GraphBuilder
 
         internal static string[] SplitLines(string text) =>
             text.Replace("\r\n", "\n", StringComparison.Ordinal).Split('\n');
+    }
+
+    /// <summary>
+    /// The path the graph records for a file: relative to <paramref name="root"/>, or empty when the file is
+    /// outside it. A file outside the root is in another checkout or in the NuGet cache, and its absolute path
+    /// has no place in a graph that is shared or committed.
+    /// </summary>
+    internal static string InRoot(string root, string path)
+    {
+        string relative = Relative(root, path);
+        return Path.IsPathRooted(relative) ? string.Empty : relative;
     }
 
     /// <summary>Makes <paramref name="path"/> relative to <paramref name="root"/>, with forward slashes.</summary>

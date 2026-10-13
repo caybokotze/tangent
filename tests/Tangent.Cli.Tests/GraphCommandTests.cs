@@ -225,10 +225,10 @@ public sealed class GraphCommandTests(OrdersFixture fixture)
                 int id = item.GetProperty("fileId").GetInt32();
 
                 // Types from projects outside the solution root (the sample references Tangent.Attributes
-                // directly) keep an absolute path and have no file table entry.
+                // directly) have no file table entry and no path.
                 if (id == -1)
                 {
-                    Assert.True(Path.IsPathRooted(item.GetProperty("file").GetString()!));
+                    Assert.Equal(string.Empty, item.GetProperty("file").GetString());
                     continue;
                 }
 
@@ -236,6 +236,26 @@ public sealed class GraphCommandTests(OrdersFixture fixture)
                 Assert.Equal(item.GetProperty("file").GetString(), paths[id]);
             }
         }
+    }
+
+    [Fact]
+    public void RecordsNoPathOutsideTheSolutionRoot()
+    {
+        // The sample references src/Tangent.Attributes, which is outside samples/Orders. Its types are nodes
+        // of an unbound graph, but the checkout path must not reach a graph that is committed or shared.
+        string path = Path.Combine(fixture.TempDirectory, "unbound-without-source.graph.json");
+        CliRun run = Cli.Run("graph", Cli.OrdersSample, "--include-unbound", "-o", path, "--no-color");
+        Assert.Equal(ExitCodes.Clean, run.ExitCode);
+        string json = File.ReadAllText(path);
+
+        string checkout = Path.GetFullPath(Path.Combine(Cli.OrdersSample, "..", ".."));
+        Assert.DoesNotContain(checkout.Replace('\\', '/'), json, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain(JsonSerializer.Serialize(checkout).Trim('"'), json, StringComparison.OrdinalIgnoreCase);
+
+        JsonElement attribute = JsonDocument.Parse(json).RootElement.GetProperty("nodes").EnumerateArray()
+            .Single(n => n.GetProperty("id").GetString() == "Tangent.TangentAttribute");
+        Assert.Equal(string.Empty, attribute.GetProperty("file").GetString());
+        Assert.Equal(-1, attribute.GetProperty("fileId").GetInt32());
     }
 
     [Fact]

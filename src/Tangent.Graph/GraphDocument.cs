@@ -36,7 +36,7 @@ public sealed record GraphMember(string Name, string Kind, string Signature);
 /// <param name="Kind">One of <c>class</c>, <c>record</c>, <c>struct</c>, <c>interface</c>, <c>enum</c>.</param>
 /// <param name="Layer">The layer the type's namespace falls in, or null.</param>
 /// <param name="Contracts">The contracts the type is bound to; empty when it is bound to none.</param>
-/// <param name="File">The declaring file, relative to the solution root.</param>
+/// <param name="File">The declaring file, relative to the solution root, or empty when it is outside the root.</param>
 /// <param name="Line">The 1-based line the type is declared on.</param>
 /// <param name="Violations">How many violations were reported against this type.</param>
 /// <param name="Ignored">How many violations of this type were ignored.</param>

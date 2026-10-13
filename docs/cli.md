@@ -355,7 +355,8 @@ and in a codebase like `samples/Orders` the types that break layering (`OrdersDb
 `files[]` lists every `.tan` file and every hand-written C# file of the analysed projects. Generated
 files (`obj/`, `bin/`, `*.g.cs`) and files outside the solution root are left out. Each entry has an
 integer `id` (its index; the table is sorted by path), and `nodes[]` and `violations[]` point into it
-with `fileId` (-1 for a type declared outside the root). The viewer addresses files by id only, so no
+with `fileId` (-1 for a type declared outside the root, whose `file` is also empty, so a graph never
+records an absolute path unless you ask for `--include-source`). The viewer addresses files by id only, so no
 path parameter ever has to be accepted.
 
 | `status` | Meaning |
