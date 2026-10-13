@@ -35,7 +35,7 @@ Every violation message has one shape:
 ## Structural (Tier 0)
 
 ### TNG0101
-**{Contract}: type must be {modifier}.** A `require`/`forbid` modifier rule (`sealed`, `public`, `readonly`, `static`, `partial`, `abstract`, `class`, `record`, ...) failed on the type or on a member selected by a member block.
+**{Contract}: type must be {modifier}.** For `forbid`, **must not be {modifier}**. A `require`/`forbid` modifier rule (`sealed`, `public`, `readonly`, `static`, `partial`, `abstract`, `class`, `record`, ...) failed on the type or on a member selected by a member block.
 
 ### TNG0102
 **{Contract}: type must inherit {pattern}.** No base type in the chain matches the type pattern (alternation `A | B` allowed).

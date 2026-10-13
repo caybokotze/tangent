@@ -24,10 +24,10 @@ public static class DiagnosticCatalog
 
     // ---- TNG01xx: structural (tier 0) ------------------------------------
 
-    /// <summary>TNG0101: a required modifier is missing, or a forbidden one is present.</summary>
+    /// <summary>TNG0101: a required modifier is missing, or a forbidden one is present. {1} is "be sealed" or "not be static".</summary>
     public static readonly DiagnosticDescriptor ModifierViolation = new DiagnosticDescriptor(
         "TNG0101", "Type modifier violation",
-        "{0}: type must be {1}",
+        "{0}: type must {1}",
         DiagnosticSeverity.Warning, DiagnosticCategory.Structural, RuleTier.Symbol);
 
     /// <summary>TNG0102: the type does not inherit the required base type.</summary>

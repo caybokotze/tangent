@@ -1,7 +1,7 @@
 {
   "version": 2,
   "project": "Orders",
-  "generatedAt": "2026-10-13T12:03:56Z",
+  "generatedAt": "2026-10-13T12:16:51Z",
   "layers": [
     {
       "id": "Api",
@@ -3984,7 +3984,7 @@
       "member": ".ctor",
       "ruleId": "Entity/ctor/modifier#0",
       "code": "TNG0101",
-      "message": "Entity: constructor must be not public. (rule Entity/ctor/modifier#0, entities.tan:13)",
+      "message": "Entity: constructor must not be public. (rule Entity/ctor/modifier#0, entities.tan:13)",
       "file": "src/Orders.Domain/Entities/Customer.cs",
       "line": 13,
       "col": 12,
@@ -4090,18 +4090,6 @@
     {
       "node": "Orders.Domain.Services.DiscountPolicyService",
       "member": "TotalEvaluations",
-      "ruleId": "DomainService/fields/modifier#2",
-      "code": "TNG0101",
-      "message": "DomainService: field 'TotalEvaluations' must be not static. (rule DomainService/fields/modifier#2, services.tan:9)",
-      "file": "src/Orders.Domain/Services/DiscountPolicyService.cs",
-      "line": 12,
-      "col": 23,
-      "severity": "warning",
-      "fileId": 38
-    },
-    {
-      "node": "Orders.Domain.Services.DiscountPolicyService",
-      "member": "TotalEvaluations",
       "ruleId": "DomainService/fields/modifier#0",
       "code": "TNG0101",
       "message": "DomainService: field 'TotalEvaluations' must be private. (rule DomainService/fields/modifier#0, services.tan:9)",
@@ -4117,6 +4105,18 @@
       "ruleId": "DomainService/fields/modifier#1",
       "code": "TNG0101",
       "message": "DomainService: field 'TotalEvaluations' must be readonly. (rule DomainService/fields/modifier#1, services.tan:9)",
+      "file": "src/Orders.Domain/Services/DiscountPolicyService.cs",
+      "line": 12,
+      "col": 23,
+      "severity": "warning",
+      "fileId": 38
+    },
+    {
+      "node": "Orders.Domain.Services.DiscountPolicyService",
+      "member": "TotalEvaluations",
+      "ruleId": "DomainService/fields/modifier#2",
+      "code": "TNG0101",
+      "message": "DomainService: field 'TotalEvaluations' must not be static. (rule DomainService/fields/modifier#2, services.tan:9)",
       "file": "src/Orders.Domain/Services/DiscountPolicyService.cs",
       "line": 12,
       "col": 23,

@@ -257,7 +257,8 @@ that extends it evaluates each inherited rule once (rules are deduplicated by `R
     declared members and auto-property backing fields. Positional record properties are reached only when
     Roslyn marks them as explicitly declared.
 11. **`Modifier` messages substitute the member for the word "type"** in Core's template (`"{0}: type must
-    be {1}"` becomes `"DomainService: field '_evaluations' must be readonly"`). The catalogue stays the
+    {1}"` becomes `"DomainService: field '_evaluations' must be readonly"`, where `{1}` is `be readonly`, or
+    `not be static` for a `forbid` rule). The catalogue stays the
     single source of wording; only the subject changes.
 12. **Model errors stop enforcement.** When `BindResult.HasErrors` is true the symbol and operation actions
     are never registered, so a broken `.tan` file produces its TNG1xxx diagnostics and nothing else.

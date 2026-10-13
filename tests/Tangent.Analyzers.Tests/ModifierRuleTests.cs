@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Microsoft.CodeAnalysis.Testing;
 using Xunit;
 
 namespace Tangent.Analyzers.Tests;
@@ -102,6 +103,39 @@ public sealed class PricingService
 """;
 
         await Harness.AnalyzerAsync(contracts, source);
+    }
+
+    [Fact]
+    public async Task MessagesReadMustBeAndMustNotBe()
+    {
+        const string contracts = """
+contract Service {
+    match: class in Sample.Domain.**
+    methods { forbid static }
+    fields { require readonly }
+}
+""";
+
+        const string source = """
+namespace Sample.Domain;
+
+public sealed class PricingService
+{
+    private int {|#1:_count|} = 0;
+
+    public static int {|#0:Rate|}() => 1;
+}
+""";
+
+        await Harness.AnalyzerAsync(
+            contracts,
+            source,
+            new DiagnosticResult(TangentDiagnostics.Get("TNG0101"))
+                .WithLocation(1)
+                .WithMessage("Service: field '_count' must be readonly. (rule Service/fields/modifier#0, contracts.tan:4)"),
+            new DiagnosticResult(TangentDiagnostics.Get("TNG0101"))
+                .WithLocation(0)
+                .WithMessage("Service: method 'Rate' must not be static. (rule Service/methods/modifier#0, contracts.tan:3)"));
     }
 
     [Fact]

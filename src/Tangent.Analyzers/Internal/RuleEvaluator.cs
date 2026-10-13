@@ -340,7 +340,7 @@ internal ref struct RuleEvaluator
             kind == MemberKind.Type ? string.Empty : SymbolFacts.DescribeMember(symbol, kind),
             kind == MemberKind.Type ? string.Empty : symbol.Name,
             fix, text,
-            ContractName(applied), rule.Polarity == Polarity.Require ? text : "not " + text);
+            ContractName(applied), rule.Polarity == Polarity.Require ? "be " + text : "not be " + text);
     }
 
     private void EvaluateAttributes(AppliedRule applied, in Rule rule, ISymbol symbol, MemberKind kind, Location location)
